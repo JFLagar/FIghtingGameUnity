@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using SkillIssue;
+using UnityEngine;
 
 public enum PushType
 {
@@ -21,6 +19,7 @@ public class Pushbox : MonoBehaviour
     private IHitboxResponder responder = null;
     public SkillIssue.CharacterSpace.Character character = null;
     public float push = 60;
+
     void FixedUpdate()
     {
         CheckCollision();
@@ -29,11 +28,12 @@ public class Pushbox : MonoBehaviour
             character.CharacterPush(0);
         }
     }
+
     void CheckCollision()
     {
-        
-        Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, hitboxSize/2, 0, (mask));
-        if(colliders.Length <= 1)
+
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, hitboxSize / 2, 0, (mask));
+        if (colliders.Length <= 1)
         {
             state = ColliderState.Open;
         }
@@ -45,23 +45,26 @@ public class Pushbox : MonoBehaviour
                 responder?.CollisionedWith(aCollider);
             }
         }
-    
+
     }
+
     void OnDrawGizmos()
     {
         Gizmos.color = color;
         Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.localScale);
         Gizmos.DrawWireCube(Vector3.zero, new Vector3(hitboxSize.x * 2, hitboxSize.y * 2, hitboxSize.z * 2)); // Because size is halfExtents
     }
+
     public void SetResponder(IHitboxResponder hitboxResponder)
     {
         responder = hitboxResponder;
     }
+
     public void HandleCollision(Pushbox pushbox)
     {
-           
-            state = ColliderState.Colliding;
-        if(pushbox.character.wall && character.x == pushbox.character.wallx)
+
+        state = ColliderState.Colliding;
+        if (pushbox.character.wall && character.x == pushbox.character.wallx)
         {
             return;
         }
@@ -76,18 +79,18 @@ public class Pushbox : MonoBehaviour
         {
             if (character.applyGravity)
             {
-                pushbox.character.CharacterPush(-pushbox.character.faceDir/2 * push * Time.deltaTime);
+                pushbox.character.CharacterPush(-pushbox.character.faceDir / 2 * push * Time.deltaTime);
             }
             else
             {
-                pushbox.character.CharacterPush(character.x/2 * push * Time.deltaTime);
+                pushbox.character.CharacterPush(character.x / 2 * push * Time.deltaTime);
             }
         }
         else
         {
             pushbox.character.CharacterPush(0);
-            if(pushbox.character.x == 0 && !pushbox.character.wall)
-            pushbox.character.transform.position = new Vector2(pushbox.character.transform.position.x + 0.08f * -pushbox.character.faceDir, pushbox.character.transform.position.y);
+            if (pushbox.character.x == 0 && !pushbox.character.wall)
+                pushbox.character.transform.position = new Vector2(pushbox.character.transform.position.x + 0.08f * -pushbox.character.faceDir, pushbox.character.transform.position.y);
         }
 
     }

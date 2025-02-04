@@ -19,16 +19,6 @@ public class MainMenu : MonoBehaviour
     public Image[] elementIcon;
     public Sprite[] elementSprites;
 
-    private void Start()
-    {
-
-    }
-
-    private void Update()
-    {
-     
-    }
-
     public void OpenUIElement(int id)
     {
         AudioManager.instance.PlaySoundEffect(1);

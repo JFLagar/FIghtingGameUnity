@@ -47,6 +47,7 @@ public class UIBehaviour : MonoBehaviour
         for (int i = 0; i < sliders.Length; i++)
         {
             sliders[i].maxValue = characters[i].maxHealth;
+            sliders[i].value = characters[i].currentHealth;
             elementSliders[i].value = (float)characters[i].element;
             elementIcon[i].sprite = elementSprites[(int)characters[i].element];
         }

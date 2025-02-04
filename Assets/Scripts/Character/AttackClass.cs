@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using SkillIssue;
 using SkillIssue.CharacterSpace;
 using SkillIssue.StateMachineSpace;
+using System.Collections;
+using UnityEngine;
 
 public class AttackClass : MonoBehaviour, IHitboxResponder
 {
@@ -24,10 +23,10 @@ public class AttackClass : MonoBehaviour, IHitboxResponder
         {
             landCheck = StartCoroutine(CheckForLandCancel(data));
         }
-      //check if can cancel
+        //check if can cancel
         if (character.stateMachine.currentAction != ActionStates.None && !followup)
-        {   
-            if(!Cancelable(data))
+        {
+            if (!Cancelable(data))
             {
                 character.storedAttack = data;
                 return;
@@ -47,8 +46,8 @@ public class AttackClass : MonoBehaviour, IHitboxResponder
         character.stateMachine.currentAction = ActionStates.Attack;
         hit = false;
         m_data = data;
-        currentAttack = null;      
-    
+        currentAttack = null;
+
         //Attack
     }
 
@@ -62,7 +61,7 @@ public class AttackClass : MonoBehaviour, IHitboxResponder
             hit = true;
             character.HitConnect(m_data);
         }
-        if(m_data.followUpAttack != null)
+        if (m_data.followUpAttack != null)
         {
             Attack(m_data.followUpAttack, true);
             return;
@@ -74,13 +73,15 @@ public class AttackClass : MonoBehaviour, IHitboxResponder
         }
 
     }
+
     public void StartCheckingCollisions()
-    { 
+    {
         foreach (Hitbox hitbox in hitboxes)
         {
             hitbox.StartCheckingCollision();
         }
     }
+
     public void StopCheckingCollisions()
     {
         foreach (Hitbox hitbox in hitboxes)
@@ -99,17 +100,17 @@ public class AttackClass : MonoBehaviour, IHitboxResponder
         {
             return false;
         }
-        if(data.grab)
+        if (data.grab)
         {
             return false;
         }
-           
+
 
         if (data.canceleableSelf && data == m_data)
         {
             if (character.currentCombo.Count >= sameLimit)
             {
-                int count = character.currentCombo.Count -1;
+                int count = character.currentCombo.Count - 1;
                 while (count >= character.currentCombo.Count - sameLimit)
                 {
                     if (data == character.currentCombo[count])
@@ -132,17 +133,17 @@ public class AttackClass : MonoBehaviour, IHitboxResponder
         {
             character.storedAttack = null;
         }
-        if(data.attackState == AttackState.Jumping)
+        if (data.attackState == AttackState.Jumping)
         {
             return false;
         }
         if (!data.canceleableSelf && data == m_data)
         {
-                return false;
+            return false;
 
         }
-      
-            foreach (AttackType canceltype in m_data.cancelableTypes)
+
+        foreach (AttackType canceltype in m_data.cancelableTypes)
         {
             if (data.attackType == canceltype)
             {
@@ -151,25 +152,26 @@ public class AttackClass : MonoBehaviour, IHitboxResponder
         }
         return false;
     }
+
     IEnumerator CheckForLandCancel(AttackData data)
     {
         waitFrame = 0;
         landFrame = 0;
         while (waitFrame < 10)
         {
-             if (character.currentState == States.Standing)
+            if (character.currentState == States.Standing)
             {
-                while(landFrame < 5)
+                while (landFrame < 5)
                 {
-                    if(character.currentAction == ActionStates.Landing)
+                    if (character.currentAction == ActionStates.Landing)
                     {
                         character.PerformAttack(data.attackType);
-                    }         
+                    }
                     yield return null;
                     landFrame++;
                 }
             }
-               
+
             yield return null;
             waitFrame++;
         }

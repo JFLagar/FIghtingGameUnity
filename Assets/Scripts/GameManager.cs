@@ -1,10 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using SkillIssue.CharacterSpace;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
-using SkillIssue.CharacterSpace;
 
 public class GameManager : MonoBehaviour
 {
@@ -27,9 +24,9 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-    
+
     }
-    
+
     // Update is called once per frame
     void Update()
     {
@@ -46,9 +43,8 @@ public class GameManager : MonoBehaviour
         if (uIBehaviour == null)
             return;
         isGamePaused = !isGamePaused;
-            if (uIBehaviour != null)
-                uIBehaviour.ShowPauseUI(isGamePaused);
-
+        if (uIBehaviour != null)
+            uIBehaviour.ShowPauseUI(isGamePaused);
     }
 
     public void ResetPosition()
@@ -86,6 +82,8 @@ public class GameManager : MonoBehaviour
     }
 
     public bool IsTraining()
-    { return isTraining; }
+    {
+        return isTraining;
+    }
 
 }

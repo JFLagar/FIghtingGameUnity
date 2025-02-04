@@ -1,9 +1,8 @@
-using System.Collections;
+using SkillIssue.CharacterSpace;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using SkillIssue.CharacterSpace;
 using UnityEngine.InputSystem;
-using System;
 
 namespace SkillIssue.Inputs
 {
@@ -31,15 +30,15 @@ namespace SkillIssue.Inputs
         // Start is called before the first frame update
         public CommandInputs movement;
         public CommandInputs input;
-        public Vector2  direction = Vector2.zero;
+        public Vector2 direction = Vector2.zero;
         public List<AttackInputs> attackInputs = new List<AttackInputs>();
+
         // Update is called once per frame
         private void Awake()
         {
             playerInput = GetComponent<PlayerInput>();
-                      
+        }
 
-    }
         private void Start()
         {
             if (aiControl)
@@ -53,29 +52,30 @@ namespace SkillIssue.Inputs
 
 
             inputActions = new NewControls();
-            if(!aiControl)
-            playerInput.SwitchCurrentControlScheme(playerInput.defaultControlScheme, Keyboard.current);
+            if (!aiControl)
+                playerInput.SwitchCurrentControlScheme(playerInput.defaultControlScheme, Keyboard.current);
             //MapActions(true);
         }
+
         void Update()
         {
-            if(attackInputs.Count == 1)
+            if (attackInputs.Count == 1)
             {
                 PerformInput(attackInputs[0]);
             }
-            if(aiControl)
+            if (aiControl)
             {
                 direction = ai.dir;
             }
-            if(character.currentAction == StateMachineSpace.ActionStates.Hit || character.currentAction == StateMachineSpace.ActionStates.Block)
+            if (character.currentAction == StateMachineSpace.ActionStates.Hit || character.currentAction == StateMachineSpace.ActionStates.Block)
             {
                 attackInputs.Clear();
             }
         }
-      
+
         public void ResetAI()
         {
-            if(!aiControl)
+            if (!aiControl)
             {
                 aiControl = true;
                 ai.Initiate(this);
@@ -83,10 +83,11 @@ namespace SkillIssue.Inputs
             else
             {
                 aiControl = false;
-                ai.AiReset();            
+                ai.AiReset();
             }
             movementInput.direction = Vector2.zero;
         }
+
         public void MapActions(bool player)
         {
             {
@@ -101,7 +102,7 @@ namespace SkillIssue.Inputs
                 inputActions.Controls.MovementY.performed += MovementYDown;
                 inputActions.Controls.MovementY.canceled += MovementYUp;
             }
-            
+
         }
 
         private void NavigateUI(InputAction.CallbackContext obj)
@@ -145,10 +146,11 @@ namespace SkillIssue.Inputs
         {
             direction.y = 0;
         }
+
         public void MovementYDown(InputAction.CallbackContext context)
         {
             float value = context.ReadValue<float>();
-           switch (value)
+            switch (value)
             {
                 case 0:
                     direction.y = 0;
@@ -161,62 +163,71 @@ namespace SkillIssue.Inputs
                     break;
             }
         }
+
         public void GrabButton(InputAction.CallbackContext context)
         {
             if (context.started)
             {
                 character.PerformAttack(AttackType.Grab);
-                attackInputs.Clear();   
+                attackInputs.Clear();
             }
-              
         }
+
         public void GrabFunction()
         {
             character.PerformAttack(AttackType.Grab);
             attackInputs.Clear();
         }
+
         public void LightButton(InputAction.CallbackContext context)
         {
             if (context.performed)
                 lightButton.InputPressed();
         }
+
         public void LightFunction()
         {
             lightButton.InputPressed();
         }
+
         public void HeavyButton(InputAction.CallbackContext context)
         {
             if (context.performed)
                 heavyButton.InputPressed();
         }
+
         public void HeavyFunction()
         {
             heavyButton.InputPressed();
         }
+
         public void SpecialButton(InputAction.CallbackContext context)
         {
             if (context.performed)
                 specialButton.InputPressed();
         }
+
         public void SpecialFunction()
         {
             specialButton.InputPressed();
         }
-      
 
         public void MovementUp(InputAction.CallbackContext context)
         {
             direction = Vector2.zero;
         }
+
         public void StartButton(InputAction.CallbackContext context)
         {
             Managers.Instance.GameManager.PauseGame();
         }
+
         public void SelectButton(InputAction.CallbackContext context)
         {
             if (Managers.Instance.GameManager.IsTraining())
                 Managers.Instance.GameManager.ResetPosition();
         }
+
         public void PerformInput(AttackInputs input)
         {
             switch (input)

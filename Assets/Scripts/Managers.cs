@@ -17,10 +17,12 @@ public class Managers : MonoBehaviour
         else
             DestroyImmediate(this);
     }
+
     private void Start()
     {
         Initialize();
     }
+
     public void Initialize()
     {
         GameManager = FindFirstObjectByType<GameManager>();

@@ -44,8 +44,15 @@ public class Pushbox : MonoBehaviour
                 Collider2D aCollider = colliders[i];
                 responder?.CollisionedWith(aCollider);
             }
+            if (colliders[i].gameObject.layer != LayerMask.NameToLayer("Pushbox"))
+            {
+                HandleCollision(colliders[i]);
+            }
         }
-
+        if (colliders.Length <= 1 && colliders[0].gameObject.layer != LayerMask.NameToLayer("Ground"))
+        {
+            character.isAgainstTheWall = false;
+        }
     }
 
     void OnDrawGizmos()
@@ -64,15 +71,15 @@ public class Pushbox : MonoBehaviour
     {
 
         state = ColliderState.Colliding;
-        if (pushbox.character.wall && character.x == pushbox.character.wallx)
+        if (pushbox.character.isAgainstTheWall && character.x == pushbox.character.wallFaceDirection)
         {
             return;
         }
-        if (character.wall)
+        if (character.isAgainstTheWall)
         {
-            pushbox.character.wall = true;
-            pushbox.character.wallx = character.wallx;
-            if (!pushbox.character.isGrounded && pushbox.character.faceDir == pushbox.character.wallx)
+            pushbox.character.isAgainstTheWall = true;
+            pushbox.character.wallFaceDirection = character.wallFaceDirection;
+            if (!pushbox.character.isGrounded && pushbox.character.faceDir == pushbox.character.wallFaceDirection)
                 pushbox.character.transform.position = new Vector2(pushbox.character.transform.position.x + 0.08f * -pushbox.character.faceDir, pushbox.character.transform.position.y);
         }
         if (character.x != 0 && character.x == character.faceDir)
@@ -89,9 +96,29 @@ public class Pushbox : MonoBehaviour
         else
         {
             pushbox.character.CharacterPush(0);
-            if (pushbox.character.x == 0 && !pushbox.character.wall)
+            if (pushbox.character.x == 0 && !pushbox.character.isAgainstTheWall)
                 pushbox.character.transform.position = new Vector2(pushbox.character.transform.position.x + 0.08f * -pushbox.character.faceDir, pushbox.character.transform.position.y);
         }
+    }
 
+    void HandleCollision(Collider2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            character.SetIsGrounded(true);
+        else
+        {
+            character.isAgainstTheWall = true;
+            character.wallFaceDirection = collision.GetComponent<ScreenLimit>().GetScreenDir();
+        }
+    }
+
+    private void OnCollision2DExit(Collision2D collision)
+    {
+        Debug.Log("CollisionExit");
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
+        {
+            Debug.Log("Wall left");
+            character.isAgainstTheWall = false;
+        }
     }
 }

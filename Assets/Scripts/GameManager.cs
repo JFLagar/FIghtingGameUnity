@@ -24,7 +24,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-
+        if (uIBehaviour != null)
+            uIBehaviour.Initialize();
     }
 
     // Update is called once per frame

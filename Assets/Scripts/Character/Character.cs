@@ -41,9 +41,9 @@ namespace SkillIssue.CharacterSpace
         public CharacterAnimationManagar characterAnimation;
         public Pushbox pushbox;
         public bool applyGravity = false;
-        public bool wall;
+        public bool isAgainstTheWall;
         public bool cameraWall = false;
-        public float wallx;
+        public float wallFaceDirection;
         public bool isGrounded;
         public float x;
         public float y;
@@ -117,12 +117,6 @@ namespace SkillIssue.CharacterSpace
             }
             currentAction = stateMachine.currentAction;
             stateMachine.StateMachineUpdate();
-            cameraWall = !screenCheck.isVisible;
-            if (!screenCheck.isVisible)
-            {
-                x = 0;
-                wallx = -faceDir;
-            }
             if (oponent == null)
                 return;
             xDiff = transform.position.x - oponent.transform.position.x;
@@ -325,7 +319,7 @@ namespace SkillIssue.CharacterSpace
             currentHitCoroutine = StartCoroutine(RecoveryFramesCoroutines(data.hitstun, data.launcher));
             currentHealth = currentHealth - data.damage;
             Managers.Instance.GameManager.UpdateHealth(playerId, currentHealth);
-            if (wall && faceDir != wallx)
+            if (isAgainstTheWall && faceDir != wallFaceDirection)
             {
                 ApplyCounterPush(-dir, 3f);
             }
@@ -347,7 +341,7 @@ namespace SkillIssue.CharacterSpace
             else
             {
                 currentHitCoroutine = StartCoroutine(RecoveryFramesCoroutines(data.blockstun));
-                if (wall && faceDir != wallx)
+                if (isAgainstTheWall && faceDir != wallFaceDirection)
                 {
                     ApplyCounterPush(-blockDir, 3f);
                 }
@@ -395,16 +389,16 @@ namespace SkillIssue.CharacterSpace
                 animator.SetInteger("X", 0);
 
 
-            if (wall || cameraWall)
+            if (isAgainstTheWall)
             {
-                if (direction.x == 0 || direction.x == wallx)
+                if (direction.x == 0 || direction.x == wallFaceDirection)
 
                 {
                     transform.Translate(new Vector2(0, 0) * speed * Time.deltaTime);
                 }
                 else
                 {
-                    wall = false;
+                    isAgainstTheWall = false;
                     transform.Translate(new Vector2(direction.x, 0) * speed * Time.deltaTime);
                 }
             }
@@ -415,15 +409,15 @@ namespace SkillIssue.CharacterSpace
 
         public void CharacterPush(float x)
         {
-            if (wall && x == wallx || x == 0)
+            if (isAgainstTheWall && x == wallFaceDirection || x == 0)
                 return;
             transform.Translate(new Vector2(x, 0) * Time.deltaTime);
-            wall = false;
+            isAgainstTheWall = false;
         }
 
         public void ApplyCounterPush(Vector2 direction, float duration)
         {
-            oponent.wall = false;
+            oponent.isAgainstTheWall = false;
             Vector2 dir = new Vector2(direction.x, 0f);
             oponent.ApplyForce(dir, duration, true);
         }
@@ -438,13 +432,13 @@ namespace SkillIssue.CharacterSpace
             }
             else
             {
-                if (wall && direction.x == wallx || cameraWall && direction.x == wallx)
+                if (isAgainstTheWall && direction.x == wallFaceDirection)
                     direction.x = 0;
                 else
-                    wall = false;
+                    isAgainstTheWall = false;
                 y = direction.y;
                 if (y > 0)
-                    isGrounded = false;
+                    SetIsGrounded(false);
                 applyGravity = false;
             }
 
@@ -461,15 +455,15 @@ namespace SkillIssue.CharacterSpace
             Vector2 direction = data.movement;
             float duration = data.movementDuration;
             {
-                if (wall && direction.x == wallx || cameraWall && direction.x == wallx)
+                if (isAgainstTheWall && direction.x == wallFaceDirection)
                     direction.x = 0;
                 else
-                    wall = false;
+                    isAgainstTheWall = false;
                 y = direction.y;
                 if (y > 0)
-                    isGrounded = false;
+                    SetIsGrounded(false);
                 applyGravity = false;
-                wall = false;
+                isAgainstTheWall = false;
             }
 
             if (currentMovementCoroutine != null)
@@ -479,7 +473,7 @@ namespace SkillIssue.CharacterSpace
 
         }
 
-        public void ApllyGravity()
+        public void ApplyGravity()
         {
             if (!applyGravity)
                 return;
@@ -491,7 +485,7 @@ namespace SkillIssue.CharacterSpace
                 isJumping = false;
             landed = false;
 
-            if ((wall && x == wallx) || (cameraWall && x == wallx))
+            if ((isAgainstTheWall && x == wallFaceDirection))
                 transform.Translate(new Vector2(0, -1) * (forceSpeed) * Time.deltaTime);
             else
             {
@@ -500,7 +494,7 @@ namespace SkillIssue.CharacterSpace
 
         }
 
-        public void IsGrounded(bool check)
+        public void SetIsGrounded(bool check)
         {
             isGrounded = check;
         }
@@ -514,10 +508,10 @@ namespace SkillIssue.CharacterSpace
 
         }
 
-        public void SetWall(bool isWall, int x)
+        public void SetAgainstTheWall(bool isAgainstTheWall, int faceDirection)
         {
-            wall = isWall;
-            wallx = x;
+            this.isAgainstTheWall = isAgainstTheWall;
+            wallFaceDirection = faceDirection;
         }
 
         public void CheckState()
@@ -556,7 +550,7 @@ namespace SkillIssue.CharacterSpace
             {
                 if (!counterForce)
                 {
-                    if (direction.x != 0 && ((wall && direction.x == wallx) || (cameraWall && direction.x == wallx)))
+                    if (direction.x != 0 && ((isAgainstTheWall && direction.x == wallFaceDirection)))
                         direction.x = 0;
                 }
                 x = direction.x;
@@ -574,7 +568,7 @@ namespace SkillIssue.CharacterSpace
             {
                 if (!counterForce)
                 {
-                    if (direction.x != 0 && ((wall && direction.x == wallx) || (cameraWall && direction.x == wallx)))
+                    if (direction.x != 0 && ((isAgainstTheWall && direction.x == wallFaceDirection)))
                         direction.x = 0;
                 }
                 x = direction.x;

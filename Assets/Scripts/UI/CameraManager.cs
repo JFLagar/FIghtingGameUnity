@@ -5,19 +5,21 @@ using SkillIssue.CharacterSpace;
 
 public class CameraManager : MonoBehaviour
 {
-    private Camera cam;
-    public Character[] characters;
-    public Vector3 pos = new Vector3(0,0,-10);
-    public float distance;
-    public float middle;
-    private float center;
-    public bool check = false;
-    public bool check2 = false;
-    public float currentScreenEdge = 5;
+     Camera cam;
+    [SerializeField]
+     Character[] characters;
+     Vector3 pos = new Vector3(0,0,-10);
+     float distance;
+    [SerializeField]
+     float middle;
+    bool isOnScreenEdge = false;
+    int screenEdgeFaceDir = 0;
+
     private void Awake()
     {
-        cam = GetComponent<Camera>();
+        cam = FindFirstObjectByType<Camera>();
     }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,34 +30,24 @@ public class CameraManager : MonoBehaviour
     void Update()
     {
         middle = characters[0].transform.position.x + (characters[1].transform.position.x - characters[0].transform.position.x) / 2;
-        if (Check())
-        {
-            center = transform.position.x;
-        }
-        else
-        {
-            center = middle;
-        }     
 
         CameraMove();
         
     }
-    public bool Check()
+
+    public void SetWallDirection(int faceDirection)
     {
-        if (!check && !check2)
-            return false;
-        if (check && center < middle)
-            return false;
-        if (check2 && center > middle)
-            return false;
-        return true;
+        isOnScreenEdge = true;
+        screenEdgeFaceDir = faceDirection;
     }
-    void CameraZoom()
+
+    public int GetScreenEdgeFaceDir() 
     {
-        if (Check())
-        {
-            return;
-        }
+        return screenEdgeFaceDir;
+    }
+
+    private void CameraZoom()
+    {
         distance = Mathf.Abs(characters[0].transform.position.x - characters[1].transform.position.x);
         cam.orthographicSize = distance / 2;
         if (cam.orthographicSize < 1.25)
@@ -67,10 +59,28 @@ public class CameraManager : MonoBehaviour
             cam.orthographicSize = 1.75f;
         }
     }
-    void CameraMove()
+
+    private void CameraMove()
     {  
-        pos.x = center;
-        gameObject.transform.position = pos;
+        if (!isOnScreenEdge || IsMovingAwayFromScreenEdge())
+        pos.x = middle;
+        cam.transform.position = pos;
     }
+
+    private bool IsMovingAwayFromScreenEdge()
+    {
+        if (screenEdgeFaceDir == -1 && middle > pos.x)
+        {
+            isOnScreenEdge = false;
+            return true;
+        }
+        if (screenEdgeFaceDir == 1 && middle < pos.x)
+        { 
+            isOnScreenEdge = false;
+        
+            return true;
+        }
+        return false;
+    }    
 
 }

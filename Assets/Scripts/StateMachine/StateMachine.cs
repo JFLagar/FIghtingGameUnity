@@ -172,14 +172,14 @@ namespace SkillIssue.StateMachineSpace
           
             if (!stateMachine.character.IsMoving())
                 stateMachine.character.applyGravity = true;
-            stateMachine.character.ApllyGravity();
+            stateMachine.character.ApplyGravity();
             if (stateMachine.character.isGrounded && !stateMachine.character.isJumping)
                 ExitState();
 
         }
         public override void EnterState()
         {
-            stateMachine.character.isGrounded = false;
+            stateMachine.character.SetIsGrounded(false);
             stateMachine.currentState = stateMachine.jumpState;
             stateMachine.character.currentState = States.Jumping;
             if(stateMachine.currentAction == ActionStates.None || stateMachine.currentAction == ActionStates.Landing)

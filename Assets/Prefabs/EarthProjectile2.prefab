@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5996560911535122525
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 788717910718105106, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: data
+      value: 
+      objectReference: {fileID: 11400000, guid: f4d36e7381c3d804ea3cc737eac664bf, type: 2}
+    - target: {fileID: 788717910718105106, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 788717910718105106, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: ending
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 788717910718105106, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: origin.x
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 788717910718105106, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: origin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 788717910718105106, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: endingTime
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 788717910718105106, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: trajectory.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 788717910718105106, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: trajectory.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 788717910718105106, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: followUpProjectile
+      value: 
+      objectReference: {fileID: 788717910718105106, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+    - target: {fileID: 2010002706498472226, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010002706498472226, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010002706498472226, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010002706498472226, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010002706498472226, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010002706498472226, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010002706498472226, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010002706498472226, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010002706498472226, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010002706498472226, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010002706498472226, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2010002706498472227, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: m_Name
+      value: EarthProjectile2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2068455638719577910, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2068455638719577910, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7887849350372986985, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: state
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7887849350372986985, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: hitboxSize.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7887849350372986985, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}
+      propertyPath: hitboxSize.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a70ce860f7cbe314a858e21e7830b0bd, type: 3}

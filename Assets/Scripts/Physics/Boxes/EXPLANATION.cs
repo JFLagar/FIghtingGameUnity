@@ -1,0 +1,2 @@
+// Hitboxes detect and react to the 2D colliders inside their dimensions they don't necessary collide with each other but read each others colliders
+// A true hitbox don't have any collider inside of it but they react to the 2D colliders of the Hurtbox class.

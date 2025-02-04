@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c8c0269a5515054f88d0d58df109046, type: 3}
+  m_Name: jH
+  m_EditorClassIdentifier: 
+  attackState: 2
+  attackAttribute: 2
+  attackType: 1
+  damage: 10
+  hitstun: 15
+  blockstun: 15
+  proratio: 1
+  push: {x: 0.1, y: 1.5}
+  movement: {x: 0, y: 0}
+  movementDuration: 0
+  launcher: 0
+  dashCancel: 0
+  jumpCancel: 1
+  grab: 0
+  canceleableSelf: 0
+  cancelableTypes: 02000000
+  animation: {fileID: 7400000, guid: 1fcf6552373c01447bcd9fb548028357, type: 2}
+  message: 
+  followUpAttack: {fileID: 0}
+  collideSound: {fileID: 8300000, guid: fedb050f01945b544957d78c3b7134b3, type: 3}

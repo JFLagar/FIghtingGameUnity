@@ -9,7 +9,7 @@ public enum AnimType
     Landing,
     Movement
 }
-public class CharacterAnimationManagar : MonoBehaviour
+public class CharacterAnimationManager : MonoBehaviour
 {
     public string[] animNames;
     public Animator animator;

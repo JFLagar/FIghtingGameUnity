@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class AttackClass : MonoBehaviour, IHitboxResponder
 {
-    private AttackData m_data;
+    private AttackData previousAttack;
     public Hitbox[] hitboxes;
     public Character character;
     private AttackData currentAttack;
@@ -19,16 +19,16 @@ public class AttackClass : MonoBehaviour, IHitboxResponder
     public int landFrame = 0;
     public void Attack(AttackData data, bool followup = false)
     {
-        if (character.stateMachine.currentState == character.stateMachine.jumpState)
+        if (character.GetCurrentState() == States.Jumping)
         {
             landCheck = StartCoroutine(CheckForLandCancel(data));
         }
         //check if can cancel
-        if (character.stateMachine.currentAction != ActionStates.None && !followup)
+        if (character.GetCurrentActionState() == ActionStates.Attack && !followup)
         {
-            if (!Cancelable(data))
+            if (!IsCancelable(data))
             {
-                character.storedAttack = data;
+                character.SetStoredAttack(data);
                 return;
             }
         }
@@ -39,13 +39,13 @@ public class AttackClass : MonoBehaviour, IHitboxResponder
         }
         if (data.animation != null)
         {
-            character.animator.speed = 1;
-            character.characterAnimation.AddAnimation(AnimType.Attack, data.animation.name);
+            character.GetAnimator().speed = 1;
+            character.GetCharacterAnimation().AddAnimation(AnimType.Attack, data.animation.name);
         }
         repeatedAttack = 0;
-        character.stateMachine.currentAction = ActionStates.Attack;
+        character.SetActionState(ActionStates.Attack);
         hit = false;
-        m_data = data;
+        previousAttack = data;
         currentAttack = null;
 
         //Attack
@@ -53,22 +53,22 @@ public class AttackClass : MonoBehaviour, IHitboxResponder
 
     public void CollisionedWith(Collider2D collider)
     {
-        if (currentAttack != m_data)
+        if (currentAttack != previousAttack)
         {
-            currentAttack = m_data;
+            currentAttack = previousAttack;
             Hurtbox hurtbox = collider.GetComponent<Hurtbox>();
-            hurtbox?.GetHitBy(m_data);
+            hurtbox?.GetHitBy(previousAttack);
             hit = true;
-            character.HitConnect(m_data);
+            character.HitConnect(previousAttack);
         }
-        if (m_data.followUpAttack != null)
+        if (previousAttack.followUpAttack != null)
         {
-            Attack(m_data.followUpAttack, true);
+            Attack(previousAttack.followUpAttack, true);
             return;
         }
-        if (character.storedAttack != null)
+        if (character.GetStoredAttack() != null)
         {
-            character.PerformAttack(character.storedAttack.attackType);
+            character.PerformAttack(character.GetStoredAttack().attackType);
             return;
         }
 
@@ -89,11 +89,11 @@ public class AttackClass : MonoBehaviour, IHitboxResponder
             hitbox.StopCheckingCollision();
         }
     }
-    private bool Cancelable(AttackData data)
+    private bool IsCancelable(AttackData data)
     {
-        if (character.stateMachine.currentAction == ActionStates.Landing)
+        if (character.GetCurrentActionState() == ActionStates.Landing)
         {
-            character.storedAttack = null;
+            character.SetStoredAttack(null);
             return true;
         }
         if (!hit)
@@ -106,14 +106,14 @@ public class AttackClass : MonoBehaviour, IHitboxResponder
         }
 
 
-        if (data.canceleableSelf && data == m_data)
+        if (data.canceleableSelf && data == previousAttack)
         {
-            if (character.currentCombo.Count >= sameLimit)
+            if (character.GetComboCount() >= sameLimit)
             {
-                int count = character.currentCombo.Count - 1;
-                while (count >= character.currentCombo.Count - sameLimit)
+                int count = character.GetComboCount() - 1;
+                while (count >= character.GetComboCount() - sameLimit)
                 {
-                    if (data == character.currentCombo[count])
+                    if (data == character.GetCombo()[count])
                     {
                         repeatedAttack++;
                     }
@@ -125,25 +125,26 @@ public class AttackClass : MonoBehaviour, IHitboxResponder
                 }
             }
         }
-        if (data != m_data)
+        if (data != previousAttack)
         {
             repeatedAttack = 0;
         }
-        if (data == character.storedAttack)
+
+        if (data == character.GetStoredAttack())
         {
-            character.storedAttack = null;
+            character.SetStoredAttack(null);
         }
         if (data.attackState == AttackState.Jumping)
         {
             return false;
         }
-        if (!data.canceleableSelf && data == m_data)
+        if (!data.canceleableSelf && data == previousAttack)
         {
             return false;
 
         }
 
-        foreach (AttackType canceltype in m_data.cancelableTypes)
+        foreach (AttackType canceltype in previousAttack.cancelableTypes)
         {
             if (data.attackType == canceltype)
             {
@@ -159,11 +160,11 @@ public class AttackClass : MonoBehaviour, IHitboxResponder
         landFrame = 0;
         while (waitFrame < 10)
         {
-            if (character.currentState == States.Standing)
+            if (character.GetCurrentState() == States.Standing)
             {
                 while (landFrame < 5)
                 {
-                    if (character.currentAction == ActionStates.Landing)
+                    if (character.GetCurrentActionState() == ActionStates.Landing)
                     {
                         character.PerformAttack(data.attackType);
                     }

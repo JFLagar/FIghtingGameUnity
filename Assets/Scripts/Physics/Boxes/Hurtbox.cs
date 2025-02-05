@@ -22,7 +22,7 @@ namespace SkillIssue
         {
             if (!blockCheck)
                 return;
-            if (character.inputHandler.direction.x == -character.faceDir && character.currentAction == StateMachineSpace.ActionStates.None)
+            if (character.GetInputDirection().x == -character.GetFaceDir() && character.GetCurrentActionState() == StateMachineSpace.ActionStates.None)
             {
                 state = ColliderState.Open;
             }
@@ -47,11 +47,11 @@ namespace SkillIssue
 
                 if (!blockCheck)
                 {
-                    character.GetHit(data);
+                    character.CharacterGetHit(data);
                 }     
                 else
                 {
-                    character.GetHit(data, true);
+                    character.CharacterGetHit(data, true);
                     Debug.Log("Blocking Zone");
                 }
                 

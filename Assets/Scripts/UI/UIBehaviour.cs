@@ -46,10 +46,10 @@ public class UIBehaviour : MonoBehaviour
     
         for (int i = 0; i < sliders.Length; i++)
         {
-            sliders[i].maxValue = characters[i].maxHealth;
-            sliders[i].value = characters[i].currentHealth;
-            elementSliders[i].value = (float)characters[i].element;
-            elementIcon[i].sprite = elementSprites[(int)characters[i].element];
+            sliders[i].maxValue = characters[i].GetMaxHealth();
+            sliders[i].value = characters[i].GetCurrentHealth();
+            elementSliders[i].value = (float)characters[i].GetElement();
+            elementIcon[i].sprite = elementSprites[(int)characters[i].GetElement()];
         }
 
         if (Managers.Instance.GameManager.IsTraining())
@@ -104,7 +104,7 @@ public class UIBehaviour : MonoBehaviour
         Time.timeScale = 0;
         foreach(Character character in characters)
         {
-            character.inputHandler.playerInput.SwitchCurrentActionMap("Menu");
+            //Call Input Manager : character.inputHandler.playerInput.SwitchCurrentActionMap("Menu");
         }
         pauseUI.gameObject.SetActive(true);
     }
@@ -114,7 +114,7 @@ public class UIBehaviour : MonoBehaviour
         pauseUI.gameObject.SetActive(false);
         foreach (Character character in characters)
         {
-            character.inputHandler.playerInput.SwitchCurrentActionMap("Controls");
+            // Call Input Manager : character.inputHandler.playerInput.SwitchCurrentActionMap("Controls");
         }
         Time.timeScale = 1;
     }
@@ -151,8 +151,7 @@ public class UIBehaviour : MonoBehaviour
     public void OnElementSliderChange(bool isP2Slider)
     {
         AudioManager.instance.PlaySoundEffect(0);
-        int playerId = 0;
-        playerId = isP2Slider ? 1 : 0;
+        int playerId = isP2Slider ? 1 : 0;
         switch (elementSliders[playerId].value)
         {
             //Here add to the local persistence manager which character 
@@ -185,13 +184,13 @@ public class UIBehaviour : MonoBehaviour
 
     public void UpdateComboCounter(int playerId)
     {
-        if (characters[playerId].comboHit <= 1)
+        if (characters[playerId].GetComboCount() <= 1)
         {
             comboDisplays[playerId].text = "";
         }
         else
         {
-            comboDisplays[playerId].text = characters[playerId].comboHit + " HIT";
+            comboDisplays[playerId].text = characters[playerId].GetComboCount() + " HIT";
         }
     }
 

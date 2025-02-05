@@ -23,10 +23,6 @@ public class Pushbox : MonoBehaviour
     void FixedUpdate()
     {
         CheckCollision();
-        if (state == ColliderState.Colliding)
-        {
-            character.CharacterPush(0);
-        }
     }
 
     void CheckCollision()
@@ -51,7 +47,7 @@ public class Pushbox : MonoBehaviour
         }
         if (colliders.Length <= 1 && colliders[0].gameObject.layer != LayerMask.NameToLayer("Ground"))
         {
-            character.isAgainstTheWall = false;
+            character.SetIsAgainstTheWall(false, 0);
         }
     }
 
@@ -69,35 +65,35 @@ public class Pushbox : MonoBehaviour
 
     public void HandleCollision(Pushbox pushbox)
     {
-
         state = ColliderState.Colliding;
-        if (pushbox.character.isAgainstTheWall && character.x == pushbox.character.wallFaceDirection)
+        if (pushbox.character.GetIsAgainstTheWall() && character.GetMovementDirectionX() == pushbox.character.GetWallDirectionX())
         {
             return;
         }
-        if (character.isAgainstTheWall)
+        // Pushcharacter away from wall
+        if (character.GetIsAgainstTheWall())
         {
-            pushbox.character.isAgainstTheWall = true;
-            pushbox.character.wallFaceDirection = character.wallFaceDirection;
-            if (!pushbox.character.isGrounded && pushbox.character.faceDir == pushbox.character.wallFaceDirection)
-                pushbox.character.transform.position = new Vector2(pushbox.character.transform.position.x + 0.08f * -pushbox.character.faceDir, pushbox.character.transform.position.y);
+            pushbox.character.SetIsAgainstTheWall(true, character.GetWallDirectionX());
+            // If the other char is on the air
+            if (!pushbox.character.GetIsGrounded())
+                pushbox.character.transform.position = new Vector2(pushbox.character.transform.position.x + 0.08f * -character.GetWallDirectionX(), pushbox.character.transform.position.y);
         }
-        if (character.x != 0 && character.x == character.faceDir)
+        if (character.GetMovementDirectionX() != 0 && character.GetMovementDirectionX() == character.GetFaceDir())
         {
-            if (character.applyGravity)
+            if (character.GetApplyGravity())
             {
-                pushbox.character.CharacterPush(-pushbox.character.faceDir / 2 * push * Time.deltaTime);
+                pushbox.character.CharacterPush(-pushbox.character.GetFaceDir() / 2 * push * Time.deltaTime, (int)character.GetFaceDir());
             }
             else
             {
-                pushbox.character.CharacterPush(character.x / 2 * push * Time.deltaTime);
+                pushbox.character.CharacterPush(character.GetFaceDir() / 2 * push * Time.deltaTime, (int)character.GetFaceDir());
             }
         }
         else
         {
-            pushbox.character.CharacterPush(0);
-            if (pushbox.character.x == 0 && !pushbox.character.isAgainstTheWall)
-                pushbox.character.transform.position = new Vector2(pushbox.character.transform.position.x + 0.08f * -pushbox.character.faceDir, pushbox.character.transform.position.y);
+            pushbox.character.CharacterPush(0, (int)character.GetFaceDir());
+            if (pushbox.character.GetMovementDirectionX() == 0 && !pushbox.character.GetIsAgainstTheWall())
+                pushbox.character.transform.position = new Vector2(pushbox.character.transform.position.x + 0.08f * -pushbox.character.GetFaceDir(), pushbox.character.transform.position.y);
         }
     }
 
@@ -107,18 +103,8 @@ public class Pushbox : MonoBehaviour
             character.SetIsGrounded(true);
         else
         {
-            character.isAgainstTheWall = true;
-            character.wallFaceDirection = collision.GetComponent<ScreenLimit>().GetScreenDir();
+            character.SetIsAgainstTheWall(true, collision.GetComponent<ScreenLimit>().GetScreenDir());
         }
     }
 
-    private void OnCollision2DExit(Collision2D collision)
-    {
-        Debug.Log("CollisionExit");
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Wall"))
-        {
-            Debug.Log("Wall left");
-            character.isAgainstTheWall = false;
-        }
-    }
 }

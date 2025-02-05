@@ -377,66 +377,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPlayer2: 0
   oponent: {fileID: 0}
-  faceDir: 0
-  xDiff: 0
   render: {fileID: 1957316337702257311}
   vfx: {fileID: 7746021680221113552}
-  screenCheck: {fileID: 235791260883590438}
   stateMachine: {fileID: 1957316337707236123}
   inputHandler: {fileID: 1957316337707236124}
-  element: 0
-  grab: {fileID: 11400000, guid: 8e3ad760882efc14c88e792be929cd46, type: 2}
-  standingAttacks:
-  - {fileID: 11400000, guid: f6b2a54ddae839844ba013de6f1f6231, type: 2}
-  - {fileID: 11400000, guid: 541377dcf03bbb941ab57cfae40c74e3, type: 2}
-  - {fileID: 11400000, guid: 807e01f22098aa94c8adbe956930668c, type: 2}
-  - {fileID: 11400000, guid: a734c043ebde00c48830ad403e282477, type: 2}
-  crouchingAttacks:
-  - {fileID: 11400000, guid: 9ab3aa946879f9443b27f13754afd2d2, type: 2}
-  - {fileID: 11400000, guid: 80bdd1dc50251f74cb9eea42da9abc25, type: 2}
-  jumpAttacks:
-  - {fileID: 11400000, guid: 9cbdebe578f89ea4cb92cdc45ec96226, type: 2}
-  - {fileID: 11400000, guid: 87faf07684e07a54ea3ade46c148ef56, type: 2}
-  fireAttacks:
-  - {fileID: 11400000, guid: 21599fe186a1a64469fa326ec193c5f5, type: 2}
-  - {fileID: 11400000, guid: 165881236b4bcd14ab070ef19c67c2cf, type: 2}
-  - {fileID: 11400000, guid: fa9993516e6280d4d8da7ba01b3fa054, type: 2}
-  waterAttacks:
-  - {fileID: 11400000, guid: 7f50a9bf31806d847b9986a8b03f3c4c, type: 2}
-  - {fileID: 11400000, guid: f695a494bc0085442ba385855dba3f10, type: 2}
-  - {fileID: 11400000, guid: 5b6681c07de511540bd266737e9d4011, type: 2}
-  windAttacks:
-  - {fileID: 11400000, guid: 6249a6c8d6348ad45981681469cdc719, type: 2}
-  - {fileID: 11400000, guid: b69a3d15f199938498e2491868d6592e, type: 2}
-  - {fileID: 11400000, guid: 0f8c5b78cc3811b43abfb34b6b5f1a8b, type: 2}
-  earthAttacks:
-  - {fileID: 11400000, guid: 837d5a4abb2916347845f06f6f7b9d75, type: 2}
-  - {fileID: 11400000, guid: abe4bc4c5d44850438d47087ad81b3fe, type: 2}
-  - {fileID: 11400000, guid: f4d36e7381c3d804ea3cc737eac664bf, type: 2}
+  characterData: {fileID: 11400000, guid: 6dab189abf95d21498ed8f46ec03535f, type: 2}
   attack: {fileID: 7515142340994233024}
   animator: {fileID: 3090942852897552484}
   characterAnimation: {fileID: 2597134761694115151}
   pushbox: {fileID: 1957316336796792431}
-  applyGravity: 1
-  isAgainstTheWall: 0
-  cameraWall: 0
-  wallFaceDirection: 0
-  isGrounded: 1
-  x: 0
-  y: 0
-  currentAction: 0
-  currentState: 0
-  maxHealth: 100
-  currentHealth: 100
-  comboHit: 0
-  movementspeed: 1.5
   jumpPower: 20
   forceSpeed: 3
-  forceLeftOver: 0
-  isJumping: 0
   collisions: {fileID: 1957316336856834438}
-  storedAttack: {fileID: 0}
-  currentCombo: []
   visualState: 0
   stateColors:
   - serializedVersion: 2
@@ -445,6 +397,8 @@ MonoBehaviour:
     rgba: 4278190335
   m_hitbox: {fileID: 1957316337498685954}
   m_hurtbox: {fileID: 0}
+  origin: {fileID: 0}
+  currentProjectile: {fileID: 0}
 --- !u!114 &7515142340994233024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1004,21 +958,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bedcc02a8b9e99545a25ac8f8318b85a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 1957316337047856815}
-  ai: {fileID: 2000404767772000394}
-  aiControl: 0
-  controllerControl: 0
-  playerInput: {fileID: 0}
   directionInputs: []
-  inputs: 6a0000006b0000006c000000
-  movement:
-    character: {fileID: 0}
-    pressed: 0
-  input:
-    character: {fileID: 0}
-    pressed: 0
-  direction: {x: 0, y: 0}
-  attackInputs: 
 --- !u!114 &1957316337707236123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1032,7 +972,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 1957316337047856815}
-  currentAction: 0
   inputHandler: {fileID: 1957316337707236124}
 --- !u!114 &2000404767772000394
 MonoBehaviour:

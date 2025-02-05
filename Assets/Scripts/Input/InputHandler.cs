@@ -12,26 +12,39 @@ namespace SkillIssue.Inputs
         Heavy,
         Special
     }
+
+    public struct AttackInputStruct
+    {
+        public AttackInputs InputType { get; private set; }
+        public bool IsPressed { get; private set; }
+        public AttackInputStruct(AttackInputs input, bool pressed)
+        {
+            InputType = input;
+            IsPressed = pressed;
+        }
+    }
+
     public class InputHandler : MonoBehaviour
     {
-        public Character character;
-        public CharacterAI ai;
-        public bool aiControl = false;
-        public bool controllerControl = false;
-        public PlayerInput playerInput;
+        Character character;
+        CharacterAI ai;
+        bool aiControl = false;
+        bool controllerControl = false;
+        PlayerInput playerInput;
         NewControls inputActions;
-        [SerializeField]
-        public List<CommandInputs> directionInputs = new List<CommandInputs>();
-        public KeyCode[] inputs;
         private LightInput lightButton = new LightInput();
         private HeavyInput heavyButton = new HeavyInput();
         private SpecialInput specialButton = new SpecialInput();
-        public MovementInput movementInput = new MovementInput();
-        // Start is called before the first frame update
-        public CommandInputs movement;
-        public CommandInputs input;
-        public Vector2 direction = Vector2.zero;
-        public List<AttackInputs> attackInputs = new List<AttackInputs>();
+        MovementInput movementInput = new MovementInput();
+
+        [Space]
+
+        [SerializeField]
+        Vector2 direction = Vector2.zero;
+        [SerializeField]
+        List<AttackInputStruct> attackInputsList = new();
+        [SerializeField]
+        private List<CommandInputs> directionInputs = new();
 
         // Update is called once per frame
         private void Awake()
@@ -39,16 +52,18 @@ namespace SkillIssue.Inputs
             playerInput = GetComponent<PlayerInput>();
         }
 
-        private void Start()
+        public void Initialize(Character controllingCharacter)
         {
+            character = controllingCharacter;
+
             if (aiControl)
             {
                 ai.Initiate(this);
             }
-            movementInput.character = character;
-            lightButton.character = character;
-            heavyButton.character = character;
-            specialButton.character = character;
+            movementInput.SetInputHandler(this);
+            lightButton.SetInputHandler(this);
+            heavyButton.SetInputHandler(this);
+            specialButton.SetInputHandler(this);
 
 
             inputActions = new NewControls();
@@ -57,19 +72,29 @@ namespace SkillIssue.Inputs
             //MapActions(true);
         }
 
+        public Vector2 GetDirection()
+        {
+            return direction;
+        }
+
+        public Character GetCharacter()
+        {
+            return character;
+        }
+
         void Update()
         {
-            if (attackInputs.Count == 1)
+            if (attackInputsList.Count == 1)
             {
-                PerformInput(attackInputs[0]);
+                PerformInput(attackInputsList[0]);
             }
             if (aiControl)
             {
                 direction = ai.dir;
             }
-            if (character.currentAction == StateMachineSpace.ActionStates.Hit || character.currentAction == StateMachineSpace.ActionStates.Block)
+            if (character.GetCurrentActionState() == StateMachineSpace.ActionStates.Hit || character.GetCurrentActionState() == StateMachineSpace.ActionStates.Block)
             {
-                attackInputs.Clear();
+                attackInputsList.Clear();
             }
         }
 
@@ -85,7 +110,6 @@ namespace SkillIssue.Inputs
                 aiControl = false;
                 ai.AiReset();
             }
-            movementInput.direction = Vector2.zero;
         }
 
         public void MapActions(bool player)
@@ -169,14 +193,14 @@ namespace SkillIssue.Inputs
             if (context.started)
             {
                 character.PerformAttack(AttackType.Grab);
-                attackInputs.Clear();
+                attackInputsList.Clear();
             }
         }
 
         public void GrabFunction()
         {
             character.PerformAttack(AttackType.Grab);
-            attackInputs.Clear();
+            attackInputsList.Clear();
         }
 
         public void LightButton(InputAction.CallbackContext context)
@@ -228,9 +252,20 @@ namespace SkillIssue.Inputs
                 Managers.Instance.GameManager.ResetPosition();
         }
 
-        public void PerformInput(AttackInputs input)
+        public void AddAttackInput(AttackInputs input, bool isPressed)
         {
-            switch (input)
+            attackInputsList.Add(new AttackInputStruct(input, isPressed));
+        }
+
+        public void PerformInput(AttackInputStruct input)
+        {
+            if (!input.IsPressed)
+            {
+                attackInputsList.Remove(input);
+                return;
+            }
+
+            switch (input.InputType)
             {
                 case AttackInputs.Light:
                     character.PerformAttack(AttackType.Light);
@@ -242,7 +277,8 @@ namespace SkillIssue.Inputs
                     character.PerformAttack(AttackType.Special);
                     break;
             }
-            attackInputs.Clear();
+            attackInputsList.Clear();
         }
+
     }
 }

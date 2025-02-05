@@ -63,13 +63,13 @@ public class CharacterAI : MonoBehaviour
     {
         handler = inputHandler;
         initiated = true;
-        character = handler.character;
+        character = handler.GetCharacter();
     }
     //Try to get closer to the oponent, when close enough do 5L if not 5H
     void CheckGameState()
     {
         //Check Distance Between them
-        distance = ((character.xDiff + character.xDiff) / 2) * character.xDiff;
+        distance = ((character.GetXDiff() + character.GetXDiff()) / 2) * character.GetXDiff();
         generatedNumber = Random.Range(1, 11);
         switch(distance)
         {

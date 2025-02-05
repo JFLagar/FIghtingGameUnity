@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using SkillIssue.Inputs;
 using SkillIssue.CharacterSpace;
+using SkillIssue.Inputs;
+using UnityEngine;
 namespace SkillIssue.StateMachineSpace
 {
     public enum ActionStates
@@ -19,42 +17,84 @@ namespace SkillIssue.StateMachineSpace
         Crouching,
         Jumping
     }
-    public class StateMachine: MonoBehaviour
+    public class StateMachine : MonoBehaviour
     {
-        public Character character;
-
-        public State standingState = new StandingState();
-        public State crouchingState = new CrouchState();
-        public State jumpState = new JumpState();
-        public State currentState;
-        public ActionStates currentAction = 0;
         [SerializeField]
-        InputHandler inputHandler;
-        private void Awake()
+        Character character;
+
+        State standingState = new StandingState();
+        State crouchingState = new CrouchState();
+        State jumpState = new JumpState();
+        State currentState;
+        ActionStates currentAction = 0;
+        States state = 0;
+
+        public void Initialize(Character controllingCharacter)
         {
+            character = controllingCharacter;
             standingState.stateMachine = this;
             crouchingState.stateMachine = this;
             jumpState.stateMachine = this;
-            standingState.character = character;
-            crouchingState.character = character;
-            jumpState.character = character;
+
+            currentState = standingState;
+            currentState.stateMachine = this;
+            currentState.EnterState();
         }
 
-        private void Start()
+        public Character GetCharacter()
         {
-        currentState = standingState;
-        currentState.stateMachine = this;
-        currentState.EnterState();
-    }
+            return character;
+        }
+
+        public ActionStates GetActionState()
+        {
+            return currentAction;
+        }
+
+        public void SetCurrentActionState(ActionStates state)
+        {
+            currentAction = state;
+        }
+
+        public States GetState()
+        {
+            return state;
+        }
+
+        public State GetCurrentState()
+        {
+            return currentState;
+        }
+
+        public State GetStandingState()
+        {
+            return standingState;
+        }
+
+        public State GetJumpState()
+        {
+            return jumpState;
+        }
+
+        public State GetCrouchingState()
+        {
+            return crouchingState;
+        }
+
+        public void SetCurrentState(State newState, States states)
+        {
+            currentState = newState;
+            state = states;
+        }
 
         // Update is called once per frame
         public void StateMachineUpdate()
         {
-            if(currentState.stateMachine == null)
+            if (currentState.stateMachine == null)
             {
                 currentState.stateMachine = this;
             }
-            currentState.Update(inputHandler);
+            currentState.Update();
         }
 
     }
@@ -63,8 +103,7 @@ namespace SkillIssue.StateMachineSpace
     public class State : IState
     {
         public StateMachine stateMachine;
-        public Character character;
-        public virtual void Update(InputHandler input)
+        public virtual void Update()
         { }
         public virtual void EnterState()
         {
@@ -78,125 +117,122 @@ namespace SkillIssue.StateMachineSpace
     {
         bool action;
         private float yvalue;
-        public override void Update(InputHandler input)
+        public override void Update()
         {
-            if (!stateMachine.character.isGrounded)
+            if (!stateMachine.GetCharacter().GetIsGrounded())
             {
                 yvalue = 1;
                 ExitState();
             }
-            action = (character.stateMachine.currentAction == ActionStates.None || character.stateMachine.currentAction == ActionStates.Hit);
+            action = (stateMachine.GetActionState() == ActionStates.None || stateMachine.GetActionState() == ActionStates.Hit);
             if (!action)
             {
                 return;
             }
-            if (character.stateMachine.currentAction == ActionStates.None)
+            if (stateMachine.GetActionState() == ActionStates.None)
             {
-                if (input.direction.y != 0)
+                if (stateMachine.GetCharacter().GetInputDirection().y != 0)
                 {
-                    yvalue = input.direction.y;
+                    yvalue = stateMachine.GetCharacter().GetInputDirection().y;
                     if (yvalue > 0)
-                        stateMachine.character.ApplyForce(new Vector2(input.direction.x, 1f), stateMachine.character.jumpPower);
+                        stateMachine.GetCharacter().ApplyForce(new Vector2(stateMachine.GetCharacter().GetInputDirection().x, 1f), stateMachine.GetCharacter().GetJumpPower());
                     //jump
                     ExitState();
                 }
-                stateMachine.character.CharacterMove(input.direction);
+                stateMachine.GetCharacter().CharacterMove();
             }
-                      
+
         }
-        public override void EnterState() 
+        public override void EnterState()
         {
-            stateMachine.character.applyGravity = false;
-            stateMachine.currentState = stateMachine.standingState;
-            stateMachine.character.currentState = States.Standing;
-          
+            stateMachine.GetCharacter().SetApplyGravity(false);
+            stateMachine.SetCurrentState(this, States.Standing);
+
         }
-        public override void ExitState() {
+        public override void ExitState()
+        {
 
             if (yvalue == 1)
             {
-                stateMachine.character.isJumping = true;
-                stateMachine.jumpState.EnterState();
+                stateMachine.GetCharacter().SetIsJumping(true);
+                stateMachine.GetJumpState().EnterState();
             }
             else
             {
-                stateMachine.crouchingState.EnterState();
+                stateMachine.GetCrouchingState().EnterState();
             }
         }
     }
     public class CrouchState : State
     {
         bool action;
-        public override void Update(InputHandler input)
+        public override void Update()
         {
-            action = character.stateMachine.currentAction == ActionStates.None;
-            if (!character.isGrounded)
+            action = stateMachine.GetActionState() == ActionStates.None;
+            if (!stateMachine.GetCharacter().GetIsGrounded())
                 ExitState();
             if (!action)
             {
                 return;
             }
-            if (input.direction.y != -1)
-            { 
+            if (stateMachine.GetCharacter().GetInputDirection().y != -1)
+            {
                 ExitState();
             }
             //Gets Input for blocking
-            stateMachine.character.CharacterMove(input.movementInput.direction);
+            stateMachine.GetCharacter().CharacterMove();
         }
-        public override void EnterState() 
+        public override void EnterState()
         {
-            stateMachine.currentState = stateMachine.crouchingState;
-            stateMachine.character.currentState = States.Crouching;
-            if (stateMachine.currentAction == ActionStates.None)
-            character.characterAnimation.AddAnimation(AnimType.Movement, "StandToCrouch");
-            character.animator.SetBool("Crouching", true);
+            stateMachine.SetCurrentState(this, States.Crouching);
+            if (stateMachine.GetActionState() == ActionStates.None)
+                stateMachine.GetCharacter().GetCharacterAnimation().AddAnimation(AnimType.Movement, "StandToCrouch");
+            stateMachine.GetCharacter().GetAnimator().SetBool("Crouching", true);
         }
-        public override void ExitState() 
+        public override void ExitState()
         {
-            if(stateMachine.character.isGrounded)
+            if (stateMachine.GetCharacter().GetIsGrounded())
             {
-                stateMachine.standingState.EnterState();
-                character.animator.SetBool("Crouching", false);
+                stateMachine.GetStandingState().EnterState();
+                stateMachine.GetCharacter().GetAnimator().SetBool("Crouching", false);
             }
             else
             {
-                stateMachine.jumpState.EnterState();
-            }           
-
+                stateMachine.GetJumpState().EnterState();
+            }
+            stateMachine.GetCharacter().CharacterMove();
         }
     }
     public class JumpState : State
     {
-        public override void Update(InputHandler input)
+        public override void Update()
         {
-          
-            if (!stateMachine.character.IsMoving())
-                stateMachine.character.applyGravity = true;
-            stateMachine.character.ApplyGravity();
-            if (stateMachine.character.isGrounded && !stateMachine.character.isJumping)
+
+            if (!stateMachine.GetCharacter().IsStillInMovement())
+                stateMachine.GetCharacter().SetApplyGravity(true);
+            stateMachine.GetCharacter().ApplyGravity();
+            if (stateMachine.GetCharacter().GetIsGrounded() && !stateMachine.GetCharacter().GetIsJumping())
                 ExitState();
 
         }
         public override void EnterState()
         {
-            stateMachine.character.SetIsGrounded(false);
-            stateMachine.currentState = stateMachine.jumpState;
-            stateMachine.character.currentState = States.Jumping;
-            if(stateMachine.currentAction == ActionStates.None || stateMachine.currentAction == ActionStates.Landing)
-                character.characterAnimation.AddAnimation(AnimType.Movement, "JumpStart");
-            character.animator.SetBool("Jumping", true);
+            stateMachine.GetCharacter().SetIsGrounded(false);
+            stateMachine.SetCurrentState(this, States.Jumping);
+            if (stateMachine.GetActionState() == ActionStates.None || stateMachine.GetActionState() == ActionStates.Landing)
+                stateMachine.GetCharacter().GetCharacterAnimation().AddAnimation(AnimType.Movement, "JumpStart");
+            stateMachine.GetCharacter().GetAnimator().SetBool("Jumping", true);
         }
-        public override void ExitState() 
+        public override void ExitState()
         {
-            stateMachine.character.FixPosition();
-            stateMachine.standingState.EnterState();
-            character.animator.SetBool("Jumping", false);
-            if (stateMachine.currentAction != ActionStates.Hit)
+            stateMachine.GetCharacter().FixPosition();
+            stateMachine.GetStandingState().EnterState();
+            stateMachine.GetCharacter().GetAnimator().SetBool("Jumping", false);
+            if (stateMachine.GetActionState() != ActionStates.Hit)
             {
-                stateMachine.currentAction = ActionStates.Landing;
-                character.characterAnimation.AddAnimation(AnimType.Landing, "LandingRecovery");
+                stateMachine.SetCurrentActionState(ActionStates.Landing);
+                stateMachine.GetCharacter().GetCharacterAnimation().AddAnimation(AnimType.Landing, "LandingRecovery");
             }
-                    
         }
     }
 }

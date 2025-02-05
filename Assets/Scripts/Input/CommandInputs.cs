@@ -1,19 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using SkillIssue.CharacterSpace;
+using UnityEngine;
 namespace SkillIssue.Inputs
 {
     //Template
     [System.Serializable]
     public class CommandInputs : ICommandInput
     {
-        public Character character;
-        public bool pressed = false;
+        public InputHandler InputHandler {  get; private set; }
+        bool pressed = false;
         private float buttonHeld;
         public void Update()
         {
-            if(pressed)
+            if (pressed)
             {
                 buttonHeld += (0.1f * Time.deltaTime);
             }
@@ -38,6 +36,11 @@ namespace SkillIssue.Inputs
             }
 
         }
+        public void SetInputHandler(InputHandler inputHandler)
+        {
+            InputHandler = inputHandler;
+        }
+
         public virtual void InputPressed() { }
         public virtual void InputReleased() { }
         public virtual void InputHold(float time) { }
@@ -46,12 +49,13 @@ namespace SkillIssue.Inputs
     public class LightInput : CommandInputs
     {
         public string name = "Light";
-        public override void InputPressed() 
+        public override void InputPressed()
         {
-            character.inputHandler.attackInputs.Add(AttackInputs.Light);
+            InputHandler.AddAttackInput(AttackInputs.Light, true);
         }
-        public override void InputReleased() 
+        public override void InputReleased()
         {
+            InputHandler.AddAttackInput(AttackInputs.Light, false);
         }
         public override void InputHold(float time)
         {
@@ -60,43 +64,43 @@ namespace SkillIssue.Inputs
     public class HeavyInput : CommandInputs
     {
         public string name = "Heavy";
-        public override void InputPressed() 
+        public override void InputPressed()
         {
-            character.inputHandler.attackInputs.Add(AttackInputs.Heavy);
+            InputHandler.AddAttackInput(AttackInputs.Heavy, true);
         }
-        public override void InputReleased() 
+        public override void InputReleased()
         {
+            InputHandler.AddAttackInput(AttackInputs.Heavy, false);
         }
-        public override void InputHold(float time) 
+        public override void InputHold(float time)
         {
         }
     }
     public class SpecialInput : CommandInputs
     {
         public string name = "Special";
-        public override void InputPressed() 
+        public override void InputPressed()
         {
-            character.inputHandler.attackInputs.Add(AttackInputs.Special);
+            InputHandler.AddAttackInput(AttackInputs.Special, true);
         }
-        public override void InputReleased() 
-        { 
-        
-        }
-        public override void InputHold(float time) 
+        public override void InputReleased()
         {
-        
+            InputHandler.AddAttackInput(AttackInputs.Special, false);
+        }
+        public override void InputHold(float time)
+        {
+
         }
     }
     public class MovementInput : CommandInputs
     {
-        public Vector2 direction;
         public override void InputPressed()
         {
 
         }
-        public override void InputReleased() 
+        public override void InputReleased()
         {
-            direction = Vector2.zero;
+
         }
         public override void InputHold(float time)
         {

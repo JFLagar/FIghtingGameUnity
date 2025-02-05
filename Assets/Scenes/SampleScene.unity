@@ -403,6 +403,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8416089865207465151, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
+      propertyPath: stateColors.Array.data[0].rgba
+      value: 4294901807
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

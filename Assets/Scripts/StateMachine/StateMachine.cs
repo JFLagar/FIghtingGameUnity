@@ -210,7 +210,8 @@ namespace SkillIssue.StateMachineSpace
 
             if (!stateMachine.GetCharacter().IsStillInMovement())
                 stateMachine.GetCharacter().SetApplyGravity(true);
-            stateMachine.GetCharacter().ApplyGravity();
+            if (stateMachine.GetCharacter().GetApplyGravity())
+                stateMachine.GetCharacter().ApplyGravity();
             if (stateMachine.GetCharacter().GetIsGrounded() && !stateMachine.GetCharacter().GetIsJumping())
                 ExitState();
 

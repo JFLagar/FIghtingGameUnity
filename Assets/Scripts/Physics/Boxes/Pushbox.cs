@@ -19,10 +19,22 @@ public class Pushbox : MonoBehaviour
     private IHitboxResponder responder = null;
     public SkillIssue.CharacterSpace.Character character = null;
     public float push = 60;
-
+    public bool pushcheck;
     void FixedUpdate()
     {
         CheckCollision();
+    }
+    private void Update()
+    {
+        if (state == ColliderState.Colliding)
+        {
+            character.CharacterPush(1, -(int)character.GetFaceDir());
+        }
+    }
+
+    public bool IsColliding()
+    {
+        return state == ColliderState.Colliding;
     }
 
     void CheckCollision()
@@ -31,23 +43,22 @@ public class Pushbox : MonoBehaviour
         Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, hitboxSize / 2, 0, (mask));
         if (colliders.Length <= 1)
         {
+            if (colliders[0] == null || colliders[0].gameObject.layer != LayerMask.NameToLayer("Ground"))
+                character.SetIsAgainstTheWall(false, 0);
+
             state = ColliderState.Open;
         }
         for (int i = 0; i < colliders.Length; i++)
         {
+            if (colliders[i].gameObject.layer != LayerMask.NameToLayer("Pushbox"))
+            {
+                HandleScreenCollisioon(colliders[i]);
+            }
             if (colliders[i] != m_collider)
             {
                 Collider2D aCollider = colliders[i];
                 responder?.CollisionedWith(aCollider);
             }
-            if (colliders[i].gameObject.layer != LayerMask.NameToLayer("Pushbox"))
-            {
-                HandleCollision(colliders[i]);
-            }
-        }
-        if (colliders.Length <= 1 && colliders[0].gameObject.layer != LayerMask.NameToLayer("Ground"))
-        {
-            character.SetIsAgainstTheWall(false, 0);
         }
     }
 
@@ -65,39 +76,12 @@ public class Pushbox : MonoBehaviour
 
     public void HandleCollision(Pushbox pushbox)
     {
+
         state = ColliderState.Colliding;
-        if (pushbox.character.GetIsAgainstTheWall() && character.GetMovementDirectionX() == pushbox.character.GetWallDirectionX())
-        {
-            return;
-        }
-        // Pushcharacter away from wall
-        if (character.GetIsAgainstTheWall())
-        {
-            pushbox.character.SetIsAgainstTheWall(true, character.GetWallDirectionX());
-            // If the other char is on the air
-            if (!pushbox.character.GetIsGrounded())
-                pushbox.character.transform.position = new Vector2(pushbox.character.transform.position.x + 0.08f * -character.GetWallDirectionX(), pushbox.character.transform.position.y);
-        }
-        if (character.GetMovementDirectionX() != 0 && character.GetMovementDirectionX() == character.GetFaceDir())
-        {
-            if (character.GetApplyGravity())
-            {
-                pushbox.character.CharacterPush(-pushbox.character.GetFaceDir() / 2 * push * Time.deltaTime, (int)character.GetFaceDir());
-            }
-            else
-            {
-                pushbox.character.CharacterPush(character.GetFaceDir() / 2 * push * Time.deltaTime, (int)character.GetFaceDir());
-            }
-        }
-        else
-        {
-            pushbox.character.CharacterPush(0, (int)character.GetFaceDir());
-            if (pushbox.character.GetMovementDirectionX() == 0 && !pushbox.character.GetIsAgainstTheWall())
-                pushbox.character.transform.position = new Vector2(pushbox.character.transform.position.x + 0.08f * -pushbox.character.GetFaceDir(), pushbox.character.transform.position.y);
-        }
+
     }
 
-    void HandleCollision(Collider2D collision)
+    void HandleScreenCollisioon(Collider2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
             character.SetIsGrounded(true);

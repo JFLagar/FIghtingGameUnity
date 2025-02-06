@@ -51,7 +51,7 @@ public class AttackClass : MonoBehaviour, IHitboxResponder
         //Attack
     }
 
-    public void CollisionedWith(Collider2D collider)
+    public void BoxCollisionedWith(Collider2D collider)
     {
         if (currentAttack != previousAttack)
         {

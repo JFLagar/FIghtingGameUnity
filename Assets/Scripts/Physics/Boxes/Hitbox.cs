@@ -25,6 +25,7 @@ namespace SkillIssue
         {
             CheckCollision();
         }
+
         void CheckCollision()
         {
             if (state == ColliderState.Closed) { return; }
@@ -43,27 +44,24 @@ namespace SkillIssue
                     {
                         if (collidedbox?.blockCheck == false)
                             state = ColliderState.Colliding;
-                        responder.CollisionedWith(aCollider);
+                        responder.BoxCollisionedWith(aCollider);
                         return;
                     }
-
-                }                  
-               
+                }                               
             }
             else
             {
                 state = ColliderState.Open;
             }
-
-            
-
         }
+
         void OnDrawGizmosSelected()
         {
             CheckGizmoColor();
             Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.localScale);
             Gizmos.DrawWireCube(Vector3.zero, new Vector3(hitboxSize.x * 2, hitboxSize.y * 2, hitboxSize.z * 2)); // Because size is halfExtents
         }
+
         void CheckGizmoColor()
         {
             switch (state)
@@ -88,6 +86,7 @@ namespace SkillIssue
         {
             state = ColliderState.Closed;
         }
+
         public void setResponder(IHitboxResponder hitboxResponder)
         {
             responder = hitboxResponder;

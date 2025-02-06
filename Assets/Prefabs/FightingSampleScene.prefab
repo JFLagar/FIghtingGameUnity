@@ -3715,7 +3715,7 @@ GameObject:
   - component: {fileID: 8062074395831862896}
   - component: {fileID: 8062074395831862901}
   - component: {fileID: 8062074395831862900}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: WallRight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5666,7 +5666,7 @@ GameObject:
   - component: {fileID: 8062074396481553911}
   - component: {fileID: 8062074396481553908}
   - component: {fileID: 8062074396481553910}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: WallLeft
   m_TagString: Untagged
   m_Icon: {fileID: 0}

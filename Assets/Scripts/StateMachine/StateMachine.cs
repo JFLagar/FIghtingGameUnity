@@ -139,7 +139,6 @@ namespace SkillIssue.StateMachineSpace
                     //jump
                     ExitState();
                 }
-                stateMachine.GetCharacter().CharacterMove();
             }
 
         }

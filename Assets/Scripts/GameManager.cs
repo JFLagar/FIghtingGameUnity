@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     TextMeshProUGUI frameDisplay;
     bool isTraining;
     [SerializeField]
-    Character character2;
+    Character cornerCharacter;
     int p1rounds;
     int p2rounds;
     [SerializeField]
@@ -32,6 +32,16 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void SetCornerChar(Character character)
+    {
+        cornerCharacter = character;
+    }
+
+    public Character GetCornerChar()
+    {
+        return cornerCharacter;
     }
 
     public void BackToMenu()

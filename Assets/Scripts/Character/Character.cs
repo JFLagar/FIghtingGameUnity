@@ -50,14 +50,11 @@ namespace SkillIssue.CharacterSpace
         Animator animator;
         [SerializeField]
         CharacterAnimationManager characterAnimation;
-        [SerializeField]
-        Pushbox pushbox;
 
         bool applyGravity = false;
         bool isAgainstTheWall;
-        bool canBePushed = true;
         float wallFaceDirection;
-        private bool isGrounded;
+        private bool isGrounded = false;
         float movementDirectionX;
         float posY;
 
@@ -108,18 +105,22 @@ namespace SkillIssue.CharacterSpace
         // Start is called before the first frame update
         void Start()
         {
-            pushbox.SetResponder(this);
-            pushbox.character = this;
             origin = transform;
             currentHealth = GetMaxHealth();
             if (isPlayer2)
                 playerId = 1;
         }
 
+        void FixedUpdate()
+        {
+            stateMachine.StateMachineUpdate();
+            CharacterMove();
+        }
+
         // Update is called once per frame
         void Update()
         {
-            stateMachine.StateMachineUpdate();
+
             if (opponent == null)
                 return;
             xDiff = transform.position.x - opponent.transform.position.x;
@@ -266,16 +267,6 @@ namespace SkillIssue.CharacterSpace
             isGrounded = value;
         }
 
-        public bool GetCanBePushed()
-        {
-            return canBePushed;
-        }
-
-        public void SetCanBePushed(bool value)
-        {
-            canBePushed = value;
-        }
-
         public int GetCurrentHealth()
         {
             return currentHealth;
@@ -323,6 +314,7 @@ namespace SkillIssue.CharacterSpace
         }
 
         #endregion
+        #region Character Commands
         public void PerformAttack(AttackType type)
         {
             if (type == AttackType.Grab)
@@ -397,53 +389,35 @@ namespace SkillIssue.CharacterSpace
 
         }
 
-        public void SpawnProjectile(Projectile projectile)
-        {
-            if (currentProjectile != null)
-            {
-                return;
-            }
-            Projectile m_projectile = Instantiate(projectile, transform);
-            animator.speed = 0;
-            m_projectile.trajectory.x *= faceDir;
-            m_projectile.transform.position = new Vector2(transform.position.x + (projectile.origin.x * faceDir), transform.position.y + projectile.origin.y);
-            m_projectile.transform.parent = transform.parent;
-            m_projectile.hitbox.mask = m_hitbox.mask;
-            m_projectile.m_hurtbox.gameObject.layer = m_hurtbox.gameObject.layer;
-            m_projectile.parent = this;
-            currentHitCoroutine = StartCoroutine(RecoveryFramesCoroutines(projectile.data.hitstun));
-            currentProjectile = m_projectile;
-        }
-
-        public void CharacterGetHit(AttackData data, bool blockCheck = false)
+        public void HurtboxOnCollision(AttackData data, bool blockCheck = false)
         {
             if (GetCurrentActionState() == ActionStates.Attack)
             {
-                DamageDealt(data);
+                PerformHit(data);
                 return;
             }
             if (data.grab)
             {
                 if (GetCurrentState() == States.Jumping || GetCurrentActionState() == ActionStates.Hit)
                     return;
-                DamageDealt(data);
+                PerformHit(data);
                 return;
             }
 
             if (inputHandler.GetDirection().x == -faceDir && GetCurrentActionState() != ActionStates.Hit && IsBlocking(data.attackAttribute))
             {
-                BlockDone(data, blockCheck);
+                PerformBlock(data, blockCheck);
                 return;
             }
             //block
             else if (!blockCheck)
             {
-                DamageDealt(data);
+                PerformHit(data);
                 return;
             }
         }
 
-        private void DamageDealt(AttackData data)
+        private void PerformHit(AttackData data)
         {
             Vector2 dir = new(data.push.x * -faceDir, 0);
             PlaySound(data.collideSound);
@@ -470,11 +444,12 @@ namespace SkillIssue.CharacterSpace
                     dir.y = data.push.y;
                 }
             }
+            currentHealth -= data.damage;
+            Managers.Instance.GameManager.UpdateHealth(playerId, GetCurrentHealth());
+
             if (currentHitCoroutine != null)
                 StopCoroutine(currentHitCoroutine);
             currentHitCoroutine = StartCoroutine(RecoveryFramesCoroutines(data.hitstun, data.launcher));
-            currentHealth -= data.damage;
-            Managers.Instance.GameManager.UpdateHealth(playerId, GetCurrentHealth());
             if (GetIsAgainstTheWall() && GetFaceDir() != GetWallDirectionX())
             {
                 ApplyCounterPush(-dir, 3f);
@@ -483,13 +458,14 @@ namespace SkillIssue.CharacterSpace
                 ApplyForce(dir, 3f);
         }
 
-        private void BlockDone(AttackData data, bool blockCheck = false)
+        private void PerformBlock(AttackData data, bool blockCheck = false)
         {
             PlaySound(data.collideSound);
             Vector2 dir = new(data.push.x * -GetFaceDir(), 0);
             Vector2 blockDir = new(dir.x, 0);
             stateMachine.SetCurrentActionState(ActionStates.Block);
             characterAnimation.AddAnimation(AnimType.Hit, GetCurrentState().ToString() + "Block");
+
             if (currentHitCoroutine != null)
                 StopCoroutine(currentHitCoroutine);
             if (blockCheck)
@@ -506,31 +482,17 @@ namespace SkillIssue.CharacterSpace
             }
         }
 
-        public void ResetPos()
-        {
-            transform.position = origin.position;
-        }
-
-        public void FixPosition()
-        {
-            if (!landed)
-            {
-                transform.position = new Vector3(transform.position.x, 0f, 0);
-                landed = true;
-            }
-        }
-
         public void CharacterMove()
         {
-            Vector2 direction = GetInputDirection();
-            float speed = characterData.GetMovementSpeed();
-            movementDirectionX = direction.x;
             if (GetCurrentActionState() != ActionStates.None || GetCurrentState() != States.Standing)
                 return;
+            float speed = characterData.GetMovementSpeed();
+            movementDirectionX = GetInputDirection().x;
+            Vector3 destination = new(GetInputDirection().x, 0);
 
-            if (direction.x != 0)
+            if (GetInputDirection().x != 0)
             {
-                if (direction.x != faceDir)
+                if (GetInputDirection().x != faceDir)
                 {
                     animator.SetInteger("X", -1);
                     speed = characterData.GetMovementSpeed() / 1.3f;
@@ -545,55 +507,92 @@ namespace SkillIssue.CharacterSpace
             else
                 animator.SetInteger("X", 0);
 
+                transform.position += (speed * Time.deltaTime * destination);
 
-            if (GetIsAgainstTheWall())
+        }
+        #endregion
+        #region AnimEvents
+        //Anim Event
+        public void SpawnProjectile(Projectile projectile)
+        {
+            if (currentProjectile != null)
             {
-                if (direction.x == 0 || direction.x == GetWallDirectionX())
-                {
-                    transform.Translate(speed * Time.deltaTime * new Vector2(0, 0));
-                }
-                else
-                {
-                    SetIsAgainstTheWall(false,0);
-                    transform.Translate(speed * Time.deltaTime * new Vector2(direction.x, 0));
-                }
+                return;
             }
-            else
-                transform.Translate(speed * Time.deltaTime * new Vector2(direction.x, 0));
+            Projectile m_projectile = Instantiate(projectile, transform);
+            animator.speed = 0;
+            m_projectile.trajectory.x *= faceDir;
+            m_projectile.transform.position = new Vector2(transform.position.x + (projectile.origin.x * faceDir), transform.position.y + projectile.origin.y);
+            m_projectile.transform.parent = transform.parent;
+            m_projectile.hitbox.mask = m_hitbox.mask;
+            m_projectile.m_hurtbox.gameObject.layer = m_hurtbox.gameObject.layer;
+            m_projectile.parent = this;
+            currentHitCoroutine = StartCoroutine(RecoveryFramesCoroutines(projectile.data.hitstun));
+            currentProjectile = m_projectile;
+        }
+
+        public void CheckState()
+        {
+            Debug.Log(animator.GetCurrentAnimatorClipInfo(0));
+        }
+
+        //Anim Event
+        public void ApplyAttackForce(AttackData data)
+        {
+            Vector2 direction = data.movement;
+            float duration = data.movementDuration;
+            {
+                if (GetIsAgainstTheWall() && Mathf.Sign(direction.x) == GetWallDirectionX())
+                    direction.x = 0;
+
+                posY = direction.y;
+                if (posY > 0)
+                    SetIsGrounded(false);
+                SetApplyGravity(false);
+            }
+
+            if (currentMovementCoroutine != null)
+                StopCoroutine(currentMovementCoroutine);
+
+            currentMovementCoroutine = StartCoroutine(ForceAttackCoroutine(new Vector2(direction.x * faceDir, direction.y), duration, false));
+        }
+
+        public void AnimEnd()
+        {
+            opponent.ResetAttackInfo();
+            characterAnimation.ClearAnimations();
+            if (GetCurrentActionState() == ActionStates.None)
+                return;
+            stateMachine.SetCurrentActionState(ActionStates.None);
 
         }
 
-        public void CharacterPush(float x, int faceDir)
+        public void OpenHitboxes(int number)
         {
-            if (GetIsJumping())
+            for (int i = 0; i < number; i++)
             {
-                return;
+                attack.hitboxes[i].state = ColliderState.Open;
             }
-            if (!GetIsGrounded() && opponent.GetIsAgainstTheWall() && Mathf.Sign(GetMovementDirectionX()) == opponent.GetWallDirectionX())
+        }
+        #endregion
+        #region Movement Physics
+
+        public void ResetPos()
+        {
+            transform.position = origin.position;
+        }
+
+        public void FixPosition()
+        {
+            if (!landed)
             {
-                movementDirectionX = faceDir;
+                transform.position = new Vector3(transform.position.x, 0f, 0);
+                landed = true;
             }
-            if (opponent.GetIsAgainstTheWall() && GetFaceDir() == opponent.GetWallDirectionX())
-            {
-                SetIsAgainstTheWall(true, GetFaceDir());
-                return;
-            }
-            if (GetIsAgainstTheWall() && GetFaceDir() != GetWallDirectionX())
-            {
-                return;
-            }
-            if (GetMovementDirectionX() != 0 && opponent.GetMovementDirectionX() == 0 && !opponent.GetIsAgainstTheWall())
-            {
-                return;
-            }
-            float pushStrenght = ((opponent.GetIsAgainstTheWall() && opponent.GetFaceDir() != opponent.GetWallDirectionX())
-                || !opponent.GetIsGrounded()) ? 3f : 2f;
-            transform.Translate(new Vector2(faceDir * pushStrenght, 0) * Time.deltaTime);
         }
 
         public void ApplyCounterPush(Vector2 direction, float duration)
         {
-            opponent.SetIsAgainstTheWall(false, 0);
             Vector2 dir = new(direction.x, 0f);
             opponent.ApplyForce(dir, duration, true);
         }
@@ -610,15 +609,13 @@ namespace SkillIssue.CharacterSpace
             {
                 if (GetIsAgainstTheWall() && Mathf.Sign(direction.x) == GetWallDirectionX())
                     direction.x = 0;
-                else
-                    SetIsAgainstTheWall(false, 0);
+
                 posY = direction.y;
                 if (posY > 0)
                 {
                     SetIsGrounded(false);
                     direction.x *= 0.5f;
                 }
-
                 SetApplyGravity(false);
             }
 
@@ -627,29 +624,6 @@ namespace SkillIssue.CharacterSpace
                 StopCoroutine(currentMovementCoroutine);
 
             currentMovementCoroutine = StartCoroutine(ForceCoroutine(direction, duration, m_bool));
-
-        }
-
-        public void ApplyAttackForce(AttackData data)
-        {
-            Vector2 direction = data.movement;
-            float duration = data.movementDuration;
-            {
-                if (GetIsAgainstTheWall() && Mathf.Sign(direction.x) == GetWallDirectionX())
-                    direction.x = 0;
-                else
-                    SetIsAgainstTheWall(false, 0);
-                posY = direction.y;
-                if (posY > 0)
-                    SetIsGrounded(false);
-                SetApplyGravity(false);
-                SetIsAgainstTheWall(false, 0);
-            }
-
-            if (currentMovementCoroutine != null)
-                StopCoroutine(currentMovementCoroutine);
-
-            currentMovementCoroutine = StartCoroutine(ForceAttackCoroutine(new Vector2(direction.x * faceDir, direction.y), duration, false));
 
         }
 
@@ -672,44 +646,6 @@ namespace SkillIssue.CharacterSpace
                 transform.Translate((forceSpeed) * Time.deltaTime * new Vector2(GetMovementDirectionX(), -1));
             }
 
-        }
-
-
-        public void CollisionedWith(Collider2D collider)
-        {
-            if (collider == GetComponent<Collider2D>())
-                return;
-            if (collider.TryGetComponent<Pushbox>(out var collidedbox))
-                collidedbox.HandleCollision(pushbox);
-        }
-
-        public void CheckState()
-        {
-            Debug.Log(animator.GetCurrentAnimatorClipInfo(0));
-        }
-
-        public void AnimEnd()
-        {
-            opponent.ResetAttackInfo();
-            characterAnimation.ClearAnimations();
-            if (GetCurrentActionState() == ActionStates.None)
-                return;
-            stateMachine.SetCurrentActionState(ActionStates.None);
-
-        }
-
-        public void OpenHitboxes(int number)
-        {
-            for (int i = 0; i < number; i++)
-            {
-                attack.hitboxes[i].state = ColliderState.Open;
-            }
-        }
-
-        public void HitRecover()
-        {
-            animator.speed = 1;
-            animator.SetTrigger("Recovery");
         }
 
         public IEnumerator ForceAttackCoroutine(Vector2 direction, float duration, bool counterForce)
@@ -751,6 +687,13 @@ namespace SkillIssue.CharacterSpace
             }
             currentMovementCoroutine = null;
         }
+        #endregion
+
+        public void BoxCollisionedWith(Collider2D collider)
+        {
+            if (collider == GetComponent<Collider2D>())
+                return;
+        }
 
         public IEnumerator RecoveryFramesCoroutines(int frames, bool knockdown = false)
         {
@@ -763,6 +706,12 @@ namespace SkillIssue.CharacterSpace
                 i++;
             }
             HitRecover();
+        }
+
+        public void HitRecover()
+        {
+            animator.speed = 1;
+            animator.SetTrigger("Recovery");
         }
 
         public void HitboxesEnabled()
@@ -816,6 +765,31 @@ namespace SkillIssue.CharacterSpace
         {
             if (clip != null)
                 AudioManager.instance.PlayAnimationEffect(clip, playerId);
+        }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+        {
+            switch (LayerMask.LayerToName(collision.gameObject.layer))
+            {
+                case ("Pushbox"):
+                    if (GetIsAgainstTheWall() && !GetIsGrounded())
+                    {
+                        opponent.transform.Translate(new Vector2(GetFaceDir(),0) * 3 * Time.deltaTime);
+                    }
+                    break;
+                case ("Ground"):
+                    SetIsGrounded(true);
+                    break;
+            }
+        }
+
+        private void OnCollisionStay2D(Collision2D collision)
+        {
+            if (LayerMask.LayerToName (collision.gameObject.layer) == "Pushbox")
+            {
+                if (Managers.Instance.GameManager.GetCornerChar() == opponent)
+                    transform.Translate(new Vector2(-GetFaceDir(), 0) * 2 * Time.deltaTime);
+            }
         }
     }
 

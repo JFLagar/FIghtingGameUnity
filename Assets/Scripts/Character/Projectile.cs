@@ -49,7 +49,7 @@ public class Projectile : MonoBehaviour , IHitboxResponder
             Destroy(this.gameObject,0.5f);
         }
     }
-    public void CollisionedWith(Collider2D collider)
+    public void BoxCollisionedWith(Collider2D collider)
     {
         if(currentAttack != data)
         {

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IHitboxResponder
 {
-    public void CollisionedWith(Collider2D collider);
+    public void BoxCollisionedWith(Collider2D collider);
 }

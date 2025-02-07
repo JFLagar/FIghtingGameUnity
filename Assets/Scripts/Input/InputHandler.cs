@@ -52,6 +52,11 @@ namespace SkillIssue.Inputs
             playerInput = GetComponent<PlayerInput>();
         }
 
+        public PlayerInput GetPlayerInput()
+        {
+            return playerInput;
+        }
+
         public void Initialize(Character controllingCharacter)
         {
             character = controllingCharacter;

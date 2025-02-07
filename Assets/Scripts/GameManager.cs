@@ -25,7 +25,10 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         if (uIBehaviour != null)
+        {
             uIBehaviour.Initialize();
+            uIBehaviour.FadeIn();
+        }
     }
 
     // Update is called once per frame
@@ -61,8 +64,7 @@ public class GameManager : MonoBehaviour
     public void ResetPosition()
     {
         // Don't reload screen
-        Scene scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(scene.name);
+        uIBehaviour.ResetAll();
     }
 
     public void EnableTrainingMode()

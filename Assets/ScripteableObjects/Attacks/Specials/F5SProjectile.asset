@@ -19,15 +19,16 @@ MonoBehaviour:
   hitstun: 15
   blockstun: 15
   proratio: 0
-  push: {x: 1, y: 1.5}
+  push: {x: 0, y: 10}
   movement: {x: 0, y: 0}
   movementDuration: 0
   launcher: 0
+  hardKnockdown: 1
   dashCancel: 0
   jumpCancel: 0
   grab: 0
   canceleableSelf: 0
-  cancelableTypes: 
+  cancelableTypes: 02000000
   animation: {fileID: 0}
   message: 
   followUpAttack: {fileID: 0}

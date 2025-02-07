@@ -19,10 +19,11 @@ MonoBehaviour:
   hitstun: 15
   blockstun: 15
   proratio: 1
-  push: {x: 1, y: 1.5}
+  push: {x: 0, y: 20}
   movement: {x: 0, y: 0}
   movementDuration: 0
-  launcher: 0
+  launcher: 1
+  hardKnockdown: 0
   dashCancel: 0
   jumpCancel: 0
   grab: 0

@@ -1,5 +1,5 @@
+using NaughtyAttributes;
 using SkillIssue.CharacterSpace;
-using SkillIssue.Inputs;
 using UnityEngine;
 namespace SkillIssue.StateMachineSpace
 {
@@ -9,7 +9,7 @@ namespace SkillIssue.StateMachineSpace
         Landing, //To avoid instawalking
         Attack, //Can go back to None or proper Attack, getting hit here will trigger counterhit
         Block, //Goes back to None
-        Hit //King = Overrides all States and Goes back to None
+        Hit, //King = Overrides all States and Goes back to None
     }
     public enum States
     {
@@ -26,6 +26,8 @@ namespace SkillIssue.StateMachineSpace
         State crouchingState = new CrouchState();
         State jumpState = new JumpState();
         State currentState;
+        [SerializeField]
+        [ReadOnly]
         ActionStates currentAction = 0;
         States state = 0;
 
@@ -145,6 +147,10 @@ namespace SkillIssue.StateMachineSpace
         public override void EnterState()
         {
             stateMachine.GetCharacter().SetApplyGravity(false);
+            if (stateMachine.GetActionState() != ActionStates.Hit)
+            {
+                stateMachine.GetCharacter().GetCharacterAnimation().AddAnimation(AnimType.Landing, "ToStanding");
+            }
             stateMachine.SetCurrentState(this, States.Standing);
 
         }
@@ -178,22 +184,18 @@ namespace SkillIssue.StateMachineSpace
             {
                 ExitState();
             }
-            //Gets Input for blocking
-            stateMachine.GetCharacter().CharacterMove();
         }
         public override void EnterState()
         {
             stateMachine.SetCurrentState(this, States.Crouching);
             if (stateMachine.GetActionState() == ActionStates.None)
-                stateMachine.GetCharacter().GetCharacterAnimation().AddAnimation(AnimType.Movement, "StandToCrouch");
-            stateMachine.GetCharacter().GetAnimator().SetBool("Crouching", true);
+                stateMachine.GetCharacter().GetCharacterAnimation().AddAnimation(AnimType.Movement, "ToCrouching");
         }
         public override void ExitState()
         {
             if (stateMachine.GetCharacter().GetIsGrounded())
             {
                 stateMachine.GetStandingState().EnterState();
-                stateMachine.GetCharacter().GetAnimator().SetBool("Crouching", false);
             }
             else
             {
@@ -221,18 +223,15 @@ namespace SkillIssue.StateMachineSpace
             stateMachine.SetCurrentState(this, States.Jumping);
             if (stateMachine.GetActionState() == ActionStates.None || stateMachine.GetActionState() == ActionStates.Landing)
                 stateMachine.GetCharacter().GetCharacterAnimation().AddAnimation(AnimType.Movement, "JumpStart");
-            stateMachine.GetCharacter().GetAnimator().SetBool("Jumping", true);
         }
         public override void ExitState()
         {
             stateMachine.GetCharacter().FixPosition();
-            stateMachine.GetStandingState().EnterState();
-            stateMachine.GetCharacter().GetAnimator().SetBool("Jumping", false);
-            if (stateMachine.GetActionState() != ActionStates.Hit)
-            {
-                stateMachine.SetCurrentActionState(ActionStates.Landing);
-                stateMachine.GetCharacter().GetCharacterAnimation().AddAnimation(AnimType.Landing, "LandingRecovery");
-            }
+            if (stateMachine.GetCharacter().GetInputDirection().y != -1)
+                stateMachine.GetStandingState().EnterState();
+            else
+                stateMachine.GetCrouchingState().EnterState();
         }
     }
+
 }

@@ -38,6 +38,7 @@ namespace SkillIssue
         public float movementDuration;
         [Space]
         public bool launcher;
+        public bool hardKnockdown;
         public bool dashCancel;
         public bool jumpCancel;
         public bool grab;

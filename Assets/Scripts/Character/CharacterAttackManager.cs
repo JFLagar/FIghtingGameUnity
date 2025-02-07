@@ -4,19 +4,26 @@ using SkillIssue.StateMachineSpace;
 using System.Collections;
 using UnityEngine;
 
-public class AttackClass : MonoBehaviour, IHitboxResponder
+public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
 {
     private AttackData previousAttack;
+    [SerializeField]
     public Hitbox[] hitboxes;
-    public Character character;
+    private Character character;
     private AttackData currentAttack;
     private bool hit = false;
-    public int repeatedAttack = 0;
-    public int sameLimit;
+    int repeatedAttack = 0;
+    int sameLimit;
     [SerializeField]
     public Coroutine landCheck = null;
-    public int waitFrame = 0;
-    public int landFrame = 0;
+    int waitFrame = 0;
+    int landFrame = 0;
+
+    public void Initialize(Character controllingChar)
+    {
+        character = controllingChar;
+    }
+
     public void Attack(AttackData data, bool followup = false)
     {
         if (character.GetCurrentState() == States.Jumping)
@@ -89,6 +96,7 @@ public class AttackClass : MonoBehaviour, IHitboxResponder
             hitbox.StopCheckingCollision();
         }
     }
+
     private bool IsCancelable(AttackData data)
     {
         if (character.GetCurrentActionState() == ActionStates.Landing)

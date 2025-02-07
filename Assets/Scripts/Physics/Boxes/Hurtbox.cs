@@ -22,7 +22,7 @@ namespace SkillIssue
         {
             if (!blockCheck)
                 return;
-            if (character.GetInputDirection().x == -character.GetFaceDir() && character.GetCurrentActionState() == StateMachineSpace.ActionStates.None)
+            if (character.GetInputDirection().x == -character.GetFaceDir() && character.GetCurrentActionState() == StateMachineSpace.ActionStates.None && !character.GetIsHardKnockedDown())
             {
                 state = ColliderState.Open;
             }

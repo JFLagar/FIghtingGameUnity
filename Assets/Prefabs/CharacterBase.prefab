@@ -281,7 +281,7 @@ MonoBehaviour:
   stateMachine: {fileID: 1957316337707236123}
   inputHandler: {fileID: 1957316337707236124}
   characterData: {fileID: 11400000, guid: 6dab189abf95d21498ed8f46ec03535f, type: 2}
-  attack: {fileID: 7515142340994233024}
+  attackManager: {fileID: 7515142340994233024}
   animator: {fileID: 3090942852897552484}
   characterAnimation: {fileID: 2597134761694115151}
   jumpPower: 20
@@ -295,7 +295,7 @@ MonoBehaviour:
     rgba: 4278190335
   m_hitbox: {fileID: 1957316337498685954}
   m_hurtbox: {fileID: 1957316338671554540}
-  origin: {fileID: 0}
+  origin: {x: 0, y: 0, z: 0}
   currentProjectile: {fileID: 0}
 --- !u!114 &7515142340994233024
 MonoBehaviour:
@@ -316,11 +316,6 @@ MonoBehaviour:
   - {fileID: 1957316336859665581}
   - {fileID: 1957316337217944715}
   - {fileID: 1957316337416723197}
-  character: {fileID: 1957316337047856815}
-  repeatedAttack: 0
-  sameLimit: 2
-  waitFrame: 0
-  landFrame: 0
 --- !u!95 &3090942852897552484
 Animator:
   serializedVersion: 7

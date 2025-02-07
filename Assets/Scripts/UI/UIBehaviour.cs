@@ -4,7 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using SkillIssue.CharacterSpace;
 using TMPro;
+using DG.Tweening;
+using NaughtyAttributes;
 using System;
+using System.Linq;
 
 public class UIBehaviour : MonoBehaviour
 {
@@ -27,7 +30,7 @@ public class UIBehaviour : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI debug;
     [SerializeField]
-    Image[] p1Rounds, p2Rounds;
+    Image[] p1RoundsIcons, p2RoundsIcons;
     [SerializeField]
     RectTransform pauseUI;
     [SerializeField]
@@ -35,8 +38,13 @@ public class UIBehaviour : MonoBehaviour
     [SerializeField]
     RectTransform characterSelectUI;
 
-    private int player1WonRounds;
-    private int player2WonRounds;
+    [SerializeField]
+    Image fadePanel;
+
+     int player1WonRounds = 0;
+     int player2WonRounds = 0;
+
+    bool roundActive = false;
 
 
     // Start is called before the first frame update
@@ -66,7 +74,8 @@ public class UIBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (!roundActive)
+            return;
         timer -= Time.deltaTime;
         timerText.text = Mathf.FloorToInt(timer).ToString();
         if (timer <= 0)
@@ -83,13 +92,20 @@ public class UIBehaviour : MonoBehaviour
     
     }
 
-    internal void ResetAll()
+    public void ResetAll()
     {
-        foreach(Slider slider in sliders)
+        timer = 99;
+        timerText.text = Mathf.FloorToInt(timer).ToString();
+        foreach (Slider slider in sliders)
         {
             slider.value = slider.maxValue;
-            timer = 99;
         }
+        foreach (Character character in characters)
+        {
+            character.ResetCharacter();
+        }
+        if (player1WonRounds == p1RoundsIcons.Length || player2WonRounds == p2RoundsIcons.Length)
+            ResetScores();
     }
 
     public void ShowPauseUI(bool showPauseUI)
@@ -196,13 +212,73 @@ public class UIBehaviour : MonoBehaviour
 
     private void AddScore(int PlayerId)
     {
+        foreach (var player in characters)
+        {
+            player.DisableInput();
+        }
+        roundActive = false;
+        if (PlayerId == 0)
+            player1WonRounds++;
+        else
+            player2WonRounds++;
+        UpdateScores();
+        FadeIn();
         //Change scores
-        Managers.Instance.GameManager.ResetPosition();
+    }
+
+    private void UpdateScores()
+    {
+        for (int rounds = 0; rounds < player1WonRounds; rounds++)
+        {
+            if (player1WonRounds > p1RoundsIcons.Length)
+            {
+                return;
+            }
+            p1RoundsIcons[rounds].enabled = true;
+        }
+        for (int rounds = 0; rounds < player2WonRounds; rounds++)
+        {
+            if (player2WonRounds > p2RoundsIcons.Length)
+            {
+                return;
+            }
+            p2RoundsIcons[rounds].enabled = true;
+        }
     }
 
     private void ResetScores()
     {
-        //Reset Scores
-        Managers.Instance.GameManager.ResetPosition();
+        player1WonRounds = 0;
+        player2WonRounds = 0;
+        foreach (var icon in p1RoundsIcons)
+        {
+            icon.enabled = false;
+        }
+        foreach (var icon in p2RoundsIcons)
+        {
+            icon.enabled = false;
+        }
+    }
+
+    [Button]
+    public void FadeIn()
+    {
+        fadePanel.DOFade(1, 1).OnComplete(()=>
+        {
+            ResetAll(); FadeOut();
+        });
+    }
+
+    [Button]
+    public void FadeOut()
+    {
+        fadePanel.DOFade(0, 3).OnComplete(() => 
+        {
+            foreach(var player in characters)
+            {
+                player.EnableInput();
+            }
+            roundActive = true; 
+        }) ;
     }
 }

@@ -85,6 +85,12 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.playablegraph-visualizer": {
+      "version": "file:C:/Users/juan_/Downloads/graph-visualizer-master/graph-visualizer-master",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "com.unity.settings-manager": {
       "version": "2.0.1",
       "depth": 2,

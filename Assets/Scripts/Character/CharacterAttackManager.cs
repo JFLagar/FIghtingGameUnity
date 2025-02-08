@@ -47,7 +47,7 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
         if (data.animation != null)
         {
             character.GetAnimator().speed = 1;
-            character.GetCharacterAnimation().AddAnimation(AnimType.Attack, data.animation.name);
+            character.GetCharacterAnimation().PlayActionAnimation(data.animation);
         }
         repeatedAttack = 0;
         character.SetActionState(ActionStates.Attack);

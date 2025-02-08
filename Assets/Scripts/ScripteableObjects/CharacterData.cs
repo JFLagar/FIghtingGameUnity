@@ -29,6 +29,9 @@ public class CharacterData : ScriptableObject
     [SerializeField]
     AttackData[] jumpAttacks;
 
+    [SerializeField]
+    CharacterAnimationsData characterAnimationsData;
+
     public string GetCharacterName() {  return characterName; }
     public int GetMaxHP() { return maxHP; }
     public float GetMovementSpeed() { return speed; }
@@ -41,5 +44,9 @@ public class CharacterData : ScriptableObject
     public AttackData[] GetSpecialAttacks()
     {
         return elementData.GetElementAttackData(element);
+    }
+    public CharacterAnimationsData GetCharacterAnimationsData()
+    {
+        return characterAnimationsData;
     }
 }

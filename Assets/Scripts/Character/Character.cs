@@ -6,6 +6,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
 using NaughtyAttributes;
+using System.Linq;
 namespace SkillIssue.CharacterSpace
 {
     public enum Element
@@ -174,6 +175,62 @@ namespace SkillIssue.CharacterSpace
         }
 
         #region Getters and Setters
+        public CharacterAnimationsData GetCharacterAnimationsData()
+        {
+            return characterData.GetCharacterAnimationsData();
+        }
+
+        public List<AnimationClip> GetCharacterMovementClips()
+        {
+            CharacterAnimationsData animationsData = characterData.GetCharacterAnimationsData();
+            List<AnimationClip> animationClips = new();
+            foreach (var anim in animationsData.standingClips)
+            {
+                animationClips.Add(anim);
+            }
+            foreach (var anim in animationsData.jumpingClips)
+            {
+                animationClips.Add(anim);
+            }
+            animationClips.Add(animationsData.crouchingClip);
+            return animationClips;
+        }
+
+        public List<AnimationClip> GetCharacterActionClips()
+        {
+            CharacterAnimationsData animationsData = characterData.GetCharacterAnimationsData();
+            List<AnimationClip> animationClips = new();
+
+            foreach (var anim in animationsData.blockingClips)
+            {
+                animationClips.Add(anim);
+            }
+            foreach (var anim in animationsData.hitClips)
+            {
+                animationClips.Add(anim);
+            }
+
+            foreach (var attack in characterData.GetStandingAttacks())
+            {
+                animationClips.Add(attack.animation);
+            }
+            foreach (var attack in characterData.GetCrouchingAttacks())
+            {
+                animationClips.Add(attack.animation);
+            }
+            foreach (var attack in characterData.GetJumpAttacks())
+            {
+                animationClips.Add(attack.animation);
+            }
+            foreach (var attack in characterData.GetSpecialAttacks())
+            {
+                animationClips.Add(attack.animation);
+            }
+            animationClips.Add(characterData.GetGrabData().animation);
+
+            return animationClips;
+        }
+
         public ActionStates GetCurrentActionState()
         {
             return stateMachine.GetActionState();
@@ -435,7 +492,7 @@ namespace SkillIssue.CharacterSpace
             stateMachine.SetCurrentActionState(ActionStates.Hit);
             if (data.launcher || isKnockedDown)
             {
-                characterAnimation.AddAnimation(AnimType.Hit, "JumpingHit");
+                characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[2]);
                 dir.y = data.push.y;
                 isKnockedDown = true;
                 if (data.hardKnockdown)
@@ -447,12 +504,11 @@ namespace SkillIssue.CharacterSpace
             {
                 if (data.grab)
                 {
-                    characterAnimation.AddAnimation(AnimType.Hit, "StandingHit");
-                    animator.SetBool("Crouching", false);
+                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[0]);
                 }
                 else
                 {
-                    characterAnimation.AddAnimation(AnimType.Hit, GetCurrentState().ToString() + "Hit");
+                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[(int)GetCurrentState()]);
 
                 }
                 if (GetCurrentState() == States.Jumping)
@@ -486,7 +542,7 @@ namespace SkillIssue.CharacterSpace
             Vector2 blockDir = new(dir.x, 0);
             stateMachine.SetCurrentActionState(ActionStates.Block);
             if (!blockCheck)
-                characterAnimation.AddAnimation(AnimType.Hit, GetCurrentState().ToString() + "Block");
+                characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().blockingClips[(int)GetCurrentState()]);
 
             if (currentHitCoroutine != null)
                 StopCoroutine(currentHitCoroutine);
@@ -514,20 +570,20 @@ namespace SkillIssue.CharacterSpace
                     destination.x = 0;
                 if (GetInputDirection().x != faceDir)
                 {
-                    animator.SetInteger("X", -1);
+                    characterAnimation.ChangeMovementState(GetCharacterAnimationsData().standingClips.LastOrDefault());
                     speed = characterData.GetMovementSpeed() / 1.3f;
                 }
 
                 else
                 {
-                    animator.SetInteger("X", 1);
+                    characterAnimation.ChangeMovementState(GetCharacterAnimationsData().standingClips[1]);
                     speed = characterData.GetMovementSpeed();
                 }
             }
             else
-                animator.SetInteger("X", 0);
+            characterAnimation.ChangeMovementState(GetCharacterAnimationsData().standingClips.FirstOrDefault());
 
-                transform.position += (speed * Time.deltaTime * destination);
+            transform.position += (speed * Time.deltaTime * destination);
 
         }
 
@@ -581,18 +637,6 @@ namespace SkillIssue.CharacterSpace
                 StopCoroutine(currentMovementCoroutine);
 
             currentMovementCoroutine = StartCoroutine(ForceAttackCoroutine(new Vector2(direction.x * faceDir, direction.y), duration, false));
-        }
-
-        public void AnimEnd()
-        {
-            opponent.ResetAttackInfo();
-            characterAnimation.ClearAnimations();
-            if (GetCurrentActionState() == ActionStates.None)
-                return;
-            stateMachine.SetCurrentActionState(ActionStates.None);
-            isKnockedDown = false;
-            isHardKnockDown = false;
-
         }
 
         public void OpenHitboxes(int number)
@@ -661,7 +705,7 @@ namespace SkillIssue.CharacterSpace
                 return;
             if (GetCurrentActionState() == ActionStates.None && isJumping)
             {
-                characterAnimation.AddAnimation(AnimType.Movement, "JumpFall");
+                characterAnimation.ChangeMovementState(stateMachine.GetCharacter().GetCharacterAnimationsData().jumpingClips.LastOrDefault());
             }
             if (!GetIsGrounded())
                 SetIsJumping(false);
@@ -740,7 +784,7 @@ namespace SkillIssue.CharacterSpace
                     yield return null;
                     i++;
                     if (GetIsGrounded() && knockdown || GetApplyGravity())
-                        characterAnimation.AddAnimation(AnimType.Hit, "Knockdown");
+                        characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips.Last());
                 }
                 HitRecover();
             }

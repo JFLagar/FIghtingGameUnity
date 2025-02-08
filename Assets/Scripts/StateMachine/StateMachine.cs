@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using SkillIssue.CharacterSpace;
+using System.Linq;
 using UnityEngine;
 namespace SkillIssue.StateMachineSpace
 {
@@ -149,7 +150,7 @@ namespace SkillIssue.StateMachineSpace
             stateMachine.GetCharacter().SetApplyGravity(false);
             if (stateMachine.GetActionState() != ActionStates.Hit)
             {
-                stateMachine.GetCharacter().GetCharacterAnimation().AddAnimation(AnimType.Landing, "ToStanding");
+                stateMachine.GetCharacter().GetCharacterAnimation().ChangeMovementState(stateMachine.GetCharacter().GetCharacterAnimationsData().standingClips.FirstOrDefault());
             }
             stateMachine.SetCurrentState(this, States.Standing);
 
@@ -189,7 +190,7 @@ namespace SkillIssue.StateMachineSpace
         {
             stateMachine.SetCurrentState(this, States.Crouching);
             if (stateMachine.GetActionState() == ActionStates.None)
-                stateMachine.GetCharacter().GetCharacterAnimation().AddAnimation(AnimType.Movement, "ToCrouching");
+                stateMachine.GetCharacter().GetCharacterAnimation().ChangeMovementState(stateMachine.GetCharacter().GetCharacterAnimationsData().crouchingClip);
         }
         public override void ExitState()
         {
@@ -222,7 +223,7 @@ namespace SkillIssue.StateMachineSpace
             stateMachine.GetCharacter().SetIsGrounded(false);
             stateMachine.SetCurrentState(this, States.Jumping);
             if (stateMachine.GetActionState() == ActionStates.None || stateMachine.GetActionState() == ActionStates.Landing)
-                stateMachine.GetCharacter().GetCharacterAnimation().AddAnimation(AnimType.Movement, "JumpStart");
+                stateMachine.GetCharacter().GetCharacterAnimation().ChangeMovementState(stateMachine.GetCharacter().GetCharacterAnimationsData().jumpingClips.FirstOrDefault());
         }
         public override void ExitState()
         {

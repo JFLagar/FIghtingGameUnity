@@ -26,10 +26,7 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
 
     public void Attack(AttackData data, bool followup = false)
     {
-        if (character.GetCurrentState() == States.Jumping)
-        {
-            landCheck = StartCoroutine(CheckForLandCancel(data));
-        }
+ 
         //check if can cancel
         if (character.GetCurrentActionState() == ActionStates.Attack && !followup)
         {
@@ -162,27 +159,4 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
         return false;
     }
 
-    IEnumerator CheckForLandCancel(AttackData data)
-    {
-        waitFrame = 0;
-        landFrame = 0;
-        while (waitFrame < 10)
-        {
-            if (character.GetCurrentState() == States.Standing)
-            {
-                while (landFrame < 5)
-                {
-                    if (character.GetCurrentActionState() == ActionStates.Landing)
-                    {
-                        character.PerformAttack(data.attackType);
-                    }
-                    yield return null;
-                    landFrame++;
-                }
-            }
-
-            yield return null;
-            waitFrame++;
-        }
-    }
 }

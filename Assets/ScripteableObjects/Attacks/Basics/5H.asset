@@ -17,7 +17,7 @@ MonoBehaviour:
   attackType: 1
   damage: 10
   hitstun: 15
-  blockstun: 15
+  blockstun: 300
   proratio: 1
   push: {x: 1, y: 1.5}
   movement: {x: 0, y: 0}

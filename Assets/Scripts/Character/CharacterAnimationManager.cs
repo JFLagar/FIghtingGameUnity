@@ -110,7 +110,10 @@ public class CharacterAnimationManager : MonoBehaviour
 
         graph.Disconnect(mixerPlayable, 0);
         graph.Connect(movementPlayables[newClip], 0, mixerPlayable, 0);
-        //mixerPlayable.SetInputWeight(0, 1.0f);
+        if(character.GetCurrentActionState() != ActionStates.None)
+        {
+            mixerPlayable.SetInputWeight(0,0);
+        }
     }
 
     // Play Action Animation (Overrides Movement)
@@ -122,14 +125,14 @@ public class CharacterAnimationManager : MonoBehaviour
             return;
         }
 
-        Debug.Log(actionClip.name + character.name);
         // Ensure the action clip is cached
-        //CacheActionPlayable(actionClip);
+        CacheActionPlayable(actionClip);
 
         actionScriptPlayable.GetBehaviour().SetHasRecovery(isRecovery);
         // Get cached Action Playable
         actionPlayable = actionPlayables[actionClip];
         actionPlayable.SetDone(false);
+        actionPlayable.SetTime(0);
         actionPlayable.SetTime(0);
         actionScriptPlayable.SetTime(0);
 
@@ -149,24 +152,6 @@ public class CharacterAnimationManager : MonoBehaviour
         mixerPlayable.SetInputWeight(1, 0.0f);
         mixerPlayable.SetInputWeight(0, 1.0f);
         character.OnAnimationEnd(hasRecovery);
-    }
-
-    public void PlayRecoveryAnimation()
-    {
-        switch(character.GetCurrentActionState())
-        {
-            case ActionStates.Block:
-                PlayActionAnimation(character.GetCharacterAnimationsData().recoveryClips[(int)character.GetCurrentState() + 1]);
-                break;
-            case ActionStates.Hit:
-                if (!character.GetIsKnockedDown())
-                    PlayActionAnimation(character.GetCharacterAnimationsData().recoveryClips[(int)character.GetCurrentState()]);
-                else
-                    PlayActionAnimation(character.GetCharacterAnimationsData().recoveryClips[(int)States.Crouching]);
-                break;
-            default:
-                break;
-        }
     }
 
     void OnDestroy()
@@ -193,6 +178,11 @@ public class ActionPlayableBehaviour : PlayableBehaviour
         hasRecovery = value;
     }
 
+    public override void OnBehaviourPause(Playable playable, FrameData info)
+    {
+        base.OnBehaviourPause(playable, info);
+    }
+
     public override void PrepareFrame(Playable playable, FrameData info)
     {
 
@@ -212,6 +202,7 @@ public class ActionPlayableBehaviour : PlayableBehaviour
         if (inputPlayable.IsDone())
         {
             controller.OnActionAnimationEnd(hasRecovery);
+
             playable.DisconnectInput(0);
         }
     }

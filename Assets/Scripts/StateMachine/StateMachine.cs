@@ -231,6 +231,8 @@ namespace SkillIssue.StateMachineSpace
         public override void ExitState()
         {
             stateMachine.GetCharacter().FixPosition();
+            if (stateMachine.GetActionState() == ActionStates.Attack)
+                stateMachine.SetCurrentActionState(ActionStates.None);
             if (stateMachine.GetCharacter().GetInputDirection().y != -1)
             {
                 stateMachine.GetStandingState().EnterState();

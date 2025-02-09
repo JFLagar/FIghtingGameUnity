@@ -155,10 +155,10 @@ namespace SkillIssue.CharacterSpace
                 }
             }
             //Safety messure against stunlock
-            if (currentHitCoroutine == null && GetCurrentActionState() == ActionStates.Hit || GetCurrentActionState() == ActionStates.Block)
-            {
-                currentHitCoroutine = StartCoroutine(RecoveryFramesCoroutines(5, false));
-            }
+            //if (currentHitCoroutine == null && GetCurrentActionState() == ActionStates.Hit || GetCurrentActionState() == ActionStates.Block)
+            //{
+            //    currentHitCoroutine = StartCoroutine(RecoveryFramesCoroutines(5, false));
+            //}
             if (visualState)
             {
                 switch (GetCurrentActionState())
@@ -484,7 +484,7 @@ namespace SkillIssue.CharacterSpace
                 return;
             }
 
-            if (inputHandler.GetDirection().x == -faceDir && GetCurrentActionState() != ActionStates.Hit && IsBlocking(data.attackAttribute))
+            if (IsBlocking(data.attackAttribute))
             {
                 PerformBlock(data, blockCheck);
                 return;
@@ -553,12 +553,12 @@ namespace SkillIssue.CharacterSpace
             Vector2 dir = new(data.push.x * -GetFaceDir(), 0);
             Vector2 blockDir = new(dir.x, 0);
             stateMachine.SetCurrentActionState(ActionStates.Block);
-            if (!blockCheck)
-                characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().blockingClips[(int)GetCurrentState()], true);
-
             if (currentHitCoroutine != null)
                 StopCoroutine(currentHitCoroutine);
-                currentHitCoroutine = StartCoroutine(RecoveryFramesCoroutines(data.blockstun, false));
+
+            if (!blockCheck)
+                characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().blockingClips[(int)GetCurrentState()], true);
+            currentHitCoroutine = StartCoroutine(RecoveryFramesCoroutines(data.blockstun, false));
                 if (GetIsAgainstTheWall() && GetFaceDir() != GetWallDirectionX())
                 {
                     ApplyCounterPush(-blockDir, 3f);
@@ -601,19 +601,12 @@ namespace SkillIssue.CharacterSpace
 
         public void OnAnimationEnd(bool hasRecoveryAnim)
         {
-            if (!hasRecoveryAnim)
-            {
                 opponent.ResetAttackInfo();
                 if (GetCurrentActionState() == ActionStates.None)
                     return;
                 stateMachine.SetCurrentActionState(ActionStates.None);
                 isKnockedDown = false;
                 isHardKnockDown = false;
-            }
-            else
-            {
-                characterAnimation.PlayRecoveryAnimation();
-            }
         }
 
         public void ResetCharacter()
@@ -809,7 +802,6 @@ namespace SkillIssue.CharacterSpace
                     if (GetIsGrounded() && knockdown || GetApplyGravity())
                         characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips.Last(), true);
                 }
-                HitRecover();
             }
             else
             {
@@ -819,8 +811,8 @@ namespace SkillIssue.CharacterSpace
                     yield return null;
                     i++;
                 }
-                HitRecover();
             }
+            HitRecover();
 
         }
 
@@ -859,21 +851,23 @@ namespace SkillIssue.CharacterSpace
 
         bool IsBlocking(AttackAttribute attack)
         {
+            if (GetCurrentActionState() == ActionStates.Hit)
+                return false;
             switch (GetCurrentState())
             {
                 case States.Standing:
                     if (attack == AttackAttribute.Low)
                         return false;
-                    else
-                        return true;
+                    break;
                 case States.Crouching:
                     if (attack == AttackAttribute.High)
                         return false;
-                    else
-                        return true;
+                    break;
                 case States.Jumping:
                     return false;
             }
+            if (inputHandler.GetDirection().x == -faceDir || GetCurrentActionState() == ActionStates.Block)
+                return true;
             return false;
         }
 

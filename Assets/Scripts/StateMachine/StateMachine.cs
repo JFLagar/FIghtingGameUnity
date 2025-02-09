@@ -165,6 +165,7 @@ namespace SkillIssue.StateMachineSpace
             }
             else
             {
+                stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
                 stateMachine.GetCrouchingState().EnterState();
             }
         }
@@ -196,10 +197,12 @@ namespace SkillIssue.StateMachineSpace
         {
             if (stateMachine.GetCharacter().GetIsGrounded())
             {
+                stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().stateTransitionClips.FirstOrDefault());
                 stateMachine.GetStandingState().EnterState();
             }
             else
             {
+                stateMachine.GetCharacter().SetIsJumping(true);
                 stateMachine.GetJumpState().EnterState();
             }
             stateMachine.GetCharacter().CharacterMove();
@@ -229,9 +232,15 @@ namespace SkillIssue.StateMachineSpace
         {
             stateMachine.GetCharacter().FixPosition();
             if (stateMachine.GetCharacter().GetInputDirection().y != -1)
+            {
                 stateMachine.GetStandingState().EnterState();
+                stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().stateTransitionClips.FirstOrDefault());
+            }
             else
+            {
+                stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
                 stateMachine.GetCrouchingState().EnterState();
+            }
         }
     }
 

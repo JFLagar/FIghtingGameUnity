@@ -1,3 +1,4 @@
+using GraphVisualizer;
 using SkillIssue.CharacterSpace;
 using SkillIssue.StateMachineSpace;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ public class CharacterAnimationManager : MonoBehaviour
         this.animator = animator;
 
         // Create PlayableGraph
-        graph = PlayableGraph.Create("CharacterAnimationGraph");
+        graph = PlayableGraph.Create("CharacterAnimationGraph"+character.name);
 
         // Create Animation Mixer with 2 inputs (Movement + Action)
         mixerPlayable = AnimationMixerPlayable.Create(graph, 2);
@@ -42,9 +43,8 @@ public class CharacterAnimationManager : MonoBehaviour
         mixerPlayable.SetInputWeight(0, 1.0f);
 
         // Create reusable ActionPlayableBehaviour
-        actionScriptPlayable = ScriptPlayable<ActionPlayableBehaviour>.Create(graph);
-        actionScriptPlayable.GetBehaviour().Initialize(this);
-
+        actionScriptPlayable = ScriptPlayable<ActionPlayableBehaviour>.Create(graph,1);
+        actionScriptPlayable.GetBehaviour().Initialize(this, character);
         // Connect to Mixer (initially disabled)
         graph.Connect(actionScriptPlayable, 0, mixerPlayable, 1);
         mixerPlayable.SetInputWeight(1, 0.0f);
@@ -88,6 +88,16 @@ public class CharacterAnimationManager : MonoBehaviour
         }
     }
 
+    public void PauseActionPlayabe(int frames)
+    {
+        actionScriptPlayable.Pause();
+    }
+
+    public void ResumeActionPlayable()
+    {
+        actionScriptPlayable.Play();
+    }
+
     // Switch Movement Animation using cached playables
     public void ChangeMovementState(AnimationClip newClip)
     {
@@ -100,11 +110,11 @@ public class CharacterAnimationManager : MonoBehaviour
 
         graph.Disconnect(mixerPlayable, 0);
         graph.Connect(movementPlayables[newClip], 0, mixerPlayable, 0);
-        mixerPlayable.SetInputWeight(0, 1.0f);
+        //mixerPlayable.SetInputWeight(0, 1.0f);
     }
 
     // Play Action Animation (Overrides Movement)
-    public void PlayActionAnimation(AnimationClip actionClip)
+    public void PlayActionAnimation(AnimationClip actionClip, bool isRecovery = false)
     {
         if (actionClip == null)
         {
@@ -112,27 +122,51 @@ public class CharacterAnimationManager : MonoBehaviour
             return;
         }
 
+        Debug.Log(actionClip.name + character.name);
         // Ensure the action clip is cached
-        CacheActionPlayable(actionClip);
+        //CacheActionPlayable(actionClip);
 
+        actionScriptPlayable.GetBehaviour().SetHasRecovery(isRecovery);
         // Get cached Action Playable
         actionPlayable = actionPlayables[actionClip];
+        actionPlayable.SetDone(false);
+        actionPlayable.SetTime(0);
+        actionScriptPlayable.SetTime(0);
+
 
         // Reconnect to existing ActionPlayableBehaviour
-        graph.Disconnect(mixerPlayable, 1);
-        graph.Connect(actionPlayable, 0, mixerPlayable, 1);
+        graph.Disconnect(actionScriptPlayable, 0);
+        graph.Connect(actionPlayable, 0, actionScriptPlayable, 0);
 
+        actionPlayable.SetDuration(actionClip.length);
         mixerPlayable.SetInputWeight(1, 1.0f); // Enable action animation
         mixerPlayable.SetInputWeight(0, 0.0f); // Disable movement animation
     }
 
     // Restore movement after action animation ends
-    public void OnActionAnimationEnd()
+    public void OnActionAnimationEnd(bool hasRecovery)
     {
-        Debug.Log("AnimEnd");
         mixerPlayable.SetInputWeight(1, 0.0f);
         mixerPlayable.SetInputWeight(0, 1.0f);
-        character.SetActionState(ActionStates.None);
+        character.OnAnimationEnd(hasRecovery);
+    }
+
+    public void PlayRecoveryAnimation()
+    {
+        switch(character.GetCurrentActionState())
+        {
+            case ActionStates.Block:
+                PlayActionAnimation(character.GetCharacterAnimationsData().recoveryClips[(int)character.GetCurrentState() + 1]);
+                break;
+            case ActionStates.Hit:
+                if (!character.GetIsKnockedDown())
+                    PlayActionAnimation(character.GetCharacterAnimationsData().recoveryClips[(int)character.GetCurrentState()]);
+                else
+                    PlayActionAnimation(character.GetCharacterAnimationsData().recoveryClips[(int)States.Crouching]);
+                break;
+            default:
+                break;
+        }
     }
 
     void OnDestroy()
@@ -145,18 +179,40 @@ public class CharacterAnimationManager : MonoBehaviour
 public class ActionPlayableBehaviour : PlayableBehaviour
 {
     private CharacterAnimationManager controller;
+    private Character character;
+    private bool hasRecovery;
 
-
-    public void Initialize(CharacterAnimationManager controller)
+    public void Initialize(CharacterAnimationManager controller, Character character)
     {
         this.controller = controller;
+        this.character = character;
     }
 
-    public override void OnBehaviourPause(Playable playable, FrameData info)
+    public void SetHasRecovery(bool value)
     {
-        if (playable.IsDone())
+        hasRecovery = value;
+    }
+
+    public override void PrepareFrame(Playable playable, FrameData info)
+    {
+
+        // Ensure we have at least one input
+        if (playable.GetInputCount() == 0)
+            return;
+
+        Playable inputPlayable = playable.GetInput(0);
+        if (!inputPlayable.IsValid())
         {
-            controller.OnActionAnimationEnd();
+            if ((character.GetCurrentActionState() == ActionStates.Block || character.GetCurrentActionState() == ActionStates.Hit))
+                controller.OnActionAnimationEnd(hasRecovery);
+            return;
+        }
+
+        // Check if animation has finished playing
+        if (inputPlayable.IsDone())
+        {
+            controller.OnActionAnimationEnd(hasRecovery);
+            playable.DisconnectInput(0);
         }
     }
 }

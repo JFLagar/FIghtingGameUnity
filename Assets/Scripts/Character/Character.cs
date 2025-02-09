@@ -155,7 +155,7 @@ namespace SkillIssue.CharacterSpace
                 }
             }
             //Safety messure against stunlock
-            if (currentHitCoroutine == null && GetCurrentActionState() == ActionStates.Hit)
+            if (currentHitCoroutine == null && GetCurrentActionState() == ActionStates.Hit || GetCurrentActionState() == ActionStates.Block)
             {
                 currentHitCoroutine = StartCoroutine(RecoveryFramesCoroutines(5, false));
             }
@@ -209,6 +209,14 @@ namespace SkillIssue.CharacterSpace
             {
                 animationClips.Add(anim);
             }
+            foreach (var anim in animationsData.recoveryClips)
+            {
+                animationClips.Add (anim);
+            }
+            foreach (var anim in animationsData.stateTransitionClips)
+            {
+                animationClips.Add(anim);
+            }
 
             foreach (var attack in characterData.GetStandingAttacks())
             {
@@ -239,6 +247,11 @@ namespace SkillIssue.CharacterSpace
         public bool GetIsHardKnockedDown()
         {
             return isHardKnockDown;
+        }
+
+        public bool GetIsKnockedDown()
+        {
+            return isKnockedDown;
         }
 
         public Vector2 GetInputDirection()
@@ -383,7 +396,6 @@ namespace SkillIssue.CharacterSpace
         #region Character Commands
         public void PerformAttack(AttackType type)
         {
-            Debug.Log("Attack");
             if (type == AttackType.Grab)
             {
                 attackManager.Attack(characterData.GetGrabData());
@@ -492,7 +504,7 @@ namespace SkillIssue.CharacterSpace
             stateMachine.SetCurrentActionState(ActionStates.Hit);
             if (data.launcher || isKnockedDown)
             {
-                characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[2]);
+                characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[2],true);
                 dir.y = data.push.y;
                 isKnockedDown = true;
                 if (data.hardKnockdown)
@@ -504,11 +516,11 @@ namespace SkillIssue.CharacterSpace
             {
                 if (data.grab)
                 {
-                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[0]);
+                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[0], true);
                 }
                 else
                 {
-                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[(int)GetCurrentState()]);
+                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[(int)GetCurrentState()],true);
 
                 }
                 if (GetCurrentState() == States.Jumping)
@@ -542,7 +554,7 @@ namespace SkillIssue.CharacterSpace
             Vector2 blockDir = new(dir.x, 0);
             stateMachine.SetCurrentActionState(ActionStates.Block);
             if (!blockCheck)
-                characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().blockingClips[(int)GetCurrentState()]);
+                characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().blockingClips[(int)GetCurrentState()], true);
 
             if (currentHitCoroutine != null)
                 StopCoroutine(currentHitCoroutine);
@@ -587,6 +599,23 @@ namespace SkillIssue.CharacterSpace
 
         }
 
+        public void OnAnimationEnd(bool hasRecoveryAnim)
+        {
+            if (!hasRecoveryAnim)
+            {
+                opponent.ResetAttackInfo();
+                if (GetCurrentActionState() == ActionStates.None)
+                    return;
+                stateMachine.SetCurrentActionState(ActionStates.None);
+                isKnockedDown = false;
+                isHardKnockDown = false;
+            }
+            else
+            {
+                characterAnimation.PlayRecoveryAnimation();
+            }
+        }
+
         public void ResetCharacter()
         {
             ResetPos();
@@ -629,8 +658,10 @@ namespace SkillIssue.CharacterSpace
 
                 posY = direction.y;
                 if (posY > 0)
+                {
                     SetIsGrounded(false);
-                SetApplyGravity(false);
+                    SetApplyGravity(false);
+                }
             }
 
             if (currentMovementCoroutine != null)
@@ -703,10 +734,7 @@ namespace SkillIssue.CharacterSpace
         {
             if (!applyGravity)
                 return;
-            if (GetCurrentActionState() == ActionStates.None && isJumping)
-            {
                 characterAnimation.ChangeMovementState(stateMachine.GetCharacter().GetCharacterAnimationsData().jumpingClips.LastOrDefault());
-            }
             if (!GetIsGrounded())
                 SetIsJumping(false);
             landed = false;
@@ -769,22 +797,17 @@ namespace SkillIssue.CharacterSpace
 
         public IEnumerator RecoveryFramesCoroutines(int frames, bool isAttack, bool knockdown = false)
         {
+            characterAnimation.PauseActionPlayabe(frames);
             if (!isAttack)
             {
                 int i = 0;
                 //add histop
                 while (i != frames + 4)
                 {
-                    Debug.Log("Frame: " + i);
-                    if (i == frames / 2 && !knockdown)
-                    {
-                        Debug.Log("Freezing anim");
-                        animator.speed = 0;
-                    }
                     yield return null;
                     i++;
                     if (GetIsGrounded() && knockdown || GetApplyGravity())
-                        characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips.Last());
+                        characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips.Last(), true);
                 }
                 HitRecover();
             }
@@ -793,10 +816,6 @@ namespace SkillIssue.CharacterSpace
                 int i = 0;
                 while (i != frames)
                 {
-                    if (i == frames / 2 && !knockdown)
-                    {
-                        animator.speed = 0;
-                    }
                     yield return null;
                     i++;
                 }
@@ -807,9 +826,7 @@ namespace SkillIssue.CharacterSpace
 
         public void HitRecover()
         {
-            animator.speed = 1;
-            animator.SetTrigger("Recovery");
-            animator.SetBool("PlayingAnim", false);
+            characterAnimation.ResumeActionPlayable();
         }
 
         public void HitboxesEnabled()
@@ -819,7 +836,7 @@ namespace SkillIssue.CharacterSpace
 
         public void HitConnect(AttackData data)
         {
-            animator.speed = 0;
+            characterAnimation.PauseActionPlayabe(4);
             //hitstop
             currentHitCoroutine = StartCoroutine(RecoveryFramesCoroutines(4, true));
             if (opponent.GetCurrentActionState() == ActionStates.Block)

@@ -15,7 +15,7 @@ MonoBehaviour:
   attackState: 0
   attackAttribute: 0
   attackType: 1
-  damage: 75
+  damage: 10
   hitstun: 15
   blockstun: 15
   proratio: 0
@@ -23,6 +23,7 @@ MonoBehaviour:
   movement: {x: 0, y: 0.5}
   movementDuration: 5
   launcher: 1
+  hardKnockdown: 0
   dashCancel: 0
   jumpCancel: 0
   grab: 0

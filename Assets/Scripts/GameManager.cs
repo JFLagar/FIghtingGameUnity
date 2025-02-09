@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     UIBehaviour uIBehaviour;
     bool isGamePaused = false;
+    [SerializeField]
+    float gameSpeed = 1.0f;
     private void Awake()
     {
         QualitySettings.vSyncCount = 0;
@@ -29,6 +31,9 @@ public class GameManager : MonoBehaviour
             uIBehaviour.Initialize();
             uIBehaviour.FadeIn();
         }
+
+        Time.timeScale = gameSpeed;
+
     }
 
     // Update is called once per frame

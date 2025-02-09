@@ -28,3 +28,11 @@ MonoBehaviour:
   - {fileID: 7400000, guid: 76ef63db6ae31f042ab0c7004483814f, type: 2}
   - {fileID: 7400000, guid: e80df8bb8353a434eb2f24611d22e483, type: 2}
   - {fileID: 7400000, guid: a23c64e5f55882343b977db7c6c2c511, type: 2}
+  recoveryClips:
+  - {fileID: 7400000, guid: c559e35a43758934d8a649cd492e26a9, type: 2}
+  - {fileID: 7400000, guid: 05a4ff4f79e45774aa36d7108cc9427b, type: 2}
+  - {fileID: 7400000, guid: 534a3cd0e697fbf418f7ce4d2eff139f, type: 2}
+  - {fileID: 7400000, guid: 89390de84cda20c449323bb7827d75e1, type: 2}
+  stateTransitionClips:
+  - {fileID: 7400000, guid: ee8437e8fea280740b7592d54199e8ac, type: 2}
+  - {fileID: 7400000, guid: acd5566861ecf124a8503ce05a782c63, type: 2}

@@ -18,7 +18,7 @@ namespace SkillIssue
         public Color collisionOpenColor;
         public Color collidingColor;
 
-        public ColliderState state;
+        ColliderState state;
         private IHitboxResponder responder = null;
 
         void FixedUpdate()
@@ -44,7 +44,7 @@ namespace SkillIssue
                     {
                         if (collidedbox?.blockCheck == false)
                             state = ColliderState.Colliding;
-                        responder.BoxCollisionedWith(aCollider);
+                        responder?.BoxCollisionedWith(aCollider);
                         return;
                     }
                 }                               
@@ -77,17 +77,13 @@ namespace SkillIssue
                     break;
             }
         }
-        public void StartCheckingCollision()
+
+        public void SetState(ColliderState state)
         {
-            state = ColliderState.Open;
+            this.state = state;
         }
 
-        public void StopCheckingCollision()
-        {
-            state = ColliderState.Closed;
-        }
-
-        public void setResponder(IHitboxResponder hitboxResponder)
+        public void SetResponder(IHitboxResponder hitboxResponder)
         {
             responder = hitboxResponder;
         }

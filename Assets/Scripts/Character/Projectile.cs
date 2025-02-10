@@ -36,7 +36,7 @@ public class Projectile : MonoBehaviour , IHitboxResponder
         }
         if (ending)
         StartCoroutine(EndingCoroutine());
-        hitbox.setResponder(this);
+        hitbox.SetResponder(this);
     }
 
     // Update is called once per frame
@@ -88,4 +88,5 @@ public class Projectile : MonoBehaviour , IHitboxResponder
         }
         Destroy(this.gameObject, 0f);
     }
+
 }

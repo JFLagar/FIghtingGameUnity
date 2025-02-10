@@ -77,7 +77,6 @@ namespace SkillIssue.CharacterSpace
 
         [SerializeField]
         Transform collisions;
-        private Coroutine currentHitCoroutine;
         private Coroutine currentMovementCoroutine;
         AttackData storedAttack = null;
         List<AttackData> currentCombo = new();
@@ -96,6 +95,11 @@ namespace SkillIssue.CharacterSpace
         int playerId = 0;
         bool isKnockedDown = false;
         bool isHardKnockDown = false;
+        private int hitstop;
+        int frameCounter = 0;
+        int frameCounterTarget = 0;
+
+        AttackData onGoingAttack;
 
         private void Awake()
         {
@@ -118,6 +122,37 @@ namespace SkillIssue.CharacterSpace
         {
             stateMachine.StateMachineUpdate();
             CharacterMove();
+            if (GetCurrentActionState() == ActionStates.None && opponent.GetCurrentActionState() == ActionStates.Hit)
+                Debug.Log("Plus");
+            UpdateFrameCounter();
+        }
+
+        void UpdateFrameCounter()
+        {
+            if (GetCurrentActionState() == ActionStates.None)
+                return;
+            Debug.Log(GetCurrentActionState());
+            frameCounter++;
+            if (GetCurrentActionState() == ActionStates.Attack)
+                ProcessAttackFrame(frameCounter);
+            if (frameCounter == frameCounterTarget)
+            {
+                SetActionState(ActionStates.None);
+                OnAnimationEnd();
+            }
+        }
+
+        void ProcessAttackFrame(int frameCounter)
+        {
+            if (frameCounter == onGoingAttack.startupFrames)
+                OpenHitboxes(onGoingAttack.numberOfHitboxes-1);
+            if (frameCounter == onGoingAttack.startupFrames + onGoingAttack.activeFrames)
+                CloseHitboxes(onGoingAttack.numberOfHitboxes-1);
+        }
+
+        int CalculateAttackDuration(AttackData attackData)
+        {
+            return attackData.startupFrames + attackData.activeFrames + attackData.recoveryFrames;
         }
 
         // Update is called once per frame
@@ -166,6 +201,9 @@ namespace SkillIssue.CharacterSpace
                         break;
                     case ActionStates.Hit:
                         render.color = stateColors[1];
+                        break;
+                    case ActionStates.Attack:
+                        render.color = stateColors[2];
                         break;
                 }
             }
@@ -295,7 +333,7 @@ namespace SkillIssue.CharacterSpace
 
         public float GetJumpPower()
         {
-            return jumpPower;
+            return characterData.GetJumpPower();
         }
 
         public float GetXDiff()
@@ -473,6 +511,14 @@ namespace SkillIssue.CharacterSpace
 
         }
 
+        public void Attack(AttackData attackData)
+        {
+            onGoingAttack = attackData;
+            frameCounter = 0;
+            frameCounterTarget = CalculateAttackDuration(attackData);
+            SetActionState(ActionStates.Attack);
+        }
+
         public void HurtboxOnCollision(AttackData data, bool blockCheck = false)
         {
             if (GetCurrentActionState() == ActionStates.Attack)
@@ -505,7 +551,7 @@ namespace SkillIssue.CharacterSpace
         {
             Vector2 dir = new(data.push.x * -faceDir, 0);
             PlaySound(data.collideSound);
-            stateMachine.SetCurrentActionState(ActionStates.Hit);
+            frameCounter = 0;
             if (data.launcher || isKnockedDown)
             {
                 characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[2]);
@@ -515,16 +561,19 @@ namespace SkillIssue.CharacterSpace
                 {
                     isHardKnockDown = true;
                 }
+                frameCounterTarget = Mathf.FloorToInt(data.hitstun + (GetCharacterAnimationsData().hitClips[2].length * 60));
             }
             else
             {
                 if (data.grab)
                 {
                     characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[0]);
+                    frameCounterTarget = Mathf.FloorToInt(data.hitstun + (GetCharacterAnimationsData().hitClips[0].length * 60));
                 }
                 else
                 {
                     characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[(int)GetCurrentState()]);
+                    frameCounterTarget = Mathf.FloorToInt(data.hitstun + (GetCharacterAnimationsData().hitClips[(int)GetCurrentState()].length * 60));
 
                 }
                 if (GetCurrentState() == States.Jumping)
@@ -540,14 +589,13 @@ namespace SkillIssue.CharacterSpace
        
             currentHealth -= data.damage;
             Managers.Instance.GameManager.UpdateHealth(playerId, GetCurrentHealth());
-
-            StopHitRecover();
-            currentHitCoroutine = StartCoroutine(RecoveryFramesCoroutines(data.hitstun, false, data.launcher));
+            hitstop = data.hitstun / 3;
             if (IsAgainstTheWall() && GetFaceDir() != GetWallDirectionX())
             {
                 ApplyCounterPush(-dir, 3f);
             }
                 ApplyForce(dir, 3f);
+            SetActionState(ActionStates.Hit);
         }
 
         private void PerformBlock(AttackData data, bool blockCheck = false)
@@ -555,12 +603,12 @@ namespace SkillIssue.CharacterSpace
             PlaySound(data.collideSound);
             Vector2 dir = new(data.push.x * -GetFaceDir(), 0);
             Vector2 blockDir = new(dir.x, 0);
-            stateMachine.SetCurrentActionState(ActionStates.Block);
-            StopHitRecover();
+            frameCounter = 0;
+            frameCounterTarget = data.blockstun;
+            SetActionState(ActionStates.Block);
 
             if (!blockCheck)
                 characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().blockingClips[(int)GetCurrentState()]);
-            currentHitCoroutine = StartCoroutine(RecoveryFramesCoroutines(data.blockstun, false));
                 if (IsAgainstTheWall() && GetFaceDir() != GetWallDirectionX())
                 {
                     ApplyCounterPush(-blockDir, 3f);
@@ -585,7 +633,7 @@ namespace SkillIssue.CharacterSpace
                 if (GetInputDirection().x != faceDir)
                 {
                     characterAnimation.ChangeMovementState(GetCharacterAnimationsData().standingClips.LastOrDefault());
-                    speed = characterData.GetMovementSpeed() / 1.3f;
+                    speed = characterData.GetMovementSpeed() / 1.5f;
                 }
 
                 else
@@ -597,16 +645,14 @@ namespace SkillIssue.CharacterSpace
             else
             characterAnimation.ChangeMovementState(GetCharacterAnimationsData().standingClips.FirstOrDefault());
 
-            transform.position += (speed * Time.deltaTime * destination);
+            transform.position += (speed * Time.fixedDeltaTime * destination);
 
         }
 
         public void OnAnimationEnd()
         {
                 opponent.ResetAttackInfo();
-                if (GetCurrentActionState() == ActionStates.None)
-                    return;
-                stateMachine.SetCurrentActionState(ActionStates.None);
+                characterAnimation.OnActionAnimationEnd();
                 isKnockedDown = false;
                 isHardKnockDown = false;
         }
@@ -632,7 +678,6 @@ namespace SkillIssue.CharacterSpace
             m_projectile.hitbox.mask = m_hitbox.mask;
             m_projectile.m_hurtbox.gameObject.layer = m_hurtbox.gameObject.layer;
             m_projectile.parent = this;
-            currentHitCoroutine = StartCoroutine(RecoveryFramesCoroutines(projectile.data.hitstun, true));
             currentProjectile = m_projectile;
         }
 
@@ -666,11 +711,20 @@ namespace SkillIssue.CharacterSpace
 
         public void OpenHitboxes(int number)
         {
-            for (int i = 0; i < number; i++)
+            for (int i = 0; i <= number; i++)
             {
-                attackManager.hitboxes[i].state = ColliderState.Open;
+                attackManager.hitboxes[i].SetState(ColliderState.Open);
             }
         }
+
+        public void CloseHitboxes(int number)
+        {
+            for (int i = 0; i <= number; i++)
+            {
+                attackManager.hitboxes[i].SetState(ColliderState.Closed);
+            }
+        }
+
         #endregion
         #region Movement Physics
 
@@ -681,11 +735,7 @@ namespace SkillIssue.CharacterSpace
 
         public void FixPosition()
         {
-            if (!landed)
-            {
                 transform.position = new Vector3(transform.position.x, 0f, 0);
-                landed = true;
-            }
         }
 
         public void ApplyCounterPush(Vector2 direction, float duration)
@@ -729,21 +779,35 @@ namespace SkillIssue.CharacterSpace
             if (!applyGravity)
                 return;
                 characterAnimation.ChangeMovementState(stateMachine.GetCharacter().GetCharacterAnimationsData().jumpingClips.LastOrDefault());
-            if (!IsGrounded())
+            if (!IsGrounded() && currentMovementCoroutine == null)
                 SetIsJumping(false);
-            landed = false;
-
-            if ((IsAgainstTheWall() && Mathf.Sign(GetWallDirectionX()) == GetWallDirectionX()))
-                transform.Translate((forceSpeed) * Time.deltaTime * new Vector2(0, -1));
+            if (GetCurrentActionState() == ActionStates.None)
+            {
+                forceSpeed = characterData.GetForceSpeed();
+            }
             else
             {
-                transform.Translate((forceSpeed) * Time.deltaTime * new Vector2(GetMovementDirectionX(), -1));
+                forceSpeed = Managers.Instance.GameManager.GetForceSpeed();
+            }
+            if ((IsAgainstTheWall() && Mathf.Sign(GetWallDirectionX()) == GetWallDirectionX()))
+                transform.Translate((forceSpeed) * Time.fixedDeltaTime * new Vector2(0, -1));
+            else
+            {
+                transform.Translate((forceSpeed) * Time.fixedDeltaTime * new Vector2(GetMovementDirectionX(), -1));
             }
 
         }
 
         public IEnumerator ForceAttackCoroutine(Vector2 direction, float duration, bool counterForce)
         {
+            if (GetCurrentActionState() == ActionStates.None)
+            {
+                forceSpeed = characterData.GetForceSpeed();
+            }
+            else
+            {
+                forceSpeed = Managers.Instance.GameManager.GetForceSpeed();
+            }
             float i = 0f;
             while (i != duration)
             {
@@ -753,8 +817,8 @@ namespace SkillIssue.CharacterSpace
                         direction.x = 0;
                 }
                 movementDirectionX = direction.x;
-                transform.Translate(forceSpeed * Time.deltaTime * direction);
-                yield return null;
+                transform.Translate(forceSpeed * Time.fixedDeltaTime * direction);
+                yield return new FrameWait(1);
                 i++;
                 forceLeftOver = duration - i;
             }
@@ -762,6 +826,17 @@ namespace SkillIssue.CharacterSpace
         }
         public IEnumerator ForceCoroutine(Vector2 direction, float duration, bool counterForce)
         {
+
+            if (GetCurrentActionState() == ActionStates.Hit)
+            {
+                //wait for hitstop to end
+                for (int hitstopframe = 0; hitstopframe < hitstop; hitstopframe++)
+                {
+                    yield return new FrameWait(1);
+                }
+
+            }
+
             float i = 0f;
             while (i != duration)
             {
@@ -774,8 +849,8 @@ namespace SkillIssue.CharacterSpace
                 if (direction.x != 0)
                     movementDirectionX = direction.x;
 
-                transform.Translate(forceSpeed * Time.deltaTime * direction);
-                yield return null;
+                transform.Translate(forceSpeed * Time.fixedDeltaTime * direction);
+                yield return new FrameWait(1);
                 i++;
                 forceLeftOver = duration - i;
             }
@@ -787,34 +862,6 @@ namespace SkillIssue.CharacterSpace
         {
             if (collider == GetComponent<Collider2D>())
                 return;
-        }
-
-        public IEnumerator RecoveryFramesCoroutines(int frames, bool isAttack, bool knockdown = false)
-        {
-            characterAnimation.PauseActionPlayabe(frames);
-            if (!isAttack)
-            {
-                int i = 0;
-                //add histop
-                while (i != frames + 4)
-                {
-                    yield return null;
-                    i++;
-                    if (IsGrounded() && knockdown || GetApplyGravity())
-                        characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips.Last());
-                }
-            }
-            else
-            {
-                int i = 0;
-                while (i != frames)
-                {
-                    yield return null;
-                    i++;
-                }
-            }
-            HitRecover();
-
         }
 
         public void HitRecover()
@@ -829,9 +876,9 @@ namespace SkillIssue.CharacterSpace
 
         public void HitConnect(AttackData data)
         {
-            StopHitRecover();
+            Debug.Log("Connected hit in frame: " + frameCounter);
             //hitstop
-            currentHitCoroutine = StartCoroutine(RecoveryFramesCoroutines(4, true));
+            hitstop = data.hitstun / 3;
             if (opponent.GetCurrentActionState() == ActionStates.Block)
             {
                 currentCombo.Clear();
@@ -885,7 +932,7 @@ namespace SkillIssue.CharacterSpace
                 case ("Pushbox"):
                     if (IsAgainstTheWall() && !IsGrounded())
                     {
-                        opponent.transform.Translate(new Vector2(GetFaceDir(),0) * 3 * Time.deltaTime);
+                        opponent.transform.Translate(new Vector2(GetFaceDir(),0) * 3 * Time.fixedDeltaTime);
                     }
                     break;
                 case ("Ground"):
@@ -899,7 +946,7 @@ namespace SkillIssue.CharacterSpace
             if (LayerMask.LayerToName (collision.gameObject.layer) == "Pushbox")
             {
                 if (Managers.Instance.GameManager.GetCornerChar() == opponent)
-                    transform.Translate(new Vector2(-GetFaceDir(), 0) * 2 * Time.deltaTime);
+                    transform.Translate(new Vector2(-GetFaceDir(), 0) * 2 * Time.fixedDeltaTime);
             }
         }
 
@@ -915,11 +962,29 @@ namespace SkillIssue.CharacterSpace
             inputHandler.GetPlayerInput().DeactivateInput();
         }
 
-        public void StopHitRecover()
-        {
-            if (currentHitCoroutine != null)
-                StopCoroutine(currentHitCoroutine);
-        }
     }
 
+}
+
+public class FrameWait : CustomYieldInstruction
+{
+    private int framesToWait;
+    private int currentFrame;
+
+    // Constructor to set the number of frames to wait
+    public FrameWait(int frames)
+    {
+        framesToWait = frames;
+        currentFrame = 0;
+    }
+
+    // Custom logic to check if the wait is over
+    public override bool keepWaiting
+    {
+        get
+        {
+            currentFrame++;
+            return currentFrame < framesToWait;  // Wait until the number of frames has passed
+        }
+    }
 }

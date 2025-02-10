@@ -89,7 +89,12 @@ public class CharacterAnimationManager : MonoBehaviour
         }
     }
 
-    public void PauseActionPlayabe(int frames)
+    public bool IsPlayingActionAnimation()
+    {
+        return actionScriptPlayable.GetPlayState() == PlayState.Playing;
+    }
+
+    public void PauseActionPlayabe()
     {
         if (actionScriptPlayable.GetPlayState() == PlayState.Paused)
             return;
@@ -150,12 +155,21 @@ public class CharacterAnimationManager : MonoBehaviour
         mixerPlayable.SetInputWeight(0, 0.0f); // Disable movement animation
     }
 
+    public void SwitchActionAnimation(AnimationClip actionClip)
+    {
+        if (actionClip == null)
+        {
+            Debug.LogError("No animation assigned");
+            return;
+        }
+        actionScriptPlayable.GetBehaviour().SetNextClip(actionClip);
+    }
+
     // Restore movement after action animation ends
     public void OnActionAnimationEnd()
     {
         mixerPlayable.SetInputWeight(1, 0.0f);
         mixerPlayable.SetInputWeight(0, 1.0f);
-        character.OnAnimationEnd();
     }
 
     void OnDestroy()
@@ -169,6 +183,7 @@ public class ActionPlayableBehaviour : PlayableBehaviour
 {
     private CharacterAnimationManager controller;
     private Character character;
+    private AnimationClip nextClip;
 
     public void Initialize(CharacterAnimationManager controller, Character character)
     {
@@ -176,9 +191,24 @@ public class ActionPlayableBehaviour : PlayableBehaviour
         this.character = character;
     }
 
+    public void SetNextClip(AnimationClip clip)
+    {
+        nextClip = clip;
+    }
+
     public override void OnBehaviourPause(Playable playable, FrameData info)
     {
         base.OnBehaviourPause(playable, info);
+    }
+
+    public override void OnBehaviourPlay(Playable playable, FrameData info)
+    {
+        if (nextClip != null)
+        {
+            controller.PlayActionAnimation(nextClip);
+            nextClip = null;
+        }
+        base.OnBehaviourPlay(playable, info);
     }
 
     public override void PrepareFrame(Playable playable, FrameData info)
@@ -199,8 +229,6 @@ public class ActionPlayableBehaviour : PlayableBehaviour
         // Check if animation has finished playing
         if (inputPlayable.IsDone())
         {
-            controller.OnActionAnimationEnd();
-
             playable.DisconnectInput(0);
         }
     }

@@ -15,9 +15,14 @@ MonoBehaviour:
   attackState: 0
   attackAttribute: 0
   attackType: 0
+  TotalFrames: 14
+  startupFrames: 5
+  activeFrames: 3
+  recoveryFrames: 6
+  numberOfHitboxes: 1
   damage: 5
-  hitstun: 10
-  blockstun: 5
+  hitstun: 11
+  blockstun: 7
   proratio: 2
   push: {x: 0.5, y: 1}
   movement: {x: 0, y: 0}

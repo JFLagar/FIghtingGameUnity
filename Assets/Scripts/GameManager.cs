@@ -1,3 +1,4 @@
+using NUnit;
 using SkillIssue.CharacterSpace;
 using TMPro;
 using UnityEngine;
@@ -17,11 +18,14 @@ public class GameManager : MonoBehaviour
     bool isGamePaused = false;
     [SerializeField]
     float gameSpeed = 1.0f;
+    [SerializeField]
+    float generalForceSpeed = 1.0f;
     private void Awake()
     {
         QualitySettings.vSyncCount = 0;
 
         Application.targetFrameRate = 60;
+        Time.fixedDeltaTime = 1f / 60f;
     }
     // Start is called before the first frame update
     private void Start()
@@ -35,11 +39,10 @@ public class GameManager : MonoBehaviour
         Time.timeScale = gameSpeed;
 
     }
-
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-
+        float fps = 1f / Time.unscaledDeltaTime;
+        frameDisplay.text = "FPS: " + Mathf.RoundToInt(fps);
     }
 
     public void SetCornerChar(Character character)
@@ -50,6 +53,11 @@ public class GameManager : MonoBehaviour
     public Character GetCornerChar()
     {
         return cornerCharacter;
+    }
+
+    public float GetForceSpeed()
+    {
+        return generalForceSpeed;
     }
 
     public void BackToMenu()

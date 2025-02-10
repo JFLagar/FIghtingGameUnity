@@ -1,5 +1,8 @@
+
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using Unity.Collections;
 using UnityEngine;
 namespace SkillIssue
 {
@@ -28,6 +31,15 @@ namespace SkillIssue
         public AttackState attackState;
         public AttackAttribute attackAttribute;
         public AttackType attackType;
+
+        [SerializeField, Unity.Collections.ReadOnly]
+        private int TotalFrames;
+        public int startupFrames;
+        public int activeFrames;
+        public int recoveryFrames;
+        public int numberOfHitboxes;
+
+
         [Space]
         public int damage;
         public int hitstun;
@@ -49,5 +61,10 @@ namespace SkillIssue
         public string message;
         public AttackData followUpAttack;
         public AudioClip collideSound;
+
+        private void OnValidate()
+        {
+            TotalFrames = startupFrames + activeFrames+recoveryFrames;
+        }
     }
 }

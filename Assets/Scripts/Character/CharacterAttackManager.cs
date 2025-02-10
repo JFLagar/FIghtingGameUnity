@@ -36,15 +36,15 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
         }
         foreach (Hitbox hitbox in hitboxes)
         {
-            hitbox.state = ColliderState.Closed;
-            hitbox.setResponder(this);
+            hitbox.SetState(ColliderState.Closed);
+            hitbox.SetResponder(this);
         }
         if (data.animation != null)
         {
             character.GetCharacterAnimation().PlayActionAnimation(data.animation);
         }
         repeatedAttack = 0;
-        character.SetActionState(ActionStates.Attack);
+        character.Attack(data);
         hit = false;
         previousAttack = data;
         currentAttack = null;
@@ -73,22 +73,6 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
             return;
         }
 
-    }
-
-    public void StartCheckingCollisions()
-    {
-        foreach (Hitbox hitbox in hitboxes)
-        {
-            hitbox.StartCheckingCollision();
-        }
-    }
-
-    public void StopCheckingCollisions()
-    {
-        foreach (Hitbox hitbox in hitboxes)
-        {
-            hitbox.StopCheckingCollision();
-        }
     }
 
     private bool IsCancelable(AttackData data)

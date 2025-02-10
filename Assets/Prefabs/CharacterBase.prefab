@@ -293,6 +293,8 @@ MonoBehaviour:
     rgba: 4294967295
   - serializedVersion: 2
     rgba: 4278190335
+  - serializedVersion: 2
+    rgba: 4278241535
   m_hitbox: {fileID: 1957316337498685954}
   m_hurtbox: {fileID: 1957316338671554540}
   origin: {x: 0, y: 0, z: 0}
@@ -328,7 +330,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: d6dd36d50ce2caf4ab9439982ac2e041, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 1
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0

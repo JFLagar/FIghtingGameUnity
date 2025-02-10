@@ -23,6 +23,7 @@ MonoBehaviour:
   movement: {x: 0.3, y: 2}
   movementDuration: 10
   launcher: 1
+  hardKnockdown: 0
   dashCancel: 0
   jumpCancel: 0
   grab: 0

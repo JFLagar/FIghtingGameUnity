@@ -13,6 +13,10 @@ public class CharacterData : ScriptableObject
     float speed = 200;
     [SerializeField]
     int airActions = 1;
+    [SerializeField]
+    float jumpForce = 1;
+    [SerializeField]
+    float forceSpeed = 1;
 
     [Space]
 
@@ -48,5 +52,15 @@ public class CharacterData : ScriptableObject
     public CharacterAnimationsData GetCharacterAnimationsData()
     {
         return characterAnimationsData;
+    }
+
+    public float GetForceSpeed()
+    {
+        return forceSpeed;
+    }
+
+    public float GetJumpPower()
+    {
+        return jumpForce;
     }
 }

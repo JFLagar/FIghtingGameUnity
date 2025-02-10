@@ -211,8 +211,12 @@ namespace SkillIssue.StateMachineSpace
         public override void Update()
         {
 
-            if (!stateMachine.GetCharacter().IsStillInMovement())
+            if (!stateMachine.GetCharacter().IsStillInMovement() && !stateMachine.GetCharacter().GetApplyGravity())
+            {
                 stateMachine.GetCharacter().SetApplyGravity(true);
+                if (stateMachine.GetActionState() == ActionStates.Hit)
+                    stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().hitClips.Last());
+            }
             if (stateMachine.GetCharacter().GetApplyGravity())
                 stateMachine.GetCharacter().ApplyGravity();
             if (stateMachine.GetCharacter().IsGrounded() && !stateMachine.GetCharacter().IsJumping())
@@ -230,14 +234,18 @@ namespace SkillIssue.StateMachineSpace
             stateMachine.GetCharacter().FixPosition();
             if (stateMachine.GetActionState() == ActionStates.Attack)
                 stateMachine.SetCurrentActionState(ActionStates.None);
+            if (stateMachine.GetActionState() == ActionStates.Hit)
+                stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().hitClips.Last());
             if (stateMachine.GetCharacter().GetInputDirection().y != -1)
             {
+                if (stateMachine.GetActionState() == ActionStates.None)
+                    stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().stateTransitionClips.FirstOrDefault());
                 stateMachine.GetStandingState().EnterState();
-                stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().stateTransitionClips.FirstOrDefault());
             }
             else
             {
-                stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
+                if (stateMachine.GetActionState() == ActionStates.None)
+                    stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
                 stateMachine.GetCrouchingState().EnterState();
             }
         }

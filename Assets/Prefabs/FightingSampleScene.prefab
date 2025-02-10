@@ -1437,6 +1437,7 @@ MonoBehaviour:
   cornerCharacter: {fileID: 0}
   uIBehaviour: {fileID: 8062074395404191591}
   gameSpeed: 1
+  generalForceSpeed: 2
 --- !u!114 &8062074394908746624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7349,6 +7350,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 3090942852897552484, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_AnimatePhysics
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8533311230308707116, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
       propertyPath: m_UseFullKinematicContacts
       value: 1
@@ -7434,6 +7439,10 @@ PrefabInstance:
       propertyPath: opponent
       value: 
       objectReference: {fileID: 8416089865207465151}
+    - target: {fileID: 3090942852897552484, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_AnimatePhysics
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8533311230308707116, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
       propertyPath: m_UseFullKinematicContacts
       value: 1

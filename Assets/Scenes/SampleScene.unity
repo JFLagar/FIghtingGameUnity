@@ -135,10 +135,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6786582696845384656, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 3aee14c5dc86ab14e9bb08f9929ac3f0, type: 2}
     - target: {fileID: 8062074394740758010, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

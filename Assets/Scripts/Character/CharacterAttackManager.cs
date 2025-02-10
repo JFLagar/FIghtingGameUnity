@@ -2,6 +2,7 @@ using SkillIssue;
 using SkillIssue.CharacterSpace;
 using SkillIssue.StateMachineSpace;
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 
 public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
@@ -16,8 +17,6 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
     int sameLimit;
     [SerializeField]
     public Coroutine landCheck = null;
-    int waitFrame = 0;
-    int landFrame = 0;
 
     public void Initialize(Character controllingChar)
     {
@@ -26,7 +25,6 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
 
     public void Attack(AttackData data, bool followup = false)
     {
- 
         //check if can cancel
         if (character.GetCurrentActionState() == ActionStates.Attack && !followup)
         {
@@ -43,7 +41,6 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
         }
         if (data.animation != null)
         {
-            character.GetAnimator().speed = 1;
             character.GetCharacterAnimation().PlayActionAnimation(data.animation);
         }
         repeatedAttack = 0;

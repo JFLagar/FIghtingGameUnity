@@ -122,7 +122,7 @@ namespace SkillIssue.StateMachineSpace
         private float yvalue;
         public override void Update()
         {
-            if (!stateMachine.GetCharacter().GetIsGrounded())
+            if (!stateMachine.GetCharacter().IsGrounded())
             {
                 yvalue = 1;
                 ExitState();
@@ -148,10 +148,7 @@ namespace SkillIssue.StateMachineSpace
         public override void EnterState()
         {
             stateMachine.GetCharacter().SetApplyGravity(false);
-            if (stateMachine.GetActionState() != ActionStates.Hit)
-            {
-                stateMachine.GetCharacter().GetCharacterAnimation().ChangeMovementState(stateMachine.GetCharacter().GetCharacterAnimationsData().standingClips.FirstOrDefault());
-            }
+            stateMachine.GetCharacter().GetCharacterAnimation().ChangeMovementState(stateMachine.GetCharacter().GetCharacterAnimationsData().standingClips.FirstOrDefault());
             stateMachine.SetCurrentState(this, States.Standing);
 
         }
@@ -165,7 +162,8 @@ namespace SkillIssue.StateMachineSpace
             }
             else
             {
-                stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
+                if (stateMachine.GetActionState() == ActionStates.None)
+                    stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
                 stateMachine.GetCrouchingState().EnterState();
             }
         }
@@ -176,7 +174,7 @@ namespace SkillIssue.StateMachineSpace
         public override void Update()
         {
             action = stateMachine.GetActionState() == ActionStates.None;
-            if (!stateMachine.GetCharacter().GetIsGrounded())
+            if (!stateMachine.GetCharacter().IsGrounded())
                 ExitState();
             if (!action)
             {
@@ -190,14 +188,14 @@ namespace SkillIssue.StateMachineSpace
         public override void EnterState()
         {
             stateMachine.SetCurrentState(this, States.Crouching);
-            if (stateMachine.GetActionState() == ActionStates.None)
-                stateMachine.GetCharacter().GetCharacterAnimation().ChangeMovementState(stateMachine.GetCharacter().GetCharacterAnimationsData().crouchingClip);
+            stateMachine.GetCharacter().GetCharacterAnimation().ChangeMovementState(stateMachine.GetCharacter().GetCharacterAnimationsData().crouchingClip);
         }
         public override void ExitState()
         {
-            if (stateMachine.GetCharacter().GetIsGrounded())
+            if (stateMachine.GetCharacter().IsGrounded())
             {
-                stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().stateTransitionClips.FirstOrDefault());
+                if (stateMachine.GetActionState() == ActionStates.None)
+                    stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().stateTransitionClips.FirstOrDefault());
                 stateMachine.GetStandingState().EnterState();
             }
             else
@@ -217,7 +215,7 @@ namespace SkillIssue.StateMachineSpace
                 stateMachine.GetCharacter().SetApplyGravity(true);
             if (stateMachine.GetCharacter().GetApplyGravity())
                 stateMachine.GetCharacter().ApplyGravity();
-            if (stateMachine.GetCharacter().GetIsGrounded() && !stateMachine.GetCharacter().GetIsJumping())
+            if (stateMachine.GetCharacter().IsGrounded() && !stateMachine.GetCharacter().IsJumping())
                 ExitState();
 
         }
@@ -225,8 +223,7 @@ namespace SkillIssue.StateMachineSpace
         {
             stateMachine.GetCharacter().SetIsGrounded(false);
             stateMachine.SetCurrentState(this, States.Jumping);
-            if (stateMachine.GetActionState() == ActionStates.None || stateMachine.GetActionState() == ActionStates.Landing)
-                stateMachine.GetCharacter().GetCharacterAnimation().ChangeMovementState(stateMachine.GetCharacter().GetCharacterAnimationsData().jumpingClips.FirstOrDefault());
+            stateMachine.GetCharacter().GetCharacterAnimation().ChangeMovementState(stateMachine.GetCharacter().GetCharacterAnimationsData().jumpingClips.FirstOrDefault());
         }
         public override void ExitState()
         {

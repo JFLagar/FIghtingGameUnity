@@ -1436,6 +1436,7 @@ MonoBehaviour:
   frameDisplay: {fileID: 8062074396662264429}
   cornerCharacter: {fileID: 0}
   uIBehaviour: {fileID: 8062074395404191591}
+  gameSpeed: 1
 --- !u!114 &8062074394908746624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2398,8 +2399,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 41ad35458ed10084180d568438a80ae9, type: 2}
-  m_sharedMaterial: {fileID: 2455667098708228453, guid: 41ad35458ed10084180d568438a80ae9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2878,8 +2879,8 @@ MonoBehaviour:
   - {fileID: -1644896733, guid: a9d4f7e88c740254faaf3dca479b8e15, type: 3}
   - {fileID: -1618128137, guid: a9d4f7e88c740254faaf3dca479b8e15, type: 3}
   comboDisplays:
-  - {fileID: 8062074396429057848}
   - {fileID: 8062074396794056678}
+  - {fileID: 8062074396429057848}
   timerText: {fileID: 8062074395243055921}
   timer: 99
   debug: {fileID: 8062074394946529026}
@@ -3788,8 +3789,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 41ad35458ed10084180d568438a80ae9, type: 2}
-  m_sharedMaterial: {fileID: 2455667098708228453, guid: 41ad35458ed10084180d568438a80ae9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4873,7 +4874,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -2.5, z: 0}
-  m_LocalScale: {x: 20, y: 4, z: 1}
+  m_LocalScale: {x: 20, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8062074396396900501}
@@ -4977,7 +4978,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1.1}
+  m_Size: {x: 1, y: 1.01}
   m_EdgeRadius: 0
 --- !u!1 &8062074396243478749
 GameObject:
@@ -5793,8 +5794,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1 HIT
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 41ad35458ed10084180d568438a80ae9, type: 2}
-  m_sharedMaterial: {fileID: 2455667098708228453, guid: 41ad35458ed10084180d568438a80ae9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5818,7 +5819,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42.65
+  m_fontSize: 44.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6364,8 +6365,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 41ad35458ed10084180d568438a80ae9, type: 2}
-  m_sharedMaterial: {fileID: 2455667098708228453, guid: 41ad35458ed10084180d568438a80ae9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6743,8 +6744,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1 HIT
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 41ad35458ed10084180d568438a80ae9, type: 2}
-  m_sharedMaterial: {fileID: 2455667098708228453, guid: 41ad35458ed10084180d568438a80ae9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6768,7 +6769,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42.65
+  m_fontSize: 44.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

@@ -85,7 +85,6 @@ MonoBehaviour:
   inactiveColor: {r: 0, g: 0, b: 0, a: 0}
   collisionOpenColor: {r: 1, g: 0, b: 0, a: 1}
   collidingColor: {r: 1, g: 0.7463412, b: 0, a: 1}
-  state: 0
 --- !u!1 &1957316336879209683
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,7 +464,6 @@ MonoBehaviour:
   inactiveColor: {r: 0, g: 0, b: 0, a: 0}
   collisionOpenColor: {r: 1, g: 0, b: 0, a: 1}
   collidingColor: {r: 1, g: 0.7463412, b: 0, a: 1}
-  state: 0
 --- !u!1 &1957316337416723199
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,7 +516,6 @@ MonoBehaviour:
   inactiveColor: {r: 0, g: 0, b: 0, a: 0}
   collisionOpenColor: {r: 1, g: 0, b: 0, a: 1}
   collidingColor: {r: 1, g: 0.7463412, b: 0, a: 1}
-  state: 0
 --- !u!1 &1957316337498685956
 GameObject:
   m_ObjectHideFlags: 0
@@ -571,7 +568,6 @@ MonoBehaviour:
   inactiveColor: {r: 0, g: 0, b: 0, a: 0}
   collisionOpenColor: {r: 1, g: 0, b: 0, a: 1}
   collidingColor: {r: 1, g: 0.7463412, b: 0, a: 1}
-  state: 0
 --- !u!1 &1957316337619632480
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,8 +921,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bedcc02a8b9e99545a25ac8f8318b85a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: {x: 0, y: 0}
-  directionInputs: []
+  motionInputs:
+  - Input: 0
+    motions:
+    - {x: 0, y: -1}
+    - {x: -1, y: -1}
+    - {x: -1, y: 0}
+  - Input: 1
+    motions:
+    - {x: 0, y: -1}
+    - {x: 1, y: -1}
+    - {x: 1, y: 0}
+  - Input: 2
+    motions:
+    - {x: 0, y: -1}
+    - {x: 0, y: -1}
+  - Input: 3
+    motions:
+    - {x: -1, y: 0}
+    - {x: -1, y: 0}
+  - Input: 4
+    motions:
+    - {x: 1, y: 0}
+    - {x: 1, y: 0}
+  - Input: 5
+    motions:
+    - {x: 1, y: 0}
+    - {x: 0, y: -1}
+    - {x: 1, y: -1}
+  - Input: 6
+    motions:
+    - {x: -1, y: 0}
+    - {x: 0, y: -1}
+    - {x: -1, y: -1}
+  - Input: 7
+    motions:
+    - {x: 0, y: -1}
+    - {x: 0, y: 1}
+  currentInputDirection: {x: 0, y: 0}
+  bufferTime: 0.5
+  motionBufferTime: 3
 --- !u!114 &1957316337707236123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1208,7 +1242,6 @@ MonoBehaviour:
   inactiveColor: {r: 0, g: 0, b: 0, a: 0}
   collisionOpenColor: {r: 1, g: 0, b: 0, a: 1}
   collidingColor: {r: 1, g: 0.7463412, b: 0, a: 1}
-  state: 0
 --- !u!1 &1957316338143150644
 GameObject:
   m_ObjectHideFlags: 0
@@ -1399,7 +1432,6 @@ MonoBehaviour:
   inactiveColor: {r: 0, g: 0, b: 0, a: 0}
   collisionOpenColor: {r: 1, g: 0, b: 0, a: 1}
   collidingColor: {r: 1, g: 0.7463412, b: 0, a: 1}
-  state: 0
 --- !u!1 &1957316338597541695
 GameObject:
   m_ObjectHideFlags: 0

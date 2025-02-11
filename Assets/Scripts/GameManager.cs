@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     float gameSpeed = 1.0f;
     [SerializeField]
     float generalForceSpeed = 1.0f;
+    public int RecordingFrame {  get; private set; }
+    public bool IsRecording {  get; private set; }
     private void Awake()
     {
         QualitySettings.vSyncCount = 0;
@@ -43,6 +45,17 @@ public class GameManager : MonoBehaviour
     {
         float fps = 1f / Time.unscaledDeltaTime;
         frameDisplay.text = "FPS: " + Mathf.RoundToInt(fps);
+        if (IsRecording)
+        {
+            RecordingFrame++;
+            Debug.Log("Recording");
+        }
+    }
+
+    public void ToggleRecording()
+    {
+        IsRecording = !IsRecording;
+        RecordingFrame = 0;
     }
 
     public void SetCornerChar(Character character)

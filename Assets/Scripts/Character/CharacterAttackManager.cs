@@ -25,29 +25,31 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
 
     public void Attack(AttackData data, bool followup = false)
     {
+        Debug.Log(data.name);
+
         //check if can cancel
-        if (character.GetCurrentActionState() == ActionStates.Attack && !followup)
-        {
-            if (!IsCancelable(data))
-            {
-                character.SetStoredAttack(data);
-                return;
-            }
-        }
-        foreach (Hitbox hitbox in hitboxes)
-        {
-            hitbox.SetState(ColliderState.Closed);
-            hitbox.SetResponder(this);
-        }
-        if (data.animation != null)
-        {
-            character.GetCharacterAnimation().PlayActionAnimation(data.animation);
-        }
-        repeatedAttack = 0;
-        character.Attack(data);
-        hit = false;
-        previousAttack = data;
-        currentAttack = null;
+        //if (character.GetCurrentActionState() == ActionStates.Attack && !followup)
+        //{
+        //    if (!IsCancelable(data))
+        //    {
+        //        character.SetStoredAttack(data);
+        //        return;
+        //    }
+        //}
+        //foreach (Hitbox hitbox in hitboxes)
+        //{
+        //    hitbox.SetState(ColliderState.Closed);
+        //    hitbox.SetResponder(this);
+        //}
+        //if (data.animation != null)
+        //{
+        //    character.GetCharacterAnimation().PlayActionAnimation(data.animation);
+        //}
+        //repeatedAttack = 0;
+        //character.Attack(data);
+        //hit = false;
+        //previousAttack = data;
+        //currentAttack = null;
 
         //Attack
     }

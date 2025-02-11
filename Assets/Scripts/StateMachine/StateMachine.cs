@@ -138,7 +138,7 @@ namespace SkillIssue.StateMachineSpace
                 {
                     yvalue = stateMachine.GetCharacter().GetInputDirection().y;
                     if (yvalue > 0)
-                        stateMachine.GetCharacter().ApplyForce(new Vector2(stateMachine.GetCharacter().GetInputDirection().x, 1f), stateMachine.GetCharacter().GetJumpPower());
+                        stateMachine.GetCharacter().PerformJump();
                     //jump
                     ExitState();
                 }

@@ -339,6 +339,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8062074396122945704, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
+      propertyPath: motionBufferTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8062074396197003702, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
       propertyPath: inactiveColor.a
       value: 0

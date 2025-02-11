@@ -51,11 +51,11 @@ namespace SkillIssue.Inputs
         public string name = "Light";
         public override void InputPressed()
         {
-            InputHandler.AddAttackInput(AttackInputs.Light, true);
+            InputHandler.AddAttackInput(InputType.Light, true);
         }
         public override void InputReleased()
         {
-            InputHandler.AddAttackInput(AttackInputs.Light, false);
+            InputHandler.AddAttackInput(InputType.Light, false);
         }
         public override void InputHold(float time)
         {
@@ -66,11 +66,11 @@ namespace SkillIssue.Inputs
         public string name = "Heavy";
         public override void InputPressed()
         {
-            InputHandler.AddAttackInput(AttackInputs.Heavy, true);
+            InputHandler.AddAttackInput(InputType.Heavy, true);
         }
         public override void InputReleased()
         {
-            InputHandler.AddAttackInput(AttackInputs.Heavy, false);
+            InputHandler.AddAttackInput(InputType.Heavy, false);
         }
         public override void InputHold(float time)
         {
@@ -81,11 +81,11 @@ namespace SkillIssue.Inputs
         public string name = "Special";
         public override void InputPressed()
         {
-            InputHandler.AddAttackInput(AttackInputs.Special, true);
+            InputHandler.AddAttackInput(InputType.Special, true);
         }
         public override void InputReleased()
         {
-            InputHandler.AddAttackInput(AttackInputs.Special, false);
+            InputHandler.AddAttackInput(InputType.Special, false);
         }
         public override void InputHold(float time)
         {

@@ -99,6 +99,8 @@ namespace SkillIssue.CharacterSpace
         int frameCounter = 0;
         int frameCounterTarget = 0;
 
+        private MotionInputs storedMotionInput = MotionInputs.NONE;
+
         AttackData onGoingAttack;
 
         private void Awake()
@@ -120,6 +122,7 @@ namespace SkillIssue.CharacterSpace
 
         void FixedUpdate()
         {
+            inputHandler.Update();
             stateMachine.StateMachineUpdate();
             CharacterMove();
             if (GetCurrentActionState() == ActionStates.None && opponent.GetCurrentActionState() == ActionStates.Hit)
@@ -211,6 +214,22 @@ namespace SkillIssue.CharacterSpace
         }
 
         #region Getters and Setters
+        public void SetMotionInput(MotionInputs motion)
+        {
+            if (storedMotionInput == motion)
+                return;
+            switch (motion)
+            {
+                case MotionInputs.ff:
+                case MotionInputs.bb:
+                    PerformDash();
+                    break;
+                default:
+                    storedMotionInput = motion;
+                    break;
+            }
+        }
+
         public CharacterAnimationsData GetCharacterAnimationsData()
         {
             return characterData.GetCharacterAnimationsData();
@@ -436,8 +455,35 @@ namespace SkillIssue.CharacterSpace
 
         #endregion
         #region Character Commands
+        void PerformDash()
+        {
+            if (GetInputDirection().x == faceDir)
+                Debug.Log("FowardDash");
+            else
+                Debug.Log("BackDash");
+        }
+
+        public void PerformJump()
+        {
+            // SuperJump
+            if (storedMotionInput == MotionInputs.du)
+            {
+                Debug.Log("SuperJump");
+                ApplyForce(new Vector2(GetInputDirection().x, 1f), GetJumpPower()*2);
+                storedMotionInput = MotionInputs.NONE;
+                return;
+            }
+            ApplyForce(new Vector2(GetInputDirection().x, 1f), GetJumpPower());
+        }
+
         public void PerformAttack(AttackType type)
         {
+            if (storedMotionInput != MotionInputs.NONE)
+            {
+                Debug.Log("Performing Special with: " + storedMotionInput);
+                return;
+            }
+
             if (type == AttackType.Grab)
             {
                 attackManager.Attack(characterData.GetGrabData());
@@ -604,7 +650,7 @@ namespace SkillIssue.CharacterSpace
             Vector2 dir = new(data.push.x * -GetFaceDir(), 0);
             Vector2 blockDir = new(dir.x, 0);
             frameCounter = 0;
-            frameCounterTarget = data.blockstun;
+            frameCounterTarget = data.blockstun + Mathf.FloorToInt(GetCharacterAnimationsData().blockingClips[(int)GetCurrentState()].length * 60);
             SetActionState(ActionStates.Block);
 
             if (!blockCheck)
@@ -962,6 +1008,22 @@ namespace SkillIssue.CharacterSpace
             inputHandler.GetPlayerInput().DeactivateInput();
         }
 
+        [Button]
+        public void ToggleRecording()
+        {
+            if (!Managers.Instance.GameManager.IsRecording)
+            inputHandler.InputRecordingList.Clear();
+            Managers.Instance.GameManager.ToggleRecording();
+            Debug.Log(Managers.Instance.GameManager.IsRecording);
+        }
+
+        [Button]
+        public void StartPlayback()
+        {
+            if (Managers.Instance.GameManager.IsRecording)
+                Managers.Instance.GameManager.ToggleRecording();
+            inputHandler.StartPlayback();
+        }
     }
 
 }

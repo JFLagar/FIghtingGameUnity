@@ -10,14 +10,14 @@ public class InputMapping : MonoBehaviour
 {
 
     private PlayerInput playerInput;
-    private NewControls inputActions;
+    private InputActions inputActions;
     public TextMeshProUGUI text;
 
     // Start is called before the first frame update
     void Start()
     {
         playerInput = GetComponent<PlayerInput>();
-        inputActions = new NewControls();
+        inputActions = new InputActions();
         //INFO
         /// 330+ Controller Inputs; each controller has 20 buttons
         /// 350+ Controller 1

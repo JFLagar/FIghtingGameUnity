@@ -4,15 +4,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Unity.Collections;
 using UnityEngine;
+using SkillIssue.Inputs;
+using Unity.VisualScripting;
 namespace SkillIssue
 {
-    public enum AttackType
-    {
-        Light,
-        Heavy,
-        Special,
-        Grab
-    }
     public enum AttackAttribute
     {
         Mid,
@@ -30,7 +25,7 @@ namespace SkillIssue
     {
         public AttackState attackState;
         public AttackAttribute attackAttribute;
-        public AttackType attackType;
+        public InputType inputType;
 
         [SerializeField, Unity.Collections.ReadOnly]
         private int TotalFrames;
@@ -41,10 +36,9 @@ namespace SkillIssue
 
 
         [Space]
+        public int attackLevel = 0; //0 to 5
+        public int extraHitstun;
         public int damage;
-        public int hitstun;
-        public int blockstun;
-        public int proratio;
         public Vector2 push;
         public Vector2 movement;
         public float movementDuration;
@@ -55,7 +49,7 @@ namespace SkillIssue
         public bool jumpCancel;
         public bool grab;
         public bool canceleableSelf;
-        public AttackType[] cancelableTypes;
+        public InputType[] cancelableTypes;
         [Space]
         public AnimationClip animation;
         public string message;

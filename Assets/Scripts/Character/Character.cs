@@ -103,6 +103,17 @@ namespace SkillIssue.CharacterSpace
 
         AttackData onGoingAttack;
 
+        [Space]
+
+        [SerializeField]
+        private int superMeter;
+        [SerializeField]
+        private bool hasBurst;
+        [SerializeField]
+        private int burstCD = 100;
+        [SerializeField]
+        private int currentBurstCD = 0;
+
         private void Awake()
         {
             characterAnimation.Initialize(this, animator);
@@ -117,7 +128,10 @@ namespace SkillIssue.CharacterSpace
             origin = transform.position;
             currentHealth = GetMaxHealth();
             if (isPlayer2)
+                    {
                 playerId = 1;
+                DisableInput();
+            }
         }
 
         void FixedUpdate()
@@ -125,6 +139,13 @@ namespace SkillIssue.CharacterSpace
             inputHandler.Update();
             stateMachine.StateMachineUpdate();
             CharacterMove();
+            if (!hasBurst)
+                currentBurstCD++;
+            if (currentBurstCD == burstCD)
+            {
+                hasBurst = true;
+                currentBurstCD = 0;
+            }
             if (GetCurrentActionState() == ActionStates.None && opponent.GetCurrentActionState() == ActionStates.Hit)
                 Debug.Log("Plus");
             UpdateFrameCounter();
@@ -476,15 +497,114 @@ namespace SkillIssue.CharacterSpace
             ApplyForce(new Vector2(GetInputDirection().x, 1f), GetJumpPower());
         }
 
-        public void PerformAttack(AttackType type)
+        public void PerformInput(InputType type)
         {
-            if (storedMotionInput != MotionInputs.NONE)
+            switch (GetCurrentActionState())
             {
-                Debug.Log("Performing Special with: " + storedMotionInput);
+                case ActionStates.None:
+                    PerformNeutralAction(type);
+                    break;
+                case ActionStates.Attack:
+                    PerformOffensiveAction(type);
+                    //Rapid and OD
+                    break;
+                case ActionStates.Block:
+                    //GC and OD
+                    break;
+                case ActionStates.Hit:
+                    //OD
+                    break;
+            }
+        }
+
+        private void PerformNeutralAction(InputType type)
+        {
+            if (superMeter > 0 && type == InputType.MH && GetInputDirection().x != faceDir)
+            {
+                Debug.Log("Barrier");
+                superMeter --;
                 return;
             }
 
-            if (type == AttackType.Grab)
+            if (superMeter >= 50 && type == InputType.MH)
+            {
+                Debug.Log("GuardBreak");
+                superMeter -= 50;
+                return;
+            }
+
+            if (hasBurst && type == InputType.LMHU)
+            {
+                Debug.Log("Burst");
+                hasBurst = false;
+                return;
+            }
+            PerformAttack(type);
+        }
+
+        private void PerformOffensiveAction(InputType type)
+        {
+            //Check for special actions like rapid or OD activation
+            if (superMeter >= 50 && type == InputType.LMH)
+            {
+                Debug.Log("Rapid");
+                superMeter -= 50;
+                return;
+            }
+            if (superMeter>= 50 && type == InputType.MH)
+            {
+                Debug.Log("GuardBreak");
+                superMeter -= 50;
+                return;
+            }
+
+            if (hasBurst && type == InputType.LMHU)
+            {
+                Debug.Log("Burst");
+                hasBurst = false;
+                return;
+            }
+            PerformAttack(type);
+        }
+
+        private void PerformDefensiveAction(InputType type)
+        {
+            //Check for guardbreak or burst activation
+            if (superMeter > 0 && type == InputType.MH)
+            {
+                Debug.Log("Barrier");
+                superMeter --;
+                return;
+            }
+
+            if (superMeter >= 50 && type == InputType.MH && GetInputDirection().x == faceDir)
+            {
+                Debug.Log("AttackBreak");
+                superMeter -= 50;
+                return;
+            }
+
+            if (hasBurst && type == InputType.LMHU)
+            {
+                Debug.Log("Burst");
+                hasBurst = false;
+                return;
+            }
+
+        }
+
+        public void PerformAttack(InputType type)
+        {
+            if (storedMotionInput != MotionInputs.NONE)
+            {
+                Debug.Log("Performing Special with: " + storedMotionInput + "" + type);
+                return;
+            }
+
+            Debug.Log(type + name);
+            return;
+
+            if (type == InputType.LU)
             {
                 attackManager.Attack(characterData.GetGrabData());
                 return;
@@ -607,19 +727,19 @@ namespace SkillIssue.CharacterSpace
                 {
                     isHardKnockDown = true;
                 }
-                frameCounterTarget = Mathf.FloorToInt(data.hitstun + (GetCharacterAnimationsData().hitClips[2].length * 60));
+                frameCounterTarget = Mathf.FloorToInt(CalculateHitstun(data) + (GetCharacterAnimationsData().hitClips[2].length * 60));
             }
             else
             {
                 if (data.grab)
                 {
                     characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[0]);
-                    frameCounterTarget = Mathf.FloorToInt(data.hitstun + (GetCharacterAnimationsData().hitClips[0].length * 60));
+                    frameCounterTarget = Mathf.FloorToInt(CalculateHitstun(data) + (GetCharacterAnimationsData().hitClips[0].length * 60));
                 }
                 else
                 {
                     characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[(int)GetCurrentState()]);
-                    frameCounterTarget = Mathf.FloorToInt(data.hitstun + (GetCharacterAnimationsData().hitClips[(int)GetCurrentState()].length * 60));
+                    frameCounterTarget = Mathf.FloorToInt(CalculateHitstun(data) + (GetCharacterAnimationsData().hitClips[(int)GetCurrentState()].length * 60));
 
                 }
                 if (GetCurrentState() == States.Jumping)
@@ -635,7 +755,6 @@ namespace SkillIssue.CharacterSpace
        
             currentHealth -= data.damage;
             Managers.Instance.GameManager.UpdateHealth(playerId, GetCurrentHealth());
-            hitstop = data.hitstun / 3;
             if (IsAgainstTheWall() && GetFaceDir() != GetWallDirectionX())
             {
                 ApplyCounterPush(-dir, 3f);
@@ -650,7 +769,7 @@ namespace SkillIssue.CharacterSpace
             Vector2 dir = new(data.push.x * -GetFaceDir(), 0);
             Vector2 blockDir = new(dir.x, 0);
             frameCounter = 0;
-            frameCounterTarget = data.blockstun + Mathf.FloorToInt(GetCharacterAnimationsData().blockingClips[(int)GetCurrentState()].length * 60);
+            frameCounterTarget = CalculateHitstun(data) - 1 + Mathf.FloorToInt(GetCharacterAnimationsData().blockingClips[(int)GetCurrentState()].length * 60);
             SetActionState(ActionStates.Block);
 
             if (!blockCheck)
@@ -693,6 +812,12 @@ namespace SkillIssue.CharacterSpace
 
             transform.position += (speed * Time.fixedDeltaTime * destination);
 
+        }
+
+        private int CalculateHitstun(AttackData data)
+        {
+            int result = (data.attackLevel * 2) + 10 + 8; //attacklevel + hitstunbase(10) + attacklevel + hitstop(8)
+            return result;
         }
 
         public void OnAnimationEnd()
@@ -924,7 +1049,7 @@ namespace SkillIssue.CharacterSpace
         {
             Debug.Log("Connected hit in frame: " + frameCounter);
             //hitstop
-            hitstop = data.hitstun / 3;
+            hitstop = data.attackLevel + 8;
             if (opponent.GetCurrentActionState() == ActionStates.Block)
             {
                 currentCombo.Clear();
@@ -999,13 +1124,13 @@ namespace SkillIssue.CharacterSpace
         [Button]
         public void EnableInput()
         {
-            inputHandler.GetPlayerInput().ActivateInput();
+            //inputHandler.GetPlayerInput().ActivateInput();
         }
 
         [Button]
         public void DisableInput()
         {
-            inputHandler.GetPlayerInput().DeactivateInput();
+            //inputHandler.GetPlayerInput().DeactivateInput();
         }
 
         [Button]

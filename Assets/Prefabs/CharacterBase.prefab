@@ -236,6 +236,7 @@ GameObject:
   - component: {fileID: 3090942852897552484}
   - component: {fileID: 8533311230308707116}
   - component: {fileID: 7579994237871668770}
+  - component: {fileID: 2270643599882510591}
   m_Layer: 3
   m_Name: CharacterBase
   m_TagString: Untagged
@@ -298,6 +299,10 @@ MonoBehaviour:
   m_hurtbox: {fileID: 1957316338671554540}
   origin: {x: 0, y: 0, z: 0}
   currentProjectile: {fileID: 0}
+  superMeter: 0
+  hasBurst: 0
+  burstCD: 100
+  currentBurstCD: 0
 --- !u!114 &7515142340994233024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,6 +417,72 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.3, y: 0.8}
   m_EdgeRadius: 0
+--- !u!114 &2270643599882510591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1957316337047856784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 9d50d0cc57b72104fa184b1b07e4c256, type: 3}
+  m_NotificationBehavior: 3
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 320f572c-7f54-4a2d-9df6-610375e7e7e0
+    m_ActionName: 'Controls/LightButton[/Keyboard/j,/Keyboard/numpad7]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8a5bf901-382a-4958-84e4-3ea1653c7763
+    m_ActionName: 'Controls/MediumButton[/Keyboard/k,/Keyboard/numpad8]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b1763730-329b-41c2-a331-67bad2b3fe3f
+    m_ActionName: 'Controls/HeavyButton[/Keyboard/l,/Keyboard/numpad9]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a563a2f3-1627-45f6-8fa0-0e867136d438
+    m_ActionName: 'Controls/UniqueButton[/Keyboard/u,/Keyboard/numpad4]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: acf6b45b-e620-455e-a9d9-cd75e620d869
+    m_ActionName: Controls/Start
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e1482dc6-e27d-456d-91d4-085f1274f1af
+    m_ActionName: Controls/Select
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6112ffad-c88a-4caa-8110-3e33f9447961
+    m_ActionName: 'Controls/MovementX[/Keyboard/a,/Keyboard/d,/Keyboard/leftArrow,/Keyboard/rightArrow]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 256fa048-3bc8-4732-911d-998f4de08a45
+    m_ActionName: 'Controls/MovementY[/Keyboard/s,/Keyboard/w,/Keyboard/downArrow,/Keyboard/upArrow]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 40e9f42c-c80f-4e0f-bc3d-52f8b3007663
+    m_ActionName: Menu/New action
+  m_NeverAutoSwitchControlSchemes: 1
+  m_DefaultControlScheme: Player1
+  m_DefaultActionMap: Controls
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &1957316337217944717
 GameObject:
   m_ObjectHideFlags: 0
@@ -886,7 +957,6 @@ GameObject:
   - component: {fileID: 1957316337707236124}
   - component: {fileID: 1957316337707236123}
   - component: {fileID: 2000404767772000394}
-  - component: {fileID: 8678990244053129701}
   m_Layer: 0
   m_Name: Logic
   m_TagString: Untagged
@@ -958,9 +1028,13 @@ MonoBehaviour:
     motions:
     - {x: 0, y: -1}
     - {x: 0, y: 1}
+  direction: {x: 0, y: 0}
   currentInputDirection: {x: 0, y: 0}
+  InputQueueList: []
+  InputRecordingList: []
   bufferTime: 0.5
   motionBufferTime: 3
+  simultaneousThreshold: 0.1
 --- !u!114 &1957316337707236123
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -999,197 +1073,6 @@ MonoBehaviour:
   generatedNumber: 0
   isMoving: 0
   numberOfFrames: 0
---- !u!114 &8678990244053129701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1957316337707236127}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 33d6d7cd2168da449a3271042cf78f72, type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1957316337707236127}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1957316337707236124}
-        m_TargetAssemblyTypeName: SkillIssue.Inputs.InputHandler, Assembly-CSharp
-        m_MethodName: LightButton
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 12689ecd-5c38-466c-9c60-a31231a94d2d
-    m_ActionName: 'Controls/LightButton[/Keyboard/numpad7,/6B Controller/trigger,/Performance
-      Designed Products Rock Candy Wired Controller for Nintendo Switch/trigger,/Keyboard/j]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1957316337707236124}
-        m_TargetAssemblyTypeName: SkillIssue.Inputs.InputHandler, Assembly-CSharp
-        m_MethodName: HeavyButton
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 7cca8d26-1583-4690-ac46-651eb4210b19
-    m_ActionName: 'Controls/HeavyButton[/6B Controller/trigger,/Performance Designed
-      Products Rock Candy Wired Controller for Nintendo Switch/trigger,/Keyboard/numpad8,/Keyboard/k]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1957316337707236124}
-        m_TargetAssemblyTypeName: SkillIssue.Inputs.InputHandler, Assembly-CSharp
-        m_MethodName: SpecialButton
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: d776459f-c10d-4c51-abc7-9f6066a3e4e6
-    m_ActionName: 'Controls/SpecialButton[/Keyboard/numpad9,/6B Controller/trigger,/Performance
-      Designed Products Rock Candy Wired Controller for Nintendo Switch/trigger,/Keyboard/l]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1957316337707236124}
-        m_TargetAssemblyTypeName: SkillIssue.Inputs.InputHandler, Assembly-CSharp
-        m_MethodName: MovementXDown
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 224a8d6e-22a5-4660-a10c-0842415987d6
-    m_ActionName: 'Controls/MovementX[/6B Controller/stick/left,/Performance Designed
-      Products Rock Candy Wired Controller for Nintendo Switch/stick/left,/6B Controller/stick/right,/Performance
-      Designed Products Rock Candy Wired Controller for Nintendo Switch/stick/right,/Keyboard/leftArrow,/Keyboard/rightArrow,/Keyboard/a,/Keyboard/d]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1957316337707236124}
-        m_TargetAssemblyTypeName: SkillIssue.Inputs.InputHandler, Assembly-CSharp
-        m_MethodName: MovementYDown
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: d6aaa5b0-7d1d-4ac3-bf3b-6d210c58a356
-    m_ActionName: 'Controls/MovementY[/6B Controller/stick/down,/Performance Designed
-      Products Rock Candy Wired Controller for Nintendo Switch/stick/down,/6B Controller/stick/up,/Performance
-      Designed Products Rock Candy Wired Controller for Nintendo Switch/stick/up,/Keyboard/downArrow,/Keyboard/upArrow,/Keyboard/w,/Keyboard/s]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1957316337707236124}
-        m_TargetAssemblyTypeName: SkillIssue.Inputs.InputHandler, Assembly-CSharp
-        m_MethodName: StartButton
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 8f240a9d-334a-493c-84ce-471afb2dd76d
-    m_ActionName: 'Controls/Start[/6B Controller/trigger,/Performance Designed Products
-      Rock Candy Wired Controller for Nintendo Switch/trigger,/Keyboard/numpadMinus,/Keyboard/enter]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1957316337707236124}
-        m_TargetAssemblyTypeName: SkillIssue.Inputs.InputHandler, Assembly-CSharp
-        m_MethodName: SelectButton
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 2a2c2a9d-62f7-480e-a308-2c2018eb4173
-    m_ActionName: 'Controls/Select[/6B Controller/trigger,/Performance Designed Products
-      Rock Candy Wired Controller for Nintendo Switch/trigger,/Keyboard/numpadPlus,/Keyboard/space,/Keyboard/backspace]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: a6df121a-41d2-482c-962b-3bc39d0b830d
-    m_ActionName: Menu/Navigate
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: e9ccdea8-f811-4a9f-a7d1-76a82eb3d03c
-    m_ActionName: Menu/Confirm
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 83b7e624-03b0-4dc5-96c3-c025e27c414f
-    m_ActionName: Menu/Cancel
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1957316337707236124}
-        m_TargetAssemblyTypeName: SkillIssue.Inputs.InputHandler, Assembly-CSharp
-        m_MethodName: GrabButton
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 51ee52b8-2f4f-4135-a23a-e06286355508
-    m_ActionName: 'Controls/GrabButton[/Keyboard/j,/Keyboard/k,/Keyboard/numpad7,/Keyboard/numpad8]'
-  m_NeverAutoSwitchControlSchemes: 1
-  m_DefaultControlScheme: Keyboard1
-  m_DefaultActionMap: Controls
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!1 &1957316338129269601
 GameObject:
   m_ObjectHideFlags: 0

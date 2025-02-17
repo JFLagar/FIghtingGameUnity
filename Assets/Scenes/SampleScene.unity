@@ -119,6 +119,55 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &1365580239 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8062074394908746627, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
+  m_PrefabInstance: {fileID: 1721999571}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1365580246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365580239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NotificationBehavior: 3
+  m_MaxPlayerCount: 2
+  m_AllowJoining: 1
+  m_JoinBehavior: 2
+  m_PlayerJoinedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_PlayerLeftEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_JoinAction:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Join
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 2910af9c-aa36-49bb-b2a4-2921cc607719
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  m_PlayerPrefab: {fileID: 0}
+  m_SplitScreen: 0
+  m_MaintainAspectRatioInSplitScreen: 0
+  m_FixedNumberOfSplitScreens: -1
+  m_SplitScreenRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1001 &1721999571
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -127,21 +176,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4973946336992238196, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
-      propertyPath: m_UpdateMode
-      value: 0
+    - target: {fileID: 917048225627355729, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
+      propertyPath: m_NotificationBehavior
+      value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 4973946336992238196, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
-      propertyPath: m_AnimatePhysics
-      value: 1
+    - target: {fileID: 1698923955204963317, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
+      propertyPath: m_DefaultControlScheme
+      value: Player2
       objectReference: {fileID: 0}
-    - target: {fileID: 6786582696845384656, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
-      propertyPath: m_UpdateMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6786582696845384656, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
-      propertyPath: m_AnimatePhysics
-      value: 1
+    - target: {fileID: 1698923955204963317, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
+      propertyPath: m_NotificationBehavior
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8062074394740758010, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
       propertyPath: m_AnchorMax.x
@@ -339,26 +384,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8062074396122945704, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
-      propertyPath: motionBufferTime
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8062074396197003702, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
-      propertyPath: inactiveColor.a
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8062074396197003702, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
-      propertyPath: inactiveColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8062074396197003702, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
-      propertyPath: inactiveColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8062074396197003702, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
-      propertyPath: inactiveColor.r
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8062074396406098090, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -442,7 +467,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8062074394908746627, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1365580246}
   m_SourcePrefab: {fileID: 100100000, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

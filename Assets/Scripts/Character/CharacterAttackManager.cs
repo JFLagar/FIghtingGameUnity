@@ -1,5 +1,6 @@
 using SkillIssue;
 using SkillIssue.CharacterSpace;
+using SkillIssue.Inputs;
 using SkillIssue.StateMachineSpace;
 using System.Collections;
 using UnityEditor;
@@ -28,28 +29,28 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
         Debug.Log(data.name);
 
         //check if can cancel
-        //if (character.GetCurrentActionState() == ActionStates.Attack && !followup)
-        //{
-        //    if (!IsCancelable(data))
-        //    {
-        //        character.SetStoredAttack(data);
-        //        return;
-        //    }
-        //}
-        //foreach (Hitbox hitbox in hitboxes)
-        //{
-        //    hitbox.SetState(ColliderState.Closed);
-        //    hitbox.SetResponder(this);
-        //}
-        //if (data.animation != null)
-        //{
-        //    character.GetCharacterAnimation().PlayActionAnimation(data.animation);
-        //}
-        //repeatedAttack = 0;
-        //character.Attack(data);
-        //hit = false;
-        //previousAttack = data;
-        //currentAttack = null;
+        if (character.GetCurrentActionState() == ActionStates.Attack && !followup)
+        {
+            if (!IsCancelable(data))
+            {
+                character.SetStoredAttack(data);
+                return;
+            }
+        }
+        foreach (Hitbox hitbox in hitboxes)
+        {
+            hitbox.SetState(ColliderState.Closed);
+            hitbox.SetResponder(this);
+        }
+        if (data.animation != null)
+        {
+            character.GetCharacterAnimation().PlayActionAnimation(data.animation);
+        }
+        repeatedAttack = 0;
+        character.Attack(data);
+        hit = false;
+        previousAttack = data;
+        currentAttack = null;
 
         //Attack
     }
@@ -71,7 +72,7 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
         }
         if (character.GetStoredAttack() != null)
         {
-            character.PerformAttack(character.GetStoredAttack().attackType);
+            character.PerformAttack(character.GetStoredAttack().inputType);
             return;
         }
 
@@ -79,11 +80,6 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
 
     private bool IsCancelable(AttackData data)
     {
-        if (character.GetCurrentActionState() == ActionStates.Landing)
-        {
-            character.SetStoredAttack(null);
-            return true;
-        }
         if (!hit)
         {
             return false;
@@ -132,9 +128,9 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
 
         }
 
-        foreach (AttackType canceltype in previousAttack.cancelableTypes)
+        foreach (InputType canceltype in previousAttack.cancelableTypes)
         {
-            if (data.attackType == canceltype)
+            if (data.inputType == canceltype)
             {
                 return true;
             }

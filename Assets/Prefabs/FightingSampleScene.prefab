@@ -7346,9 +7346,17 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 2270643599882510591, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_DefaultControlScheme
+      value: Player2
+      objectReference: {fileID: 0}
     - target: {fileID: 2778317043147861549, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090942852897552484, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_UpdateMode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3090942852897552484, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
       propertyPath: m_AnimatePhysics
@@ -7360,7 +7368,83 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
       propertyPath: m_DefaultControlScheme
-      value: Keyboard2
+      value: Player2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_ActionId
+      value: 320f572c-7f54-4a2d-9df6-610375e7e7e0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_ActionId
+      value: 8a5bf901-382a-4958-84e4-3ea1653c7763
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_ActionId
+      value: b1763730-329b-41c2-a331-67bad2b3fe3f
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionId
+      value: a563a2f3-1627-45f6-8fa0-0e867136d438
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_ActionId
+      value: acf6b45b-e620-455e-a9d9-cd75e620d869
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_ActionId
+      value: e1482dc6-e27d-456d-91d4-085f1274f1af
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_ActionId
+      value: 6112ffad-c88a-4caa-8110-3e33f9447961
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_ActionId
+      value: 256fa048-3bc8-4732-911d-998f4de08a45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[8].m_ActionId
+      value: 40e9f42c-c80f-4e0f-bc3d-52f8b3007663
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_ActionName
+      value: 'Controls/LightButton[/Keyboard/j,/Keyboard/numpad7]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_ActionName
+      value: 'Controls/MediumButton[/Keyboard/k,/Keyboard/numpad8]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_ActionName
+      value: 'Controls/HeavyButton[/Keyboard/l,/Keyboard/numpad9]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionName
+      value: 'Controls/UniqueButton[/Keyboard/u,/Keyboard/numpad4]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_ActionName
+      value: Controls/Start
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_ActionName
+      value: Controls/Select
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_ActionName
+      value: 'Controls/MovementX[/Keyboard/a,/Keyboard/d,/Keyboard/leftArrow,/Keyboard/rightArrow]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_ActionName
+      value: 'Controls/MovementY[/Keyboard/s,/Keyboard/w,/Keyboard/downArrow,/Keyboard/upArrow]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[8].m_ActionName
+      value: Menu/New action
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7439,6 +7523,14 @@ PrefabInstance:
       propertyPath: opponent
       value: 
       objectReference: {fileID: 8416089865207465151}
+    - target: {fileID: 1957316337707236124, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: motionBufferTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3090942852897552484, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_UpdateMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3090942852897552484, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
       propertyPath: m_AnimatePhysics
       value: 1
@@ -7446,6 +7538,82 @@ PrefabInstance:
     - target: {fileID: 8533311230308707116, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
       propertyPath: m_UseFullKinematicContacts
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_ActionId
+      value: 320f572c-7f54-4a2d-9df6-610375e7e7e0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_ActionId
+      value: 8a5bf901-382a-4958-84e4-3ea1653c7763
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_ActionId
+      value: b1763730-329b-41c2-a331-67bad2b3fe3f
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionId
+      value: a563a2f3-1627-45f6-8fa0-0e867136d438
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_ActionId
+      value: acf6b45b-e620-455e-a9d9-cd75e620d869
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_ActionId
+      value: e1482dc6-e27d-456d-91d4-085f1274f1af
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_ActionId
+      value: 6112ffad-c88a-4caa-8110-3e33f9447961
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_ActionId
+      value: 256fa048-3bc8-4732-911d-998f4de08a45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[8].m_ActionId
+      value: 40e9f42c-c80f-4e0f-bc3d-52f8b3007663
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_ActionName
+      value: 'Controls/LightButton[/Keyboard/j,/Keyboard/numpad7]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_ActionName
+      value: 'Controls/MediumButton[/Keyboard/k,/Keyboard/numpad8]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_ActionName
+      value: 'Controls/HeavyButton[/Keyboard/l,/Keyboard/numpad9]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_ActionName
+      value: 'Controls/UniqueButton[/Keyboard/u,/Keyboard/numpad4]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[4].m_ActionName
+      value: Controls/Start
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[5].m_ActionName
+      value: Controls/Select
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_ActionName
+      value: 'Controls/MovementX[/Keyboard/a,/Keyboard/d,/Keyboard/leftArrow,/Keyboard/rightArrow]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_ActionName
+      value: 'Controls/MovementY[/Keyboard/s,/Keyboard/w,/Keyboard/downArrow,/Keyboard/upArrow]'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8678990244053129701, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_ActionEvents.Array.data[8].m_ActionName
+      value: Menu/New action
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

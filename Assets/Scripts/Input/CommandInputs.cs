@@ -9,33 +9,6 @@ namespace SkillIssue.Inputs
         public InputHandler InputHandler {  get; private set; }
         bool pressed = false;
         private float buttonHeld;
-        public void Update()
-        {
-            if (pressed)
-            {
-                buttonHeld += (0.1f * Time.deltaTime);
-            }
-            if (buttonHeld >= 0.1)
-            {
-                InputHold(buttonHeld);
-            }
-
-        }
-        public void Activate(bool isUp)
-        {
-            if (pressed == false)
-            {
-                InputPressed();
-                pressed = true;
-            }
-            if (isUp == true)
-            {
-                buttonHeld = 0;
-                pressed = false;
-                InputReleased();
-            }
-
-        }
         public void SetInputHandler(InputHandler inputHandler)
         {
             InputHandler = inputHandler;
@@ -43,7 +16,6 @@ namespace SkillIssue.Inputs
 
         public virtual void InputPressed() { }
         public virtual void InputReleased() { }
-        public virtual void InputHold(float time) { }
     }
 
     public class LightInput : CommandInputs
@@ -57,8 +29,17 @@ namespace SkillIssue.Inputs
         {
             InputHandler.AddAttackInput(InputType.Light, false);
         }
-        public override void InputHold(float time)
+    }
+    public class MediumInput : CommandInputs
+    {
+        public string name = "Medium";
+        public override void InputPressed()
         {
+            InputHandler.AddAttackInput(InputType.Medium, true);
+        }
+        public override void InputReleased()
+        {
+            InputHandler.AddAttackInput(InputType.Medium, false);
         }
     }
     public class HeavyInput : CommandInputs
@@ -72,24 +53,17 @@ namespace SkillIssue.Inputs
         {
             InputHandler.AddAttackInput(InputType.Heavy, false);
         }
-        public override void InputHold(float time)
-        {
-        }
     }
-    public class SpecialInput : CommandInputs
+    public class UniqueInput : CommandInputs
     {
-        public string name = "Special";
+        public string name = "Unique";
         public override void InputPressed()
         {
-            InputHandler.AddAttackInput(InputType.Special, true);
+            InputHandler.AddAttackInput(InputType.Unique, true);
         }
         public override void InputReleased()
         {
-            InputHandler.AddAttackInput(InputType.Special, false);
-        }
-        public override void InputHold(float time)
-        {
-
+            InputHandler.AddAttackInput(InputType.Unique, false);
         }
     }
     public class MovementInput : CommandInputs
@@ -99,10 +73,6 @@ namespace SkillIssue.Inputs
 
         }
         public override void InputReleased()
-        {
-
-        }
-        public override void InputHold(float time)
         {
 
         }

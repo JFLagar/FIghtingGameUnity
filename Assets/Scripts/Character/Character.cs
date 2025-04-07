@@ -16,8 +16,7 @@ namespace SkillIssue.CharacterSpace
     }
     public class Character : MonoBehaviour, IPhysics, IHitboxResponder
     {
-        [SerializeField]
-        bool isPlayer2;
+        public bool isPlayer2;
         [SerializeField]
         Character opponent;
         float faceDir;
@@ -128,9 +127,8 @@ namespace SkillIssue.CharacterSpace
             origin = transform.position;
             currentHealth = GetMaxHealth();
             if (isPlayer2)
-                    {
+            {
                 playerId = 1;
-                DisableInput();
             }
         }
 
@@ -146,8 +144,6 @@ namespace SkillIssue.CharacterSpace
                 hasBurst = true;
                 currentBurstCD = 0;
             }
-            if (GetCurrentActionState() == ActionStates.None && opponent.GetCurrentActionState() == ActionStates.Hit)
-                Debug.Log("Plus");
             UpdateFrameCounter();
         }
 
@@ -155,7 +151,6 @@ namespace SkillIssue.CharacterSpace
         {
             if (GetCurrentActionState() == ActionStates.None)
                 return;
-            Debug.Log(GetCurrentActionState());
             frameCounter++;
             if (GetCurrentActionState() == ActionStates.Attack)
                 ProcessAttackFrame(frameCounter);
@@ -601,15 +596,11 @@ namespace SkillIssue.CharacterSpace
                 return;
             }
 
-            Debug.Log(type + name);
-            return;
-
             if (type == InputType.LU)
             {
                 attackManager.Attack(characterData.GetGrabData());
                 return;
             }
-            //here comes the canceable attack
             if ((int)type != 2)
             {
                 switch (GetCurrentState())
@@ -752,9 +743,11 @@ namespace SkillIssue.CharacterSpace
                     }
                 }
             }
-       
-            currentHealth -= data.damage;
-            Managers.Instance.GameManager.UpdateHealth(playerId, GetCurrentHealth());
+            if (currentHealth > 0)
+            {
+                currentHealth -= data.damage;
+                Managers.Instance.GameManager.UpdateHealth(playerId, GetCurrentHealth());
+            }
             if (IsAgainstTheWall() && GetFaceDir() != GetWallDirectionX())
             {
                 ApplyCounterPush(-dir, 3f);
@@ -1047,7 +1040,6 @@ namespace SkillIssue.CharacterSpace
 
         public void HitConnect(AttackData data)
         {
-            Debug.Log("Connected hit in frame: " + frameCounter);
             //hitstop
             hitstop = data.attackLevel + 8;
             if (opponent.GetCurrentActionState() == ActionStates.Block)
@@ -1124,13 +1116,13 @@ namespace SkillIssue.CharacterSpace
         [Button]
         public void EnableInput()
         {
-            //inputHandler.GetPlayerInput().ActivateInput();
+            inputHandler.GetPlayerInput().ActivateInput();
         }
 
         [Button]
         public void DisableInput()
         {
-            //inputHandler.GetPlayerInput().DeactivateInput();
+            inputHandler.GetPlayerInput().DeactivateInput();
         }
 
         [Button]

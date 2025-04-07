@@ -134,7 +134,6 @@ public class CharacterAnimationManager : MonoBehaviour
             Debug.LogError("No animation assigned");
             return;
         }
-        actionScriptPlayable.Play();
 
         // Ensure the action clip is cached
         CacheActionPlayable(actionClip);
@@ -153,6 +152,7 @@ public class CharacterAnimationManager : MonoBehaviour
         actionPlayable.SetDuration(actionClip.length);
         mixerPlayable.SetInputWeight(1, 1.0f); // Enable action animation
         mixerPlayable.SetInputWeight(0, 0.0f); // Disable movement animation
+        actionScriptPlayable.Play();
     }
 
     public void SwitchActionAnimation(AnimationClip actionClip)

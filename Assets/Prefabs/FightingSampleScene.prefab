@@ -7348,7 +7348,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2270643599882510591, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
       propertyPath: m_DefaultControlScheme
-      value: Player2
+      value: Keyboard
       objectReference: {fileID: 0}
     - target: {fileID: 2778317043147861549, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
       propertyPath: m_Layer
@@ -7526,6 +7526,10 @@ PrefabInstance:
     - target: {fileID: 1957316337707236124, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
       propertyPath: motionBufferTime
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2270643599882510591, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: m_DefaultControlScheme
+      value: Keyboard
       objectReference: {fileID: 0}
     - target: {fileID: 3090942852897552484, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
       propertyPath: m_UpdateMode

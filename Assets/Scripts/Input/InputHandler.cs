@@ -135,8 +135,9 @@ namespace SkillIssue.Inputs
 
         void MapActions(bool player)
         {
-            playerInput.SwitchCurrentControlScheme(playerInput.name, Keyboard.current);
-            playerInput.onActionTriggered += OnActionTriggered;
+            //Remove when local player support is added
+            if (character.isPlayer2)
+                return;
             inputActions = new InputActions();
 
             inputActions.Controls.Enable();
@@ -152,7 +153,7 @@ namespace SkillIssue.Inputs
 
         private void OnActionTriggered(InputAction.CallbackContext context)
         {
-            Debug.Log(context.action.name + playerInput.name);
+            //Debug.Log(context.action.name + playerInput.name);
         }
 
         public Vector2 GetDirection()
@@ -376,8 +377,6 @@ namespace SkillIssue.Inputs
 
         public void MovementXDown(InputAction.CallbackContext context)
         {
-            if (context.control.device != playerInput.devices[0])
-                return;
                 float value = context.ReadValue<float>();
             switch (value)
             {
@@ -402,8 +401,6 @@ namespace SkillIssue.Inputs
 
         public void MovementYDown(InputAction.CallbackContext context)
         {
-            if (context.control.device != playerInput.devices[0])
-                return;
             float value = context.ReadValue<float>();
             switch (value)
             {
@@ -427,8 +424,6 @@ namespace SkillIssue.Inputs
 
         public void LightButton(InputAction.CallbackContext context)
         {
-            if (context.control.device != playerInput.devices[0])
-                return;
             if (context.performed)
                 lightButton.InputPressed();
             if (context.canceled)
@@ -445,8 +440,6 @@ namespace SkillIssue.Inputs
 
         public void MediumButton(InputAction.CallbackContext context)
         {
-            if (context.control.device != playerInput.devices[0])
-                return;
             if (context.performed)
                 mediumButton.InputPressed();
             if (context.canceled)
@@ -463,8 +456,6 @@ namespace SkillIssue.Inputs
 
         public void HeavyButton(InputAction.CallbackContext context)
         {
-            if (context.control.device != playerInput.devices[0])
-                return;
             if (context.performed)
                 heavyButton.InputPressed();
             if (context.canceled)
@@ -473,7 +464,6 @@ namespace SkillIssue.Inputs
 
         public void HeavyFunction(bool isPressed = true)
         {
-
             if (isPressed)
                 heavyButton.InputPressed();
             else
@@ -482,8 +472,6 @@ namespace SkillIssue.Inputs
 
         public void UniqueButton(InputAction.CallbackContext context)
         {
-            if (context.control.device != playerInput.devices[0])
-                return;
             if (context.performed)
                 uniqueButton.InputPressed();
             if (context.canceled)
@@ -536,6 +524,8 @@ namespace SkillIssue.Inputs
         private void OnDestroy()
         {
             playerInput.onActionTriggered -= OnActionTriggered;
+            if (character.isPlayer2)
+                return;
             inputActions.Controls.LightButton.performed -= LightButton;
             inputActions.Controls.MediumButton.performed -= MediumButton;
             inputActions.Controls.HeavyButton.performed -= HeavyButton;

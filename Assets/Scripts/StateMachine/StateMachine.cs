@@ -227,7 +227,6 @@ namespace SkillIssue.StateMachineSpace
         {
             stateMachine.GetCharacter().SetIsGrounded(false);
             stateMachine.SetCurrentState(this, States.Jumping);
-            stateMachine.GetCharacter().GetCharacterAnimation().ChangeMovementState(stateMachine.GetCharacter().GetCharacterAnimationsData().jumpingClips.FirstOrDefault());
         }
         public override void ExitState()
         {

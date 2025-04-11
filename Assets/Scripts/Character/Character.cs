@@ -64,7 +64,7 @@ namespace SkillIssue.CharacterSpace
         [Space]
 
         [SerializeField]
-        float jumpPower;
+        int jumpStartup = 4;
         [SerializeField]
         float forceSpeed;
         float forceLeftOver;
@@ -481,15 +481,7 @@ namespace SkillIssue.CharacterSpace
 
         public void PerformJump()
         {
-            // SuperJump
-            if (storedMotionInput == MotionInputs.du)
-            {
-                Debug.Log("SuperJump");
-                ApplyForce(new Vector2(GetInputDirection().x, 1f), GetJumpPower()*2);
-                storedMotionInput = MotionInputs.NONE;
-                return;
-            }
-            ApplyForce(new Vector2(GetInputDirection().x, 1f), GetJumpPower());
+            currentMovementCoroutine = StartCoroutine(JumpCoroutine());
         }
 
         public void PerformInput(InputType type)
@@ -1019,6 +1011,23 @@ namespace SkillIssue.CharacterSpace
                 forceLeftOver = duration - i;
             }
             currentMovementCoroutine = null;
+        }
+
+        public IEnumerator JumpCoroutine()
+        {
+            stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
+            float jumpPower = GetJumpPower();
+            // SuperJump
+            if (storedMotionInput == MotionInputs.du)
+            {
+                Debug.Log("SuperJump");
+                jumpPower = jumpPower * 2;
+            }
+
+            yield return new FrameWait(jumpStartup);
+            stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().jumpingClips.FirstOrDefault());
+            ApplyForce(new Vector2(GetInputDirection().x, 1f), jumpPower);
+            storedMotionInput = MotionInputs.NONE;
         }
         #endregion
 

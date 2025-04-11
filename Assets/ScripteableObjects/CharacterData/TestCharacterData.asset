@@ -16,7 +16,7 @@ MonoBehaviour:
   maxHP: 100
   speed: 1
   airActions: 1
-  jumpForce: 10
+  jumpForce: 20
   forceSpeed: 3
   element: 0
   elementData: {fileID: 11400000, guid: 8c3e8b6413a289040b06a41c10344afb, type: 2}

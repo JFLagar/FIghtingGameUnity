@@ -7,7 +7,7 @@ AnimationClip:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BWalk
-  serializedVersion: 6
+  serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
   m_UseHighQualityCurve: 1
@@ -25,8 +25,8 @@ AnimationClip:
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
         weightedMode: 0
-        inWeight: {x: 0, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0, y: 0.33333334, z: 0.33333334}
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -41,8 +41,8 @@ AnimationClip:
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
         weightedMode: 0
-        inWeight: {x: 0, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0, y: 0.33333334, z: 0.33333334}
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -57,20 +57,21 @@ AnimationClip:
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
         weightedMode: 0
-        inWeight: {x: 0, y: 0.33333334, z: 0.33333334}
-        outWeight: {x: 0, y: 0.33333334, z: 0.33333334}
+        inWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
+        outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     path: Collisions/Hurtboxes/Hurtbox (2)
   m_ScaleCurves: []
   m_FloatCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 1e-45
         inSlope: Infinity
         outSlope: Infinity
         tangentMode: 103
@@ -84,12 +85,14 @@ AnimationClip:
     path: Collisions/Hurtboxes/Hurtbox
     classID: 114
     script: {fileID: 11500000, guid: 8097f255315b8124d8456c871d98095a, type: 3}
-  - curve:
+    flags: 16
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 1e-45
         inSlope: Infinity
         outSlope: Infinity
         tangentMode: 103
@@ -103,12 +106,14 @@ AnimationClip:
     path: Collisions/Hurtboxes/Hurtbox (1)
     classID: 114
     script: {fileID: 11500000, guid: 8097f255315b8124d8456c871d98095a, type: 3}
-  - curve:
+    flags: 16
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 1e-45
         inSlope: Infinity
         outSlope: Infinity
         tangentMode: 103
@@ -122,30 +127,33 @@ AnimationClip:
     path: Collisions/Hurtboxes/Hurtbox (2)
     classID: 114
     script: {fileID: 11500000, guid: 8097f255315b8124d8456c871d98095a, type: 3}
+    flags: 16
   m_PPtrCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
     - time: 0
-      value: {fileID: -74018488, guid: 8dcbb99cb97c6384a80a170130b86f16, type: 3}
+      value: {fileID: 349226761, guid: 729fbbe5b02afd5469e26d15ba673a21, type: 3}
     - time: 0.13333334
-      value: {fileID: -1033384730, guid: 8dcbb99cb97c6384a80a170130b86f16, type: 3}
+      value: {fileID: 699536800, guid: 729fbbe5b02afd5469e26d15ba673a21, type: 3}
     - time: 0.26666668
-      value: {fileID: 1668151760, guid: 8dcbb99cb97c6384a80a170130b86f16, type: 3}
+      value: {fileID: -520887393, guid: 729fbbe5b02afd5469e26d15ba673a21, type: 3}
     - time: 0.4
-      value: {fileID: 1999314498, guid: 8dcbb99cb97c6384a80a170130b86f16, type: 3}
+      value: {fileID: 1724442174, guid: 729fbbe5b02afd5469e26d15ba673a21, type: 3}
     - time: 0.53333336
-      value: {fileID: 5187455, guid: 8dcbb99cb97c6384a80a170130b86f16, type: 3}
+      value: {fileID: 1148986976, guid: 729fbbe5b02afd5469e26d15ba673a21, type: 3}
     - time: 0.6666667
-      value: {fileID: -350845276, guid: 8dcbb99cb97c6384a80a170130b86f16, type: 3}
+      value: {fileID: -1309196245, guid: 729fbbe5b02afd5469e26d15ba673a21, type: 3}
     - time: 0.8
-      value: {fileID: 352865406, guid: 8dcbb99cb97c6384a80a170130b86f16, type: 3}
+      value: {fileID: 1975991474, guid: 729fbbe5b02afd5469e26d15ba673a21, type: 3}
     - time: 0.93333334
-      value: {fileID: -58968961, guid: 8dcbb99cb97c6384a80a170130b86f16, type: 3}
+      value: {fileID: -569273840, guid: 729fbbe5b02afd5469e26d15ba673a21, type: 3}
     - time: 1.0333333
-      value: {fileID: -58968961, guid: 8dcbb99cb97c6384a80a170130b86f16, type: 3}
+      value: {fileID: -569273840, guid: 729fbbe5b02afd5469e26d15ba673a21, type: 3}
     attribute: m_Sprite
     path: Visuals
     classID: 212
     script: {fileID: 0}
+    flags: 2
   m_SampleRate: 30
   m_WrapMode: 0
   m_Bounds:
@@ -154,33 +162,14 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 644388727
-      attribute: 2744374011
-      script: {fileID: 11500000, guid: 8097f255315b8124d8456c871d98095a, type: 3}
-      typeID: 114
-      customType: 0
-      isPPtrCurve: 0
-    - serializedVersion: 2
-      path: 1113238182
-      attribute: 2744374011
-      script: {fileID: 11500000, guid: 8097f255315b8124d8456c871d98095a, type: 3}
-      typeID: 114
-      customType: 0
-      isPPtrCurve: 0
-    - serializedVersion: 2
-      path: 1769470309
-      attribute: 2744374011
-      script: {fileID: 11500000, guid: 8097f255315b8124d8456c871d98095a, type: 3}
-      typeID: 114
-      customType: 0
-      isPPtrCurve: 0
-    - serializedVersion: 2
       path: 1498428138
       attribute: 0
       script: {fileID: 0}
       typeID: 212
       customType: 23
       isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
     - serializedVersion: 2
       path: 644388727
       attribute: 1
@@ -188,6 +177,8 @@ AnimationClip:
       typeID: 4
       customType: 0
       isPPtrCurve: 0
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
     - serializedVersion: 2
       path: 1113238182
       attribute: 1
@@ -195,6 +186,8 @@ AnimationClip:
       typeID: 4
       customType: 0
       isPPtrCurve: 0
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
     - serializedVersion: 2
       path: 1769470309
       attribute: 1
@@ -202,16 +195,45 @@ AnimationClip:
       typeID: 4
       customType: 0
       isPPtrCurve: 0
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
+    - serializedVersion: 2
+      path: 644388727
+      attribute: 2744374011
+      script: {fileID: 11500000, guid: 8097f255315b8124d8456c871d98095a, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 0
+      isIntCurve: 1
+      isSerializeReferenceCurve: 0
+    - serializedVersion: 2
+      path: 1113238182
+      attribute: 2744374011
+      script: {fileID: 11500000, guid: 8097f255315b8124d8456c871d98095a, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 0
+      isIntCurve: 1
+      isSerializeReferenceCurve: 0
+    - serializedVersion: 2
+      path: 1769470309
+      attribute: 2744374011
+      script: {fileID: 11500000, guid: 8097f255315b8124d8456c871d98095a, type: 3}
+      typeID: 114
+      customType: 0
+      isPPtrCurve: 0
+      isIntCurve: 1
+      isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -74018488, guid: 8dcbb99cb97c6384a80a170130b86f16, type: 3}
-    - {fileID: -1033384730, guid: 8dcbb99cb97c6384a80a170130b86f16, type: 3}
-    - {fileID: 1668151760, guid: 8dcbb99cb97c6384a80a170130b86f16, type: 3}
-    - {fileID: 1999314498, guid: 8dcbb99cb97c6384a80a170130b86f16, type: 3}
-    - {fileID: 5187455, guid: 8dcbb99cb97c6384a80a170130b86f16, type: 3}
-    - {fileID: -350845276, guid: 8dcbb99cb97c6384a80a170130b86f16, type: 3}
-    - {fileID: 352865406, guid: 8dcbb99cb97c6384a80a170130b86f16, type: 3}
-    - {fileID: -58968961, guid: 8dcbb99cb97c6384a80a170130b86f16, type: 3}
-    - {fileID: -58968961, guid: 8dcbb99cb97c6384a80a170130b86f16, type: 3}
+    - {fileID: 349226761, guid: 729fbbe5b02afd5469e26d15ba673a21, type: 3}
+    - {fileID: 699536800, guid: 729fbbe5b02afd5469e26d15ba673a21, type: 3}
+    - {fileID: -520887393, guid: 729fbbe5b02afd5469e26d15ba673a21, type: 3}
+    - {fileID: 1724442174, guid: 729fbbe5b02afd5469e26d15ba673a21, type: 3}
+    - {fileID: 1148986976, guid: 729fbbe5b02afd5469e26d15ba673a21, type: 3}
+    - {fileID: -1309196245, guid: 729fbbe5b02afd5469e26d15ba673a21, type: 3}
+    - {fileID: 1975991474, guid: 729fbbe5b02afd5469e26d15ba673a21, type: 3}
+    - {fileID: -569273840, guid: 729fbbe5b02afd5469e26d15ba673a21, type: 3}
+    - {fileID: -569273840, guid: 729fbbe5b02afd5469e26d15ba673a21, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -233,7 +255,8 @@ AnimationClip:
     m_HeightFromFeet: 0
     m_Mirror: 0
   m_EditorCurves:
-  - curve:
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -243,8 +266,8 @@ AnimationClip:
         outSlope: 0
         tangentMode: 136
         weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -252,7 +275,9 @@ AnimationClip:
     path: Collisions/Hurtboxes/Hurtbox
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 16
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -262,8 +287,8 @@ AnimationClip:
         outSlope: 0
         tangentMode: 136
         weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -271,7 +296,9 @@ AnimationClip:
     path: Collisions/Hurtboxes/Hurtbox
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 16
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -281,8 +308,8 @@ AnimationClip:
         outSlope: 0
         tangentMode: 136
         weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -290,12 +317,14 @@ AnimationClip:
     path: Collisions/Hurtboxes/Hurtbox
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 16
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 1e-45
         inSlope: Infinity
         outSlope: Infinity
         tangentMode: 103
@@ -309,7 +338,9 @@ AnimationClip:
     path: Collisions/Hurtboxes/Hurtbox
     classID: 114
     script: {fileID: 11500000, guid: 8097f255315b8124d8456c871d98095a, type: 3}
-  - curve:
+    flags: 16
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -319,8 +350,8 @@ AnimationClip:
         outSlope: 0
         tangentMode: 136
         weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -328,7 +359,9 @@ AnimationClip:
     path: Collisions/Hurtboxes/Hurtbox (1)
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 16
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -338,8 +371,8 @@ AnimationClip:
         outSlope: 0
         tangentMode: 136
         weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -347,7 +380,9 @@ AnimationClip:
     path: Collisions/Hurtboxes/Hurtbox (1)
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 16
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -357,8 +392,8 @@ AnimationClip:
         outSlope: 0
         tangentMode: 136
         weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -366,12 +401,14 @@ AnimationClip:
     path: Collisions/Hurtboxes/Hurtbox (1)
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 16
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 1e-45
         inSlope: Infinity
         outSlope: Infinity
         tangentMode: 103
@@ -385,7 +422,9 @@ AnimationClip:
     path: Collisions/Hurtboxes/Hurtbox (1)
     classID: 114
     script: {fileID: 11500000, guid: 8097f255315b8124d8456c871d98095a, type: 3}
-  - curve:
+    flags: 16
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -395,8 +434,8 @@ AnimationClip:
         outSlope: 0
         tangentMode: 136
         weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -404,7 +443,9 @@ AnimationClip:
     path: Collisions/Hurtboxes/Hurtbox (2)
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 16
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -414,8 +455,8 @@ AnimationClip:
         outSlope: 0
         tangentMode: 136
         weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -423,7 +464,9 @@ AnimationClip:
     path: Collisions/Hurtboxes/Hurtbox (2)
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 16
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
@@ -433,8 +476,8 @@ AnimationClip:
         outSlope: 0
         tangentMode: 136
         weightedMode: 0
-        inWeight: 0
-        outWeight: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -442,12 +485,14 @@ AnimationClip:
     path: Collisions/Hurtboxes/Hurtbox (2)
     classID: 4
     script: {fileID: 0}
-  - curve:
+    flags: 16
+  - serializedVersion: 2
+    curve:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 1e-45
         inSlope: Infinity
         outSlope: Infinity
         tangentMode: 103
@@ -461,6 +506,7 @@ AnimationClip:
     path: Collisions/Hurtboxes/Hurtbox (2)
     classID: 114
     script: {fileID: 11500000, guid: 8097f255315b8124d8456c871d98095a, type: 3}
+    flags: 16
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0

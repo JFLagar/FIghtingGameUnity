@@ -277,6 +277,7 @@ MonoBehaviour:
   isPlayer2: 0
   opponent: {fileID: 0}
   render: {fileID: 1957316337702257311}
+  model3D: {fileID: 8085034635397743615}
   vfx: {fileID: 7746021680221113552}
   stateMachine: {fileID: 1957316337707236123}
   inputHandler: {fileID: 1957316337707236124}
@@ -287,7 +288,7 @@ MonoBehaviour:
   jumpStartup: 4
   forceSpeed: 3
   collisions: {fileID: 1957316336856834438}
-  visualState: 1
+  visualState: 0
   stateColors:
   - serializedVersion: 2
     rgba: 4294967295
@@ -919,7 +920,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 10
   m_Sprite: {fileID: 694132410, guid: 729fbbe5b02afd5469e26d15ba673a21, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.09803922}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2399,5 +2400,10 @@ Transform:
 --- !u!95 &7758990278382313837 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 4062294954152933830, guid: 88bf2f4001c65bf4b936c80201c43550, type: 3}
+  m_PrefabInstance: {fileID: 6038574143103457451}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8085034635397743615 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2593654584750021460, guid: 88bf2f4001c65bf4b936c80201c43550, type: 3}
   m_PrefabInstance: {fileID: 6038574143103457451}
   m_PrefabAsset: {fileID: 0}

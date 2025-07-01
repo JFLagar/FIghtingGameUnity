@@ -26,6 +26,7 @@ MonoBehaviour:
   damage: 10
   push: {x: 1, y: 1.5}
   movement: {x: 1, y: 0}
+  movementFrame: 8
   movementDuration: 5
   launcher: 0
   hardKnockdown: 0

@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField]
     TextMeshProUGUI frameDisplay;
+    [SerializeField]
     bool isTraining;
     [SerializeField]
     Character cornerCharacter;

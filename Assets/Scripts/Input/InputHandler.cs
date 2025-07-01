@@ -250,10 +250,18 @@ namespace SkillIssue.Inputs
             int seqIndex = 0;
             for (int i = 0; i < inputs.Count; i++)
             {
-                if (inputs[i].Direction == motions[seqIndex] && CheckForReleasedInput(inputs[i], previousInput))
+                // Adjust the input direction based on facing direction (only flip X-axis)
+                Vector2 adjustedInputDirection = new Vector2(
+                    inputs[i].Direction.x * character.GetFaceDir(),
+                    inputs[i].Direction.y
+                );
+
+                if (adjustedInputDirection == motions[seqIndex] && CheckForReleasedInput(inputs[i], previousInput))
                     seqIndex++;
+
                 if (seqIndex >= motions.Length)
                     return true;
+
                 previousInput = inputs[i];
             }
 

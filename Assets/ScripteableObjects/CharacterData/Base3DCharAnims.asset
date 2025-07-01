@@ -24,10 +24,10 @@ MonoBehaviour:
   - {fileID: 7400000, guid: cb4bc116541549b48a1c2ad29869c80e, type: 2}
   - {fileID: 7400000, guid: e0bd464dff54c944a98a5332cf320888, type: 2}
   hitClips:
-  - {fileID: 7400000, guid: 4f06bb778a4cc134ab41167c5d47e097, type: 2}
-  - {fileID: 7400000, guid: 76ef63db6ae31f042ab0c7004483814f, type: 2}
-  - {fileID: 7400000, guid: e80df8bb8353a434eb2f24611d22e483, type: 2}
-  - {fileID: 7400000, guid: a23c64e5f55882343b977db7c6c2c511, type: 2}
+  - {fileID: 7400000, guid: 05a8535975118dc4eaeff0369194f6b4, type: 2}
+  - {fileID: 7400000, guid: 05a8535975118dc4eaeff0369194f6b4, type: 2}
+  - {fileID: 7400000, guid: 05a8535975118dc4eaeff0369194f6b4, type: 2}
+  - {fileID: 7400000, guid: 05a8535975118dc4eaeff0369194f6b4, type: 2}
   stateTransitionClips:
   - {fileID: 7400000, guid: bd2406167ec5b614cb78daf88bfc2957, type: 2}
   - {fileID: 7400000, guid: ed55c1df4ea0162488a603322f9f36c4, type: 2}

@@ -24,6 +24,8 @@ namespace SkillIssue.CharacterSpace
         [SerializeField]
         SpriteRenderer render;
         [SerializeField]
+        GameObject model3D;
+        [SerializeField]
         SpriteRenderer vfx;
 
         [Space]
@@ -196,10 +198,13 @@ namespace SkillIssue.CharacterSpace
                 else
                 {
                     faceDir = -1;
-                    if (render != null) render.flipX = true;
+                    if (render != null)
+                        render.flipX = true;
                     collisions.eulerAngles = new Vector3(0, 180, 0);
                 }
                 vfx.flipX = render.flipX;
+                model3D.transform.localScale = new Vector3(Mathf.Abs(model3D.transform.localScale.x) * faceDir, model3D.transform.localScale.y, model3D.transform.localScale.z);
+                model3D.transform.localRotation = new Quaternion(model3D.transform.localRotation.x, Mathf.Abs(model3D.transform.localRotation.y) * faceDir, model3D.transform.localRotation.z, model3D.transform.localRotation.w);
             }
             if (GetCurrentActionState() == ActionStates.Hit)
             {
@@ -723,12 +728,12 @@ namespace SkillIssue.CharacterSpace
                 if (data.grab)
                 {
                     characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[0]);
-                    frameCounterTarget = Mathf.FloorToInt(CalculateHitstun(data) + (GetCharacterAnimationsData().hitClips[0].length * 60));
+                    frameCounterTarget = Mathf.FloorToInt(CalculateHitstun(data));
                 }
                 else
                 {
                     characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[(int)GetCurrentState()]);
-                    frameCounterTarget = Mathf.FloorToInt(CalculateHitstun(data) + (GetCharacterAnimationsData().hitClips[(int)GetCurrentState()].length * 60));
+                    frameCounterTarget = Mathf.FloorToInt(CalculateHitstun(data));
 
                 }
                 if (GetCurrentState() == States.Jumping)

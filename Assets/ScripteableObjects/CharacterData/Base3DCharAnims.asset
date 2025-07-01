@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37ab23fea85b9ef47afd35d01e3ca97f, type: 3}
+  m_Name: Base3DCharAnims
+  m_EditorClassIdentifier: 
+  standingClips:
+  - {fileID: -203655887218126122, guid: 59b6907896517cc47938b185239a2efc, type: 3}
+  - {fileID: 7400000, guid: 26c30fb1c73ca094da26768b9bd750c5, type: 2}
+  - {fileID: 7400000, guid: 689e964819241824e9bb98dc9cacd5b1, type: 2}
+  jumpingClips:
+  - {fileID: 7400000, guid: 5ffff0b1dd4c0944c81be402ba64e9a1, type: 2}
+  - {fileID: 7400000, guid: 5c794aaa1105d5b4fa50fc3a054c6691, type: 2}
+  crouchingClip: {fileID: 7400000, guid: 5ec8a00a101d0494786f0303f6dd9fb4, type: 2}
+  blockingClips:
+  - {fileID: 7400000, guid: cb4bc116541549b48a1c2ad29869c80e, type: 2}
+  - {fileID: 7400000, guid: e0bd464dff54c944a98a5332cf320888, type: 2}
+  hitClips:
+  - {fileID: 7400000, guid: 4f06bb778a4cc134ab41167c5d47e097, type: 2}
+  - {fileID: 7400000, guid: 76ef63db6ae31f042ab0c7004483814f, type: 2}
+  - {fileID: 7400000, guid: e80df8bb8353a434eb2f24611d22e483, type: 2}
+  - {fileID: 7400000, guid: a23c64e5f55882343b977db7c6c2c511, type: 2}
+  stateTransitionClips:
+  - {fileID: 7400000, guid: bd2406167ec5b614cb78daf88bfc2957, type: 2}
+  - {fileID: 7400000, guid: ed55c1df4ea0162488a603322f9f36c4, type: 2}

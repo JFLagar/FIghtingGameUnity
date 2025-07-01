@@ -26,6 +26,7 @@ namespace SkillIssue
         public AttackState attackState;
         public AttackAttribute attackAttribute;
         public InputType inputType;
+        public MotionInputs motionInput;
 
         [SerializeField, Unity.Collections.ReadOnly]
         private int TotalFrames;
@@ -41,6 +42,7 @@ namespace SkillIssue
         public int damage;
         public Vector2 push;
         public Vector2 movement;
+        public int movementFrame;
         public float movementDuration;
         [Space]
         public bool launcher;

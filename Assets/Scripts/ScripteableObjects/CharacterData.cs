@@ -1,6 +1,7 @@
 using SkillIssue.CharacterSpace;
 using SkillIssue;
 using UnityEngine;
+using SkillIssue.Inputs;
 
 [CreateAssetMenu(fileName = "CharacterData", menuName = "Scriptable Objects/CharacterData")]
 public class CharacterData : ScriptableObject
@@ -32,6 +33,8 @@ public class CharacterData : ScriptableObject
     AttackData[] crouchingAttacks;
     [SerializeField]
     AttackData[] jumpAttacks;
+    [SerializeField]
+    AttackData[] specialAttacks;
 
     [SerializeField]
     CharacterAnimationsData characterAnimationsData;
@@ -62,5 +65,17 @@ public class CharacterData : ScriptableObject
     public float GetJumpPower()
     {
         return jumpForce;
+    }
+
+    public AttackData FindSpecialAttack(MotionInputs motion, InputType inputType)
+    {
+        foreach (AttackData special in specialAttacks)
+        {
+            //if (special.motionInput == motion && special.inputType == inputType)
+            //    return special;
+            if (special.motionInput == motion)
+                return special;
+        }
+        return null;
     }
 }

@@ -30,4 +30,6 @@ MonoBehaviour:
   jumpAttacks:
   - {fileID: 11400000, guid: 9cbdebe578f89ea4cb92cdc45ec96226, type: 2}
   - {fileID: 11400000, guid: 87faf07684e07a54ea3ade46c148ef56, type: 2}
+  specialAttacks:
+  - {fileID: 11400000, guid: 218158ad3c4dc054b8874de0f9c5d6ae, type: 2}
   characterAnimationsData: {fileID: 11400000, guid: e1b8196b5631f5c46abc4f726b96d9c0, type: 2}

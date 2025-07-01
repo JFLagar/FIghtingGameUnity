@@ -128,7 +128,6 @@ public class CharacterAnimationManager : MonoBehaviour
     // Play Action Animation (Overrides Movement)
     public void PlayActionAnimation(AnimationClip actionClip)
     {
-
         if (actionClip == null)
         {
             Debug.LogError("No animation assigned");

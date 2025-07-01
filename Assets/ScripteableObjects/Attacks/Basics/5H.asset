@@ -14,19 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackState: 0
   attackAttribute: 0
-  attackType: 1
+  inputType: 1
+  motionInput: 0
   TotalFrames: 30
   startupFrames: 8
   activeFrames: 4
   recoveryFrames: 18
   numberOfHitboxes: 1
+  attackLevel: 2
+  extraHitstun: 0
   damage: 10
-  hitstun: 17
-  blockstun: 15
-  proratio: 1
   push: {x: 1, y: 1.5}
-  movement: {x: 0, y: 0}
-  movementDuration: 0
+  movement: {x: 1, y: 0}
+  movementDuration: 5
   launcher: 0
   hardKnockdown: 0
   dashCancel: 0
@@ -34,7 +34,7 @@ MonoBehaviour:
   grab: 0
   canceleableSelf: 0
   cancelableTypes: 0100000002000000
-  animation: {fileID: 7400000, guid: f11e36ab14a8d6c41acd4f71907d40a5, type: 2}
+  animation: {fileID: 7400000, guid: 6ab8e15c92d7f384d919c956981e70a1, type: 2}
   message: 5H
   followUpAttack: {fileID: 0}
   collideSound: {fileID: 8300000, guid: fedb050f01945b544957d78c3b7134b3, type: 3}

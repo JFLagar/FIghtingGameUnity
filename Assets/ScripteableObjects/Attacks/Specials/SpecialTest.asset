@@ -10,30 +10,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c8c0269a5515054f88d0d58df109046, type: 3}
-  m_Name: 5L
+  m_Name: SpecialTest
   m_EditorClassIdentifier: 
   attackState: 0
   attackAttribute: 0
-  inputType: 0
-  TotalFrames: 14
-  startupFrames: 5
-  activeFrames: 3
-  recoveryFrames: 6
+  inputType: 2
+  motionInput: 1
+  TotalFrames: 39
+  startupFrames: 10
+  activeFrames: 5
+  recoveryFrames: 24
   numberOfHitboxes: 1
-  attackLevel: 0
+  attackLevel: 1
   extraHitstun: 0
   damage: 5
-  push: {x: 0.5, y: 1}
-  movement: {x: 0, y: 0}
-  movementDuration: 0
+  push: {x: 1, y: 1.5}
+  movement: {x: 2, y: 0}
+  movementFrame: 4
+  movementDuration: 10
   launcher: 0
   hardKnockdown: 0
   dashCancel: 0
   jumpCancel: 0
   grab: 0
-  canceleableSelf: 1
-  cancelableTypes: 000000000100000002000000
-  animation: {fileID: 7400000, guid: 9118794177b5a464799eafe80b1223bf, type: 2}
-  message: 
+  canceleableSelf: 0
+  cancelableTypes: 
+  animation: {fileID: 7400000, guid: 34f4fbd88f9040d45844ff1263c3153b, type: 2}
+  message: Fire 5 Special
   followUpAttack: {fileID: 0}
-  collideSound: {fileID: 8300000, guid: 4c2ae3c55c54abc4db6abdd5523f8b38, type: 3}
+  collideSound: {fileID: 8300000, guid: fedb050f01945b544957d78c3b7134b3, type: 3}

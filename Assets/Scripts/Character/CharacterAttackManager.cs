@@ -26,8 +26,6 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
 
     public void Attack(AttackData data, bool followup = false)
     {
-        Debug.Log(data.name);
-
         //check if can cancel
         if (character.GetCurrentActionState() == ActionStates.Attack && !followup)
         {

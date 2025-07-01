@@ -154,7 +154,7 @@ namespace SkillIssue.CharacterSpace
             frameCounter++;
             if (GetCurrentActionState() == ActionStates.Attack)
                 ProcessAttackFrame(frameCounter);
-            if (frameCounter == frameCounterTarget)
+            if (frameCounter == frameCounterTarget || frameCounterTarget == 0)
             {
                 SetActionState(ActionStates.None);
                 OnAnimationEnd();
@@ -163,6 +163,8 @@ namespace SkillIssue.CharacterSpace
 
         void ProcessAttackFrame(int frameCounter)
         {
+            if (frameCounter != 0 && frameCounter == onGoingAttack.movementFrame)
+                ApplyAttackForce(onGoingAttack);
             if (frameCounter == onGoingAttack.startupFrames)
                 OpenHitboxes(onGoingAttack.numberOfHitboxes-1);
             if (frameCounter == onGoingAttack.startupFrames + onGoingAttack.activeFrames)
@@ -585,7 +587,11 @@ namespace SkillIssue.CharacterSpace
             if (storedMotionInput != MotionInputs.NONE)
             {
                 Debug.Log("Performing Special with: " + storedMotionInput + "" + type);
-                return;
+                if (characterData.FindSpecialAttack(storedMotionInput, type) != null)
+                {
+                    attackManager.Attack(characterData.FindSpecialAttack(storedMotionInput, type), true);
+                    return;
+                }                
             }
 
             if (type == InputType.LU)
@@ -801,7 +807,10 @@ namespace SkillIssue.CharacterSpace
 
         private int CalculateHitstun(AttackData data)
         {
+            if (data.attackLevel == 0)
+                data.attackLevel = 1;
             int result = (data.attackLevel * 2) + 10 + 8; //attacklevel + hitstunbase(10) + attacklevel + hitstop(8)
+            Debug.Log(result);
             return result;
         }
 

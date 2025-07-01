@@ -14,11 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackState: 0
   attackAttribute: 0
-  attackType: 2
+  inputType: 2
+  motionInput: 1
+  TotalFrames: 39
+  startupFrames: 10
+  activeFrames: 5
+  recoveryFrames: 24
+  numberOfHitboxes: 1
+  attackLevel: 1
+  extraHitstun: 0
   damage: 5
-  hitstun: 10
-  blockstun: 10
-  proratio: 0
   push: {x: 1, y: 1.5}
   movement: {x: 0, y: 0}
   movementDuration: 0
@@ -29,7 +34,7 @@ MonoBehaviour:
   grab: 0
   canceleableSelf: 0
   cancelableTypes: 
-  animation: {fileID: 7400000, guid: fe381b4781d42c24eacd0f44afade425, type: 2}
+  animation: {fileID: 7400000, guid: 34f4fbd88f9040d45844ff1263c3153b, type: 2}
   message: Fire 5 Special
   followUpAttack: {fileID: 0}
   collideSound: {fileID: 8300000, guid: fedb050f01945b544957d78c3b7134b3, type: 3}

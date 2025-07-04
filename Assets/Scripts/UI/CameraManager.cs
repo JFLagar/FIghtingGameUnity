@@ -13,7 +13,8 @@ public class CameraManager : MonoBehaviour
     [SerializeField] bool isOnScreenEdge = false;
     [SerializeField] int screenEdgeFaceDir = 0;
 
-    private float lockedEdgePosition;
+    private float visibleRightEdgeLimit;
+    private float visibleLeftEdgeLimit;
     Vector3 newPos;
 
     private void Awake()
@@ -37,20 +38,15 @@ public class CameraManager : MonoBehaviour
             pos.x = middle;
         }
 
-        float halfWidth = cam.orthographicSize * cam.aspect;
-
-        // If clamped near a wall
         if (isOnScreenEdge)
         {
-            if (screenEdgeFaceDir == -1) // Wall on the left
+            if (screenEdgeFaceDir == -1)
             {
-                // Prevent camera from going left beyond the lockedEdgePosition
-                pos.x = Mathf.Max(pos.x, lockedEdgePosition + halfWidth - edgePadding);
+                pos.x = visibleLeftEdgeLimit + ((cam.orthographicSize - minZoom) * (maxZoom + (maxZoom - minZoom)));
             }
-            else if (screenEdgeFaceDir == 1) // Wall on the right
+            else if (screenEdgeFaceDir == 1)
             {
-                // Prevent camera from going right beyond the lockedEdgePosition
-                pos.x = Mathf.Min(pos.x, lockedEdgePosition - halfWidth + edgePadding);
+                pos.x = visibleRightEdgeLimit - ((cam.orthographicSize - minZoom) * (maxZoom + (maxZoom - minZoom)));
             }
         }
 
@@ -61,23 +57,6 @@ public class CameraManager : MonoBehaviour
     {
         float targetSize = Mathf.Clamp(distance / 2, minZoom, maxZoom);
         cam.orthographicSize = targetSize;
-
-        // Optionally re-clamp camera again after zoom changed visible area
-        //if (isOnScreenEdge)
-        //{
-        //    float halfWidth = cam.orthographicSize * cam.aspect;
-
-        //    if (screenEdgeFaceDir == -1)
-        //    {
-        //        pos.x = Mathf.Max(pos.x, lockedEdgePosition + halfWidth - edgePadding);
-        //    }
-        //    else if (screenEdgeFaceDir == 1)
-        //    {
-        //        pos.x = Mathf.Min(pos.x, lockedEdgePosition - halfWidth + edgePadding);
-        //    }
-
-        //    cam.transform.position = pos;
-        //}
     }
 
     private bool IsMovingAwayFromScreenEdge(float middle)
@@ -111,8 +90,17 @@ public class CameraManager : MonoBehaviour
     {
         isOnScreenEdge = true;
         screenEdgeFaceDir = faceDirection;
-
-        lockedEdgePosition = GetCameraMiddle();
+        float halfWidth = maxZoom * cam.aspect; // world space half-width at max zoom
+        float currentX = cam.transform.position.x;
+        if (faceDirection == -1 && visibleLeftEdgeLimit == 0) // wall on left
+        {
+            visibleLeftEdgeLimit = (currentX - halfWidth)/2;
+        }
+        else if (faceDirection == 1 && visibleRightEdgeLimit == 0) // wall on right
+        {
+            visibleRightEdgeLimit = (currentX + halfWidth)/2;
+        }
     }
+
 
 }

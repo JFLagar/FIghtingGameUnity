@@ -20,15 +20,18 @@ namespace SkillIssue
 
         public void Update()
         {
-            if (!blockCheck)
+            if (blockCheck)
                 return;
-            if (character.GetInputDirection().x == -character.GetFaceDir() && character.GetCurrentActionState() == StateMachineSpace.ActionStates.None && !character.IsHardKnockedDown())
+            if (character.IsHardKnockedDown())
             {
-                state = ColliderState.Open;
+                Debug.Log("Closed");
+                state = ColliderState.Closed;
             }
+            // Set them Open on animation
+            // for now
             else
             {
-                state = ColliderState.Closed;
+                state = ColliderState.Open;
             }
         }
 

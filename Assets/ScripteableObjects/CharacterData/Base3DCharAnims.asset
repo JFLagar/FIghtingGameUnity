@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Base3DCharAnims
   m_EditorClassIdentifier: 
   standingClips:
-  - {fileID: -203655887218126122, guid: 59b6907896517cc47938b185239a2efc, type: 3}
+  - {fileID: 7400000, guid: 747b1255e1d3cd94ca049f51703ed481, type: 2}
   - {fileID: 7400000, guid: 26c30fb1c73ca094da26768b9bd750c5, type: 2}
   - {fileID: 7400000, guid: 689e964819241824e9bb98dc9cacd5b1, type: 2}
   jumpingClips:
@@ -21,13 +21,13 @@ MonoBehaviour:
   - {fileID: 7400000, guid: 5c794aaa1105d5b4fa50fc3a054c6691, type: 2}
   crouchingClip: {fileID: 7400000, guid: 5ec8a00a101d0494786f0303f6dd9fb4, type: 2}
   blockingClips:
-  - {fileID: 7400000, guid: cb4bc116541549b48a1c2ad29869c80e, type: 2}
-  - {fileID: 7400000, guid: e0bd464dff54c944a98a5332cf320888, type: 2}
+  - {fileID: 7400000, guid: b6e807572c71cd241a6ece35776caeac, type: 2}
+  - {fileID: 7400000, guid: b6e807572c71cd241a6ece35776caeac, type: 2}
   hitClips:
-  - {fileID: 7400000, guid: 05a8535975118dc4eaeff0369194f6b4, type: 2}
-  - {fileID: 7400000, guid: 05a8535975118dc4eaeff0369194f6b4, type: 2}
-  - {fileID: 7400000, guid: 05a8535975118dc4eaeff0369194f6b4, type: 2}
-  - {fileID: 7400000, guid: 05a8535975118dc4eaeff0369194f6b4, type: 2}
+  - {fileID: 7400000, guid: 29e7bd043d6dbfa439039ae729513fde, type: 2}
+  - {fileID: 7400000, guid: 29e7bd043d6dbfa439039ae729513fde, type: 2}
+  - {fileID: 7400000, guid: c630ff81650f1d147a7388bd420b4db8, type: 2}
+  - {fileID: 7400000, guid: 1f008a1cad92d0c408dd4c8d0e5e7c04, type: 2}
   stateTransitionClips:
   - {fileID: 7400000, guid: bd2406167ec5b614cb78daf88bfc2957, type: 2}
   - {fileID: 7400000, guid: ed55c1df4ea0162488a603322f9f36c4, type: 2}

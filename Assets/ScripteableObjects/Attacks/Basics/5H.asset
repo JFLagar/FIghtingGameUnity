@@ -16,11 +16,13 @@ MonoBehaviour:
   attackAttribute: 0
   inputType: 1
   motionInput: 0
-  TotalFrames: 30
+  TotalFrames: 34
   startupFrames: 8
-  activeFrames: 4
+  activeFrames: 8
   recoveryFrames: 18
   numberOfHitboxes: 1
+  numberOfExtraHits: 1
+  extraHitsDelayFrames: 4
   attackLevel: 2
   extraHitstun: 0
   damage: 10

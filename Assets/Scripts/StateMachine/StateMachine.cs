@@ -214,8 +214,8 @@ namespace SkillIssue.StateMachineSpace
             if (!stateMachine.GetCharacter().IsStillInMovement() && !stateMachine.GetCharacter().GetApplyGravity())
             {
                 stateMachine.GetCharacter().SetApplyGravity(true);
-                if (stateMachine.GetActionState() == ActionStates.Hit)
-                    stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().hitClips.Last());
+                //if (stateMachine.GetActionState() == ActionStates.Hit)
+                //    stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().hitClips.Last());
             }
             if (stateMachine.GetCharacter().GetApplyGravity())
                 stateMachine.GetCharacter().ApplyGravity();

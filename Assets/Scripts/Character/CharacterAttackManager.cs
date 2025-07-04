@@ -53,6 +53,11 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
         //Attack
     }
 
+    public void ClearPreviousAttack()
+    {
+        currentAttack = null;
+    }
+
     public void BoxCollisionedWith(Collider2D collider)
     {
         if (currentAttack != previousAttack)
@@ -63,11 +68,7 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
             hit = true;
             character.HitConnect(previousAttack);
         }
-        if (previousAttack.followUpAttack != null)
-        {
-            Attack(previousAttack.followUpAttack, true);
-            return;
-        }
+
         if (character.GetStoredAttack() != null)
         {
             character.PerformAttack(character.GetStoredAttack().inputType);

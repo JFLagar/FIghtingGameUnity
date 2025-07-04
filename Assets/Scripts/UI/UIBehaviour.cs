@@ -74,7 +74,7 @@ public class UIBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!roundActive)
+        if (!roundActive || Managers.Instance.GameManager.IsTraining())
             return;
         timer -= Time.deltaTime;
         timerText.text = Mathf.FloorToInt(timer).ToString();

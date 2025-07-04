@@ -128,7 +128,6 @@ public class CharacterAnimationManager : MonoBehaviour
     // Play Action Animation (Overrides Movement)
     public void PlayActionAnimation(AnimationClip actionClip)
     {
-        Debug.Log(actionClip.name);
         if (actionClip == null)
         {
             Debug.LogError("No animation assigned");
@@ -221,8 +220,8 @@ public class ActionPlayableBehaviour : PlayableBehaviour
         Playable inputPlayable = playable.GetInput(0);
         if (!inputPlayable.IsValid())
         {
-            if ((character.GetCurrentActionState() == ActionStates.Block || character.GetCurrentActionState() == ActionStates.Hit))
-                controller.OnActionAnimationEnd();
+            //if ((character.GetCurrentActionState() == ActionStates.Block || character.GetCurrentActionState() == ActionStates.Hit))
+            //    controller.OnActionAnimationEnd();
             return;
         }
 

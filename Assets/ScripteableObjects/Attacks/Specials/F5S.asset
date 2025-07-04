@@ -21,14 +21,17 @@ MonoBehaviour:
   activeFrames: 5
   recoveryFrames: 24
   numberOfHitboxes: 1
+  numberOfExtraHits: 0
+  extraHitsDelayFrames: 0
   attackLevel: 1
   extraHitstun: 0
   damage: 5
   push: {x: 1, y: 1.5}
   movement: {x: 0, y: 0}
+  movementFrame: 0
   movementDuration: 0
-  launcher: 0
-  hardKnockdown: 0
+  launcher: 1
+  hardKnockdown: 1
   dashCancel: 0
   jumpCancel: 0
   grab: 0

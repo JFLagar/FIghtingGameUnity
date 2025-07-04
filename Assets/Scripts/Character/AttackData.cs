@@ -34,7 +34,8 @@ namespace SkillIssue
         public int activeFrames;
         public int recoveryFrames;
         public int numberOfHitboxes;
-
+        public int numberOfExtraHits;
+        public int extraHitsDelayFrames;
 
         [Space]
         public int attackLevel = 0; //0 to 5

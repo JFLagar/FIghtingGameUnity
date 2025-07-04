@@ -1,73 +1,86 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using SkillIssue.CharacterSpace;
+using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
-     Camera cam;
+    Camera cam;
     [SerializeField]
-     Character[] characters;
-     Vector3 pos = new Vector3(0,0,-10);
-     float distance;
-    [SerializeField]
-     float middle;
-    bool isOnScreenEdge = false;
-    int screenEdgeFaceDir = 0;
+    Character[] characters;
+    [SerializeField] Vector3 pos = new Vector3(0, 0, -10);
+    [SerializeField] float minZoom = 1.3f;
+    [SerializeField] float maxZoom = 1.5f;
+    [SerializeField] float edgePadding = 0.5f;
+    [SerializeField] bool isOnScreenEdge = false;
+    [SerializeField] int screenEdgeFaceDir = 0;
+
+    private float lockedEdgePosition;
+    Vector3 newPos;
 
     private void Awake()
     {
         cam = FindFirstObjectByType<Camera>();
     }
 
-    // Start is called before the first frame update
-    void Start()
+    void LateUpdate()
     {
-        pos.y = transform.position.y;
+        float middle = GetCameraMiddle();
+        float distance = GetCharacterDistance();
+
+        HandleCameraPosition(middle);
+        HandleCameraZoom(distance, middle);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void HandleCameraPosition(float middle)
     {
-        middle = characters[0].transform.position.x + (characters[1].transform.position.x - characters[0].transform.position.x) / 2;
-
-        CameraMove();
-        
-    }
-
-    public void SetWallDirection(int faceDirection)
-    {
-        isOnScreenEdge = true;
-        screenEdgeFaceDir = faceDirection;
-    }
-
-    public int GetScreenEdgeFaceDir() 
-    {
-        return screenEdgeFaceDir;
-    }
-
-    private void CameraZoom()
-    {
-        distance = Mathf.Abs(characters[0].transform.position.x - characters[1].transform.position.x);
-        cam.orthographicSize = distance / 2;
-        if (cam.orthographicSize < 1.25)
+        if (IsMovingAwayFromScreenEdge(middle) || !isOnScreenEdge)
         {
-            cam.orthographicSize = 1.25f;
+            pos.x = middle;
         }
-        if (cam.orthographicSize > 1.75)
-        {
-            cam.orthographicSize = 1.75f;
-        }
-    }
 
-    private void CameraMove()
-    {  
-        if (!isOnScreenEdge || IsMovingAwayFromScreenEdge())
-        pos.x = middle;
+        float halfWidth = cam.orthographicSize * cam.aspect;
+
+        // If clamped near a wall
+        if (isOnScreenEdge)
+        {
+            if (screenEdgeFaceDir == -1) // Wall on the left
+            {
+                // Prevent camera from going left beyond the lockedEdgePosition
+                pos.x = Mathf.Max(pos.x, lockedEdgePosition + halfWidth - edgePadding);
+            }
+            else if (screenEdgeFaceDir == 1) // Wall on the right
+            {
+                // Prevent camera from going right beyond the lockedEdgePosition
+                pos.x = Mathf.Min(pos.x, lockedEdgePosition - halfWidth + edgePadding);
+            }
+        }
+
         cam.transform.position = pos;
     }
 
-    private bool IsMovingAwayFromScreenEdge()
+    private void HandleCameraZoom(float distance, float middle)
+    {
+        float targetSize = Mathf.Clamp(distance / 2, minZoom, maxZoom);
+        cam.orthographicSize = targetSize;
+
+        // Optionally re-clamp camera again after zoom changed visible area
+        //if (isOnScreenEdge)
+        //{
+        //    float halfWidth = cam.orthographicSize * cam.aspect;
+
+        //    if (screenEdgeFaceDir == -1)
+        //    {
+        //        pos.x = Mathf.Max(pos.x, lockedEdgePosition + halfWidth - edgePadding);
+        //    }
+        //    else if (screenEdgeFaceDir == 1)
+        //    {
+        //        pos.x = Mathf.Min(pos.x, lockedEdgePosition - halfWidth + edgePadding);
+        //    }
+
+        //    cam.transform.position = pos;
+        //}
+    }
+
+    private bool IsMovingAwayFromScreenEdge(float middle)
     {
         if (screenEdgeFaceDir == -1 && middle > pos.x)
         {
@@ -75,12 +88,31 @@ public class CameraManager : MonoBehaviour
             return true;
         }
         if (screenEdgeFaceDir == 1 && middle < pos.x)
-        { 
+        {
             isOnScreenEdge = false;
-        
             return true;
         }
         return false;
-    }    
+    }
+
+    // Helper methods
+    private float GetCharacterDistance()
+    {
+        return Mathf.Abs(characters[0].transform.position.x - characters[1].transform.position.x);
+    }
+
+    private float GetCameraMiddle()
+    {
+        return (characters[0].transform.position.x + characters[1].transform.position.x) / 2;
+    }
+
+    // External controls (keep your existing interface)
+    public void SetWallDirection(int faceDirection)
+    {
+        isOnScreenEdge = true;
+        screenEdgeFaceDir = faceDirection;
+
+        lockedEdgePosition = GetCameraMiddle();
+    }
 
 }

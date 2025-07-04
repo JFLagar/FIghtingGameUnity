@@ -24,6 +24,7 @@ MonoBehaviour:
   standingAttacks:
   - {fileID: 11400000, guid: f6b2a54ddae839844ba013de6f1f6231, type: 2}
   - {fileID: 11400000, guid: 541377dcf03bbb941ab57cfae40c74e3, type: 2}
+  - {fileID: 11400000, guid: 165881236b4bcd14ab070ef19c67c2cf, type: 2}
   crouchingAttacks:
   - {fileID: 11400000, guid: 9ab3aa946879f9443b27f13754afd2d2, type: 2}
   - {fileID: 11400000, guid: 80bdd1dc50251f74cb9eea42da9abc25, type: 2}

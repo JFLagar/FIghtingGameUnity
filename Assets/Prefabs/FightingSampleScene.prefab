@@ -221,7 +221,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.1, y: 1}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!1 &2291909489043098220
 GameObject:
@@ -249,7 +249,7 @@ Transform:
   m_GameObject: {fileID: 2291909489043098220}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.8, y: 0, z: 0}
+  m_LocalPosition: {x: 3.1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -263,7 +263,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2291909489043098220}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -328,7 +328,7 @@ Transform:
   m_GameObject: {fileID: 2509460084710211372}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.8, y: 0, z: 0}
+  m_LocalPosition: {x: -3.1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -342,7 +342,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2509460084710211372}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -482,7 +482,7 @@ Transform:
   m_GameObject: {fileID: 5243019919591132941}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 0, z: 0}
+  m_LocalPosition: {x: 7, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -533,7 +533,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 4, y: 20}
   m_EdgeRadius: 0
 --- !u!1 &5642639519733466186
 GameObject:
@@ -594,7 +594,7 @@ Transform:
   m_GameObject: {fileID: 5740814794520690849}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: 0, z: 0}
+  m_LocalPosition: {x: -7, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -645,7 +645,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 4, y: 20}
   m_EdgeRadius: 0
 --- !u!1 &5839245841401284218
 GameObject:
@@ -1031,7 +1031,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.1, y: 1}
+  m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
 --- !u!1 &8062074394740758011
 GameObject:
@@ -1474,7 +1474,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Main Menu
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 41ad35458ed10084180d568438a80ae9, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: 2455667098708228453, guid: 41ad35458ed10084180d568438a80ae9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1609,7 +1609,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b6c2da2db9374dada6761b5e35121c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions: {fileID: -944628639613478452, guid: 33d6d7cd2168da449a3271042cf78f72, type: 3}
+  actions: {fileID: 0}
   rebindsText: 
 --- !u!114 &1044753535717753839
 MonoBehaviour:
@@ -1658,10 +1658,12 @@ MonoBehaviour:
   characters:
   - {fileID: 8062074396790736155}
   - {fileID: 8416089865207465151}
-  middle: 0
+  pos: {x: 0, y: 0, z: -10}
+  minZoom: 1.3
+  maxZoom: 1.5
+  edgePadding: 0.5
   isOnScreenEdge: 0
-  cameraBounds: []
-  x: 0
+  screenEdgeFaceDir: 0
 --- !u!1 &8062074394946529036
 GameObject:
   m_ObjectHideFlags: 0
@@ -2698,7 +2700,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Change Character
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 41ad35458ed10084180d568438a80ae9, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -3566,11 +3568,11 @@ MonoBehaviour:
   m_MoveRepeatDelay: 0.5
   m_MoveRepeatRate: 0.1
   m_XRTrackingOrigin: {fileID: 0}
-  m_ActionsAsset: {fileID: -944628639613478452, guid: 33d6d7cd2168da449a3271042cf78f72, type: 3}
+  m_ActionsAsset: {fileID: 0}
   m_PointAction: {fileID: 0}
-  m_MoveAction: {fileID: -175836129904508077, guid: 33d6d7cd2168da449a3271042cf78f72, type: 3}
-  m_SubmitAction: {fileID: 7941925254779528424, guid: 33d6d7cd2168da449a3271042cf78f72, type: 3}
-  m_CancelAction: {fileID: -3235869652325576402, guid: 33d6d7cd2168da449a3271042cf78f72, type: 3}
+  m_MoveAction: {fileID: 0}
+  m_SubmitAction: {fileID: 0}
+  m_CancelAction: {fileID: 0}
   m_LeftClickAction: {fileID: 0}
   m_MiddleClickAction: {fileID: 0}
   m_RightClickAction: {fileID: 0}
@@ -3781,7 +3783,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Quit Game
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 41ad35458ed10084180d568438a80ae9, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: 2455667098708228453, guid: 41ad35458ed10084180d568438a80ae9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -5580,7 +5582,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Resume
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 41ad35458ed10084180d568438a80ae9, type: 2}
+  m_fontAsset: {fileID: 0}
   m_sharedMaterial: {fileID: 2455667098708228453, guid: 41ad35458ed10084180d568438a80ae9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}

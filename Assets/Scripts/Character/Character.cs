@@ -185,7 +185,6 @@ namespace SkillIssue.CharacterSpace
             {
                 if (frameCounter == onGoingAttack.startupFrames + i + onGoingAttack.extraHitsDelayFrames)
                 {
-                    Debug.Log(frameCounter);
                     attackManager.ClearPreviousAttack();
                     OpenHitboxes(onGoingAttack.numberOfHitboxes - 1);
                 }
@@ -846,7 +845,6 @@ namespace SkillIssue.CharacterSpace
 
         public void OnAnimationEnd()
         {
-            Debug.Log("AnimEnd " + gameObject.name + " " + frameCounter);
                 opponent.ResetAttackInfo();
                 characterAnimation.OnActionAnimationEnd();
                 isKnockedDown = false;

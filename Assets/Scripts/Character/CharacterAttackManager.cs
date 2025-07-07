@@ -15,7 +15,7 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
     private AttackData currentAttack;
     private bool hit = false;
     int repeatedAttack = 0;
-    int sameLimit;
+    int sameLimit = 3;
     [SerializeField]
     public Coroutine landCheck = null;
 
@@ -91,6 +91,7 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
 
         if (data.canceleableSelf && data == previousAttack)
         {
+            Debug.Log("SelfCancel");
             if (character.GetComboCount() >= sameLimit)
             {
                 int count = character.GetComboCount() - 1;
@@ -107,7 +108,9 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
                     return false;
                 }
             }
+            return true;
         }
+
         if (data != previousAttack)
         {
             repeatedAttack = 0;

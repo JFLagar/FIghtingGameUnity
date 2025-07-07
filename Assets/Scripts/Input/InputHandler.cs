@@ -400,11 +400,6 @@ namespace SkillIssue.Inputs
 
         public void MovementXDown(InputAction.CallbackContext context)
         {
-            Debug.Log($"Device: {context.control.device}\n" +
-                      $"Path: {context.control.path}\n" +
-                      $"Value: {context.ReadValueAsObject()}\n" +
-                      $"Phase: {context.phase}");
-
             float value = context.ReadValue<float>();
             switch (value)
             {

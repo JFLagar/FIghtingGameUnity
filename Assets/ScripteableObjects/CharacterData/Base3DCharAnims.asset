@@ -31,3 +31,5 @@ MonoBehaviour:
   stateTransitionClips:
   - {fileID: 7400000, guid: bd2406167ec5b614cb78daf88bfc2957, type: 2}
   - {fileID: 7400000, guid: ed55c1df4ea0162488a603322f9f36c4, type: 2}
+  wakeupClips:
+  - {fileID: 7400000, guid: 5bbeb1f9f765e3349ad8ba44fcf87bf9, type: 2}

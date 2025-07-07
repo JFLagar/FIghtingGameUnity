@@ -4,6 +4,7 @@ using SkillIssue.StateMachineSpace;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 namespace SkillIssue.CharacterSpace
 {
@@ -65,7 +66,8 @@ namespace SkillIssue.CharacterSpace
         int currentHealth;
 
         [Space]
-
+        [SerializeField]
+        int wakingUpFrames = 6;
         [SerializeField]
         int jumpStartup = 4;
         [SerializeField]
@@ -98,6 +100,7 @@ namespace SkillIssue.CharacterSpace
         int playerId = 0;
         bool isKnockedDown = false;
         bool isHardKnockDown = false;
+        bool isWakingUp = false;
         private int hitstop;
         int frameCounter = 0;
         int frameCounterTarget = 0;
@@ -162,8 +165,20 @@ namespace SkillIssue.CharacterSpace
                 ProcessAttackFrame(frameCounter);
             if (frameCounter == frameCounterTarget || frameCounterTarget == 0)
             {
-                SetActionState(ActionStates.None);
-                OnAnimationEnd();
+                //wakeup anim
+                if (isKnockedDown && !isWakingUp)
+                {
+                    isWakingUp = true;
+                    frameCounter = 0;
+                    frameCounterTarget = wakingUpFrames;
+                    characterAnimation.PlayActionAnimation(characterData.GetCharacterAnimationsData().wakeupClips[0]);
+
+                }
+                else
+                {
+                    SetActionState(ActionStates.None);
+                    OnAnimationEnd();
+                }
             }
         }
 
@@ -849,6 +864,7 @@ namespace SkillIssue.CharacterSpace
                 characterAnimation.OnActionAnimationEnd();
                 isKnockedDown = false;
                 isHardKnockDown = false;
+                isWakingUp = false;
         }
 
         public void ResetCharacter()

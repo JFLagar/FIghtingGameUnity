@@ -285,6 +285,7 @@ MonoBehaviour:
   attackManager: {fileID: 7515142340994233024}
   animator: {fileID: 7758990278382313837}
   characterAnimation: {fileID: 2597134761694115151}
+  isAgainstTheWall: 0
   jumpStartup: 4
   forceSpeed: 3
   collisions: {fileID: 1957316336856834438}
@@ -1002,14 +1003,17 @@ MonoBehaviour:
   - Input: 2
     motions:
     - {x: 0, y: -1}
+    - {x: 0, y: 0}
     - {x: 0, y: -1}
   - Input: 3
     motions:
     - {x: -1, y: 0}
+    - {x: 0, y: 0}
     - {x: -1, y: 0}
   - Input: 4
     motions:
     - {x: 1, y: 0}
+    - {x: 0, y: 0}
     - {x: 1, y: 0}
   - Input: 5
     motions:

@@ -250,7 +250,7 @@ namespace SkillIssue.Inputs
             {
                 if (IsSequencePartialMatch(currentInputs, motion.motions))
                 {
-                    character.SetMotionInput(motion.Input);
+                       character.SetMotionInput(motion.Input);
                     if (gameManager.IsRecording)
                         InputRecordingList.AddRange(currentInputs);
                     motionInputQueue.Clear();
@@ -400,7 +400,12 @@ namespace SkillIssue.Inputs
 
         public void MovementXDown(InputAction.CallbackContext context)
         {
-                float value = context.ReadValue<float>();
+            Debug.Log($"Device: {context.control.device}\n" +
+                      $"Path: {context.control.path}\n" +
+                      $"Value: {context.ReadValueAsObject()}\n" +
+                      $"Phase: {context.phase}");
+
+            float value = context.ReadValue<float>();
             switch (value)
             {
                 case 0:
@@ -413,7 +418,9 @@ namespace SkillIssue.Inputs
                     direction.x = 1;
                     break;
             }
-            motionInputQueue.Enqueue(new BufferedInput(InputType.Movement, !context.canceled, Time.time, direction, gameManager.RecordingFrame));
+            BufferedInput bufferedInput = new BufferedInput(InputType.Movement, !context.canceled, Time.time, direction, gameManager.RecordingFrame);
+            if (!motionInputQueue.Any(c => c.Time == bufferedInput.Time))
+                motionInputQueue.Enqueue(bufferedInput);
         }
 
         public void MovementYUp(InputAction.CallbackContext context)
@@ -437,7 +444,9 @@ namespace SkillIssue.Inputs
                     direction.y = 1;
                     break;
             }
-            motionInputQueue.Enqueue(new BufferedInput(InputType.Movement, !context.canceled, Time.time, direction, gameManager.RecordingFrame));
+            BufferedInput bufferedInput = new BufferedInput(InputType.Movement, !context.canceled, Time.time, direction, gameManager.RecordingFrame);
+            if (!motionInputQueue.Any(c => c.Time == bufferedInput.Time))
+                motionInputQueue.Enqueue(bufferedInput);
         }
 
         public void MovementFunction(Vector2 direction)

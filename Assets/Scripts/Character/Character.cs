@@ -625,7 +625,7 @@ namespace SkillIssue.CharacterSpace
             if ((int)type > characterData.GetStandingAttacks().Length)
                 return;
  
-                AttackData attackData = new AttackData();;
+                AttackData attackData = new AttackData();
                 switch (GetCurrentState())
                 {
                     case States.Standing:

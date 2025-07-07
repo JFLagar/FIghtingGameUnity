@@ -135,11 +135,13 @@ namespace SkillIssue.Inputs
 
         void MapActions(bool player)
         {
-            //Remove when local player support is added
-            if (character.isPlayer2)
-                return;
             inputActions = new InputActions();
-
+            inputActions.Disable();
+            inputActions.bindingMask = new InputBinding()
+            {
+                groups = playerInput.defaultControlScheme
+            };
+            inputActions.Enable();
             inputActions.Controls.Enable();
             inputActions.Controls.LightButton.performed += LightButton;
             inputActions.Controls.MediumButton.performed += MediumButton;
@@ -149,6 +151,19 @@ namespace SkillIssue.Inputs
             inputActions.Controls.Select.performed += SelectButton;
             inputActions.Controls.MovementX.performed += MovementXDown;
             inputActions.Controls.MovementY.performed += MovementYDown;
+        }
+
+        void UnmapActions()
+        {
+            inputActions.Controls.LightButton.performed -= LightButton;
+            inputActions.Controls.MediumButton.performed -= MediumButton;
+            inputActions.Controls.HeavyButton.performed -= HeavyButton;
+            inputActions.Controls.UniqueButton.performed -= UniqueButton;
+            inputActions.Controls.Start.performed -= StartButton;
+            inputActions.Controls.Select.performed -= SelectButton;
+            inputActions.Controls.MovementX.performed -= MovementXDown;
+            inputActions.Controls.MovementY.performed -= MovementYDown;
+            inputActions.Controls.Disable();
         }
 
         private void OnActionTriggered(InputAction.CallbackContext context)
@@ -531,18 +546,7 @@ namespace SkillIssue.Inputs
 
         private void OnDestroy()
         {
-            playerInput.onActionTriggered -= OnActionTriggered;
-            if (character.isPlayer2)
-                return;
-            inputActions.Controls.LightButton.performed -= LightButton;
-            inputActions.Controls.MediumButton.performed -= MediumButton;
-            inputActions.Controls.HeavyButton.performed -= HeavyButton;
-            inputActions.Controls.UniqueButton.performed -= UniqueButton;
-            inputActions.Controls.Start.performed -= StartButton;
-            inputActions.Controls.Select.performed -= SelectButton;
-            inputActions.Controls.MovementX.performed -= MovementXDown;
-            inputActions.Controls.MovementY.performed -= MovementYDown;
-            inputActions.Controls.Disable();
+            UnmapActions();
         }
 
         public void OnLightButton(InputAction.CallbackContext context)

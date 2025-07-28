@@ -2,10 +2,13 @@ using SkillIssue.CharacterSpace;
 using SkillIssue;
 using UnityEngine;
 using SkillIssue.Inputs;
+using UnityEditor.Animations;
 
 [CreateAssetMenu(fileName = "CharacterData", menuName = "Scriptable Objects/CharacterData")]
 public class CharacterData : ScriptableObject
 {
+    public GameObject CharacterModel;
+    public AnimatorController Animator;
     [SerializeField]
     string characterName;
     [SerializeField]

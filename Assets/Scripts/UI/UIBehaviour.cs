@@ -50,7 +50,6 @@ public class UIBehaviour : MonoBehaviour
     // Start is called before the first frame update
     public void Initialize()
     {
-        Time.timeScale = 1;
     
         for (int i = 0; i < sliders.Length; i++)
         {
@@ -117,10 +116,9 @@ public class UIBehaviour : MonoBehaviour
     }
     private void OpenPauseUI()
     {
-        Time.timeScale = 0;
         foreach(Character character in characters)
         {
-            //Call Input Manager : character.inputHandler.playerInput.SwitchCurrentActionMap("Menu");
+            // character.GetInputHandler().GetPlayerInput().SwitchCurrentActionMap("Menu");
         }
         pauseUI.gameObject.SetActive(true);
     }
@@ -130,9 +128,8 @@ public class UIBehaviour : MonoBehaviour
         pauseUI.gameObject.SetActive(false);
         foreach (Character character in characters)
         {
-            // Call Input Manager : character.inputHandler.playerInput.SwitchCurrentActionMap("Controls");
+            // character.GetInputHandler().GetPlayerInput().SwitchCurrentActionMap("Controls");
         }
-        Time.timeScale = 1;
     }
 
     public void MainMenu()

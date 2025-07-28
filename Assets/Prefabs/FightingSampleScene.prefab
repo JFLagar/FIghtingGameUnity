@@ -1594,6 +1594,9 @@ MonoBehaviour:
   frameDisplay: {fileID: 8062074396662264429}
   isTraining: 0
   cornerCharacter: {fileID: 0}
+  characters:
+  - {fileID: 8062074396790736155}
+  - {fileID: 8416089865207465151}
   uIBehaviour: {fileID: 8062074395404191591}
   gameSpeed: 1
   generalForceSpeed: 2

@@ -9,9 +9,13 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI frameDisplay;
     [SerializeField]
+    TextMeshProUGUI frameScriptDisplay;
+    [SerializeField]
     bool isTraining;
     [SerializeField]
     Character cornerCharacter;
+    [SerializeField]
+    Character[] characters;
     int p1rounds;
     int p2rounds;
     [SerializeField]
@@ -23,6 +27,9 @@ public class GameManager : MonoBehaviour
     float generalForceSpeed = 1.0f;
     public int RecordingFrame {  get; private set; }
     public bool IsRecording {  get; private set; }
+
+    public int frame = 0;
+    public bool countframes = false;
     private void Awake()
     {
         QualitySettings.vSyncCount = 0;
@@ -50,6 +57,11 @@ public class GameManager : MonoBehaviour
         {
             RecordingFrame++;
             Debug.Log("Recording");
+        }
+        if (countframes)
+        {
+            frame++;
+            frameScriptDisplay.text = "Frame: " + frame;
         }
     }
 
@@ -81,9 +93,12 @@ public class GameManager : MonoBehaviour
 
     public void PauseGame()
     {
-        if (uIBehaviour == null)
-            return;
         isGamePaused = !isGamePaused;
+        Time.timeScale = isGamePaused ? 0f : 1f;
+        foreach (Character character in characters)
+        {
+            character.SetAnimationSpeed(Time.timeScale);
+        }
         if (uIBehaviour != null)
             uIBehaviour.ShowPauseUI(isGamePaused);
     }

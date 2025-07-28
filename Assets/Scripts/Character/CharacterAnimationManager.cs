@@ -70,6 +70,11 @@ public class CharacterAnimationManager : MonoBehaviour
 
     }
 
+    public void SetGraphSpeed(double speed)
+    {
+        mixerPlayable.SetSpeed(speed);
+    }
+
     void CacheMovementPlayable(AnimationClip clip)
     {
         if (!movementPlayables.ContainsKey(clip))
@@ -90,7 +95,7 @@ public class CharacterAnimationManager : MonoBehaviour
 
     public bool IsPlayingActionAnimation()
     {
-        return actionScriptPlayable.GetPlayState() == PlayState.Playing;
+        return actionScriptPlayable.GetPlayState() == PlayState.Playing && mixerPlayable.GetInputWeight(1) == 1;
     }
 
     public void PauseActionPlayabe()
@@ -119,7 +124,7 @@ public class CharacterAnimationManager : MonoBehaviour
 
         graph.Disconnect(mixerPlayable, 0);
         graph.Connect(movementPlayables[newClip], 0, mixerPlayable, 0);
-        if(character.GetCurrentActionState() != ActionStates.None)
+        if(character.GetCurrentActionState() != ActionStates.None || mixerPlayable.GetInputWeight(1) != 0)
         {
             mixerPlayable.SetInputWeight(0,0);
         }
@@ -152,6 +157,8 @@ public class CharacterAnimationManager : MonoBehaviour
         mixerPlayable.SetInputWeight(1, 1.0f); // Enable action animation
         mixerPlayable.SetInputWeight(0, 0.0f); // Disable movement animation
         actionScriptPlayable.Play();
+        Managers.Instance.GameManager.countframes = true;
+        Managers.Instance.GameManager.frame = 0;
     }
 
     public void SwitchActionAnimation(AnimationClip actionClip)
@@ -212,7 +219,6 @@ public class ActionPlayableBehaviour : PlayableBehaviour
 
     public override void PrepareFrame(Playable playable, FrameData info)
     {
-
         // Ensure we have at least one input
         if (playable.GetInputCount() == 0)
             return;
@@ -220,14 +226,28 @@ public class ActionPlayableBehaviour : PlayableBehaviour
         Playable inputPlayable = playable.GetInput(0);
         if (!inputPlayable.IsValid())
         {
+            if (controller.IsPlayingActionAnimation())
+                Debug.Log("AnimPlaying");
+
             //if ((character.GetCurrentActionState() == ActionStates.Block || character.GetCurrentActionState() == ActionStates.Hit))
             //    controller.OnActionAnimationEnd();
             return;
         }
-
+        //playable.SetTime(Time.fixedDeltaTime);
         // Check if animation has finished playing
         if (inputPlayable.IsDone())
         {
+            Managers.Instance.GameManager.countframes = false;
+            Debug.Log("Done");
+            Managers.Instance.GameManager.countframes = false;
+            if (character.GetCurrentActionState() == ActionStates.None)
+            {
+                controller.OnActionAnimationEnd();
+            }
+            else
+            {
+                character.OnAnimationEnd();
+            }
             playable.DisconnectInput(0);
         }
     }

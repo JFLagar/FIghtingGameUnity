@@ -187,6 +187,7 @@ namespace SkillIssue.StateMachineSpace
         }
         public override void EnterState()
         {
+            stateMachine.GetCharacter().SetApplyGravity(false);
             stateMachine.SetCurrentState(this, States.Crouching);
             stateMachine.GetCharacter().GetCharacterAnimation().ChangeMovementState(stateMachine.GetCharacter().GetCharacterAnimationsData().crouchingClip);
         }

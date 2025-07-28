@@ -4,7 +4,6 @@ using SkillIssue.StateMachineSpace;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 namespace SkillIssue.CharacterSpace
 {
@@ -122,6 +121,9 @@ namespace SkillIssue.CharacterSpace
 
         private void Awake()
         {
+            GameObject characterModel = Instantiate(characterData.CharacterModel, model3D.transform);
+            characterModel.AddComponent<Animator>().runtimeAnimatorController = characterData.Animator;
+            animator = characterModel.GetComponent<Animator>();
             characterAnimation.Initialize(this, animator);
             inputHandler.Initialize(this);
             stateMachine.Initialize(this);
@@ -156,6 +158,7 @@ namespace SkillIssue.CharacterSpace
 
         void UpdateFrameCounter()
         {
+            return;
             if (hitstop != 0)
                 return;
             if (GetCurrentActionState() == ActionStates.None)
@@ -214,7 +217,6 @@ namespace SkillIssue.CharacterSpace
         // Update is called once per frame
         void Update()
         {
-
             if (opponent == null)
                 return;
             xDiff = transform.position.x - opponent.transform.position.x;
@@ -270,6 +272,12 @@ namespace SkillIssue.CharacterSpace
         }
 
         #region Getters and Setters
+
+        public InputHandler GetInputHandler()
+        {
+           return inputHandler;
+        }
+
         public void SetMotionInput(MotionInputs motion)
         {
             if (storedMotionInput == motion)
@@ -860,7 +868,8 @@ namespace SkillIssue.CharacterSpace
 
         public void OnAnimationEnd()
         {
-                opponent.ResetAttackInfo();
+            SetActionState(ActionStates.None);
+            opponent.ResetAttackInfo();
                 characterAnimation.OnActionAnimationEnd();
                 isKnockedDown = false;
                 isHardKnockDown = false;
@@ -1078,6 +1087,7 @@ namespace SkillIssue.CharacterSpace
         public IEnumerator JumpCoroutine()
         {
             stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
+            stateMachine.GetCharacter().GetCharacterAnimation().ChangeMovementState(stateMachine.GetCharacter().GetCharacterAnimationsData().jumpingClips.LastOrDefault());
             float jumpPower = GetJumpPower();
             // SuperJump
             if (storedMotionInput == MotionInputs.du)
@@ -1087,7 +1097,6 @@ namespace SkillIssue.CharacterSpace
             }
 
             yield return new FrameWait(jumpStartup);
-            stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().jumpingClips.FirstOrDefault());
             ApplyForce(new Vector2(GetInputDirection().x, 1f), jumpPower);
             storedMotionInput = MotionInputs.NONE;
         }
@@ -1155,6 +1164,11 @@ namespace SkillIssue.CharacterSpace
             if (inputHandler.GetDirection().x == -faceDir || GetCurrentActionState() == ActionStates.Block)
                 return true;
             return false;
+        }
+
+        public void SetAnimationSpeed(double speed)
+        {
+            characterAnimation.SetGraphSpeed(speed);
         }
 
         public void PlaySound(AudioClip clip = null)

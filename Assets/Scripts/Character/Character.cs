@@ -93,7 +93,9 @@ namespace SkillIssue.CharacterSpace
         int hitboxLayerMask = 6;
         //P1 = 7, P2= 8//
         [SerializeField]
-        int hurtboxLayerMask = 7;
+        string hurtboxLayerMask;
+        [SerializeField]
+        LayerMask hitboxTargetLayerMask;
         [SerializeField]
         Vector3 origin;
         [SerializeField]
@@ -216,6 +218,7 @@ namespace SkillIssue.CharacterSpace
 
         #region Getters and Setters
 
+
         public InputHandler GetInputHandler()
         {
            return inputHandler;
@@ -226,7 +229,12 @@ namespace SkillIssue.CharacterSpace
             return hitboxLayerMask;
         }
 
-        public LayerMask GetHurtboxLayerMask()
+        public LayerMask GetHitboxTargetMask()
+        {
+            return hitboxTargetLayerMask;
+        }
+
+        public string GetHurtboxLayerMask()
         {
             return hurtboxLayerMask;
         }
@@ -432,6 +440,11 @@ namespace SkillIssue.CharacterSpace
         public int GetMaxHealth()
         {
             return characterData.GetMaxHP();
+        }
+
+        public Character GetOpponent()
+        {
+            return opponent;
         }
 
         public Element GetElement()
@@ -838,8 +851,8 @@ namespace SkillIssue.CharacterSpace
             m_projectile.trajectory.x *= faceDir;
             m_projectile.transform.position = new Vector2(transform.position.x + (projectile.origin.x * faceDir), transform.position.y + projectile.origin.y);
             m_projectile.transform.parent = transform.parent;
-            m_projectile.hitbox.mask = hitboxLayerMask;
-            m_projectile.m_hurtbox.gameObject.layer = hurtboxLayerMask;
+            m_projectile.hitbox.targetMask = hitboxLayerMask;
+            m_projectile.m_hurtbox.gameObject.layer = LayerMask.NameToLayer(hurtboxLayerMask);
             m_projectile.parent = this;
             currentProjectile = m_projectile;
         }

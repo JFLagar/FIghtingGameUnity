@@ -75,7 +75,7 @@ public class Projectile : MonoBehaviour , IHitboxResponder
         m_projectile.origin.x = 0;
         m_projectile.transform.position = new Vector2(transform.position.x , transform.position.y);
         m_projectile.transform.parent = transform.parent;
-        m_projectile.hitbox.mask = gameObject.layer;
+        m_projectile.hitbox.targetMask = gameObject.layer;
         m_projectile.m_hurtbox.gameObject.layer = m_hurtbox.gameObject.layer;
     }
     IEnumerator EndingCoroutine()

@@ -100,6 +100,10 @@ public class GameManager : MonoBehaviour
     {
         isGamePaused = !isGamePaused;
         Time.timeScale = isGamePaused ? 0f : 1f;
+        foreach (Character character in characters) 
+        {
+            character.GetCharacterAnimation().SetPlayspeed(Time.timeScale);
+        }
         if (uIBehaviour != null)
             uIBehaviour.ShowPauseUI(isGamePaused);
     }

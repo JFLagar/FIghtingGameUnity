@@ -21,11 +21,12 @@ public class CharacterModel : MonoBehaviour
         foreach (Hurtbox hurtbox in hurtboxes)
         {
             hurtbox.character = character;
-            hurtbox.gameObject.layer = character.GetHurtboxLayerMask();
+            hurtbox.gameObject.layer = LayerMask.NameToLayer(character.GetHurtboxLayerMask());
         }
         foreach (Hitbox hitbox in hitboxes)
         {
-            hitbox.mask = character.GetHitboxLayerMask();
+            hitbox.gameObject.layer = character.GetHitboxLayerMask();
+            hitbox.targetMask = character.GetHitboxTargetMask();
         }
 
     }

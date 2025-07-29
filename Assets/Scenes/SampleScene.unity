@@ -1697,6 +1697,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8062074396790736155, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
+      propertyPath: hurtboxLayerMask
+      value: P1Hurtbox
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062074396790736155, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
+      propertyPath: hitboxTargetLayerMask.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     - target: {fileID: 8062074396812654239, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1754,8 +1762,16 @@ PrefabInstance:
       value: -1.914561
       objectReference: {fileID: 0}
     - target: {fileID: 8416089865207465151, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
+      propertyPath: hurtboxLayerMask
+      value: P2Hurtbox
+      objectReference: {fileID: 0}
+    - target: {fileID: 8416089865207465151, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
       propertyPath: hurtboxLayerMask.m_Bits
       value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 8416089865207465151, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
+      propertyPath: hitboxTargetLayerMask.m_Bits
+      value: 128
       objectReference: {fileID: 0}
     - target: {fileID: 8749907345468162354, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

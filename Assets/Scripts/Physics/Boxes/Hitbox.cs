@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 namespace SkillIssue
 {
@@ -11,14 +12,14 @@ namespace SkillIssue
     }
     public class Hitbox : MonoBehaviour
     {
-        public LayerMask mask;
+        public LayerMask targetMask;
         public bool useSphere = false;
         public Vector3 hitboxSize;
         public Color inactiveColor;
         public Color collisionOpenColor;
         public Color collidingColor;
 
-        ColliderState state;
+        public ColliderState state;
         private IHitboxResponder responder = null;
 
         void FixedUpdate()
@@ -30,7 +31,7 @@ namespace SkillIssue
         {
             if (state == ColliderState.Closed) { return; }
 
-            Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, hitboxSize, 0, mask);
+            Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, hitboxSize, 0, targetMask);
             if (colliders.Length!= 0)
             {
                 if (state == ColliderState.Colliding)

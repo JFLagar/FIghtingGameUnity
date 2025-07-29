@@ -96,6 +96,11 @@ public class CharacterAnimationManager : MonoBehaviour
         }
     }
 
+    public void SetPlayspeed(float speed)
+    {
+        mixerPlayable.SetSpeed(speed);
+    }
+
     public bool IsPlayingActionAnimation()
     {
         return actionScriptPlayable.GetPlayState() == PlayState.Playing && mixerPlayable.GetInputWeight(1) == 1;
@@ -156,6 +161,8 @@ public class CharacterAnimationManager : MonoBehaviour
         // Reconnect to existing ActionPlayableBehaviour
         graph.Disconnect(actionScriptPlayable, 0);
         graph.Connect(actionPlayable, 0, actionScriptPlayable, 0);
+        float aditionalLenght = 0;
+        //aditionalLenght = 1 * Time.fixedDeltaTime;
         actionPlayable.SetDuration(actionClip.length);
         mixerPlayable.SetInputWeight(1, 1.0f); // Enable action animation
         mixerPlayable.SetInputWeight(0, 0.0f); // Disable movement animation

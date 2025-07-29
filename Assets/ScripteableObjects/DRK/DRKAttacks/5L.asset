@@ -37,7 +37,7 @@ MonoBehaviour:
   grab: 0
   canceleableSelf: 0
   cancelableTypes: 
-  animation: {fileID: -2400881091307948195, guid: 1e79b61130af0b445bca971a9ba2a2a0, type: 3}
+  animation: {fileID: 7400000, guid: 19cb6a343677aab4394edf0f82a5e247, type: 2}
   message: 
   followUpAttack: {fileID: 0}
   collideSound: {fileID: 0}

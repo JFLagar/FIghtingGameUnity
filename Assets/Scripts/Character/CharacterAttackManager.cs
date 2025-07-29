@@ -19,9 +19,10 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
     [SerializeField]
     public Coroutine landCheck = null;
 
-    public void Initialize(Character controllingChar)
+    public void Initialize(Character controllingChar, Hitbox[] hitboxes)
     {
         character = controllingChar;
+        this.hitboxes = hitboxes;
     }
 
     public void Attack(AttackData data, bool followup = false)

@@ -65,6 +65,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void LogTime()
+    {
+        Debug.Log("Frame: " + frame);
+    }
+
     public void ToggleRecording()
     {
         IsRecording = !IsRecording;
@@ -95,10 +100,6 @@ public class GameManager : MonoBehaviour
     {
         isGamePaused = !isGamePaused;
         Time.timeScale = isGamePaused ? 0f : 1f;
-        foreach (Character character in characters)
-        {
-            character.SetAnimationSpeed(Time.timeScale);
-        }
         if (uIBehaviour != null)
             uIBehaviour.ShowPauseUI(isGamePaused);
     }

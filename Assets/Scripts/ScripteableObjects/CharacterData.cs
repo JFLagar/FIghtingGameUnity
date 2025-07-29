@@ -7,8 +7,7 @@ using UnityEditor.Animations;
 [CreateAssetMenu(fileName = "CharacterData", menuName = "Scriptable Objects/CharacterData")]
 public class CharacterData : ScriptableObject
 {
-    public GameObject CharacterModel;
-    public AnimatorController Animator;
+    public CharacterModel CharacterModel;
     [SerializeField]
     string characterName;
     [SerializeField]

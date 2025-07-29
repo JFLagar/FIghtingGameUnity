@@ -732,6 +732,9 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 1191887763884714013}
     m_Position: {x: 753.98975, y: 693.9067, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 5233859047707948383}
+    m_Position: {x: -54.499268, y: 318.34058, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -1049,6 +1052,32 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -3387384934556297090, guid: 1e79b61130af0b445bca971a9ba2a2a0, type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &5233859047707948383
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: DRK_010_5L
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 19cb6a343677aab4394edf0f82a5e247, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

@@ -88,10 +88,12 @@ namespace SkillIssue.CharacterSpace
         bool visualState;
         [SerializeField]
         Color32[] stateColors;
+        //6//
         [SerializeField]
-        Hitbox m_hitbox;
+        int hitboxLayerMask = 6;
+        //P1 = 7, P2= 8//
         [SerializeField]
-        Hurtbox m_hurtbox;
+        int hurtboxLayerMask = 7;
         [SerializeField]
         Vector3 origin;
         [SerializeField]
@@ -101,8 +103,6 @@ namespace SkillIssue.CharacterSpace
         bool isHardKnockDown = false;
         bool isWakingUp = false;
         private int hitstop;
-        int frameCounter = 0;
-        int frameCounterTarget = 0;
 
         private MotionInputs storedMotionInput = MotionInputs.NONE;
 
@@ -121,13 +121,14 @@ namespace SkillIssue.CharacterSpace
 
         private void Awake()
         {
-            GameObject characterModel = Instantiate(characterData.CharacterModel, model3D.transform);
-            characterModel.AddComponent<Animator>().runtimeAnimatorController = characterData.Animator;
+            CharacterModel characterModel = Instantiate(characterData.CharacterModel, model3D.transform);
+            characterModel.Initialize(this);
             animator = characterModel.GetComponent<Animator>();
+            collisions = characterModel.GetCollisions();
             characterAnimation.Initialize(this, animator);
             inputHandler.Initialize(this);
             stateMachine.Initialize(this);
-            attackManager.Initialize(this);
+            attackManager.Initialize(this, characterModel.GetHitboxes());
         }
 
         // Start is called before the first frame update
@@ -153,70 +154,12 @@ namespace SkillIssue.CharacterSpace
                 hasBurst = true;
                 currentBurstCD = 0;
             }
-            UpdateFrameCounter();
-        }
-
-        void UpdateFrameCounter()
-        {
-            return;
-            if (hitstop != 0)
-                return;
-            if (GetCurrentActionState() == ActionStates.None)
-                return;
-            frameCounter++;
-            if (GetCurrentActionState() == ActionStates.Attack)
-                ProcessAttackFrame(frameCounter);
-            if (frameCounter == frameCounterTarget || frameCounterTarget == 0)
-            {
-                //wakeup anim
-                if (isKnockedDown && !isWakingUp)
-                {
-                    isWakingUp = true;
-                    frameCounter = 0;
-                    frameCounterTarget = wakingUpFrames;
-                    characterAnimation.PlayActionAnimation(characterData.GetCharacterAnimationsData().wakeupClips[0]);
-
-                }
-                else
-                {
-                    SetActionState(ActionStates.None);
-                    OnAnimationEnd();
-                }
-            }
-        }
-
-        void ProcessAttackFrame(int frameCounter)
-        {
-            if (frameCounter != 0 && frameCounter == onGoingAttack.movementFrame)
-                ApplyAttackForce(onGoingAttack);
-            if (frameCounter == onGoingAttack.startupFrames)
-                OpenHitboxes(onGoingAttack.numberOfHitboxes-1);
-            if (frameCounter > onGoingAttack.startupFrames && onGoingAttack.numberOfExtraHits > 0)
-                CheckForExtraHits(frameCounter);
-            if (frameCounter == onGoingAttack.startupFrames + onGoingAttack.activeFrames)
-                CloseHitboxes(onGoingAttack.numberOfHitboxes-1);
-        }
-
-        void CheckForExtraHits(int frameCounter)
-        {
-            for (int i = 0; i < onGoingAttack.numberOfExtraHits; i++)
-            {
-                if (frameCounter == onGoingAttack.startupFrames + i + onGoingAttack.extraHitsDelayFrames)
-                {
-                    attackManager.ClearPreviousAttack();
-                    OpenHitboxes(onGoingAttack.numberOfHitboxes - 1);
-                }
-            }
-        }
-
-        int CalculateAttackDuration(AttackData attackData)
-        {
-            return attackData.startupFrames + attackData.activeFrames + attackData.recoveryFrames;
         }
 
         // Update is called once per frame
         void Update()
         {
+            characterAnimation.AnimUpdate();
             if (opponent == null)
                 return;
             xDiff = transform.position.x - opponent.transform.position.x;
@@ -276,6 +219,16 @@ namespace SkillIssue.CharacterSpace
         public InputHandler GetInputHandler()
         {
            return inputHandler;
+        }
+
+        public LayerMask GetHitboxLayerMask()
+        {
+            return hitboxLayerMask;
+        }
+
+        public LayerMask GetHurtboxLayerMask()
+        {
+            return hurtboxLayerMask;
         }
 
         public void SetMotionInput(MotionInputs motion)
@@ -717,8 +670,6 @@ namespace SkillIssue.CharacterSpace
         public void Attack(AttackData attackData)
         {
             onGoingAttack = attackData;
-            frameCounter = 0;
-            frameCounterTarget = CalculateAttackDuration(attackData);
             SetActionState(ActionStates.Attack);
         }
 
@@ -753,8 +704,7 @@ namespace SkillIssue.CharacterSpace
         private void PerformGettingHit(AttackData data)
         {
             Vector2 dir = new(data.push.x * -faceDir, 0);
-            PlaySound(data.collideSound);
-            frameCounter = 0;
+            PlaySound(data.collideSound);;
             if (data.launcher || isKnockedDown)
             {
                 characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[2]);
@@ -764,20 +714,16 @@ namespace SkillIssue.CharacterSpace
                 {
                     isHardKnockDown = true;
                 }
-                frameCounterTarget = Mathf.FloorToInt(CalculateHitstun(data) + (GetCharacterAnimationsData().hitClips[2].length * 60));
             }
             else
             {
                 if (data.grab)
                 {
                     characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[0]);
-                    frameCounterTarget = Mathf.FloorToInt(CalculateHitstun(data));
                 }
                 else
                 {
                     characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[(int)GetCurrentState()]);
-                    frameCounterTarget = Mathf.FloorToInt(CalculateHitstun(data));
-
                 }
                 if (GetCurrentState() == States.Jumping)
                 {
@@ -812,8 +758,6 @@ namespace SkillIssue.CharacterSpace
             PlaySound(data.collideSound);
             Vector2 dir = new(data.push.x * -GetFaceDir(), 0);
             Vector2 blockDir = new(dir.x, 0);
-            frameCounter = 0;
-            frameCounterTarget = CalculateHitstun(data) - 1 + Mathf.FloorToInt(GetCharacterAnimationsData().blockingClips[(int)GetCurrentState()].length * 60);
             SetActionState(ActionStates.Block);
 
             if (!blockCheck)
@@ -894,20 +838,52 @@ namespace SkillIssue.CharacterSpace
             m_projectile.trajectory.x *= faceDir;
             m_projectile.transform.position = new Vector2(transform.position.x + (projectile.origin.x * faceDir), transform.position.y + projectile.origin.y);
             m_projectile.transform.parent = transform.parent;
-            m_projectile.hitbox.mask = m_hitbox.mask;
-            m_projectile.m_hurtbox.gameObject.layer = m_hurtbox.gameObject.layer;
+            m_projectile.hitbox.mask = hitboxLayerMask;
+            m_projectile.m_hurtbox.gameObject.layer = hurtboxLayerMask;
             m_projectile.parent = this;
             currentProjectile = m_projectile;
         }
 
-        public void CheckState()
+        //Anim Event
+        
+        public void ApplyAttackForce()
         {
-            Debug.Log(animator.GetCurrentAnimatorClipInfo(0));
+            ApplyAttackForce(onGoingAttack);
+        }
+        
+        public void ClearPreviousAttack()
+        {
+            attackManager.ClearPreviousAttack();
+        }
+        
+        public void AnimEvent()
+        {
+            Managers.Instance.GameManager.LogTime();
         }
 
-        //Anim Event
+        public void PlaySound(AudioClip clip = null)
+        {
+            if (clip != null)
+                AudioManager.instance.PlayAnimationEffect(clip, playerId);
+        }
+
+        #endregion
+        #region Movement Physics
+
+        public void ResetPos()
+        {
+            transform.position = origin;
+        }
+
+        public void FixPosition()
+        {
+                transform.position = new Vector3(transform.position.x, 0f, 0);
+        }
+
         public void ApplyAttackForce(AttackData data)
         {
+            if (data == null)
+                return;
             Vector2 direction = data.movement;
             float duration = data.movementDuration;
             {
@@ -926,35 +902,6 @@ namespace SkillIssue.CharacterSpace
                 StopCoroutine(currentMovementCoroutine);
 
             currentMovementCoroutine = StartCoroutine(ForceAttackCoroutine(new Vector2(direction.x * faceDir, direction.y), duration, false));
-        }
-
-        public void OpenHitboxes(int number)
-        {
-            for (int i = 0; i <= number; i++)
-            {
-                attackManager.hitboxes[i].SetState(ColliderState.Open);
-            }
-        }
-
-        public void CloseHitboxes(int number)
-        {
-            for (int i = 0; i <= number; i++)
-            {
-                attackManager.hitboxes[i].SetState(ColliderState.Closed);
-            }
-        }
-
-        #endregion
-        #region Movement Physics
-
-        public void ResetPos()
-        {
-            transform.position = origin;
-        }
-
-        public void FixPosition()
-        {
-                transform.position = new Vector3(transform.position.x, 0f, 0);
         }
 
         public void ApplyCounterPush(Vector2 direction, float duration)
@@ -1164,17 +1111,6 @@ namespace SkillIssue.CharacterSpace
             if (inputHandler.GetDirection().x == -faceDir || GetCurrentActionState() == ActionStates.Block)
                 return true;
             return false;
-        }
-
-        public void SetAnimationSpeed(double speed)
-        {
-            characterAnimation.SetGraphSpeed(speed);
-        }
-
-        public void PlaySound(AudioClip clip = null)
-        {
-            if (clip != null)
-                AudioManager.instance.PlayAnimationEffect(clip, playerId);
         }
 
         private void OnCollisionEnter2D(Collision2D collision)

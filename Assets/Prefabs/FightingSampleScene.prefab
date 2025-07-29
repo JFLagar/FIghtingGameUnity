@@ -1592,6 +1592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   frameDisplay: {fileID: 8062074396662264429}
+  frameScriptDisplay: {fileID: 0}
   isTraining: 0
   cornerCharacter: {fileID: 0}
   characters:
@@ -1600,6 +1601,8 @@ MonoBehaviour:
   uIBehaviour: {fileID: 8062074395404191591}
   gameSpeed: 1
   generalForceSpeed: 2
+  frame: 0
+  countframes: 0
 --- !u!114 &8062074394908746624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7456,6 +7459,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1957316337047856815, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: hitboxLayerMask
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1957316337047856815, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: hurtboxLayerMask
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1957316337047856815, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
       propertyPath: stateColors.Array.data[0].rgba
       value: 4294901807
       objectReference: {fileID: 0}
@@ -7692,6 +7703,14 @@ PrefabInstance:
       propertyPath: opponent
       value: 
       objectReference: {fileID: 8416089865207465151}
+    - target: {fileID: 1957316337047856815, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: hitboxLayerMask
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1957316337047856815, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
+      propertyPath: hurtboxLayerMask
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 1957316337707236124, guid: a3c7f16a62ad81f49ae41215575bff0c, type: 3}
       propertyPath: motionBufferTime
       value: 1

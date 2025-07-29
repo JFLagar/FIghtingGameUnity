@@ -1753,6 +1753,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -1.914561
       objectReference: {fileID: 0}
+    - target: {fileID: 8416089865207465151, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
+      propertyPath: hurtboxLayerMask.m_Bits
+      value: 256
+      objectReference: {fileID: 0}
     - target: {fileID: 8749907345468162354, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 1.2589037

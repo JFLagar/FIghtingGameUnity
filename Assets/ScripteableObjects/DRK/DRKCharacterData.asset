@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af6710665f00bad47b684f085853d1de, type: 3}
   m_Name: DRKCharacterData
   m_EditorClassIdentifier: 
-  CharacterModel: {fileID: 919132149155446097, guid: 1e79b61130af0b445bca971a9ba2a2a0, type: 3}
+  CharacterModel: {fileID: 4201093349458534081, guid: 8801fe9f24bd5e54aa206e2e3994ac1b, type: 3}
   Animator: {fileID: 9100000, guid: 76d4d2460991b824ebb7b004fbe2ff8b, type: 2}
   characterName: Dark Knight
   maxHP: 100

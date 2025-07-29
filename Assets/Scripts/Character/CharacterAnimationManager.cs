@@ -22,14 +22,17 @@ public class CharacterAnimationManager : MonoBehaviour
 
     private Dictionary<AnimationClip, AnimationClipPlayable> movementPlayables = new Dictionary<AnimationClip, AnimationClipPlayable>();
     private Dictionary<AnimationClip, AnimationClipPlayable> actionPlayables = new Dictionary<AnimationClip, AnimationClipPlayable>();
+    float time = 0;
 
     public void Initialize(Character character, Animator animator)
     {
         this.character = character;
         this.animator = animator;
 
+        animator.updateMode = AnimatorUpdateMode.Fixed;
         // Create PlayableGraph
         graph = PlayableGraph.Create("CharacterAnimationGraph"+character.name);
+        graph.SetTimeUpdateMode(DirectorUpdateMode.Manual);
 
         // Create Animation Mixer with 2 inputs (Movement + Action)
         mixerPlayable = AnimationMixerPlayable.Create(graph, 2);
@@ -51,8 +54,13 @@ public class CharacterAnimationManager : MonoBehaviour
         // Set up Animation Output
         AnimationPlayableOutput output = AnimationPlayableOutput.Create(graph, "AnimationOutput", animator);
         output.SetSourcePlayable(mixerPlayable);
-
         graph.Play();
+    }
+
+    public void AnimUpdate()
+    {
+        time = 1f * Time.fixedDeltaTime;
+        graph.Evaluate(time);
     }
 
     private void CacheAnimationsPlayable()
@@ -68,11 +76,6 @@ public class CharacterAnimationManager : MonoBehaviour
             CacheActionPlayable(anim);
         }
 
-    }
-
-    public void SetGraphSpeed(double speed)
-    {
-        mixerPlayable.SetSpeed(speed);
     }
 
     void CacheMovementPlayable(AnimationClip clip)
@@ -148,11 +151,11 @@ public class CharacterAnimationManager : MonoBehaviour
         actionPlayable.SetTime(0);
         actionPlayable.SetTime(0);
         actionScriptPlayable.SetTime(0);
-
+        actionScriptPlayable.SetTime(0);
+        time = 0;
         // Reconnect to existing ActionPlayableBehaviour
         graph.Disconnect(actionScriptPlayable, 0);
         graph.Connect(actionPlayable, 0, actionScriptPlayable, 0);
-
         actionPlayable.SetDuration(actionClip.length);
         mixerPlayable.SetInputWeight(1, 1.0f); // Enable action animation
         mixerPlayable.SetInputWeight(0, 0.0f); // Disable movement animation
@@ -233,12 +236,9 @@ public class ActionPlayableBehaviour : PlayableBehaviour
             //    controller.OnActionAnimationEnd();
             return;
         }
-        //playable.SetTime(Time.fixedDeltaTime);
         // Check if animation has finished playing
         if (inputPlayable.IsDone())
         {
-            Managers.Instance.GameManager.countframes = false;
-            Debug.Log("Done");
             Managers.Instance.GameManager.countframes = false;
             if (character.GetCurrentActionState() == ActionStates.None)
             {

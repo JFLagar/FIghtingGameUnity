@@ -871,7 +871,7 @@ namespace SkillIssue.CharacterSpace
         
         public void AnimEvent()
         {
-            Managers.Instance.GameManager.LogTime();
+            characterAnimation.GetAnimationTime();
         }
 
         public void PlaySound(AudioClip clip = null)

@@ -65,11 +65,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void LogTime()
-    {
-        Debug.Log("Frame: " + frame);
-    }
-
     public void ToggleRecording()
     {
         IsRecording = !IsRecording;

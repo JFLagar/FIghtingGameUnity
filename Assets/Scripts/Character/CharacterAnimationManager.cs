@@ -1,4 +1,3 @@
-using GraphVisualizer;
 using SkillIssue.CharacterSpace;
 using SkillIssue.StateMachineSpace;
 using System.Collections.Generic;
@@ -167,8 +166,11 @@ public class CharacterAnimationManager : MonoBehaviour
         mixerPlayable.SetInputWeight(1, 1.0f); // Enable action animation
         mixerPlayable.SetInputWeight(0, 0.0f); // Disable movement animation
         actionScriptPlayable.Play();
-        Managers.Instance.GameManager.countframes = true;
-        Managers.Instance.GameManager.frame = 0;
+    }
+
+    public void GetAnimationTime()
+    {
+        Debug.Log(actionScriptPlayable.GetTime() + " / " + actionScriptPlayable.GetTime() / Time.fixedDeltaTime);
     }
 
     public void SwitchActionAnimation(AnimationClip actionClip)
@@ -246,7 +248,6 @@ public class ActionPlayableBehaviour : PlayableBehaviour
         // Check if animation has finished playing
         if (inputPlayable.IsDone())
         {
-            Managers.Instance.GameManager.countframes = false;
             if (character.GetCurrentActionState() == ActionStates.None)
             {
                 controller.OnActionAnimationEnd();

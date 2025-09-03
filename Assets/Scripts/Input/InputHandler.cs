@@ -2,6 +2,7 @@ using SkillIssue.CharacterSpace;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Schema;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEditor.Timeline.TimelinePlaybackControls;
@@ -110,6 +111,9 @@ namespace SkillIssue.Inputs
 
         private GameManager gameManager;
 
+        private InputControl currentMovementControl;
+        private float currentDirection;
+
         public PlayerInput GetPlayerInput()
         {
             return playerInput;
@@ -144,25 +148,41 @@ namespace SkillIssue.Inputs
             inputActions.Enable();
             inputActions.Controls.Enable();
             inputActions.Controls.LightButton.performed += LightButton;
+            inputActions.Controls.LightButton.canceled += LightButton;
             inputActions.Controls.MediumButton.performed += MediumButton;
+            inputActions.Controls.MediumButton.canceled += MediumButton;
             inputActions.Controls.HeavyButton.performed += HeavyButton;
+            inputActions.Controls.HeavyButton.canceled += HeavyButton;
             inputActions.Controls.UniqueButton.performed += UniqueButton;
+            inputActions.Controls.UniqueButton.canceled += UniqueButton;
+
             inputActions.Controls.Start.performed += StartButton;
             inputActions.Controls.Select.performed += SelectButton;
+            
             inputActions.Controls.MovementX.performed += MovementXDown;
+            inputActions.Controls.MovementX.canceled += MovementXDown;
             inputActions.Controls.MovementY.performed += MovementYDown;
+            inputActions.Controls.MovementY.canceled += MovementYDown;
         }
 
         void UnmapActions()
         {
             inputActions.Controls.LightButton.performed -= LightButton;
+            inputActions.Controls.LightButton.canceled -= LightButton;
             inputActions.Controls.MediumButton.performed -= MediumButton;
+            inputActions.Controls.MediumButton.canceled -= MediumButton;
             inputActions.Controls.HeavyButton.performed -= HeavyButton;
+            inputActions.Controls.HeavyButton.canceled -= HeavyButton;
             inputActions.Controls.UniqueButton.performed -= UniqueButton;
+            inputActions.Controls.UniqueButton.canceled -= UniqueButton;
+
             inputActions.Controls.Start.performed -= StartButton;
             inputActions.Controls.Select.performed -= SelectButton;
+
             inputActions.Controls.MovementX.performed -= MovementXDown;
+            inputActions.Controls.MovementX.canceled -= MovementXDown;
             inputActions.Controls.MovementY.performed -= MovementYDown;
+            inputActions.Controls.MovementY.canceled -= MovementYDown;
             inputActions.Controls.Disable();
         }
 
@@ -392,53 +412,55 @@ namespace SkillIssue.Inputs
             throw new NotImplementedException();
         }
 
-        public void MovementXUp(InputAction.CallbackContext context)
-        {
-            //direction.x = 0;
-            //inputQueue.Enqueue(new InputStruct(InputType.Movement, false, Time.time, direction));
-        }
-
         public void MovementXDown(InputAction.CallbackContext context)
         {
             float value = context.ReadValue<float>();
-            switch (value)
+            if (currentMovementControl == null && value != 0)
             {
-                case 0:
-                    direction.x = 0;
-                    break;
-                case < 0:
-                    direction.x = -1;
-                    break;
-                case > 0:
-                    direction.x = 1;
-                    break;
+                currentMovementControl = context.control;
             }
+                if (currentMovementControl != context.control)
+            {
+                value = 0;
+            }
+
+            if (value != 0)
+            {
+                value = Mathf.Abs(value) / value;
+                direction.x = value;
+                currentDirection = value;
+            }
+            else
+            {
+                direction.x = value;
+            }
+
+
             BufferedInput bufferedInput = new BufferedInput(InputType.Movement, !context.canceled, Time.time, direction, gameManager.RecordingFrame);
             if (!motionInputQueue.Any(c => c.Time == bufferedInput.Time))
                 motionInputQueue.Enqueue(bufferedInput);
-        }
-
-        public void MovementYUp(InputAction.CallbackContext context)
-        {
-            //direction.y = 0;
-            //inputQueue.Enqueue(new InputStruct(InputType.Movement, false, Time.time, direction));
+            if (currentMovementControl == context.control && context.action.WasReleasedThisFrame())
+            {
+                currentMovementControl = null;
+                currentDirection = 0;
+            }
+            if (context.action.WasReleasedThisFrame() && currentMovementControl != context.control)
+            {
+                direction.x = currentDirection;
+            }
         }
 
         public void MovementYDown(InputAction.CallbackContext context)
         {
             float value = context.ReadValue<float>();
-            switch (value)
+            if (value != 0)
             {
-                case 0:
-                    direction.y = 0;
-                    break;
-                case < 0:
-                    direction.y = -1;
-                    break;
-                case > 0:
-                    direction.y = 1;
-                    break;
+                float result = Mathf.Abs(value) / value;
+                direction.y = result;
             }
+            else
+                direction.y = 0;
+
             BufferedInput bufferedInput = new BufferedInput(InputType.Movement, !context.canceled, Time.time, direction, gameManager.RecordingFrame);
             if (!motionInputQueue.Any(c => c.Time == bufferedInput.Time))
                 motionInputQueue.Enqueue(bufferedInput);
@@ -451,9 +473,9 @@ namespace SkillIssue.Inputs
 
         public void LightButton(InputAction.CallbackContext context)
         {
-            if (context.performed)
+            if (context.action.WasPressedThisFrame())
                 lightButton.InputPressed();
-            if (context.canceled)
+            if (context.action.WasReleasedThisFrame())
                 lightButton.InputReleased();
         }
 
@@ -467,9 +489,9 @@ namespace SkillIssue.Inputs
 
         public void MediumButton(InputAction.CallbackContext context)
         {
-            if (context.performed)
+            if (context.action.WasPressedThisFrame())
                 mediumButton.InputPressed();
-            if (context.canceled)
+            if (context.action.WasReleasedThisFrame())
                 mediumButton.InputReleased();
         }
 
@@ -483,9 +505,9 @@ namespace SkillIssue.Inputs
 
         public void HeavyButton(InputAction.CallbackContext context)
         {
-            if (context.performed)
+            if (context.action.WasPressedThisFrame())
                 heavyButton.InputPressed();
-            if (context.canceled)
+            if (context.action.WasReleasedThisFrame())
                 heavyButton.InputReleased();
         }
 
@@ -499,9 +521,9 @@ namespace SkillIssue.Inputs
 
         public void UniqueButton(InputAction.CallbackContext context)
         {
-            if (context.performed)
+            if (context.action.WasPressedThisFrame())
                 uniqueButton.InputPressed();
-            if (context.canceled)
+            if (context.action.WasReleasedThisFrame())
                 uniqueButton.InputReleased();
         }
 
@@ -531,6 +553,7 @@ namespace SkillIssue.Inputs
 
         public void AddAttackInput(InputType input, bool isPressed)
         {
+            Debug.Log(isPressed);
             inputQueue.Enqueue(new BufferedInput(input, isPressed, Time.time, Vector2.zero, gameManager.RecordingFrame));
         }
 

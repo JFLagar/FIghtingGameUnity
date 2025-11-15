@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37ab23fea85b9ef47afd35d01e3ca97f, type: 3}
+  m_Name: ProtoAnims
+  m_EditorClassIdentifier: 
+  standingClips:
+  - {fileID: 7400000, guid: c21766e6c5eee3a4a8f42e43dd1b7860, type: 2}
+  - {fileID: 7400000, guid: 68c68186647fe9b448d6c90f3b689a7b, type: 2}
+  - {fileID: 7400000, guid: 638a2cc9b475efa41a85190411788cc7, type: 2}
+  - {fileID: 7400000, guid: c31100120e944b54fa463f2b91b13995, type: 2}
+  - {fileID: 7400000, guid: 5c5b51a20c17246408ee8b79dbe6125e, type: 2}
+  jumpingClips:
+  - {fileID: 7400000, guid: 24a53a4825cf5a44392b22ee2237e110, type: 2}
+  - {fileID: 7400000, guid: 24a53a4825cf5a44392b22ee2237e110, type: 2}
+  - {fileID: 7400000, guid: 60f81349f40da9146af75763abfb4a8b, type: 2}
+  - {fileID: 7400000, guid: 5c5b51a20c17246408ee8b79dbe6125e, type: 2}
+  crouchingClip: {fileID: 7400000, guid: b587216ad10a9c54b871996a264fedfd, type: 2}
+  blockingClips:
+  - {fileID: 7400000, guid: 8fc64c67c9072874b8bdddc6a6bb1c3c, type: 2}
+  - {fileID: 7400000, guid: cd1fc0149a90d6a4a860ce335ac1ee84, type: 2}
+  - {fileID: 7400000, guid: adbe34d19d75a254bb11956eabc5a589, type: 2}
+  hitClips:
+  - {fileID: 7400000, guid: 5802a492cb0ace545811b763bfebc1ce, type: 2}
+  - {fileID: 7400000, guid: 10f851d034e8c8a4ab53b52c8fbfd9db, type: 2}
+  - {fileID: 7400000, guid: 36dbabe67ce53994a93b0591fc966666, type: 2}
+  - {fileID: 7400000, guid: 5bc566089ffbd984998511e73d0d5907, type: 2}
+  stateTransitionClips:
+  - {fileID: 7400000, guid: 71efccb95503813459fad58a0ff23869, type: 2}
+  - {fileID: 7400000, guid: b587216ad10a9c54b871996a264fedfd, type: 2}
+  wakeupClips:
+  - {fileID: 7400000, guid: 75d6dac1dcfbacf4cb26dc5f249fc72e, type: 2}
+  - {fileID: 7400000, guid: 998658eb1ed395e47a8da3aa456166dc, type: 2}
+  - {fileID: 7400000, guid: 0191640513499574c83f152d89f1da94, type: 2}
+  - {fileID: 7400000, guid: 20543ec400c34cd479f19c2f803a1f7b, type: 2}

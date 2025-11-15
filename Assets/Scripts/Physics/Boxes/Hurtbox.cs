@@ -8,32 +8,13 @@ namespace SkillIssue
     public class Hurtbox : MonoBehaviour
     {
         public Character character;
-        public Collider2D hurtboxCollider;
         public ColliderState state = ColliderState.Open;
-
-        public Vector3 hitboxSize;
+        public BoxCollider2D boxCollider;
         public Color inactiveColor;
         public Color collisionOpenColor;
         public Color collidingColor;
         public bool blockCheck = false;
         public bool projectile = false;
-
-        public void Update()
-        {
-            if (blockCheck)
-                return;
-            if (character.IsHardKnockedDown())
-            {
-                Debug.Log("Closed");
-                state = ColliderState.Closed;
-            }
-            // Set them Open on animation
-            // for now
-            else
-            {
-                state = ColliderState.Open;
-            }
-        }
 
         public void GetHitBy(AttackData data)
         {
@@ -66,7 +47,7 @@ namespace SkillIssue
         {
             CheckGizmoColor();
             Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.localScale);
-            Gizmos.DrawWireCube(Vector3.zero, new Vector3(hitboxSize.x * 2, hitboxSize.y * 2, hitboxSize.z * 2)); // Because size is halfExtents
+            Gizmos.DrawWireCube(Vector3.zero, new Vector3(boxCollider.size.x, boxCollider.size.y, 1)); // Because size is halfExtents
         }
 
         void CheckGizmoColor()

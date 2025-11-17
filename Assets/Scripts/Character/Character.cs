@@ -522,23 +522,30 @@ namespace SkillIssue.CharacterSpace
                 if (GetCurrentState() == States.Standing)
                 {
                     isRunning = true;
-                    Debug.Log("Run");
                 }
                 else if ((GetCurrentState() == States.Jumping) && (airActions >= 0))
                 {
-                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().standingClips[4], 22);
-                    SetActionState(ActionStates.Landing);
-                    ApplyForce(new Vector2(0.5f * faceDir, 0.1f), 22);
+                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().jumpingClips[2], 22);
+                    ApplyForce(new Vector2(faceDir * 1.5f, 0.1f), 10);
                     airActions--;
                 }
 
             }
             else
             {
-                characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().standingClips.LastOrDefault(), 22);
-                ApplyForce(new Vector2(0.5f * -faceDir, 0.5f), 10);
-                
-                Debug.Log("BackDash");
+
+                if (GetCurrentState() == States.Standing)
+                {
+                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().standingClips.LastOrDefault(), 22);
+                    SetActionState(ActionStates.Landing);
+                    ApplyForce(new Vector2(-faceDir, 0.5f), 10);
+                }
+                else if ((GetCurrentState() == States.Jumping) && (airActions >= 0))
+                {
+                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().standingClips.LastOrDefault(), 22);
+                    ApplyForce(new Vector2(-faceDir, 0.1f), 10);
+                    airActions--;
+                }
             }
         }
 
@@ -990,7 +997,6 @@ namespace SkillIssue.CharacterSpace
 
         public void ApplyForce(Vector2 direction, float duration, bool counterforce = false)
         {
-            Debug.Log("FORCE");
             bool m_bool = false;
             if (counterforce)
             {
@@ -1023,7 +1029,7 @@ namespace SkillIssue.CharacterSpace
         {
             if (!applyGravity)
                 return;
-                characterAnimation.ChangeMovementState(stateMachine.GetCharacter().GetCharacterAnimationsData().jumpingClips.LastOrDefault());
+                characterAnimation.ChangeMovementState(stateMachine.GetCharacter().GetCharacterAnimationsData().jumpingClips.FirstOrDefault());
             if (!IsGrounded() && currentMovementCoroutine == null)
                 SetIsJumping(false);
             if (GetCurrentActionState() == ActionStates.None)
@@ -1086,8 +1092,9 @@ namespace SkillIssue.CharacterSpace
 
         public IEnumerator JumpCoroutine()
         {
+            SetActionState(ActionStates.Landing);
             stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
-            stateMachine.GetCharacter().GetCharacterAnimation().ChangeMovementState(stateMachine.GetCharacter().GetCharacterAnimationsData().jumpingClips.LastOrDefault());
+            stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().jumpingClips.FirstOrDefault());
             float jumpPower = GetJumpPower();
             // SuperJump
             if (storedMotionInput == MotionInputs.du)
@@ -1097,6 +1104,7 @@ namespace SkillIssue.CharacterSpace
             }
 
             yield return new FrameWait(jumpStartup);
+            SetActionState(ActionStates.None);
             ApplyForce(new Vector2(GetInputDirection().x, 1f), jumpPower);
             storedMotionInput = MotionInputs.NONE;
         }
@@ -1159,7 +1167,9 @@ namespace SkillIssue.CharacterSpace
                         return false;
                     break;
                 case States.Jumping:
-                    return false;
+                    if (attack == AttackAttribute.Mid)
+                        return false;
+                    break;
             }
             if (inputHandler.GetDirection().x == -faceDir || GetCurrentActionState() == ActionStates.Block)
                 return true;

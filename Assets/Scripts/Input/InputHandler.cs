@@ -553,7 +553,6 @@ namespace SkillIssue.Inputs
 
         public void AddAttackInput(InputType input, bool isPressed)
         {
-            Debug.Log(isPressed);
             inputQueue.Enqueue(new BufferedInput(input, isPressed, Time.time, Vector2.zero, gameManager.RecordingFrame));
         }
 

@@ -58,7 +58,7 @@ MonoBehaviour:
   vfx: {fileID: 7746021680221113552}
   stateMachine: {fileID: 1957316337707236123}
   inputHandler: {fileID: 1957316337707236124}
-  characterData: {fileID: 11400000, guid: 11f2996a3cc5be3409e6bbe84761e34e, type: 2}
+  characterData: {fileID: 11400000, guid: 2cf82aefd8b5d054eb1f2f9c5b1ffdce, type: 2}
   attackManager: {fileID: 7515142340994233024}
   animator: {fileID: 0}
   characterAnimation: {fileID: 2597134761694115151}
@@ -75,18 +75,18 @@ MonoBehaviour:
     rgba: 4278190335
   - serializedVersion: 2
     rgba: 4278241535
-  hitboxLayerMask:
+  hitboxLayerMask: 6
+  hurtboxLayerMask: 
+  hitboxTargetLayerMask:
     serializedVersion: 2
-    m_Bits: 64
-  hurtboxLayerMask:
-    serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
   origin: {x: 0, y: 0, z: 0}
   currentProjectile: {fileID: 0}
   superMeter: 0
   hasBurst: 0
   burstCD: 100
   currentBurstCD: 0
+  airActions: 0
 --- !u!114 &7515142340994233024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,6 +369,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9fc4847fe0599744aecc6385eea1e99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  action: 0
+  animName: 
 --- !u!1 &1957316337707236127
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,7 +615,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.8, z: -3}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1957316337702257280}

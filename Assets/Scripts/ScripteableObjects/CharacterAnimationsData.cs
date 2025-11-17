@@ -11,5 +11,7 @@ public class CharacterAnimationsData : ScriptableObject
     public AnimationClip[] hitClips;
     public AnimationClip[] stateTransitionClips;
     public AnimationClip[] wakeupClips;
+    public AnimationClip[] recoveryClips;
+    public AnimationClip[] cancelClips;
 
 }

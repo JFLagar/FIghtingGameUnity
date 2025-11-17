@@ -12,26 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af6710665f00bad47b684f085853d1de, type: 3}
   m_Name: ProtoData
   m_EditorClassIdentifier: 
-  CharacterModel: {fileID: 4201093349458534081, guid: 8801fe9f24bd5e54aa206e2e3994ac1b, type: 3}
+  CharacterModel: {fileID: 5799926572855761399, guid: 722a2f630dbc422419f8d84d47946f3f, type: 3}
   characterName: Proto
   maxHP: 100
   speed: 1
+  runSpeed: 3
   airActions: 1
   jumpForce: 20
   forceSpeed: 3
-  element: 0
-  elementData: {fileID: 11400000, guid: 8c3e8b6413a289040b06a41c10344afb, type: 2}
-  grab: {fileID: 11400000, guid: 5af027b48e893514186ccb38dad015ba, type: 2}
-  standingAttacks:
-  - {fileID: 11400000, guid: e3faf9db0ffc8c4418e0ae5942edb8b0, type: 2}
-  - {fileID: 11400000, guid: bdcee58d950e1db43867bab61163e780, type: 2}
-  crouchingAttacks:
-  - {fileID: 11400000, guid: 89450e086c655a0488cb2e782bab59b1, type: 2}
-  - {fileID: 11400000, guid: 4b2d995cac05dc14487c3d27a1ffbb94, type: 2}
-  jumpAttacks:
-  - {fileID: 11400000, guid: 2b4e515b066ec924c97bde0b6e2917c7, type: 2}
-  - {fileID: 11400000, guid: 660e2183387217147ace1a6cadae123a, type: 2}
-  specialAttacks:
-  - {fileID: 11400000, guid: 1f130feb2e91043499a225ea8c21f8ff, type: 2}
-  - {fileID: 11400000, guid: 1ec3fbf7a4b2cef478089a922d045e83, type: 2}
+  attackData: {fileID: 11400000, guid: 1e6be00cb00c90d4cab99e8cd0f7f861, type: 2}
   characterAnimationsData: {fileID: 11400000, guid: 325cda6f774efef499adf883966fbd18, type: 2}

@@ -23,6 +23,11 @@ public class CharacterAnimationManager : MonoBehaviour
     private Dictionary<AnimationClip, AnimationClipPlayable> actionPlayables = new Dictionary<AnimationClip, AnimationClipPlayable>();
     float time = 0;
 
+
+    public int action;
+    public string animName;
+
+
     public void Initialize(Character character, Animator animator)
     {
         this.character = character;
@@ -58,6 +63,7 @@ public class CharacterAnimationManager : MonoBehaviour
 
     public void AnimUpdate()
     {
+        action = mixerPlayable.GetInputWeight(0) == 0 ? 1 : 0;
         time = 1f * Time.fixedDeltaTime;
         graph.Evaluate(time);
     }
@@ -135,10 +141,11 @@ public class CharacterAnimationManager : MonoBehaviour
         {
             mixerPlayable.SetInputWeight(0,0);
         }
+        animName = newClip.name;
     }
 
     // Play Action Animation (Overrides Movement)
-    public void PlayActionAnimation(AnimationClip actionClip)
+    public void PlayActionAnimation(AnimationClip actionClip, float additionalLenght = 0)
     {
         if (actionClip == null)
         {
@@ -160,12 +167,13 @@ public class CharacterAnimationManager : MonoBehaviour
         // Reconnect to existing ActionPlayableBehaviour
         graph.Disconnect(actionScriptPlayable, 0);
         graph.Connect(actionPlayable, 0, actionScriptPlayable, 0);
-        float aditionalLenght = 0;
-        //aditionalLenght = 1 * Time.fixedDeltaTime;
-        actionPlayable.SetDuration(actionClip.length);
+        
+        additionalLenght = additionalLenght * Time.fixedDeltaTime;
+        actionPlayable.SetDuration(actionClip.length + additionalLenght);
         mixerPlayable.SetInputWeight(1, 1.0f); // Enable action animation
         mixerPlayable.SetInputWeight(0, 0.0f); // Disable movement animation
         actionScriptPlayable.Play();
+        animName = actionClip.name;
     }
 
     public void GetAnimationTime()

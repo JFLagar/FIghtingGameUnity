@@ -13,7 +13,9 @@ public class CharacterData : ScriptableObject
     [SerializeField]
     int maxHP = 1000;
     [SerializeField]
-    float speed = 200;
+    float speed = 1;
+    [SerializeField]
+    float runSpeed = 3;
     [SerializeField]
     int airActions = 1;
     [SerializeField]
@@ -24,19 +26,7 @@ public class CharacterData : ScriptableObject
     [Space]
 
     [SerializeField]
-    Element element;
-    [SerializeField]
-    ElementData elementData;
-    [SerializeField]
-    AttackData grab;
-    [SerializeField]
-    AttackData[] standingAttacks;
-    [SerializeField]
-    AttackData[] crouchingAttacks;
-    [SerializeField]
-    AttackData[] jumpAttacks;
-    [SerializeField]
-    AttackData[] specialAttacks;
+    CharacterAttackData attackData;
 
     [SerializeField]
     CharacterAnimationsData characterAnimationsData;
@@ -44,16 +34,15 @@ public class CharacterData : ScriptableObject
     public string GetCharacterName() {  return characterName; }
     public int GetMaxHP() { return maxHP; }
     public float GetMovementSpeed() { return speed; }
+    public float GetRunSpeed() {  return runSpeed; }
     public int GetAirActions() { return airActions; }
-    public Element GetElement() { return element; }
-    public AttackData GetGrabData() { return grab; }
-    public AttackData[] GetStandingAttacks() {  return standingAttacks; }
-    public AttackData[] GetCrouchingAttacks() {  return crouchingAttacks; }
-    public AttackData[] GetJumpAttacks() { return jumpAttacks; }
-    public AttackData[] GetSpecialAttacks()
-    {
-        return elementData.GetElementAttackData(element);
-    }
+    public AttackData[] GetGrabData() { return attackData.grabs; }
+    public AttackData[] GetStandingAttacks() { return attackData.standingAttacks; }
+    public AttackData[] GetCrouchingAttacks() {  return attackData.crouchingAttacks; }
+    public AttackData[] GetJumpAttacks() { return attackData.jumpingAttacks; }
+    public AttackData[] GetForwardAttacks() { return attackData.forwardAttacks; }
+    public AttackData[] GetSpecialAttacks() { return attackData.specialAttacks; }
+
     public CharacterAnimationsData GetCharacterAnimationsData()
     {
         return characterAnimationsData;
@@ -71,13 +60,12 @@ public class CharacterData : ScriptableObject
 
     public AttackData FindSpecialAttack(MotionInputs motion, InputType inputType)
     {
-        foreach (AttackData special in specialAttacks)
+        foreach (AttackData special in GetSpecialAttacks())
         {
-            //if (special.motionInput == motion && special.inputType == inputType)
-            //    return special;
-            if (special.motionInput == motion)
+            if (special.motionInput == motion && special.inputType == inputType)
                 return special;
         }
+        Debug.Log("Couldn't Find special: " + motion + " " + inputType);
         return null;
     }
 }

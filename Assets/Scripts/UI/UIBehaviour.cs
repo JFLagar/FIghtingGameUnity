@@ -55,8 +55,6 @@ public class UIBehaviour : MonoBehaviour
         {
             sliders[i].maxValue = characters[i].GetMaxHealth();
             sliders[i].value = characters[i].GetCurrentHealth();
-            elementSliders[i].value = (float)characters[i].GetElement();
-            elementIcon[i].sprite = elementSprites[(int)characters[i].GetElement()];
         }
 
         if (Managers.Instance.GameManager.IsTraining())

@@ -51,9 +51,14 @@ public class CharacterModel : MonoBehaviour
         return animator;
     }
 
-    public void ApplyAttackForce()
+    public void AnimationMovement(Vector2 direction)
     {
-        character.ApplyAttackForce();
+        character.AnimationMovement(direction);
+    }
+
+    public void AnimationMovementEnd()
+    {
+        character.AnimationMovementEnd();
     }
 
     public void ClearPreviousAttack()

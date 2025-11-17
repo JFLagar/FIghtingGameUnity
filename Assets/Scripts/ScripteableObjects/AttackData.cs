@@ -6,6 +6,7 @@ using Unity.Collections;
 using UnityEngine;
 using SkillIssue.Inputs;
 using Unity.VisualScripting;
+using NaughtyAttributes;
 namespace SkillIssue
 {
     public enum AttackAttribute
@@ -26,25 +27,16 @@ namespace SkillIssue
         public AttackState attackState;
         public AttackAttribute attackAttribute;
         public InputType inputType;
-        public MotionInputs motionInput;
-
-        [SerializeField, Unity.Collections.ReadOnly]
-        private int TotalFrames;
-        public int startupFrames;
-        public int activeFrames;
-        public int recoveryFrames;
-        public int numberOfHitboxes;
-        public int numberOfExtraHits;
-        public int extraHitsDelayFrames;
+        public bool IsSpecial;
+        [ShowIf("IsSpecial")]
+        public MotionInputs motionInput = MotionInputs.NONE;
 
         [Space]
         public int attackLevel = 0; //0 to 5
         public int extraHitstun;
         public int damage;
         public Vector2 push;
-        public Vector2 movement;
-        public int movementFrame;
-        public float movementDuration;
+
         [Space]
         public bool launcher;
         public bool hardKnockdown;
@@ -59,9 +51,5 @@ namespace SkillIssue
         public AttackData followUpAttack;
         public AudioClip collideSound;
 
-        private void OnValidate()
-        {
-            TotalFrames = startupFrames + activeFrames+recoveryFrames;
-        }
     }
 }

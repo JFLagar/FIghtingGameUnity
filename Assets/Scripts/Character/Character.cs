@@ -75,6 +75,7 @@ namespace SkillIssue.CharacterSpace
 
         bool landed;
         bool isJumping;
+        bool isRunning = false;
 
         [Space]
 
@@ -120,6 +121,8 @@ namespace SkillIssue.CharacterSpace
         private int burstCD = 100;
         [SerializeField]
         private int currentBurstCD = 0;
+        [SerializeField]
+        private int airActions = 0;
 
         private void Awake()
         {
@@ -293,7 +296,20 @@ namespace SkillIssue.CharacterSpace
             {
                 animationClips.Add(anim);
             }
+            foreach (var anim in animationsData.wakeupClips)
+            {
+                animationClips.Add(anim);
+            }
+            foreach (var anim in animationsData.recoveryClips)
+            {
+                animationClips.Add(anim);
+            }
+            foreach (var anim in animationsData.cancelClips)
+            {
+                animationClips.Add(anim);
+            }
 
+            // Attack Animations
             foreach (var attack in characterData.GetStandingAttacks())
             {
                 animationClips.Add(attack.animation);
@@ -318,9 +334,18 @@ namespace SkillIssue.CharacterSpace
                 if (attack.followUpAttack != null)
                     animationClips.Add(attack.followUpAttack.animation);
             }
-            animationClips.Add(characterData.GetGrabData().animation);
-            if (characterData.GetGrabData().followUpAttack != null)
-                    animationClips.Add(characterData.GetGrabData().followUpAttack.animation);
+            foreach (var attack in characterData.GetForwardAttacks())
+            {
+                animationClips.Add(attack.animation);
+                if (attack.followUpAttack != null)
+                    animationClips.Add(attack.followUpAttack.animation);
+            }
+            foreach (var attack in characterData.GetGrabData())
+            {
+                animationClips.Add(attack.animation);
+                if (attack.followUpAttack != null)
+                    animationClips.Add(attack.followUpAttack.animation);
+            }
 
             return animationClips;
         }
@@ -447,11 +472,6 @@ namespace SkillIssue.CharacterSpace
             return opponent;
         }
 
-        public Element GetElement()
-        {
-            return characterData.GetElement();
-        }
-
         public float GetMovementDirectionX()
         {
             return movementDirectionX;
@@ -483,18 +503,54 @@ namespace SkillIssue.CharacterSpace
             wallFaceDirection = faceDirection;
         }
 
+        public int GetAirActions()
+        {
+            return airActions;
+        }
+
+        public void ResetAirActions()
+        {
+            airActions = characterData.GetAirActions();
+        }
+
         #endregion
         #region Character Commands
         void PerformDash()
         {
             if (GetInputDirection().x == faceDir)
-                Debug.Log("FowardDash");
+            {
+                if (GetCurrentState() == States.Standing)
+                {
+                    isRunning = true;
+                    Debug.Log("Run");
+                }
+                else if ((GetCurrentState() == States.Jumping) && (airActions >= 0))
+                {
+                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().standingClips[4], 22);
+                    SetActionState(ActionStates.Landing);
+                    ApplyForce(new Vector2(0.5f * faceDir, 0.1f), 22);
+                    airActions--;
+                }
+
+            }
             else
+            {
+                characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().standingClips.LastOrDefault(), 22);
+                ApplyForce(new Vector2(0.5f * -faceDir, 0.5f), 10);
+                
                 Debug.Log("BackDash");
+            }
         }
 
         public void PerformJump()
         {
+            if (GetCurrentState() == States.Jumping)
+            {
+                if (airActions > 0)
+                    airActions--;
+                else
+                    return;
+            }
             currentMovementCoroutine = StartCoroutine(JumpCoroutine());
         }
 
@@ -596,6 +652,8 @@ namespace SkillIssue.CharacterSpace
 
         public void PerformAttack(InputType type)
         {
+            if (type == InputType.Heavy || type == InputType.Unique)
+                return;
             if (storedMotionInput != MotionInputs.NONE)
             {
                 Debug.Log("Performing Special with: " + storedMotionInput + "" + type);
@@ -608,7 +666,10 @@ namespace SkillIssue.CharacterSpace
 
             if (type == InputType.LU)
             {
-                attackManager.Attack(characterData.GetGrabData());
+                if (GetCurrentState() != States.Jumping)
+                    attackManager.Attack(characterData.GetGrabData()[0]);
+                else
+                    attackManager.Attack(characterData.GetGrabData()[1]);
                 return;
             }
             if ((int)type > characterData.GetStandingAttacks().Length)
@@ -623,13 +684,13 @@ namespace SkillIssue.CharacterSpace
                             switch (inputHandler.GetDirection().y)
                             {
                                 case 0f:
-                                    attackData = characterData.GetStandingAttacks()[((int)type)];
+                                attackData = inputHandler.GetDirection().x == faceDir ? characterData.GetForwardAttacks()[((int)type)] : characterData.GetStandingAttacks()[((int)type)];
                                     break;
                                 case 1f:
                                     attackData = characterData.GetJumpAttacks()[((int)type)];
                                     break;
                                 case -1f:
-                                    attackData = characterData.GetCrouchingAttacks()[((int)type)];
+                                attackData = inputHandler.GetDirection().x == faceDir ? characterData.GetForwardAttacks()[((int)type)] : characterData.GetCrouchingAttacks()[((int)type)];
                                     break;
                             }
 
@@ -640,10 +701,10 @@ namespace SkillIssue.CharacterSpace
                         switch (inputHandler.GetDirection().y)
                         {
                             case 0f:
-                                attackData = characterData.GetStandingAttacks()[((int)type)];
+                            attackData = inputHandler.GetDirection().x == faceDir ? characterData.GetForwardAttacks()[((int)type)] : characterData.GetStandingAttacks()[((int)type)];
                                 break;
                             case -1f:
-                                attackData = attackData = characterData.GetCrouchingAttacks()[((int)type)];
+                            attackData = inputHandler.GetDirection().x == faceDir ? characterData.GetForwardAttacks()[((int)type)] : characterData.GetCrouchingAttacks()[((int)type)];
                                 break;
                         }
                         break;
@@ -798,18 +859,24 @@ namespace SkillIssue.CharacterSpace
                     destination.x = 0;
                 if (GetInputDirection().x != faceDir)
                 {
-                    characterAnimation.ChangeMovementState(GetCharacterAnimationsData().standingClips.LastOrDefault());
+                    characterAnimation.ChangeMovementState(GetCharacterAnimationsData().standingClips[2]);
                     speed = characterData.GetMovementSpeed() / 1.5f;
+                    isRunning = false;
                 }
 
                 else
                 {
-                    characterAnimation.ChangeMovementState(GetCharacterAnimationsData().standingClips[1]);
-                    speed = characterData.GetMovementSpeed();
+                    int moveId = isRunning ? 3 : 1;
+                    characterAnimation.ChangeMovementState(GetCharacterAnimationsData().standingClips[moveId]);
+                    speed = isRunning ? characterData.GetRunSpeed() : characterData.GetMovementSpeed();
                 }
             }
             else
-            characterAnimation.ChangeMovementState(GetCharacterAnimationsData().standingClips.FirstOrDefault());
+            {
+                characterAnimation.ChangeMovementState(GetCharacterAnimationsData().standingClips.FirstOrDefault());
+                isRunning = false;
+            }
+
 
             transform.position += (speed * Time.fixedDeltaTime * destination);
 
@@ -841,6 +908,7 @@ namespace SkillIssue.CharacterSpace
         #endregion
         #region AnimEvents
         //Anim Event
+
         public void SpawnProjectile(Projectile projectile)
         {
             if (currentProjectile != null)
@@ -857,13 +925,34 @@ namespace SkillIssue.CharacterSpace
             currentProjectile = m_projectile;
         }
 
-        //Anim Event
-        
-        public void ApplyAttackForce()
+        public void AnimationMovement(Vector2 direction)
         {
-            ApplyAttackForce(onGoingAttack);
+            if (direction == null)
+                return;
+            {
+                if (IsAgainstTheWall() && Mathf.Sign(direction.x) == GetWallDirectionX())
+                    direction.x = 0;
+
+                posY = direction.y;
+                if (posY > 0)
+                {
+                    SetIsGrounded(false);
+                    SetApplyGravity(false);
+                }
+            }
+
+            if (currentMovementCoroutine != null)
+                StopCoroutine(currentMovementCoroutine);
+
+            currentMovementCoroutine = StartCoroutine(ForceCoroutine(new Vector2(direction.x * faceDir, direction.y), 100, false));
         }
-        
+
+        public void AnimationMovementEnd()
+        {
+            StopCoroutine(currentMovementCoroutine);
+            currentMovementCoroutine = null;
+        }
+
         public void ClearPreviousAttack()
         {
             attackManager.ClearPreviousAttack();
@@ -893,30 +982,6 @@ namespace SkillIssue.CharacterSpace
                 transform.position = new Vector3(transform.position.x, 0f, 0);
         }
 
-        public void ApplyAttackForce(AttackData data)
-        {
-            if (data == null)
-                return;
-            Vector2 direction = data.movement;
-            float duration = data.movementDuration;
-            {
-                if (IsAgainstTheWall() && Mathf.Sign(direction.x) == GetWallDirectionX())
-                    direction.x = 0;
-
-                posY = direction.y;
-                if (posY > 0)
-                {
-                    SetIsGrounded(false);
-                    SetApplyGravity(false);
-                }
-            }
-
-            if (currentMovementCoroutine != null)
-                StopCoroutine(currentMovementCoroutine);
-
-            currentMovementCoroutine = StartCoroutine(ForceAttackCoroutine(new Vector2(direction.x * faceDir, direction.y), duration, false));
-        }
-
         public void ApplyCounterPush(Vector2 direction, float duration)
         {
             Vector2 dir = new(direction.x, 0f);
@@ -925,6 +990,7 @@ namespace SkillIssue.CharacterSpace
 
         public void ApplyForce(Vector2 direction, float duration, bool counterforce = false)
         {
+            Debug.Log("FORCE");
             bool m_bool = false;
             if (counterforce)
             {
@@ -977,32 +1043,6 @@ namespace SkillIssue.CharacterSpace
 
         }
 
-        public IEnumerator ForceAttackCoroutine(Vector2 direction, float duration, bool counterForce)
-        {
-            if (GetCurrentActionState() == ActionStates.None)
-            {
-                forceSpeed = characterData.GetForceSpeed();
-            }
-            else
-            {
-                forceSpeed = Managers.Instance.GameManager.GetForceSpeed();
-            }
-            float i = 0f;
-            while (i != duration)
-            {
-                if (!counterForce)
-                {
-                    if (direction.x != 0 && ((IsAgainstTheWall() && Mathf.Sign(direction.x) == GetWallDirectionX())))
-                        direction.x = 0;
-                }
-                movementDirectionX = direction.x;
-                transform.Translate(forceSpeed * Time.fixedDeltaTime * direction);
-                yield return new FrameWait(1);
-                i++;
-                forceLeftOver = duration - i;
-            }
-            currentMovementCoroutine = null;
-        }
         public IEnumerator ForceCoroutine(Vector2 direction, float duration, bool counterForce)
         {
 

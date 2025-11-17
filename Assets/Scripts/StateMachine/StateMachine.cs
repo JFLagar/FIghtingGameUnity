@@ -149,6 +149,7 @@ namespace SkillIssue.StateMachineSpace
         {
             stateMachine.GetCharacter().SetApplyGravity(false);
             stateMachine.GetCharacter().GetCharacterAnimation().ChangeMovementState(stateMachine.GetCharacter().GetCharacterAnimationsData().standingClips.FirstOrDefault());
+            stateMachine.GetCharacter().ResetAirActions();
             stateMachine.SetCurrentState(this, States.Standing);
 
         }

@@ -39,5 +39,9 @@ MonoBehaviour:
   wakeupClips:
   - {fileID: 7400000, guid: 75d6dac1dcfbacf4cb26dc5f249fc72e, type: 2}
   - {fileID: 7400000, guid: 998658eb1ed395e47a8da3aa456166dc, type: 2}
-  - {fileID: 7400000, guid: 0191640513499574c83f152d89f1da94, type: 2}
+  recoveryClips:
   - {fileID: 7400000, guid: 20543ec400c34cd479f19c2f803a1f7b, type: 2}
+  - {fileID: 7400000, guid: 0191640513499574c83f152d89f1da94, type: 2}
+  cancelClips:
+  - {fileID: 7400000, guid: d413af00c61aa934a861f70bdfc654f8, type: 2}
+  - {fileID: 7400000, guid: a4fbb30bc8d8469438a65db196783f01, type: 2}

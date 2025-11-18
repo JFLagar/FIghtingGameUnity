@@ -219,8 +219,23 @@ namespace SkillIssue.StateMachineSpace
                 //if (stateMachine.GetActionState() == ActionStates.Hit)
                 //    stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().hitClips.Last());
             }
+            if (stateMachine.GetCharacter().CanDoubleJump())
+            {
+                if (stateMachine.GetCharacter().GetInputDirection().y > 0)
+                {
+                    stateMachine.GetCharacter().PerformJump();
+                    stateMachine.GetCharacter().SetDoubleJump(false);
+                    Debug.Log("Jump");
+                }
+            }
+            if (stateMachine.GetCharacter().WasYReleased())
+            {
+                stateMachine.GetCharacter().SetDoubleJump(true);
+            }
             if (stateMachine.GetCharacter().GetApplyGravity())
+            {
                 stateMachine.GetCharacter().ApplyGravity();
+            }
             if (stateMachine.GetCharacter().IsGrounded() && !stateMachine.GetCharacter().IsJumping())
                 ExitState();
 
@@ -233,6 +248,7 @@ namespace SkillIssue.StateMachineSpace
         public override void ExitState()
         {
             stateMachine.GetCharacter().FixPosition();
+            stateMachine.GetCharacter().SetDoubleJump(false);
             if (stateMachine.GetActionState() == ActionStates.Attack)
                 stateMachine.SetCurrentActionState(ActionStates.None);
             if (stateMachine.GetActionState() == ActionStates.Hit)

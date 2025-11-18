@@ -80,6 +80,7 @@ namespace SkillIssue.Inputs
         private HeavyInput heavyButton = new HeavyInput();
         private UniqueInput uniqueButton = new UniqueInput();
         MovementInput movementInput = new MovementInput();
+        bool wasYReleased = false;
 
         [Space]
 
@@ -199,6 +200,11 @@ namespace SkillIssue.Inputs
         public Character GetCharacter()
         {
             return character;
+        }
+
+        public bool GetWasYReleased()
+        {
+            return wasYReleased;
         }
 
         public void Update()
@@ -448,6 +454,7 @@ namespace SkillIssue.Inputs
             {
                 direction.x = currentDirection;
             }
+
         }
 
         public void MovementYDown(InputAction.CallbackContext context)
@@ -464,6 +471,21 @@ namespace SkillIssue.Inputs
             BufferedInput bufferedInput = new BufferedInput(InputType.Movement, !context.canceled, Time.time, direction, gameManager.RecordingFrame);
             if (!motionInputQueue.Any(c => c.Time == bufferedInput.Time))
                 motionInputQueue.Enqueue(bufferedInput);
+            if (currentMovementControl == context.control && context.action.WasReleasedThisFrame())
+            {
+                currentMovementControl = null;
+                currentDirection = 0;
+            }
+            if (context.action.WasReleasedThisFrame() && currentMovementControl != context.control)
+            {
+                direction.y = currentDirection;
+            }
+            wasYReleased = context.action.WasReleasedThisFrame();
+            Debug.Log(wasYReleased);
+            if (!wasYReleased)
+            {
+                Debug.Log(direction.y);
+            }
         }
 
         public void MovementFunction(Vector2 direction)

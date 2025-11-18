@@ -123,6 +123,8 @@ namespace SkillIssue.CharacterSpace
         private int currentBurstCD = 0;
         [SerializeField]
         private int airActions = 0;
+        [SerializeField]
+        bool canDoubleJump = false;
 
         private void Awake()
         {
@@ -375,6 +377,21 @@ namespace SkillIssue.CharacterSpace
             stateMachine.SetCurrentActionState(action);
         }
 
+        public bool WasYReleased()
+        {
+            return inputHandler.GetWasYReleased();
+        }
+
+        public bool CanDoubleJump()
+        {
+            return canDoubleJump;
+        }
+
+        public void SetDoubleJump(bool value)
+        {
+            canDoubleJump = value;
+        }
+
         public States GetCurrentState()
         {
             return stateMachine.GetState();
@@ -558,6 +575,8 @@ namespace SkillIssue.CharacterSpace
                 else
                     return;
             }
+            if (currentMovementCoroutine != null)
+                StopCoroutine(currentMovementCoroutine);
             currentMovementCoroutine = StartCoroutine(JumpCoroutine());
         }
 
@@ -1051,7 +1070,6 @@ namespace SkillIssue.CharacterSpace
 
         public IEnumerator ForceCoroutine(Vector2 direction, float duration, bool counterForce)
         {
-
             float i = 0f;
             while (i != duration)
             {

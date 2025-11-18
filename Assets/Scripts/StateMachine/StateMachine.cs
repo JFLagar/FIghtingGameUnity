@@ -118,30 +118,23 @@ namespace SkillIssue.StateMachineSpace
 
     public class StandingState : State
     {
-        bool action;
-        private float yvalue;
+        bool canAct;
         public override void Update()
         {
             if (!stateMachine.GetCharacter().IsGrounded())
             {
-                yvalue = 1;
                 ExitState();
             }
-            action = (stateMachine.GetActionState() == ActionStates.None || stateMachine.GetActionState() == ActionStates.Hit);
-            if (!action)
+            canAct = (stateMachine.GetActionState() == ActionStates.None || stateMachine.GetActionState() == ActionStates.Attack);
+            if (!canAct)
             {
                 return;
             }
-            if (stateMachine.GetActionState() == ActionStates.None)
+            if (stateMachine.GetCharacter().GetInputDirection().y > 0 && stateMachine.GetCharacter().CanJump())
             {
-                if (stateMachine.GetCharacter().GetInputDirection().y != 0)
-                {
-                    yvalue = stateMachine.GetCharacter().GetInputDirection().y;
-                    if (yvalue > 0)
-                        stateMachine.GetCharacter().PerformJump();
-                    //jump
-                    ExitState();
-                }
+                stateMachine.GetCharacter().PerformJump();
+                //jump
+                ExitState();
             }
 
         }
@@ -155,8 +148,7 @@ namespace SkillIssue.StateMachineSpace
         }
         public override void ExitState()
         {
-
-            if (yvalue == 1)
+            if (stateMachine.GetCharacter().GetInputDirection().y > 0 || !stateMachine.GetCharacter().IsGrounded())
             {
                 stateMachine.GetCharacter().SetIsJumping(true);
                 stateMachine.GetJumpState().EnterState();
@@ -164,8 +156,10 @@ namespace SkillIssue.StateMachineSpace
             else
             {
                 if (stateMachine.GetActionState() == ActionStates.None)
+                {
                     stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
-                stateMachine.GetCrouchingState().EnterState();
+                    stateMachine.GetCrouchingState().EnterState();
+                }
             }
         }
     }
@@ -216,8 +210,8 @@ namespace SkillIssue.StateMachineSpace
             if (!stateMachine.GetCharacter().IsStillInMovement() && !stateMachine.GetCharacter().GetApplyGravity())
             {
                 stateMachine.GetCharacter().SetApplyGravity(true);
-                //if (stateMachine.GetActionState() == ActionStates.Hit)
-                //    stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().hitClips.Last());
+                if (stateMachine.GetActionState() == ActionStates.Hit)
+                    stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().hitClips.Last());
             }
             if (stateMachine.GetCharacter().CanDoubleJump())
             {
@@ -225,7 +219,6 @@ namespace SkillIssue.StateMachineSpace
                 {
                     stateMachine.GetCharacter().PerformJump();
                     stateMachine.GetCharacter().SetDoubleJump(false);
-                    Debug.Log("Jump");
                 }
             }
             if (stateMachine.GetCharacter().WasYReleased())
@@ -255,13 +248,11 @@ namespace SkillIssue.StateMachineSpace
                 stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().hitClips.Last());
             if (stateMachine.GetCharacter().GetInputDirection().y != -1)
             {
-                if (stateMachine.GetActionState() == ActionStates.None)
                     stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().stateTransitionClips.FirstOrDefault());
                 stateMachine.GetStandingState().EnterState();
             }
             else
             {
-                if (stateMachine.GetActionState() == ActionStates.None)
                     stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
                 stateMachine.GetCrouchingState().EnterState();
             }

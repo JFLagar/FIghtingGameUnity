@@ -21,7 +21,7 @@ public class CharacterData : ScriptableObject
     [SerializeField]
     float jumpForce = 1;
     [SerializeField]
-    float forceSpeed = 1;
+    float gravity = 1;
 
     [Space]
 
@@ -48,9 +48,9 @@ public class CharacterData : ScriptableObject
         return characterAnimationsData;
     }
 
-    public float GetForceSpeed()
+    public float GetGravity()
     {
-        return forceSpeed;
+        return gravity;
     }
 
     public float GetJumpPower()

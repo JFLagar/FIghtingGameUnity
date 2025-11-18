@@ -481,11 +481,6 @@ namespace SkillIssue.Inputs
                 direction.y = currentDirection;
             }
             wasYReleased = context.action.WasReleasedThisFrame();
-            Debug.Log(wasYReleased);
-            if (!wasYReleased)
-            {
-                Debug.Log(direction.y);
-            }
         }
 
         public void MovementFunction(Vector2 direction)

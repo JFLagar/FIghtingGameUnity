@@ -70,7 +70,7 @@ namespace SkillIssue.CharacterSpace
         [SerializeField]
         int jumpStartup = 4;
         [SerializeField]
-        float forceSpeed;
+        float gravity;
         float forceLeftOver;
 
         bool landed;
@@ -136,6 +136,7 @@ namespace SkillIssue.CharacterSpace
             inputHandler.Initialize(this);
             stateMachine.Initialize(this);
             attackManager.Initialize(this, characterModel.GetHitboxes());
+            gravity = characterData.GetGravity();
         }
 
         // Start is called before the first frame update
@@ -530,6 +531,13 @@ namespace SkillIssue.CharacterSpace
             airActions = characterData.GetAirActions();
         }
 
+        public bool CanJump()
+        {
+            if (GetCurrentActionState() == ActionStates.None)
+                return true;
+            return false;
+        }
+
         #endregion
         #region Character Commands
         void PerformDash()
@@ -553,8 +561,8 @@ namespace SkillIssue.CharacterSpace
 
                 if (GetCurrentState() == States.Standing)
                 {
-                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().standingClips.LastOrDefault(), 22);
                     SetActionState(ActionStates.Landing);
+                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().standingClips.LastOrDefault(), 22);
                     ApplyForce(new Vector2(-faceDir, 0.5f), 10);
                 }
                 else if ((GetCurrentState() == States.Jumping) && (airActions >= 0))
@@ -568,6 +576,7 @@ namespace SkillIssue.CharacterSpace
 
         public void PerformJump()
         {
+            //SetActionState(ActionStates.None);
             if (GetCurrentState() == States.Jumping)
             {
                 if (airActions > 0)
@@ -918,12 +927,12 @@ namespace SkillIssue.CharacterSpace
 
         public void OnAnimationEnd()
         {
+            characterAnimation.OnActionAnimationEnd();
             SetActionState(ActionStates.None);
             opponent.ResetAttackInfo();
-                characterAnimation.OnActionAnimationEnd();
-                isKnockedDown = false;
-                isHardKnockDown = false;
-                isWakingUp = false;
+            isKnockedDown = false;
+            isHardKnockDown = false;
+            isWakingUp = false;
         }
 
         public void ResetCharacter()
@@ -1005,7 +1014,7 @@ namespace SkillIssue.CharacterSpace
 
         public void FixPosition()
         {
-                transform.position = new Vector3(transform.position.x, 0f, 0);
+            transform.position = new Vector3(transform.position.x, 0f, 0);
         }
 
         public void ApplyCounterPush(Vector2 direction, float duration)
@@ -1039,7 +1048,6 @@ namespace SkillIssue.CharacterSpace
 
             if (currentMovementCoroutine != null)
                 StopCoroutine(currentMovementCoroutine);
-
             currentMovementCoroutine = StartCoroutine(ForceCoroutine(direction, duration, m_bool));
 
         }
@@ -1051,19 +1059,11 @@ namespace SkillIssue.CharacterSpace
                 characterAnimation.ChangeMovementState(stateMachine.GetCharacter().GetCharacterAnimationsData().jumpingClips.FirstOrDefault());
             if (!IsGrounded() && currentMovementCoroutine == null)
                 SetIsJumping(false);
-            if (GetCurrentActionState() == ActionStates.None)
-            {
-                forceSpeed = characterData.GetForceSpeed();
-            }
-            else
-            {
-                forceSpeed = Managers.Instance.GameManager.GetForceSpeed();
-            }
             if ((IsAgainstTheWall() && Mathf.Sign(GetWallDirectionX()) == GetWallDirectionX()))
-                transform.Translate((forceSpeed) * Time.fixedDeltaTime * new Vector2(0, -1));
+                transform.Translate((gravity) * Time.fixedDeltaTime * new Vector2(0, -1));
             else
             {
-                transform.Translate((forceSpeed) * Time.fixedDeltaTime * new Vector2(GetMovementDirectionX(), -1));
+                transform.Translate((gravity) * Time.fixedDeltaTime * new Vector2(GetMovementDirectionX(), -1));
             }
 
         }
@@ -1079,10 +1079,8 @@ namespace SkillIssue.CharacterSpace
                         direction.x = 0;
                 }
                 movementDirectionX = direction.x;
-                if (direction.x != 0)
-                    movementDirectionX = direction.x;
 
-                transform.Translate(forceSpeed * Time.fixedDeltaTime * direction);
+                transform.Translate(gravity * Time.fixedDeltaTime * direction);
                 yield return new FrameWait(1);
                 i++;
                 forceLeftOver = duration - i;

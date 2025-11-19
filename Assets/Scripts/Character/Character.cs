@@ -178,7 +178,6 @@ namespace SkillIssue.CharacterSpace
                     faceDir = 1;
                     if (render != null)
                         render.flipX = false;
-                    collisions.eulerAngles = new Vector3(0, 0, 0);
 
                 }
                 else
@@ -186,7 +185,6 @@ namespace SkillIssue.CharacterSpace
                     faceDir = -1;
                     if (render != null)
                         render.flipX = true;
-                    collisions.eulerAngles = new Vector3(0, 180, 0);
                 }
                 vfx.flipX = render.flipX;
                 model3D.transform.localScale = new Vector3(Mathf.Abs(model3D.transform.localScale.x) * faceDir, model3D.transform.localScale.y, model3D.transform.localScale.z);

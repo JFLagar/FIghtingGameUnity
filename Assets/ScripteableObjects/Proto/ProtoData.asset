@@ -19,6 +19,6 @@ MonoBehaviour:
   runSpeed: 3
   airActions: 1
   jumpForce: 20
-  forceSpeed: 3
+  gravity: 3
   attackData: {fileID: 11400000, guid: 1e6be00cb00c90d4cab99e8cd0f7f861, type: 2}
   characterAnimationsData: {fileID: 11400000, guid: 325cda6f774efef499adf883966fbd18, type: 2}

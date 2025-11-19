@@ -1,5 +1,7 @@
 using SkillIssue.CharacterSpace;
 using UnityEngine;
+using NaughtyAttributes;
+using DG.Tweening;
 
 public class CameraManager : MonoBehaviour
 {
@@ -12,7 +14,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField] float edgePadding = 0.5f;
     [SerializeField] bool isOnScreenEdge = false;
     [SerializeField] int screenEdgeFaceDir = 0;
-
+    private float GetDistanceX =>  Mathf.Abs(characters[0].transform.position.x - characters[1].transform.position.x);
     private float visibleRightEdgeLimit;
     private float visibleLeftEdgeLimit;
     Vector3 newPos;
@@ -24,9 +26,8 @@ public class CameraManager : MonoBehaviour
 
     void LateUpdate()
     {
-        float middle = GetCameraMiddle();
-        float distance = GetCharacterDistance();
-
+        float middle = GetCameraMiddleX();
+        float distance = GetCharacterDistanceX();
         HandleCameraPosition(middle);
         HandleCameraZoom(distance, middle);
     }
@@ -37,6 +38,12 @@ public class CameraManager : MonoBehaviour
         {
             pos.x = middle;
         }
+        if (GetCameraMiddleY() > 0.5)
+        {           
+            pos.y = GetCameraMiddleY();
+        }
+        else
+            pos.y = 0;
 
         if (isOnScreenEdge)
         {
@@ -49,8 +56,8 @@ public class CameraManager : MonoBehaviour
                 pos.x = visibleRightEdgeLimit - ((cam.orthographicSize - minZoom) * (maxZoom + (maxZoom - minZoom)));
             }
         }
-
-        cam.transform.position = pos;
+        if (cam.transform.position != pos)
+            cam.transform.DOMove(pos, 0.5f);
     }
 
     private void HandleCameraZoom(float distance, float middle)
@@ -75,14 +82,24 @@ public class CameraManager : MonoBehaviour
     }
 
     // Helper methods
-    private float GetCharacterDistance()
+    private float GetCharacterDistanceX()
     {
         return Mathf.Abs(characters[0].transform.position.x - characters[1].transform.position.x);
     }
 
-    private float GetCameraMiddle()
+    private float GetCameraMiddleX()
     {
         return (characters[0].transform.position.x + characters[1].transform.position.x) / 2;
+    }
+
+    private float GetCharacterDistanceY()
+    {
+        return Mathf.Abs(characters[0].transform.position.y - characters[1].transform.position.y);
+    }
+
+    private float GetCameraMiddleY()
+    {
+        return (characters[0].transform.position.y + characters[1].transform.position.y) / 2;
     }
 
     // External controls (keep your existing interface)

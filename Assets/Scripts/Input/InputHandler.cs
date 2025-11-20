@@ -112,8 +112,9 @@ namespace SkillIssue.Inputs
 
         private GameManager gameManager;
 
-        private InputControl currentMovementControl;
-        private float currentDirection;
+        private InputControl currentMovementControlX;
+        private InputControl currentMovementControlY;
+        private Vector2 currentDirection;
 
         public PlayerInput GetPlayerInput()
         {
@@ -421,38 +422,37 @@ namespace SkillIssue.Inputs
         public void MovementXDown(InputAction.CallbackContext context)
         {
             float value = context.ReadValue<float>();
-            if (currentMovementControl == null && value != 0)
+            if (currentMovementControlX == null && value != 0)
             {
-                currentMovementControl = context.control;
+                currentMovementControlX = context.control;
             }
-                if (currentMovementControl != context.control)
+                if (currentMovementControlX != context.control)
             {
                 value = 0;
             }
 
             if (value != 0)
             {
-                value = Mathf.Abs(value) / value;
                 direction.x = value;
-                currentDirection = value;
             }
             else
             {
                 direction.x = value;
             }
-
+            currentDirection.x = value;
 
             BufferedInput bufferedInput = new BufferedInput(InputType.Movement, !context.canceled, Time.time, direction, gameManager.RecordingFrame);
             if (!motionInputQueue.Any(c => c.Time == bufferedInput.Time))
                 motionInputQueue.Enqueue(bufferedInput);
-            if (currentMovementControl == context.control && context.action.WasReleasedThisFrame())
+            if (currentMovementControlX == context.control && context.action.WasReleasedThisFrame())
             {
-                currentMovementControl = null;
-                currentDirection = 0;
+                currentMovementControlX = null;
+                currentDirection.x = 0;
             }
-            if (context.action.WasReleasedThisFrame() && currentMovementControl != context.control)
+            if (context.action.WasReleasedThisFrame() && currentMovementControlX != context.control)
             {
-                direction.x = currentDirection;
+                currentMovementControlX = null;
+                direction.x = currentDirection.x;
             }
 
         }
@@ -460,25 +460,37 @@ namespace SkillIssue.Inputs
         public void MovementYDown(InputAction.CallbackContext context)
         {
             float value = context.ReadValue<float>();
+            if (currentMovementControlY == null && value != 0)
+            {
+                currentMovementControlY = context.control;
+            }
+            if (currentMovementControlY != context.control)
+            {
+                value = 0;
+            }
+
             if (value != 0)
             {
-                float result = Mathf.Abs(value) / value;
-                direction.y = result;
+                direction.y = value;
             }
             else
-                direction.y = 0;
+            {
+                direction.y = value;
+            }
+            currentDirection.y = value;
 
             BufferedInput bufferedInput = new BufferedInput(InputType.Movement, !context.canceled, Time.time, direction, gameManager.RecordingFrame);
             if (!motionInputQueue.Any(c => c.Time == bufferedInput.Time))
                 motionInputQueue.Enqueue(bufferedInput);
-            if (currentMovementControl == context.control && context.action.WasReleasedThisFrame())
+            if (currentMovementControlY == context.control && context.action.WasReleasedThisFrame())
             {
-                currentMovementControl = null;
-                currentDirection = 0;
+                currentMovementControlY = null;
+                currentDirection.y = 0;
             }
-            if (context.action.WasReleasedThisFrame() && currentMovementControl != context.control)
+            if (context.action.WasReleasedThisFrame() && currentMovementControlY != context.control)
             {
-                direction.y = currentDirection;
+                currentMovementControlY = null;
+                direction.y = currentDirection.y;
             }
             wasYReleased = context.action.WasReleasedThisFrame();
         }
@@ -570,7 +582,19 @@ namespace SkillIssue.Inputs
 
         public void AddAttackInput(InputType input, bool isPressed)
         {
-            inputQueue.Enqueue(new BufferedInput(input, isPressed, Time.time, Vector2.zero, gameManager.RecordingFrame));
+            if (CheckforRepeatedInputs(input, Time.time))
+                inputQueue.Enqueue(new BufferedInput(input, isPressed, Time.time, Vector2.zero, gameManager.RecordingFrame));
+        }
+
+        public bool CheckforRepeatedInputs(InputType input, float time)
+        {
+            BufferedInput bufferedInput = inputQueue.Where(c => c.InputType == input && c.IsPressed && c.Time <= time - bufferTime).FirstOrDefault();
+            if (bufferedInput != null)
+            {
+                Debug.Log("Mashing: " + input);
+                return false;
+            }
+            return true;
         }
 
         public void PerformInput(BufferedInput input)

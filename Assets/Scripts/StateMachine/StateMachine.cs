@@ -97,6 +97,7 @@ namespace SkillIssue.StateMachineSpace
             {
                 currentState.stateMachine = this;
             }
+            if (!character.isPlayer2)
             currentState.Update();
         }
 
@@ -130,10 +131,10 @@ namespace SkillIssue.StateMachineSpace
             {
                 return;
             }
-            if (stateMachine.GetCharacter().GetInputDirection().y > 0 && stateMachine.GetCharacter().CanJump())
+            if (stateMachine.GetCharacter().GetInputDirection().y != 0)
             {
-                stateMachine.GetCharacter().PerformJump();
-                //jump
+                if (stateMachine.GetCharacter().GetInputDirection().y > 0 && !stateMachine.GetCharacter().CanJump())
+                    return;
                 ExitState();
             }
 
@@ -150,6 +151,8 @@ namespace SkillIssue.StateMachineSpace
         {
             if (stateMachine.GetCharacter().GetInputDirection().y > 0 || !stateMachine.GetCharacter().IsGrounded())
             {
+                if (stateMachine.GetCharacter().CanJump())
+                    stateMachine.GetCharacter().PerformJump();
                 stateMachine.GetCharacter().SetIsJumping(true);
                 stateMachine.GetJumpState().EnterState();
             }
@@ -199,7 +202,6 @@ namespace SkillIssue.StateMachineSpace
                 stateMachine.GetCharacter().SetIsJumping(true);
                 stateMachine.GetJumpState().EnterState();
             }
-            stateMachine.GetCharacter().CharacterMove();
         }
     }
     public class JumpState : State
@@ -243,7 +245,10 @@ namespace SkillIssue.StateMachineSpace
             stateMachine.GetCharacter().FixPosition();
             stateMachine.GetCharacter().SetDoubleJump(false);
             if (stateMachine.GetActionState() == ActionStates.Attack)
+            {
                 stateMachine.SetCurrentActionState(ActionStates.None);
+                stateMachine.GetCharacter().ResetAttackSequence();
+            }
             if (stateMachine.GetActionState() == ActionStates.Hit)
                 stateMachine.GetCharacter().GetCharacterAnimation().PlayActionAnimation(stateMachine.GetCharacter().GetCharacterAnimationsData().hitClips.Last());
             if (stateMachine.GetCharacter().GetInputDirection().y != -1)

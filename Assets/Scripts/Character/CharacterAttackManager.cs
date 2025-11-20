@@ -32,7 +32,6 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
         {
             if (!IsCancelable(data))
             {
-                character.SetStoredAttack(data);
                 return;
             }
         }
@@ -69,13 +68,6 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
             hit = true;
             character.HitConnect(previousAttack);
         }
-
-        if (character.GetStoredAttack() != null)
-        {
-            character.PerformAttack(character.GetStoredAttack().inputType);
-            return;
-        }
-
     }
 
     private bool IsCancelable(AttackData data)
@@ -92,7 +84,6 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
 
         if (data.canceleableSelf && data == previousAttack)
         {
-            Debug.Log("SelfCancel");
             if (character.GetComboCount() >= sameLimit)
             {
                 int count = character.GetComboCount() - 1;
@@ -117,10 +108,6 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
             repeatedAttack = 0;
         }
 
-        if (data == character.GetStoredAttack())
-        {
-            character.SetStoredAttack(null);
-        }
         if (data.attackState == AttackState.Jumping)
         {
             return false;
@@ -133,10 +120,16 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
 
         foreach (InputType canceltype in previousAttack.cancelableTypes)
         {
+            if (character.GetCombo().Contains(data) && character.SameAttackSequence)
+            {
+                return false;
+            }
             if (data.inputType == canceltype)
             {
                 return true;
             }
+            if (!previousAttack.IsSpecial && data.IsSpecial)
+                return true;
         }
         return false;
     }

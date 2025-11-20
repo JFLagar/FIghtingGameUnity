@@ -33,9 +33,7 @@ namespace SkillIssue
 
         [Space]
         public int attackLevel = 0; //0 to 5
-        public int extraHitstun;
         public int damage;
-        public Vector2 push;
 
         [Space]
         public bool launcher;
@@ -44,7 +42,13 @@ namespace SkillIssue
         public bool jumpCancel;
         public bool grab;
         public bool canceleableSelf;
+        public bool specialCanceleable;
         public InputType[] cancelableTypes;
+
+        [Space]
+        public int extraHitstun;
+        public Vector2 extraPush;
+
         [Space]
         public AnimationClip animation;
         public string message;

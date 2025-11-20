@@ -2029,7 +2029,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 0.016666668
-        value: {x: -0, y: 0, z: 0.00002355933}
+        value: {x: -0, y: 0, z: 0.0065}
         inSlope: {x: -0, y: -0, z: -0}
         outSlope: {x: -0, y: -0, z: -0}
         tangentMode: 0
@@ -6282,7 +6282,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 3939638503
+      path: 3096891233
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -6291,7 +6291,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 3096891233
+      path: 3939638503
       attribute: 1
       script: {fileID: 0}
       typeID: 4
@@ -18225,7 +18225,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.016666668
-        value: 0.00002355933
+        value: 0.0065
         inSlope: -0
         outSlope: -0
         tangentMode: 0

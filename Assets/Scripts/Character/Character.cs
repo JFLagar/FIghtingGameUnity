@@ -73,7 +73,6 @@ namespace SkillIssue.CharacterSpace
         float gravity;
         float forceLeftOver;
 
-        bool landed;
         bool isJumping;
         bool isRunning = false;
 
@@ -83,7 +82,6 @@ namespace SkillIssue.CharacterSpace
         Transform collisions;
         private Coroutine currentMovementCoroutine;
         private Coroutine currentHitstopCoroutine;
-        AttackData storedAttack = null;
         List<AttackData> currentCombo = new();
         [SerializeField]
         bool visualState;
@@ -108,7 +106,8 @@ namespace SkillIssue.CharacterSpace
         private int hitstop;
 
         private MotionInputs storedMotionInput = MotionInputs.NONE;
-
+        private int storedDashDir = 0;
+        public bool SameAttackSequence {  get; private set; }
         AttackData onGoingAttack;
 
         [Space]
@@ -406,16 +405,6 @@ namespace SkillIssue.CharacterSpace
             return characterAnimation;
         }
 
-        public AttackData GetStoredAttack()
-        {
-            return storedAttack;
-        }
-
-        public void SetStoredAttack(AttackData attack)
-        {
-            storedAttack = attack;
-        }
-
         public float GetJumpPower()
         {
             return characterData.GetJumpPower();
@@ -531,22 +520,71 @@ namespace SkillIssue.CharacterSpace
 
         public bool CanJump()
         {
-            if (GetCurrentActionState() == ActionStates.None)
+            if (GetCurrentActionState() != ActionStates.None)
+            {
+                if (onGoingAttack != null && onGoingAttack.jumpCancel && opponent.GetCurrentActionState() == ActionStates.Hit)
+                {
+                    ResetAttackSequence();
+                    return true;
+                }
+                return false;
+            }
+            return true;
+        }
+
+        public bool CanDash()
+        {
+            if (GetCurrentActionState() != ActionStates.None)
+            {
+                if (IsGrounded() && GetCurrentActionState() == ActionStates.Landing)
+                    return true;
+                if (onGoingAttack != null && onGoingAttack.dashCancel && opponent.GetCurrentActionState() == ActionStates.Hit && GetInputDirection().x == faceDir)
+                {
+                    ResetAttackSequence();
+                    return true;
+                }
+                return false;
+            }
+            return true;
+        }
+
+        public bool CanPerformOffensiveAction()
+        {
+            if (GetCurrentActionState() != ActionStates.Attack)
+                return false;
+            if (opponent.GetCurrentActionState() == ActionStates.Block)
+                return true;
+            if (opponent.GetCurrentActionState() == ActionStates.Hit)
                 return true;
             return false;
+        }
+
+        public void ResetAttackSequence()
+        {
+            SameAttackSequence = false;
         }
 
         #endregion
         #region Character Commands
         void PerformDash()
         {
+            if (!CanDash())
+            {
+                return;
+            }
             if (GetInputDirection().x == faceDir)
             {
+                if (GetCurrentActionState() == ActionStates.Attack)
+                {
+                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().jumpingClips[2], 10);
+                    ApplyForce(new Vector2(faceDir * 1.5f, 0f), 10);
+                    return;
+                }
                 if (GetCurrentState() == States.Standing)
                 {
                     isRunning = true;
                 }
-                else if ((GetCurrentState() == States.Jumping) && (airActions >= 0))
+                else if ((GetCurrentState() == States.Jumping) && (airActions > 0))
                 {
                     characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().jumpingClips[2], 22);
                     ApplyForce(new Vector2(faceDir * 1.5f, 0.1f), 10);
@@ -561,9 +599,9 @@ namespace SkillIssue.CharacterSpace
                 {
                     SetActionState(ActionStates.Landing);
                     characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().standingClips.LastOrDefault(), 22);
-                    ApplyForce(new Vector2(-faceDir, 0.5f), 10);
+                    ApplyForce(new Vector2(-faceDir * 2, 0.5f), 10);
                 }
-                else if ((GetCurrentState() == States.Jumping) && (airActions >= 0))
+                else if ((GetCurrentState() == States.Jumping) && (airActions > 0))
                 {
                     characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().standingClips.LastOrDefault(), 22);
                     ApplyForce(new Vector2(-faceDir, 0.1f), 10);
@@ -634,6 +672,9 @@ namespace SkillIssue.CharacterSpace
 
         private void PerformOffensiveAction(InputType type)
         {
+            if (!CanPerformOffensiveAction())
+                return;
+
             //Check for special actions like rapid or OD activation
             if (superMeter >= 50 && type == InputType.LMH)
             {
@@ -689,10 +730,9 @@ namespace SkillIssue.CharacterSpace
                 return;
             if (storedMotionInput != MotionInputs.NONE)
             {
-                Debug.Log("Performing Special with: " + storedMotionInput + "" + type);
                 if (characterData.FindSpecialAttack(storedMotionInput, type) != null)
                 {
-                    attackManager.Attack(characterData.FindSpecialAttack(storedMotionInput, type), true);
+                    attackManager.Attack(characterData.FindSpecialAttack(storedMotionInput, type));
                     return;
                 }                
             }
@@ -810,12 +850,11 @@ namespace SkillIssue.CharacterSpace
 
         private void PerformGettingHit(AttackData data)
         {
-            Vector2 dir = new(data.push.x * -faceDir, 0);
+            Vector2 dir = CalculateHitPush(data);
             PlaySound(data.collideSound);;
             if (data.launcher || isKnockedDown)
             {
-                characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[2]);
-                dir.y = data.push.y;
+                characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[2], CalculateHitstun(data));
                 isKnockedDown = true;
                 if (data.hardKnockdown)
                 {
@@ -830,11 +869,10 @@ namespace SkillIssue.CharacterSpace
                 }
                 else
                 {
-                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[(int)GetCurrentState()]);
+                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[(int)GetCurrentState()], CalculateHitstun(data));
                 }
                 if (GetCurrentState() == States.Jumping)
                 {
-                    dir.y = data.push.y;
                     isKnockedDown = true;
                     if (data.hardKnockdown)
                     {
@@ -863,7 +901,7 @@ namespace SkillIssue.CharacterSpace
         private void PerformBlock(AttackData data, bool blockCheck = false)
         {
             PlaySound(data.collideSound);
-            Vector2 dir = new(data.push.x * -GetFaceDir(), 0);
+            Vector2 dir = CalculateHitPush(data);
             Vector2 blockDir = new(dir.x, 0);
             SetActionState(ActionStates.Block);
 
@@ -876,6 +914,24 @@ namespace SkillIssue.CharacterSpace
                 else
                     ApplyForce(blockDir, 3f);
 
+        }
+
+        private int CalculateHitstun(AttackData data)
+        {
+            if (data.attackLevel == 0)
+                data.attackLevel = 1;
+            int result = (data.attackLevel * 2) + 10 + data.extraHitstun; //attacklevel + hitstunbase(10) + extra 
+            return result;
+        }
+
+        private Vector2 CalculateHitPush(AttackData data)
+        {
+            Vector2 result = new Vector2();
+            result.x = ((data.attackLevel) + data.extraPush.x) * -GetFaceDir();
+            if (data.launcher || isKnockedDown || GetCurrentState() == States.Jumping)
+                result.y = (data.attackLevel) + data.extraPush.y;
+
+            return result;
         }
 
         public void CharacterMove()
@@ -915,19 +971,12 @@ namespace SkillIssue.CharacterSpace
 
         }
 
-        private int CalculateHitstun(AttackData data)
-        {
-            if (data.attackLevel == 0)
-                data.attackLevel = 1;
-            int result = (data.attackLevel * 2) + 10 + 8; //attacklevel + hitstunbase(10) + attacklevel + hitstop(8)
-            return result;
-        }
-
         public void OnAnimationEnd()
         {
+            if (GetCurrentActionState() == ActionStates.Hit)
+                opponent.ResetAttackInfo();
             characterAnimation.OnActionAnimationEnd();
             SetActionState(ActionStates.None);
-            opponent.ResetAttackInfo();
             isKnockedDown = false;
             isHardKnockDown = false;
             isWakingUp = false;
@@ -1156,13 +1205,14 @@ namespace SkillIssue.CharacterSpace
             {
                 currentCombo.Add(data);
                 Managers.Instance.GameManager.UpdateComboCounter(playerId);
+                
             }
+            SameAttackSequence = true;
         }
 
         public void ResetAttackInfo()
         {
             currentCombo.Clear();
-            storedAttack = null;
             Managers.Instance.GameManager.UpdateComboCounter(playerId);
         }
 

@@ -97,7 +97,6 @@ namespace SkillIssue.StateMachineSpace
             {
                 currentState.stateMachine = this;
             }
-            if (!character.isPlayer2)
             currentState.Update();
         }
 
@@ -153,7 +152,6 @@ namespace SkillIssue.StateMachineSpace
             {
                 if (stateMachine.GetCharacter().CanJump())
                     stateMachine.GetCharacter().PerformJump();
-                stateMachine.GetCharacter().SetIsJumping(true);
                 stateMachine.GetJumpState().EnterState();
             }
             else
@@ -199,7 +197,6 @@ namespace SkillIssue.StateMachineSpace
             }
             else
             {
-                stateMachine.GetCharacter().SetIsJumping(true);
                 stateMachine.GetJumpState().EnterState();
             }
         }

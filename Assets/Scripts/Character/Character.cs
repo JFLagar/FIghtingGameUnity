@@ -620,6 +620,7 @@ namespace SkillIssue.CharacterSpace
                 else
                     return;
             }
+            SetIsJumping(true);
             if (currentMovementCoroutine != null)
                 StopCoroutine(currentMovementCoroutine);
             currentMovementCoroutine = StartCoroutine(JumpCoroutine());
@@ -869,15 +870,12 @@ namespace SkillIssue.CharacterSpace
                 }
                 else
                 {
-                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[(int)GetCurrentState()], CalculateHitstun(data));
-                }
-                if (GetCurrentState() == States.Jumping)
-                {
-                    isKnockedDown = true;
-                    if (data.hardKnockdown)
+                    if (GetCurrentState() == States.Jumping)
                     {
-                        isHardKnockDown = true;
-                    }
+                        characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[(int)GetCurrentState()], CalculateHitstun(data));
+                   }
+                    else
+                        characterAnimation.PlayHitAnimation(GetCharacterAnimationsData().hitClips[(int)GetCurrentState()], CalculateHitstun(data));
                 }
             }
             if (currentHitstopCoroutine != null)
@@ -920,7 +918,7 @@ namespace SkillIssue.CharacterSpace
         {
             if (data.attackLevel == 0)
                 data.attackLevel = 1;
-            int result = (data.attackLevel * 2) + 10 + data.extraHitstun; //attacklevel + hitstunbase(10) + extra 
+            int result = (data.attackLevel * 2) + 10 + data.extraHitstun; //attacklevel + hitstunbase(10) + extra
             return result;
         }
 
@@ -929,7 +927,13 @@ namespace SkillIssue.CharacterSpace
             Vector2 result = new Vector2();
             result.x = ((data.attackLevel) + data.extraPush.x) * -GetFaceDir();
             if (data.launcher || isKnockedDown || GetCurrentState() == States.Jumping)
+            {
                 result.y = (data.attackLevel) + data.extraPush.y;
+                if (result.y == 0)
+                {
+                    result.y = 1;
+                }
+            }
 
             return result;
         }
@@ -1137,10 +1141,11 @@ namespace SkillIssue.CharacterSpace
 
         public IEnumerator WaitForHitStopCoroutine()
         {
-            characterAnimation.PauseActionPlayabe();
             int target = hitstop;
             for (int hitstopframe = 0; hitstopframe < target; hitstopframe++)
             {
+                if (hitstopframe == 1)
+                    characterAnimation.PauseActionPlayabe();
                 yield return new FrameWait(1);
                 hitstop--;
             }

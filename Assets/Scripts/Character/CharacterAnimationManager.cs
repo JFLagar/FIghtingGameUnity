@@ -176,6 +176,38 @@ public class CharacterAnimationManager : MonoBehaviour
         animName = actionClip.name;
     }
 
+    public void PlayHitAnimation(AnimationClip hitClip, float duration)
+    {
+        if (hitClip == null)
+        {
+            Debug.LogError("No animation assigned");
+            return;
+        }
+        // Ensure the action clip is cached
+        CacheActionPlayable(hitClip);
+
+        // Get cached Action Playable
+        actionPlayable = actionPlayables[hitClip];
+        actionPlayable.SetDone(false);
+        actionPlayable.SetTime(0);
+        actionPlayable.SetTime(0);
+        actionScriptPlayable.SetTime(0);
+        actionScriptPlayable.SetTime(0);
+        time = 0;
+        // Reconnect to existing ActionPlayableBehaviour
+        graph.Disconnect(actionScriptPlayable, 0);
+        graph.Connect(actionPlayable, 0, actionScriptPlayable, 0);
+
+        duration = duration * Time.fixedDeltaTime;
+        actionPlayable.SetDuration(hitClip.length + duration);
+        duration -= 10 * Time.fixedDeltaTime;
+        actionPlayable.SetTime(hitClip.length - duration);
+        mixerPlayable.SetInputWeight(1, 1.0f); // Enable action animation
+        mixerPlayable.SetInputWeight(0, 0.0f); // Disable movement animation
+        actionScriptPlayable.Play();
+        animName = hitClip.name;
+    }
+
     public void GetAnimationTime()
     {
         Debug.Log(actionScriptPlayable.GetTime() + " / " + actionScriptPlayable.GetTime() / Time.fixedDeltaTime);

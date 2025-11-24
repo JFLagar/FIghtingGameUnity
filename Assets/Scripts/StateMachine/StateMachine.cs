@@ -1,4 +1,3 @@
-using NaughtyAttributes;
 using SkillIssue.CharacterSpace;
 using System.Linq;
 using UnityEngine;
@@ -26,8 +25,8 @@ namespace SkillIssue.StateMachineSpace
         State crouchingState = new CrouchState();
         State jumpState = new JumpState();
         State currentState;
-        public ActionStates CurrentAction {  get; private set; }
-        public States State {  get; private set; }
+        public ActionStates CurrentAction { get; private set; }
+        public States State { get; private set; }
 
         public void Initialize(Character controllingCharacter)
         {
@@ -239,7 +238,7 @@ namespace SkillIssue.StateMachineSpace
         public override void ExitState()
         {
             Character.FixPosition();
-                Character.SetDoubleJump(false);
+            Character.SetDoubleJump(false);
             if (StateMachine.GetActionState() == ActionStates.Attack)
             {
                 StateMachine.SetCurrentActionState(ActionStates.None);
@@ -249,12 +248,12 @@ namespace SkillIssue.StateMachineSpace
                 Character.GetCharacterAnimation().PlayActionAnimation(Character.GetCharacterAnimationsData().hitClips.Last());
             if (Character.GetInputDirection().y != -1)
             {
-                    Character.GetCharacterAnimation().PlayActionAnimation(Character.GetCharacterAnimationsData().stateTransitionClips.FirstOrDefault());
+                Character.GetCharacterAnimation().PlayActionAnimation(Character.GetCharacterAnimationsData().stateTransitionClips.FirstOrDefault());
                 StateMachine.GetStandingState().EnterState();
             }
             else
             {
-                    Character.GetCharacterAnimation().PlayActionAnimation(Character.GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
+                Character.GetCharacterAnimation().PlayActionAnimation(Character.GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
                 StateMachine.GetCrouchingState().EnterState();
             }
         }

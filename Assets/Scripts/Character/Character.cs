@@ -19,7 +19,7 @@ namespace SkillIssue.CharacterSpace
         public bool isPlayer2;
         [SerializeField]
         Character opponent;
-        public float FaceDir {  get; private set; }
+        public float FaceDir { get; private set; }
         float xDiff;
         [SerializeField]
         SpriteRenderer render;
@@ -78,7 +78,7 @@ namespace SkillIssue.CharacterSpace
         Transform collisions;
         private Coroutine currentMovementCoroutine;
         private Coroutine currentHitstopCoroutine;
-        public List<AttackData> CurrentCombo {  get; private set; }
+        public List<AttackData> CurrentCombo { get; private set; }
         [SerializeField]
         bool visualState;
         [SerializeField]
@@ -101,7 +101,7 @@ namespace SkillIssue.CharacterSpace
         private int hitstop;
 
         private MotionInputs storedMotionInput = MotionInputs.NONE;
-        public bool SameAttackSequence {  get; private set; }
+        public bool SameAttackSequence { get; private set; }
         AttackData onGoingAttack;
 
         [Space]
@@ -193,7 +193,7 @@ namespace SkillIssue.CharacterSpace
                     DestroyImmediate(currentProjectile.gameObject);
                 }
             }
- 
+
             if (visualState)
             {
                 switch (GetCurrentActionState())
@@ -501,7 +501,7 @@ namespace SkillIssue.CharacterSpace
                 if (GetCurrentActionState() == ActionStates.Attack)
                 {
                     characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().jumpingClips[2], Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
-                    ApplyForce(new Vector2(FaceDir * Managers.Instance.GameManager.GetCombatValues().GetDashMultiplier(), 0f), 
+                    ApplyForce(new Vector2(FaceDir * Managers.Instance.GameManager.GetCombatValues().GetDashMultiplier(), 0f),
                         Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
                     return;
                 }
@@ -577,7 +577,7 @@ namespace SkillIssue.CharacterSpace
             if (superMeter > 0 && type == InputType.MH && GetInputDirection().x != FaceDir)
             {
                 Debug.Log("Barrier");
-                superMeter --;
+                superMeter--;
                 return;
             }
 
@@ -631,7 +631,7 @@ namespace SkillIssue.CharacterSpace
             if (superMeter > 0 && type == InputType.MH)
             {
                 Debug.Log("Barrier");
-                superMeter --;
+                superMeter--;
                 return;
             }
 
@@ -661,7 +661,7 @@ namespace SkillIssue.CharacterSpace
                 {
                     attackManager.Attack(characterData.FindSpecialAttack(storedMotionInput, type));
                     return;
-                }                
+                }
             }
 
             if (type == InputType.LU)
@@ -674,48 +674,48 @@ namespace SkillIssue.CharacterSpace
             }
             if ((int)type > characterData.GetStandingAttacks().Length)
                 return;
- 
-                AttackData attackData = new AttackData();
-                switch (GetCurrentState())
-                {
-                    case States.Standing:
 
-                        {
-                            switch (inputHandler.GetDirection().y)
-                            {
-                                case 0f:
-                                attackData = inputHandler.GetDirection().x == FaceDir ? characterData.GetForwardAttacks()[((int)type)] : characterData.GetStandingAttacks()[((int)type)];
-                                    break;
-                                case 1f:
-                                    attackData = characterData.GetJumpAttacks()[((int)type)];
-                                    break;
-                                case -1f:
-                                attackData = inputHandler.GetDirection().x == FaceDir ? characterData.GetForwardAttacks()[((int)type)] : characterData.GetCrouchingAttacks()[((int)type)];
-                                    break;
-                            }
+            AttackData attackData = new AttackData();
+            switch (GetCurrentState())
+            {
+                case States.Standing:
 
-                        }
-                        break;
-
-                    case States.Crouching:
+                    {
                         switch (inputHandler.GetDirection().y)
                         {
                             case 0f:
-                            attackData = inputHandler.GetDirection().x == FaceDir ? characterData.GetForwardAttacks()[((int)type)] : characterData.GetStandingAttacks()[((int)type)];
+                                attackData = inputHandler.GetDirection().x == FaceDir ? characterData.GetForwardAttacks()[((int)type)] : characterData.GetStandingAttacks()[((int)type)];
+                                break;
+                            case 1f:
+                                attackData = characterData.GetJumpAttacks()[((int)type)];
                                 break;
                             case -1f:
-                            attackData = inputHandler.GetDirection().x == FaceDir ? characterData.GetForwardAttacks()[((int)type)] : characterData.GetCrouchingAttacks()[((int)type)];
+                                attackData = inputHandler.GetDirection().x == FaceDir ? characterData.GetForwardAttacks()[((int)type)] : characterData.GetCrouchingAttacks()[((int)type)];
                                 break;
                         }
-                        break;
-                    case States.Jumping:
-                        attackData = characterData.GetJumpAttacks()[((int)type)];
-                        break;
-                }
-                if (attackData != null)
-                {
-                    attackManager.Attack(attackData);
-                }
+
+                    }
+                    break;
+
+                case States.Crouching:
+                    switch (inputHandler.GetDirection().y)
+                    {
+                        case 0f:
+                            attackData = inputHandler.GetDirection().x == FaceDir ? characterData.GetForwardAttacks()[((int)type)] : characterData.GetStandingAttacks()[((int)type)];
+                            break;
+                        case -1f:
+                            attackData = inputHandler.GetDirection().x == FaceDir ? characterData.GetForwardAttacks()[((int)type)] : characterData.GetCrouchingAttacks()[((int)type)];
+                            break;
+                    }
+                    break;
+                case States.Jumping:
+                    attackData = characterData.GetJumpAttacks()[((int)type)];
+                    break;
+            }
+            if (attackData != null)
+            {
+                attackManager.Attack(attackData);
+            }
         }
 
         public void Attack(AttackData attackData)
@@ -755,7 +755,7 @@ namespace SkillIssue.CharacterSpace
         private void PerformGettingHit(AttackData attack)
         {
             Vector2 dir = CalculateHitPush(attack);
-            PlaySound(attack.GetCollideAudioClip());;
+            PlaySound(attack.GetCollideAudioClip()); ;
             if (attack.CausesLaunch() || isKnockedDown)
             {
                 characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[2], CalculateHitstun(attack));
@@ -776,7 +776,7 @@ namespace SkillIssue.CharacterSpace
                     if (GetCurrentState() == States.Jumping)
                     {
                         characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[(int)GetCurrentState()], CalculateHitstun(attack));
-                   }
+                    }
                     else
                         characterAnimation.PlayHitAnimation(GetCharacterAnimationsData().hitClips[(int)GetCurrentState()], CalculateHitstun(attack));
                 }
@@ -795,7 +795,7 @@ namespace SkillIssue.CharacterSpace
             {
                 ApplyCounterPush(-dir, Managers.Instance.GameManager.GetCombatValues().GetHitMovementDuration());
             }
-                ApplyForce(dir, Managers.Instance.GameManager.GetCombatValues().GetHitMovementDuration());
+            ApplyForce(dir, Managers.Instance.GameManager.GetCombatValues().GetHitMovementDuration());
             SetActionState(ActionStates.Hit);
         }
 
@@ -808,12 +808,12 @@ namespace SkillIssue.CharacterSpace
 
             if (!blockCheck)
                 characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().blockingClips[(int)GetCurrentState()]);
-                if (IsAgainstTheWall && FaceDir != WallFaceDirection)
-                {
-                    ApplyCounterPush(-blockDir, Managers.Instance.GameManager.GetCombatValues().GetHitMovementDuration());
-                }
-                else
-                    ApplyForce(blockDir, Managers.Instance.GameManager.GetCombatValues().GetHitMovementDuration());
+            if (IsAgainstTheWall && FaceDir != WallFaceDirection)
+            {
+                ApplyCounterPush(-blockDir, Managers.Instance.GameManager.GetCombatValues().GetHitMovementDuration());
+            }
+            else
+                ApplyForce(blockDir, Managers.Instance.GameManager.GetCombatValues().GetHitMovementDuration());
         }
 
         private int CalculateHitstun(AttackData attack)
@@ -936,7 +936,7 @@ namespace SkillIssue.CharacterSpace
         {
             attackManager.ClearPreviousAttack();
         }
-        
+
         public void AnimEvent()
         {
             characterAnimation.GetAnimationTime();
@@ -1000,7 +1000,7 @@ namespace SkillIssue.CharacterSpace
         {
             if (!IsApplyingGravity)
                 return;
-                characterAnimation.ChangeMovementState(GetCharacterAnimationsData().jumpingClips.FirstOrDefault());
+            characterAnimation.ChangeMovementState(GetCharacterAnimationsData().jumpingClips.FirstOrDefault());
             if (!IsGrounded && currentMovementCoroutine == null)
                 SetIsJumping(false);
             if ((IsAgainstTheWall && Mathf.Sign(WallFaceDirection) == WallFaceDirection))
@@ -1106,7 +1106,7 @@ namespace SkillIssue.CharacterSpace
             {
                 CurrentCombo.Add(attack);
                 Managers.Instance.GameManager.UpdateComboCounter(playerId);
-                
+
             }
             SameAttackSequence = true;
         }
@@ -1162,7 +1162,7 @@ namespace SkillIssue.CharacterSpace
 
         private void OnCollisionStay2D(Collision2D collision)
         {
-            if (LayerMask.LayerToName (collision.gameObject.layer) == "Pushbox")
+            if (LayerMask.LayerToName(collision.gameObject.layer) == "Pushbox")
             {
                 if (Managers.Instance.GameManager.CornerCharacter == opponent && !IsAgainstTheWall)
                 {
@@ -1187,7 +1187,7 @@ namespace SkillIssue.CharacterSpace
         public void ToggleRecording()
         {
             if (!Managers.Instance.GameManager.IsRecording)
-            inputHandler.InputRecordingList.Clear();
+                inputHandler.InputRecordingList.Clear();
             Managers.Instance.GameManager.ToggleRecording();
             Debug.Log(Managers.Instance.GameManager.IsRecording);
         }

@@ -15,21 +15,19 @@ MonoBehaviour:
   attackState: 1
   attackAttribute: 1
   inputType: 0
-  IsSpecial: 0
+  isSpecialMove: 0
   motionInput: 8
   attackLevel: 1
   damage: 0
-  launcher: 0
-  hardKnockdown: 0
-  dashCancel: 0
-  jumpCancel: 0
-  grab: 0
-  canceleableSelf: 1
-  specialCanceleable: 1
-  cancelableTypes: 00000000010000000200000003000000
+  isGrab: 0
+  causesLaunch: 0
+  causesHardKnockdown: 0
+  cancelTypes: 0200000003000000
+  canceableUniqueAttacks:
+  - {fileID: 11400000, guid: 55c9e8311c504cf4580d275898fd3cb0, type: 2}
+  - {fileID: 11400000, guid: bf59d6d857cefc84a9d24a0c8bc6fe9d, type: 2}
   extraHitstun: 0
   extraPush: {x: 0, y: 0}
   animation: {fileID: 7400000, guid: b127f571c853c274d94d683f870398e9, type: 2}
-  message: 
   followUpAttack: {fileID: 0}
   collideSound: {fileID: 0}

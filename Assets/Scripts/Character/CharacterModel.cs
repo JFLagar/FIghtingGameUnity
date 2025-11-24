@@ -75,4 +75,9 @@ public class CharacterModel : MonoBehaviour
     {
         character.PlaySound(clip);
     }
+
+    public void SpawnProjectile()
+    {
+        character.SpawnProjectile();
+    }
 }

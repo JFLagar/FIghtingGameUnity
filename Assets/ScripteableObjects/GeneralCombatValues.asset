@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21d4197384741014f8dbd3663b659ae1, type: 3}
+  m_Name: GeneralCombatValues
+  m_EditorClassIdentifier: 
+  dashDuration: 10
+  airDashAnimationDuration: 22
+  halfMeter: 50
+  hitstopBase: 8
+  hitstunBase: 10
+  hitMovementDuration: 3
+  backWalkReduction: 1.5
+  pushMultiplier: 3
+  jumpMultiplier: 2
+  dashMultiplier: 1.5

@@ -8,16 +8,30 @@ public class CameraManager : MonoBehaviour
     Camera cam;
     [SerializeField]
     Character[] characters;
-    [SerializeField] Vector3 pos = new Vector3(0, 0, -10);
-    [SerializeField] float minZoom = 1.3f;
-    [SerializeField] float maxZoom = 1.5f;
-    [SerializeField] float edgePadding = 0.5f;
-    [SerializeField] bool isOnScreenEdge = false;
-    [SerializeField] int screenEdgeFaceDir = 0;
-    private float GetDistanceX =>  Mathf.Abs(characters[0].transform.position.x - characters[1].transform.position.x);
+    [SerializeField]
+    Vector3 pos = new Vector3(0, 0, -10);
+    [SerializeField]
+    float minZoom = 1.3f;
+    [SerializeField]
+    float maxZoom = 1.5f;
+    [SerializeField]
+    float edgePadding = 0.5f;
+    [SerializeField]
+    float verticalMinimumHeight = 0.5f;
+    [SerializeField]
+    float cameraMovementDuration = 0.5f;
+    [SerializeField]
+    bool isOnScreenEdge = false;
+    [SerializeField]
+    int screenEdgeFaceDir = 0;
+
     private float visibleRightEdgeLimit;
     private float visibleLeftEdgeLimit;
-    Vector3 newPos;
+
+    private float GetDistanceX => Mathf.Abs(characters[0].transform.position.x - characters[1].transform.position.x);
+    private float GetCameraMiddleX => (characters[0].transform.position.x + characters[1].transform.position.x) / 2;
+    private float GetDistanceY => Mathf.Abs(characters[0].transform.position.y - characters[1].transform.position.y);
+    private float GetCameraMiddleY => (characters[0].transform.position.y + characters[1].transform.position.y) / 2;
 
     private void Awake()
     {
@@ -26,8 +40,8 @@ public class CameraManager : MonoBehaviour
 
     void LateUpdate()
     {
-        float middle = GetCameraMiddleX();
-        float distance = GetCharacterDistanceX();
+        float middle = GetCameraMiddleX;
+        float distance = GetDistanceX;
         HandleCameraPosition(middle);
         HandleCameraZoom(distance, middle);
     }
@@ -38,9 +52,9 @@ public class CameraManager : MonoBehaviour
         {
             pos.x = middle;
         }
-        if (GetCameraMiddleY() > 0.5)
+        if (GetCameraMiddleY > verticalMinimumHeight)
         {           
-            pos.y = GetCameraMiddleY();
+            pos.y = GetCameraMiddleY;
         }
         else
             pos.y = 0;
@@ -57,7 +71,7 @@ public class CameraManager : MonoBehaviour
             }
         }
         if (cam.transform.position != pos)
-            cam.transform.DOMove(pos, 0.5f);
+            cam.transform.DOMove(pos, cameraMovementDuration);
     }
 
     private void HandleCameraZoom(float distance, float middle)
@@ -79,27 +93,6 @@ public class CameraManager : MonoBehaviour
             return true;
         }
         return false;
-    }
-
-    // Helper methods
-    private float GetCharacterDistanceX()
-    {
-        return Mathf.Abs(characters[0].transform.position.x - characters[1].transform.position.x);
-    }
-
-    private float GetCameraMiddleX()
-    {
-        return (characters[0].transform.position.x + characters[1].transform.position.x) / 2;
-    }
-
-    private float GetCharacterDistanceY()
-    {
-        return Mathf.Abs(characters[0].transform.position.y - characters[1].transform.position.y);
-    }
-
-    private float GetCameraMiddleY()
-    {
-        return (characters[0].transform.position.y + characters[1].transform.position.y) / 2;
     }
 
     // External controls (keep your existing interface)

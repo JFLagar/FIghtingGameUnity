@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af6710665f00bad47b684f085853d1de, type: 3}
   m_Name: ProtoData
   m_EditorClassIdentifier: 
-  CharacterModel: {fileID: 5799926572855761399, guid: 722a2f630dbc422419f8d84d47946f3f, type: 3}
+  characterModel: {fileID: 5799926572855761399, guid: 722a2f630dbc422419f8d84d47946f3f, type: 3}
   characterName: Proto
   maxHP: 100
   speed: 1

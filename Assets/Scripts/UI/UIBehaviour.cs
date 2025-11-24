@@ -54,10 +54,10 @@ public class UIBehaviour : MonoBehaviour
         for (int i = 0; i < sliders.Length; i++)
         {
             sliders[i].maxValue = characters[i].GetMaxHealth();
-            sliders[i].value = characters[i].GetCurrentHealth();
+            sliders[i].value = characters[i].CurrentHealth;
         }
 
-        if (Managers.Instance.GameManager.IsTraining())
+        if (Managers.Instance.GameManager.IsTrainingModeOn)
         {
             characterSelect.gameObject.SetActive(true);
         }
@@ -71,7 +71,7 @@ public class UIBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!roundActive || Managers.Instance.GameManager.IsTraining())
+        if (!roundActive || Managers.Instance.GameManager.IsTrainingModeOn)
             return;
         timer -= Time.deltaTime;
         timerText.text = Mathf.FloorToInt(timer).ToString();
@@ -258,6 +258,10 @@ public class UIBehaviour : MonoBehaviour
     [Button]
     public void FadeIn()
     {
+        foreach (var player in characters)
+        {
+            player.DisableInput();
+        }
         fadePanel.DOFade(1, 1).OnComplete(()=>
         {
             ResetAll(); FadeOut();

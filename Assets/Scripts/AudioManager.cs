@@ -17,11 +17,6 @@ public class AudioManager : MonoBehaviour
         instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void PlayAnimationEffect(AudioClip clip, int playerSoundSourceId = 0)
     {
         soundsSources[playerSoundSourceId].clip = clip;

@@ -66,13 +66,10 @@ namespace SkillIssue.Inputs
     }
 
 
-    public class InputHandler : MonoBehaviour, InputActions.IControlsActions
+    public class InputHandler : MonoBehaviour
     {
         Character character;
-        CharacterAI ai;
-        bool aiControl = false;
-        bool controllerControl = false;
-        PlayerInput playerInput;
+        public PlayerInput PlayerInput { get; private set; }
         [SerializeField]
         InputActions inputActions;
         private LightInput lightButton = new LightInput();
@@ -80,7 +77,7 @@ namespace SkillIssue.Inputs
         private HeavyInput heavyButton = new HeavyInput();
         private UniqueInput uniqueButton = new UniqueInput();
         MovementInput movementInput = new MovementInput();
-        bool wasYReleased = false;
+        public bool WasYReleased { get; private set; }
 
         [Space]
 
@@ -116,11 +113,6 @@ namespace SkillIssue.Inputs
         private InputControl currentMovementControlY;
         private Vector2 currentDirection;
 
-        public PlayerInput GetPlayerInput()
-        {
-            return playerInput;
-        }
-
         public void Initialize(Character controllingCharacter)
         {
             character = controllingCharacter;
@@ -131,10 +123,7 @@ namespace SkillIssue.Inputs
             heavyButton.SetInputHandler(this);
             uniqueButton.SetInputHandler(this);
 
-            playerInput = transform.parent.GetComponent<PlayerInput>();
-
-            //if (!aiControl)
-            //    playerInput.SwitchCurrentControlScheme(playerInput.defaultControlScheme, Keyboard.current);
+            PlayerInput = transform.parent.GetComponent<PlayerInput>();
 
             MapActions(true);
         }
@@ -145,7 +134,7 @@ namespace SkillIssue.Inputs
             inputActions.Disable();
             inputActions.bindingMask = new InputBinding()
             {
-                groups = playerInput.defaultControlScheme
+                groups = PlayerInput.defaultControlScheme
             };
             inputActions.Enable();
             inputActions.Controls.Enable();
@@ -188,24 +177,15 @@ namespace SkillIssue.Inputs
             inputActions.Controls.Disable();
         }
 
+        //DEBUG
         private void OnActionTriggered(InputAction.CallbackContext context)
         {
-            //Debug.Log(context.action.name + playerInput.name);
+            Debug.Log(context.action.name + PlayerInput.name);
         }
 
         public Vector2 GetDirection()
         {
             return direction;
-        }
-
-        public Character GetCharacter()
-        {
-            return character;
-        }
-
-        public bool GetWasYReleased()
-        {
-            return wasYReleased;
         }
 
         public void Update()
@@ -235,7 +215,7 @@ namespace SkillIssue.Inputs
                 isReplaying = false;
                 replayFrame = 0;
                 Debug.Log("ReplayEnded");
-                playerInput.ActivateInput();
+                PlayerInput.ActivateInput();
             }
             BufferedInput[] recordedInputs = InputReplayingList.FindAll(c => c.Frame == replayFrame).ToArray();
             foreach (var input in recordedInputs)
@@ -254,7 +234,7 @@ namespace SkillIssue.Inputs
 
         public void StartPlayback()
         {
-            playerInput.DeactivateInput();
+            PlayerInput.DeactivateInput();
             Debug.Log("ReplayStart");
             InputReplayingList.AddRange(InputRecordingList);
             replayFrame = 0;
@@ -294,7 +274,7 @@ namespace SkillIssue.Inputs
             {
                 // Adjust the input direction based on facing direction (only flip X-axis)
                 Vector2 adjustedInputDirection = new Vector2(
-                    inputs[i].Direction.x * character.GetFaceDir(),
+                    inputs[i].Direction.x * character.FaceDir,
                     inputs[i].Direction.y
                 );
 
@@ -426,7 +406,7 @@ namespace SkillIssue.Inputs
             {
                 currentMovementControlX = context.control;
             }
-                if (currentMovementControlX != context.control)
+            else
             {
                 value = 0;
             }
@@ -464,7 +444,7 @@ namespace SkillIssue.Inputs
             {
                 currentMovementControlY = context.control;
             }
-            if (currentMovementControlY != context.control)
+            else
             {
                 value = 0;
             }
@@ -492,7 +472,7 @@ namespace SkillIssue.Inputs
                 currentMovementControlY = null;
                 direction.y = currentDirection.y;
             }
-            wasYReleased = context.action.WasReleasedThisFrame();
+            WasYReleased = context.action.WasReleasedThisFrame();
         }
 
         public void MovementFunction(Vector2 direction)
@@ -576,7 +556,7 @@ namespace SkillIssue.Inputs
 
         public void SelectButton(InputAction.CallbackContext context)
         {
-            if (Managers.Instance.GameManager.IsTraining())
+            if (Managers.Instance.GameManager.IsTrainingModeOn)
                 Managers.Instance.GameManager.ResetPosition();
         }
 
@@ -614,46 +594,6 @@ namespace SkillIssue.Inputs
         private void OnDestroy()
         {
             UnmapActions();
-        }
-
-        public void OnLightButton(InputAction.CallbackContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnMediumButton(InputAction.CallbackContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnHeavyButton(InputAction.CallbackContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnUniqueButton(InputAction.CallbackContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnStart(InputAction.CallbackContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnSelect(InputAction.CallbackContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnMovementX(InputAction.CallbackContext context)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnMovementY(InputAction.CallbackContext context)
-        {
-            throw new NotImplementedException();
         }
     }
 }

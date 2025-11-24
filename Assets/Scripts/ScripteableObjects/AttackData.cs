@@ -7,6 +7,7 @@ using UnityEngine;
 using SkillIssue.Inputs;
 using Unity.VisualScripting;
 using NaughtyAttributes;
+using SkillIssue.StateMachineSpace;
 namespace SkillIssue
 {
     public enum AttackAttribute
@@ -15,45 +16,93 @@ namespace SkillIssue
         Low,
         High
     }
-    public enum AttackState
+
+    public enum CancelTypes
     {
-        Standing,
-        Crouching,
-        Jumping
+        Dash,
+        Jump,
+        Self,
+        Special,
+        Super
     }
+
     [CreateAssetMenu(fileName = "AttackData", menuName = "ScriptableObjects/Attacks", order = 1)]
     public class AttackData : ScriptableObject
     {
-        public AttackState attackState;
-        public AttackAttribute attackAttribute;
-        public InputType inputType;
-        public bool IsSpecial;
+        [SerializeField]
+        private States attackState;
+        [SerializeField]
+        private AttackAttribute attackAttribute;
+        [SerializeField]
+        private InputType inputType;
+        [SerializeField]
+        private bool isSpecialMove;
         [ShowIf("IsSpecial")]
-        public MotionInputs motionInput = MotionInputs.NONE;
+        [SerializeField]
+        private MotionInputs motionInput = MotionInputs.NONE;
 
         [Space]
-        public int attackLevel = 0; //0 to 5
-        public int damage;
+
+        [SerializeField]
+        private int attackLevel = 0; //0 to 5
+        [SerializeField]
+        private int damage;
 
         [Space]
-        public bool launcher;
-        public bool hardKnockdown;
-        public bool dashCancel;
-        public bool jumpCancel;
-        public bool grab;
-        public bool canceleableSelf;
-        public bool specialCanceleable;
-        public InputType[] cancelableTypes;
+
+        [SerializeField]
+        private bool isGrab;
+        [SerializeField]
+        private bool causesLaunch;
+        [SerializeField]
+        private bool causesHardKnockdown;
 
         [Space]
-        public int extraHitstun;
-        public Vector2 extraPush;
+
+        [SerializeField]
+        private CancelTypes[] cancelTypes;
+        [SerializeField]
+        private AttackData[] canceableUniqueAttacks;
 
         [Space]
-        public AnimationClip animation;
-        public string message;
-        public AttackData followUpAttack;
-        public AudioClip collideSound;
+
+        [SerializeField]
+        private int extraHitstun;
+        [SerializeField]
+        private Vector2 extraPush;
+
+        [Space]
+
+        [SerializeField]
+        private AnimationClip animation;
+        [SerializeField]
+        private AttackData followUpAttack;
+        [SerializeField]
+        private AudioClip collideSound;
+
+        public States GetAttackState() { return attackState; }
+        public AttackAttribute GetAttackAttribute() { return attackAttribute; }
+        public InputType GetInputType() { return inputType; }
+        public bool IsSpecialMove() { return isSpecialMove; }
+        public MotionInputs GetMotionInput() { return motionInput; }
+
+        public int GetAttackLevel() { return attackLevel; }
+        public int GetDamage() { return damage; }
+
+        public bool IsGrab() { return isGrab; }
+        public bool CausesLaunch() { return causesLaunch; }
+        public bool CausesHardKnockdown () { return causesHardKnockdown; }
+
+        public CancelTypes[] GetCancelTypes() { return cancelTypes; }
+        public AttackData[] GetCancelableUniqueAttacks() { return canceableUniqueAttacks; }
+
+        public int GetExtraHitstun() { return extraHitstun;}
+        public Vector2 GetExtraPush() { return extraPush;}
+
+        public AnimationClip GetAnimationClip() {  return animation; }
+        public AttackData GetFollowUpAttackData() { return followUpAttack; }
+        public AudioClip GetCollideAudioClip() { return collideSound; }
+
 
     }
 }

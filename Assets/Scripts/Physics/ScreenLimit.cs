@@ -20,21 +20,16 @@ public class ScreenLimit : MonoBehaviour
         }
     }
 
-    public int GetScreenDir()
-    {
-        return screenEdgeFaceDir;
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Character collisionChar = collision.GetComponent<Character>();
         if (collisionChar == null)
             return;
-        if (collisionChar.GetMovementDirectionX() != 0 && Managers.Instance.GameManager.GetCornerChar() == null)
+        if (collisionChar.MovementDirectionX != 0 && Managers.Instance.GameManager.CornerCharacter == null)
             return;
-        if (Managers.Instance.GameManager.GetCornerChar() == null)
+        if (Managers.Instance.GameManager.CornerCharacter == null)
             Managers.Instance.GameManager.SetCornerChar(collisionChar);
-        collisionChar.SetIsAgainstTheWall(true, GetScreenDir());        
+        collisionChar.SetIsAgainstTheWall(true, screenEdgeFaceDir);        
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -43,8 +38,8 @@ public class ScreenLimit : MonoBehaviour
         //    return;
         Character collisionChar = collision.GetComponent<Character>();
         if (collisionChar == null) return;
-        if (Managers.Instance.GameManager.GetCornerChar() != collisionChar)
-            collisionChar.SetIsAgainstTheWall(true, GetScreenDir());
+        if (Managers.Instance.GameManager.CornerCharacter != collisionChar)
+            collisionChar.SetIsAgainstTheWall(true, screenEdgeFaceDir);
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -53,9 +48,9 @@ public class ScreenLimit : MonoBehaviour
         if (collisionChar == null)
             return;
 
-        if (Managers.Instance.GameManager.GetCornerChar() == collisionChar)
+        if (Managers.Instance.GameManager.CornerCharacter == collisionChar)
             Managers.Instance.GameManager.SetCornerChar(null);
-        collisionChar.SetIsAgainstTheWall(false, GetScreenDir());
+        collisionChar.SetIsAgainstTheWall(false, screenEdgeFaceDir);
     }
 
 }

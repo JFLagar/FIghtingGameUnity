@@ -11,9 +11,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI frameScriptDisplay;
     [SerializeField]
-    bool isTraining;
-    [SerializeField]
-    Character cornerCharacter;
+    GeneralCombatValues generalCombatValues;
+    public bool IsTrainingModeOn {get; private set;}
+    public Character CornerCharacter { get; private set; }
     [SerializeField]
     Character[] characters;
     int p1rounds;
@@ -23,8 +23,6 @@ public class GameManager : MonoBehaviour
     bool isGamePaused = false;
     [SerializeField]
     float gameSpeed = 1.0f;
-    [SerializeField]
-    float generalForceSpeed = 1.0f;
     public int RecordingFrame {  get; private set; }
     public bool IsRecording {  get; private set; }
 
@@ -64,6 +62,11 @@ public class GameManager : MonoBehaviour
             frameScriptDisplay.text = "Frame: " + frame;
         }
     }
+    
+    public GeneralCombatValues GetCombatValues()
+    {
+        return generalCombatValues;
+    }
 
     public void ToggleRecording()
     {
@@ -73,17 +76,7 @@ public class GameManager : MonoBehaviour
 
     public void SetCornerChar(Character character)
     {
-        cornerCharacter = character;
-    }
-
-    public Character GetCornerChar()
-    {
-        return cornerCharacter;
-    }
-
-    public float GetForceSpeed()
-    {
-        return generalForceSpeed;
+        CornerCharacter = character;
     }
 
     public void BackToMenu()
@@ -111,14 +104,14 @@ public class GameManager : MonoBehaviour
 
     public void EnableTrainingMode()
     {
-        isTraining = !isTraining;
+        IsTrainingModeOn = !IsTrainingModeOn;
         //character2.inputHandler.ResetAI();
     }
 
     //Maybe Event(?)
     public void UpdateHealth(int playerId, float value)
     {
-        if (uIBehaviour == null || IsTraining())
+        if (uIBehaviour == null || IsTrainingModeOn)
             return;
         uIBehaviour.UpdateHealth(playerId, value);
     }
@@ -135,10 +128,4 @@ public class GameManager : MonoBehaviour
     {
         Application.Quit();
     }
-
-    public bool IsTraining()
-    {
-        return isTraining;
-    }
-
 }

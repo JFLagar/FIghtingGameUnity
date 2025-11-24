@@ -10,9 +10,9 @@ public enum Controllers
     controller1,
     controller2
 }
-public class DataManagment : MonoBehaviour
+public class SaveDataManager : MonoBehaviour
 {
-    public static DataManagment instance;
+    public static SaveDataManager instance;
     public Controllers controllerP1 , controllerP2;
     private string saveData;
     public UserData data;

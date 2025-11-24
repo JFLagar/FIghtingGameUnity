@@ -3,6 +3,7 @@ using SkillIssue.CharacterSpace;
 using SkillIssue.Inputs;
 using SkillIssue.StateMachineSpace;
 using System.Collections;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -25,12 +26,12 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
         this.hitboxes = hitboxes;
     }
 
-    public void Attack(AttackData data, bool followup = false)
+    public void Attack(AttackData attack, bool followup = false)
     {
         //check if can cancel
         if (character.GetCurrentActionState() == ActionStates.Attack && !followup)
         {
-            if (!IsCancelable(data))
+            if (!IsCancelable(attack))
             {
                 return;
             }
@@ -40,14 +41,14 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
             hitbox.SetState(ColliderState.Closed);
             hitbox.SetResponder(this);
         }
-        if (data.animation != null)
+        if (attack.GetAnimationClip() != null)
         {
-            character.GetCharacterAnimation().PlayActionAnimation(data.animation);
+            character.GetCharacterAnimation().PlayActionAnimation(attack.GetAnimationClip());
         }
         repeatedAttack = 0;
-        character.Attack(data);
+        character.Attack(attack);
         hit = false;
-        previousAttack = data;
+        previousAttack = attack;
         currentAttack = null;
 
         //Attack
@@ -70,26 +71,26 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
         }
     }
 
-    private bool IsCancelable(AttackData data)
+    private bool IsCancelable(AttackData attack)
     {
         if (!hit)
         {
             return false;
         }
-        if (data.grab)
+        if (attack.IsGrab())
         {
             return false;
         }
 
 
-        if (data.canceleableSelf && data == previousAttack)
+        if (attack.GetCancelTypes().ToList().Contains(CancelTypes.Self) && attack == previousAttack)
         {
             if (character.GetComboCount() >= sameLimit)
             {
                 int count = character.GetComboCount() - 1;
                 while (count >= character.GetComboCount() - sameLimit)
                 {
-                    if (data == character.GetCombo()[count])
+                    if (attack == character.CurrentCombo[count])
                     {
                         repeatedAttack++;
                     }
@@ -103,34 +104,31 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
             return true;
         }
 
-        if (data != previousAttack)
+        if (attack != previousAttack)
         {
             repeatedAttack = 0;
         }
 
-        if (data.attackState == AttackState.Jumping)
+        if (attack.GetAttackState() == States.Jumping)
         {
             return false;
         }
-        if (!data.canceleableSelf && data == previousAttack)
+        if (!attack.GetCancelTypes().ToList().Contains(CancelTypes.Self) && attack == previousAttack)
         {
             return false;
 
         }
 
-        foreach (InputType canceltype in previousAttack.cancelableTypes)
+        foreach (AttackData cancelableAttack in previousAttack.GetCancelableUniqueAttacks())
         {
-            if (character.GetCombo().Contains(data) && character.SameAttackSequence)
-            {
-                return false;
-            }
-            if (data.inputType == canceltype)
+            if (attack == cancelableAttack)
             {
                 return true;
             }
-            if (!previousAttack.IsSpecial && data.IsSpecial)
-                return true;
         }
+        if (previousAttack.GetCancelTypes().ToList().Contains(CancelTypes.Special) && attack.IsSpecialMove())
+            return true;
+
         return false;
     }
 

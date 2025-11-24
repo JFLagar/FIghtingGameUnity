@@ -7,7 +7,8 @@ using UnityEditor.Animations;
 [CreateAssetMenu(fileName = "CharacterData", menuName = "Scriptable Objects/CharacterData")]
 public class CharacterData : ScriptableObject
 {
-    public CharacterModel CharacterModel;
+    [SerializeField]
+    private CharacterModel characterModel;
     [SerializeField]
     string characterName;
     [SerializeField]
@@ -31,6 +32,7 @@ public class CharacterData : ScriptableObject
     [SerializeField]
     CharacterAnimationsData characterAnimationsData;
 
+    public CharacterModel GetCharacterModel() { return characterModel; }
     public string GetCharacterName() {  return characterName; }
     public int GetMaxHP() { return maxHP; }
     public float GetMovementSpeed() { return speed; }
@@ -62,7 +64,7 @@ public class CharacterData : ScriptableObject
     {
         foreach (AttackData special in GetSpecialAttacks())
         {
-            if (special.motionInput == motion && special.inputType == inputType)
+            if (special.GetMotionInput() == motion && special.GetInputType() == inputType)
                 return special;
         }
         Debug.Log("Couldn't Find special: " + motion + " " + inputType);

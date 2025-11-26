@@ -31,7 +31,7 @@ namespace SkillIssue
         {
             if (state == ColliderState.Closed) { return; }
 
-            Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, hitboxSize, 0, targetMask);
+            Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, hitboxSize * 2, 0, targetMask);
             if (colliders.Length!= 0)
             {
                 if (state == ColliderState.Colliding)
@@ -60,7 +60,7 @@ namespace SkillIssue
         {
             CheckGizmoColor();
             Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.localScale);
-            Gizmos.DrawWireCube(Vector3.zero, new Vector3(hitboxSize.x * 2, hitboxSize.y * 2, hitboxSize.z * 2)); // Because size is halfExtents
+            Gizmos.DrawWireCube(Vector3.zero, hitboxSize *2); // Because size is halfExtents
         }
 
         void CheckGizmoColor()

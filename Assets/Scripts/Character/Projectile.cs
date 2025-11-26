@@ -3,85 +3,88 @@ using System.Collections.Generic;
 using UnityEngine;
 using SkillIssue;
 using SkillIssue.CharacterSpace;
+using NUnit.Framework.Constraints;
+using System.Net.NetworkInformation;
 
 public class Projectile : MonoBehaviour , IHitboxResponder
 {
-    public Character parent;
-    public int hitPoints;
-    public SpriteRenderer m_renderer;
-    public AttackData data;
-    public Vector2 origin;
-    public Vector2 trajectory;
-    public Hitbox hitbox;
-    public Hurtbox m_hurtbox;
-    public float speed;
-    public Animator animator;
+    Character parent;
+    [SerializeField]
+    SpriteRenderer m_renderer;
+    [SerializeField]
+    Transform collisions;
+    ProjectileData projectileData;
+    [SerializeField]
+    Hitbox hitbox;
     private AttackData currentAttack;
-    public Transform collisions;
-    public bool ending;
-    public int endingTime;
-    public Projectile followUpProjectile;
+    private Animator animator;
+    Vector2 trajectory;
     // Start is called before the first frame update
-    void Start()
+    public void Initialize(Character character, ProjectileData data)
     {
+        parent = character;
+        float xOrigin = transform.position.x + (parent.FaceDir/2);
+        transform.position = new Vector2(xOrigin, 0);
+        animator = GetComponent<Animator>();
+        projectileData = data;
+
+        trajectory = data.GetTrajectory();
+        trajectory.x = trajectory.x * parent.FaceDir;
+
+        m_renderer = GetComponent<SpriteRenderer>();
+        m_renderer.sprite = data.GetSprite();
+
+        hitbox.targetMask = parent.GetHitboxTargetMask();
+        hitbox.gameObject.layer = parent.GetHitboxLayerMask();
+
         if (trajectory.x == -1)
         {
             m_renderer.flipX = true;
-            collisions.eulerAngles = new Vector3(0, 180, 0);
+            //collisions.eulerAngles = new Vector3(0, 180, 0);
         }
         else
         {
             m_renderer.flipX = false;
-            collisions.eulerAngles = new Vector3(0, 0, 0);
+            //collisions.eulerAngles = new Vector3(0, 0, 0);
         }
-        if (ending)
-        StartCoroutine(EndingCoroutine());
+        if (projectileData.GetDuration() > 0)
+            StartCoroutine(EndingCoroutine());
         hitbox.SetResponder(this);
+        gameObject.transform.parent = null; 
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        transform.Translate(trajectory * speed * Time.deltaTime);
+        transform.Translate(trajectory * projectileData.GetSpeed() * Time.fixedDeltaTime);
         if (!m_renderer.isVisible)
         {
             trajectory = Vector2.zero;
             Destroy(this.gameObject,0.5f);
         }
     }
+
     public void BoxCollisionedWith(Collider2D collider)
     {
-        if(currentAttack != data)
+        if (currentAttack != projectileData.GetAttackData())
         {
             Hurtbox hurtbox = collider.GetComponent<Hurtbox>();
-            hurtbox?.GetHitBy(data);
+            hurtbox?.GetHitBy(projectileData.GetAttackData());
             if (hurtbox.blockCheck)
                 return;
             trajectory = Vector2.zero;
-            animator.SetTrigger("Collided");
-            if (followUpProjectile != null)
-                SpawnProjectile();
             if (parent != null)
-            parent.HitConnect(data);
+                parent.HitConnect(projectileData.GetAttackData());
             Destroy(this.gameObject, 0.5f);
-            currentAttack = data;
+            currentAttack = projectileData.GetAttackData();
         }
-      
     }
-    public void SpawnProjectile()
-    {
-        Projectile m_projectile = Instantiate(followUpProjectile, transform);
-        m_projectile.trajectory.x = 0;
-        m_projectile.origin.x = 0;
-        m_projectile.transform.position = new Vector2(transform.position.x , transform.position.y);
-        m_projectile.transform.parent = transform.parent;
-        m_projectile.hitbox.targetMask = gameObject.layer;
-        m_projectile.m_hurtbox.gameObject.layer = m_hurtbox.gameObject.layer;
-    }
+
     IEnumerator EndingCoroutine()
     {
+        yield return null;
         int i = 0;
-        while (i != endingTime)
+        while (i != projectileData.GetDuration())
         {
             i++;
             yield return null;

@@ -109,17 +109,13 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
             repeatedAttack = 0;
         }
 
-        if (attack.GetAttackState() == States.Jumping)
-        {
-            return false;
-        }
         if (!attack.GetCancelTypes().ToList().Contains(CancelTypes.Self) && attack == previousAttack)
         {
             return false;
 
         }
 
-        foreach (AttackData cancelableAttack in previousAttack.GetCancelableUniqueAttacks())
+        foreach (AttackData cancelableAttack in previousAttack.GetCancelableAttacks())
         {
             if (attack == cancelableAttack)
             {

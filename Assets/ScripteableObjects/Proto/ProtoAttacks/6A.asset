@@ -20,12 +20,13 @@ MonoBehaviour:
   attackLevel: 1
   damage: 0
   isGrab: 0
-  causesLaunch: 0
+  causesLaunch: 1
   causesHardKnockdown: 0
-  cancelTypes: 01000000
-  canceableUniqueAttacks: []
+  cancelTypes: 0100000003000000
+  canceableAttacks: []
   extraHitstun: 0
-  extraPush: {x: 0, y: 0}
+  extraPush: {x: 0, y: 6}
   animation: {fileID: 7400000, guid: 7fa3617d576c9e749976894f00fbe27e, type: 2}
   followUpAttack: {fileID: 0}
+  followUpProjectile: {fileID: 0}
   collideSound: {fileID: 0}

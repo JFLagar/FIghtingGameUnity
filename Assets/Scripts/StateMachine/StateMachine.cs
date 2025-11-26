@@ -146,19 +146,19 @@ namespace SkillIssue.StateMachineSpace
         }
         public override void ExitState()
         {
-            if (Character.GetInputDirection().y > 0 || !Character.IsApplyingGravity)
-            {
-                if (Character.CanJump())
-                    Character.PerformJump();
-                StateMachine.GetJumpState().EnterState();
-            }
-            else
+            if (Character.GetInputDirection().y < 0)
             {
                 if (StateMachine.GetActionState() == ActionStates.None)
                 {
                     Character.GetCharacterAnimation().PlayActionAnimation(Character.GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
                     StateMachine.GetCrouchingState().EnterState();
                 }
+            }
+            else if ((Character.GetInputDirection().y > 0 || !Character.IsApplyingGravity))
+            {
+                if (Character.CanJump())
+                    Character.PerformJump();
+                StateMachine.GetJumpState().EnterState();
             }
         }
     }
@@ -210,7 +210,7 @@ namespace SkillIssue.StateMachineSpace
                 if (StateMachine.GetActionState() == ActionStates.Hit)
                     Character.GetCharacterAnimation().PlayActionAnimation(Character.GetCharacterAnimationsData().hitClips.Last());
             }
-            if (Character.CanDoubleJump)
+            if (Character.CanDoubleJump && Character.CanJump())
             {
                 if (Character.GetInputDirection().y > 0)
                 {

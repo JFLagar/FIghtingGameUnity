@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     GeneralCombatValues generalCombatValues;
     public bool IsTrainingModeOn {get; private set;}
+    [SerializeField]
+    bool toggleTraining = false;
     public Character CornerCharacter { get; private set; }
     [SerializeField]
     Character[] characters;
@@ -38,6 +40,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        IsTrainingModeOn = toggleTraining;
         if (uIBehaviour != null)
         {
             uIBehaviour.Initialize();

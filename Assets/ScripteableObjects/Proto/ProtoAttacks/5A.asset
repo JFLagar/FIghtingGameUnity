@@ -23,11 +23,15 @@ MonoBehaviour:
   causesLaunch: 0
   causesHardKnockdown: 0
   cancelTypes: 0200000003000000
-  canceableUniqueAttacks:
+  canceableAttacks:
+  - {fileID: 11400000, guid: 89450e086c655a0488cb2e782bab59b1, type: 2}
+  - {fileID: 11400000, guid: 4b2d995cac05dc14487c3d27a1ffbb94, type: 2}
+  - {fileID: 11400000, guid: bdcee58d950e1db43867bab61163e780, type: 2}
   - {fileID: 11400000, guid: 55c9e8311c504cf4580d275898fd3cb0, type: 2}
   - {fileID: 11400000, guid: bf59d6d857cefc84a9d24a0c8bc6fe9d, type: 2}
   extraHitstun: 0
   extraPush: {x: 0, y: 0}
   animation: {fileID: 7400000, guid: e4b87bbb2a277b84bbd2d5be29ab8860, type: 2}
   followUpAttack: {fileID: 0}
+  followUpProjectile: {fileID: 0}
   collideSound: {fileID: 0}

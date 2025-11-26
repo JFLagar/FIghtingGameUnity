@@ -37,7 +37,7 @@ namespace SkillIssue
         private InputType inputType;
         [SerializeField]
         private bool isSpecialMove;
-        [ShowIf("IsSpecial")]
+        [ShowIf("IsSpecialMove")]
         [SerializeField]
         private MotionInputs motionInput = MotionInputs.NONE;
 
@@ -62,7 +62,7 @@ namespace SkillIssue
         [SerializeField]
         private CancelTypes[] cancelTypes;
         [SerializeField]
-        private AttackData[] canceableUniqueAttacks;
+        private AttackData[] canceableAttacks;
 
         [Space]
 
@@ -77,6 +77,8 @@ namespace SkillIssue
         private AnimationClip animation;
         [SerializeField]
         private AttackData followUpAttack;
+        [SerializeField]
+        private ProjectileData followUpProjectile;
         [SerializeField]
         private AudioClip collideSound;
 
@@ -94,7 +96,7 @@ namespace SkillIssue
         public bool CausesHardKnockdown () { return causesHardKnockdown; }
 
         public CancelTypes[] GetCancelTypes() { return cancelTypes; }
-        public AttackData[] GetCancelableUniqueAttacks() { return canceableUniqueAttacks; }
+        public AttackData[] GetCancelableAttacks() { return canceableAttacks; }
 
         public int GetExtraHitstun() { return extraHitstun;}
         public Vector2 GetExtraPush() { return extraPush;}
@@ -102,6 +104,7 @@ namespace SkillIssue
         public AnimationClip GetAnimationClip() {  return animation; }
         public AttackData GetFollowUpAttackData() { return followUpAttack; }
         public AudioClip GetCollideAudioClip() { return collideSound; }
+        public ProjectileData GetProjectileData() { return followUpProjectile; }
 
 
     }

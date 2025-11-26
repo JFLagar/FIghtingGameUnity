@@ -512,7 +512,7 @@ namespace SkillIssue.CharacterSpace
                 else if ((GetCurrentState() == States.Jumping) && (AirActions > 0))
                 {
                     characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().jumpingClips[2], Managers.Instance.GameManager.GetCombatValues().GetAirDashAnimationDuration());
-                    ApplyForce(new Vector2(FaceDir * Managers.Instance.GameManager.GetCombatValues().GetDashDuration(), 0.1f),
+                    ApplyForce(new Vector2(FaceDir * Managers.Instance.GameManager.GetCombatValues().GetDashMultiplier(), 0.1f),
                         Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
                     AirActions--;
                 }
@@ -791,7 +791,8 @@ namespace SkillIssue.CharacterSpace
                 CurrentHealth -= attack.GetDamage();
                 Managers.Instance.GameManager.UpdateHealth(playerId, CurrentHealth);
             }
-            if (IsAgainstTheWall && FaceDir != WallFaceDirection)
+            //if its a projectile dont push back the attacking character
+            if (IsAgainstTheWall && FaceDir != WallFaceDirection && attack.GetProjectileData() == null)
             {
                 ApplyCounterPush(-dir, Managers.Instance.GameManager.GetCombatValues().GetHitMovementDuration());
             }
@@ -834,11 +835,11 @@ namespace SkillIssue.CharacterSpace
             result.x = ((attackLevel) + attack.GetExtraPush().x) * -FaceDir;
             if (attack.CausesLaunch() || isKnockedDown || GetCurrentState() == States.Jumping)
             {
-                result.y = (attackLevel) + attack.GetExtraPush().y;
                 if (result.y == 0)
                 {
                     result.y = 1;
                 }
+                result.y = (attackLevel) + attack.GetExtraPush().y + Managers.Instance.GameManager.GetCombatValues().GetHitVerticalBase() ;
             }
 
             return result;
@@ -901,7 +902,12 @@ namespace SkillIssue.CharacterSpace
         //Anim Event
         public void SpawnProjectile()
         {
-
+            if (onGoingAttack.GetProjectileData() == null || currentProjectile != null)
+            { 
+                return;
+            }
+            currentProjectile = Instantiate(Managers.Instance.GameManager.GetCombatValues().GetProjectile(), this.transform);
+            currentProjectile.Initialize(this, onGoingAttack.GetProjectileData());
         }
 
         public void AnimationMovement(Vector2 direction)
@@ -1034,9 +1040,14 @@ namespace SkillIssue.CharacterSpace
 
         public IEnumerator WaitForHitStopCoroutine()
         {
-            int target = hitstop;
+            bool wasApplyingGravity = IsApplyingGravity;
+            if (wasApplyingGravity)
+                IsApplyingGravity = false;
+            //int target = hitstop;
+            int target = Managers.Instance.GameManager.GetCombatValues().GetHitstopBase();
             for (int hitstopframe = 0; hitstopframe < target; hitstopframe++)
             {
+                Debug.Log("Hitstop");
                 if (hitstopframe == 1)
                     characterAnimation.PauseActionPlayabe();
                 yield return new FrameWait(1);
@@ -1048,6 +1059,8 @@ namespace SkillIssue.CharacterSpace
             {
                 attackManager.Attack(CurrentCombo.Last().GetFollowUpAttackData(), true);
             }
+            if (wasApplyingGravity)
+                IsApplyingGravity = true;
             currentHitstopCoroutine = null;
         }
 

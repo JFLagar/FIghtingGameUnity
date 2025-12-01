@@ -116,10 +116,12 @@ namespace SkillIssue.CharacterSpace
         private int currentBurstCD = 0;
         public int AirActions { get; private set; }
         public bool CanDoubleJump { get; private set; }
+        private CharacterModel characterModel;
+        private bool isAnyHitboxOpen => characterModel != null && characterModel.GetHitboxes().FirstOrDefault(c => c.state == ColliderState.Open) != null;
 
         private void Awake()
         {
-            CharacterModel characterModel = Instantiate(characterData.GetCharacterModel(), model3D.transform);
+            characterModel = Instantiate(characterData.GetCharacterModel(), model3D.transform);
             characterModel.Initialize(this);
             animator = characterModel.GetComponent<Animator>();
             collisions = characterModel.GetCollisions();
@@ -395,6 +397,8 @@ namespace SkillIssue.CharacterSpace
 
         public void SetApplyGravity(bool value)
         {
+            if (!isPlayer2)
+                Debug.Log(value);
             IsApplyingGravity = value;
         }
 
@@ -442,11 +446,18 @@ namespace SkillIssue.CharacterSpace
             AirActions = characterData.GetAirActions();
         }
 
+        public bool CanLandCancel()
+        {
+            if (onGoingAttack != null && onGoingAttack.GetAttackState() != States.Jumping)
+                return false;
+            return true;
+        }
+
         public bool CanJump()
         {
             if (GetCurrentActionState() != ActionStates.None)
             {
-                if (onGoingAttack != null && onGoingAttack.GetCancelTypes().ToList().Contains(CancelTypes.Jump) && opponent.GetCurrentActionState() == ActionStates.Hit)
+                if (onGoingAttack != null && onGoingAttack.GetCancelTypes().ToList().Contains(CancelTypes.Jump) && isAnyHitboxOpen && opponent.GetCurrentActionState() == ActionStates.Hit)
                 {
                     ResetAttackSequence();
                     return true;
@@ -839,7 +850,7 @@ namespace SkillIssue.CharacterSpace
                 {
                     result.y = 1;
                 }
-                result.y = (attackLevel) + attack.GetExtraPush().y + Managers.Instance.GameManager.GetCombatValues().GetHitVerticalBase() ;
+                result.y = (attackLevel) + attack.GetExtraPush().y + Managers.Instance.GameManager.GetCombatValues().GetHitVerticalBase();
             }
 
             return result;
@@ -885,7 +896,10 @@ namespace SkillIssue.CharacterSpace
         public void OnAnimationEnd()
         {
             if (GetCurrentActionState() == ActionStates.Hit)
+            {
                 opponent.ResetAttackInfo();
+                MovementDirectionX = 0;
+            }
             characterAnimation.OnActionAnimationEnd();
             SetActionState(ActionStates.None);
             isKnockedDown = false;
@@ -903,15 +917,20 @@ namespace SkillIssue.CharacterSpace
         public void SpawnProjectile()
         {
             if (onGoingAttack.GetProjectileData() == null || currentProjectile != null)
-            { 
+            {
                 return;
             }
             currentProjectile = Instantiate(Managers.Instance.GameManager.GetCombatValues().GetProjectile(), this.transform);
             currentProjectile.Initialize(this, onGoingAttack.GetProjectileData());
         }
 
-        public void AnimationMovement(Vector2 direction)
+        public void AnimationMovement()
         {
+            if (onGoingAttack == null)
+            {
+                return;
+            }
+            Vector2 direction = onGoingAttack.GetMovementDirection();
             if (direction == null)
                 return;
             {
@@ -934,6 +953,8 @@ namespace SkillIssue.CharacterSpace
 
         public void AnimationMovementEnd()
         {
+            if (currentMovementCoroutine == null)
+                return;
             StopCoroutine(currentMovementCoroutine);
             currentMovementCoroutine = null;
         }
@@ -1015,7 +1036,6 @@ namespace SkillIssue.CharacterSpace
             {
                 transform.Translate((gravity) * Time.fixedDeltaTime * new Vector2(MovementDirectionX, -1));
             }
-
         }
 
         public IEnumerator ForceCoroutine(Vector2 direction, float duration, bool counterForce)
@@ -1023,13 +1043,16 @@ namespace SkillIssue.CharacterSpace
             float i = 0f;
             while (i != duration)
             {
+                while (currentHitstopCoroutine != null)
+                {
+                    yield return null;
+                }
                 if (!counterForce)
                 {
                     if (IsAgainstTheWall && Mathf.Sign(direction.x) == WallFaceDirection)
                         direction.x = 0;
                 }
                 MovementDirectionX = direction.x;
-
                 transform.Translate(gravity * Time.fixedDeltaTime * direction);
                 yield return new FrameWait(1);
                 i++;
@@ -1041,15 +1064,16 @@ namespace SkillIssue.CharacterSpace
         public IEnumerator WaitForHitStopCoroutine()
         {
             bool wasApplyingGravity = IsApplyingGravity;
-            if (wasApplyingGravity)
-                IsApplyingGravity = false;
             //int target = hitstop;
             int target = Managers.Instance.GameManager.GetCombatValues().GetHitstopBase();
             for (int hitstopframe = 0; hitstopframe < target; hitstopframe++)
             {
-                Debug.Log("Hitstop");
                 if (hitstopframe == 1)
+                {
                     characterAnimation.PauseActionPlayabe();
+                    if (wasApplyingGravity)
+                        SetApplyGravity(false);
+                }
                 yield return new FrameWait(1);
                 hitstop--;
             }
@@ -1059,8 +1083,6 @@ namespace SkillIssue.CharacterSpace
             {
                 attackManager.Attack(CurrentCombo.Last().GetFollowUpAttackData(), true);
             }
-            if (wasApplyingGravity)
-                IsApplyingGravity = true;
             currentHitstopCoroutine = null;
         }
 

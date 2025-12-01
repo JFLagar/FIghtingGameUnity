@@ -35,6 +35,7 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
             {
                 return;
             }
+            character.SetApplyGravity(false);
         }
         foreach (Hitbox hitbox in hitboxes)
         {

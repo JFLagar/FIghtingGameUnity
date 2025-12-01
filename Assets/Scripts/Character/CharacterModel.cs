@@ -51,9 +51,9 @@ public class CharacterModel : MonoBehaviour
         return animator;
     }
 
-    public void AnimationMovement(Vector2 direction)
+    public void AnimationMovement()
     {
-        character.AnimationMovement(direction);
+        character.AnimationMovement();
     }
 
     public void AnimationMovementEnd()

@@ -25,6 +25,7 @@ MonoBehaviour:
   cancelTypes: 0200000001000000
   canceableAttacks:
   - {fileID: 11400000, guid: 660e2183387217147ace1a6cadae123a, type: 2}
+  - {fileID: 11400000, guid: 1ec3fbf7a4b2cef478089a922d045e83, type: 2}
   extraHitstun: 0
   extraPush: {x: 0, y: 0}
   animation: {fileID: 7400000, guid: 918df93dd53f4004aa801675f674abdc, type: 2}

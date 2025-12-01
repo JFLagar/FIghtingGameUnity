@@ -81,6 +81,8 @@ namespace SkillIssue
         private ProjectileData followUpProjectile;
         [SerializeField]
         private AudioClip collideSound;
+        [SerializeField]
+        private Vector2 movementDirection;
 
         public States GetAttackState() { return attackState; }
         public AttackAttribute GetAttackAttribute() { return attackAttribute; }
@@ -106,6 +108,6 @@ namespace SkillIssue
         public AudioClip GetCollideAudioClip() { return collideSound; }
         public ProjectileData GetProjectileData() { return followUpProjectile; }
 
-
+        public Vector2 GetMovementDirection() { return movementDirection; }
     }
 }

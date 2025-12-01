@@ -15,7 +15,7 @@ MonoBehaviour:
   dashDuration: 10
   airDashAnimationDuration: 22
   halfMeter: 50
-  hitstopBase: 8
+  hitstopBase: 4
   hitVerticalBase: 4
   hitstunBase: 10
   hitMovementDuration: 3

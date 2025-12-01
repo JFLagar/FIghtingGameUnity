@@ -164,18 +164,20 @@ namespace SkillIssue.StateMachineSpace
     }
     public class CrouchState : State
     {
-        bool action;
+        bool canAct;
         public override void Update()
         {
-            action = StateMachine.GetActionState() == ActionStates.None;
             if (!Character.IsGrounded)
                 ExitState();
-            if (!action)
+            canAct = (StateMachine.GetActionState() == ActionStates.None || StateMachine.GetActionState() == ActionStates.Attack);
+            if (!canAct)
             {
                 return;
             }
             if (Character.GetInputDirection().y != -1)
             {
+                if (Character.GetInputDirection().y > 0 && !Character.CanJump())
+                    return;
                 ExitState();
             }
         }
@@ -239,7 +241,7 @@ namespace SkillIssue.StateMachineSpace
         {
             Character.FixPosition();
             Character.SetDoubleJump(false);
-            if (StateMachine.GetActionState() == ActionStates.Attack)
+            if (StateMachine.GetActionState() == ActionStates.Attack && Character.CanLandCancel())
             {
                 StateMachine.SetCurrentActionState(ActionStates.None);
                 Character.ResetAttackSequence();
@@ -248,12 +250,14 @@ namespace SkillIssue.StateMachineSpace
                 Character.GetCharacterAnimation().PlayActionAnimation(Character.GetCharacterAnimationsData().hitClips.Last());
             if (Character.GetInputDirection().y != -1)
             {
-                Character.GetCharacterAnimation().PlayActionAnimation(Character.GetCharacterAnimationsData().stateTransitionClips.FirstOrDefault());
+                if (Character.CanLandCancel())
+                    Character.GetCharacterAnimation().PlayActionAnimation(Character.GetCharacterAnimationsData().stateTransitionClips.FirstOrDefault());
                 StateMachine.GetStandingState().EnterState();
             }
             else
             {
-                Character.GetCharacterAnimation().PlayActionAnimation(Character.GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
+                if (Character.CanLandCancel())
+                    Character.GetCharacterAnimation().PlayActionAnimation(Character.GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
                 StateMachine.GetCrouchingState().EnterState();
             }
         }

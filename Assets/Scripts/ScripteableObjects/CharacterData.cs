@@ -60,14 +60,23 @@ public class CharacterData : ScriptableObject
         return jumpForce;
     }
 
-    public AttackData FindSpecialAttack(MotionInputs motion, InputType inputType)
+    public AttackData FindSpecialAttack(MotionInputs motion, InputType inputType, bool jumping = false)
     {
+        if (jumping)
+        {
+            foreach (AttackData special in GetSpecialAttacks())
+            {
+                if (special.GetMotionInput() == motion && special.GetInputType() == inputType && special.GetAttackState() == SkillIssue.StateMachineSpace.States.Jumping)
+                    return special;
+            }
+            return null;
+        }
+
         foreach (AttackData special in GetSpecialAttacks())
         {
             if (special.GetMotionInput() == motion && special.GetInputType() == inputType)
-                return special;
+               return special;
         }
-        Debug.Log("Couldn't Find special: " + motion + " " + inputType);
         return null;
     }
 }

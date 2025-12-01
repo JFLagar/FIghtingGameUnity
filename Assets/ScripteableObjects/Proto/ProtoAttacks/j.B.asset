@@ -24,7 +24,7 @@ MonoBehaviour:
   causesHardKnockdown: 0
   cancelTypes: 01000000
   canceableAttacks:
-  - {fileID: 11400000, guid: 1ec3fbf7a4b2cef478089a922d045e83, type: 2}
+  - {fileID: 11400000, guid: 4953dd561d95fb544ba9d1e28014b470, type: 2}
   extraHitstun: 0
   extraPush: {x: 0, y: 0}
   animation: {fileID: 7400000, guid: 5480ea896f0f99846990506446e41760, type: 2}

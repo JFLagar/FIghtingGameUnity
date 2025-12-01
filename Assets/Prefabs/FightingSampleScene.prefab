@@ -373,6 +373,38 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &1808227017082192876
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5637808751188589287}
+  m_Layer: 0
+  m_Name: CameraParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5637808751188589287
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808227017082192876}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8062074394974453717}
+  m_Father: {fileID: 8062074395442567847}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2291909489043098220
 GameObject:
   m_ObjectHideFlags: 0
@@ -2811,6 +2843,7 @@ MonoBehaviour:
   frameDisplay: {fileID: 8062074396662264429}
   frameScriptDisplay: {fileID: 0}
   generalCombatValues: {fileID: 11400000, guid: 7a3ee158dd976fc43aeaaac477c15efd, type: 2}
+  toggleTraining: 0
   characters:
   - {fileID: 8062074396790736155}
   - {fileID: 8416089865207465151}
@@ -3036,12 +3069,12 @@ Transform:
   m_GameObject: {fileID: 8062074394974453712}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: -10}
+  m_LocalPosition: {x: 0, y: 0.4, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3112814074937537007}
-  m_Father: {fileID: 8062074395442567847}
+  m_Father: {fileID: 5637808751188589287}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &8062074394974453718
 Camera:
@@ -4374,7 +4407,7 @@ Transform:
   m_Children:
   - {fileID: 8062074394908746626}
   - {fileID: 8062074395404191584}
-  - {fileID: 8062074394974453717}
+  - {fileID: 5637808751188589287}
   - {fileID: 8062074395312721850}
   - {fileID: 8062074395157875418}
   - {fileID: 8062074395015191960}

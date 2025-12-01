@@ -33,9 +33,12 @@ public class CameraManager : MonoBehaviour
     private float GetDistanceY => Mathf.Abs(characters[0].transform.position.y - characters[1].transform.position.y);
     private float GetCameraMiddleY => (characters[0].transform.position.y + characters[1].transform.position.y) / 2;
 
+    private float cameraOriginY = 0;
+
     private void Awake()
     {
         cam = FindFirstObjectByType<Camera>();
+        cameraOriginY = cam.gameObject.transform.position.y;
     }
 
     void LateUpdate()
@@ -53,11 +56,11 @@ public class CameraManager : MonoBehaviour
             pos.x = middle;
         }
         if (GetCameraMiddleY > verticalMinimumHeight)
-        {           
+        {
             pos.y = GetCameraMiddleY;
         }
         else
-            pos.y = 0;
+            pos.y = cameraOriginY;
 
         if (isOnScreenEdge)
         {

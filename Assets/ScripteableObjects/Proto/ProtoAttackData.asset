@@ -27,6 +27,7 @@ MonoBehaviour:
   specialAttacks:
   - {fileID: 11400000, guid: 1f130feb2e91043499a225ea8c21f8ff, type: 2}
   - {fileID: 11400000, guid: 1ec3fbf7a4b2cef478089a922d045e83, type: 2}
+  - {fileID: 11400000, guid: 4953dd561d95fb544ba9d1e28014b470, type: 2}
   grabs:
   - {fileID: 11400000, guid: 5af027b48e893514186ccb38dad015ba, type: 2}
   - {fileID: 11400000, guid: 9091e0d12692d3b46a852a685b66bcad, type: 2}

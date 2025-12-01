@@ -168,7 +168,7 @@ namespace SkillIssue.CharacterSpace
 
             xDiff = transform.position.x - opponent.transform.position.x;
 
-            if (GetCurrentState() != States.Jumping)
+            if (GetCurrentState() != States.Jumping && GetCurrentActionState() == ActionStates.None)
             {
                 if (xDiff < 0)
                 {
@@ -397,8 +397,6 @@ namespace SkillIssue.CharacterSpace
 
         public void SetApplyGravity(bool value)
         {
-            if (!isPlayer2)
-                Debug.Log(value);
             IsApplyingGravity = value;
         }
 
@@ -670,8 +668,15 @@ namespace SkillIssue.CharacterSpace
             {
                 if (characterData.FindSpecialAttack(storedMotionInput, type) != null)
                 {
-                    attackManager.Attack(characterData.FindSpecialAttack(storedMotionInput, type));
-                    return;
+                    if (GetCurrentState() != States.Jumping)
+                    {
+                        attackManager.Attack(characterData.FindSpecialAttack(storedMotionInput, type));
+                        return;
+                    }
+                    else 
+                    {
+                        attackManager.Attack(characterData.FindSpecialAttack(storedMotionInput, type, true));
+                    }
                 }
             }
 
@@ -896,7 +901,7 @@ namespace SkillIssue.CharacterSpace
         public void OnAnimationEnd()
         {
             if (GetCurrentActionState() == ActionStates.Hit)
-            {
+           {
                 opponent.ResetAttackInfo();
                 MovementDirectionX = 0;
             }
@@ -990,6 +995,8 @@ namespace SkillIssue.CharacterSpace
 
         public void ApplyCounterPush(Vector2 direction, float duration)
         {
+            if (opponent.GetCurrentState() == States.Jumping)
+                return;
             Vector2 dir = new(direction.x, 0f);
             opponent.ApplyForce(dir, duration, true);
         }
@@ -1047,12 +1054,12 @@ namespace SkillIssue.CharacterSpace
                 {
                     yield return null;
                 }
+                MovementDirectionX = direction.x;
                 if (!counterForce)
                 {
                     if (IsAgainstTheWall && Mathf.Sign(direction.x) == WallFaceDirection)
                         direction.x = 0;
-                }
-                MovementDirectionX = direction.x;
+                }     
                 transform.Translate(gravity * Time.fixedDeltaTime * direction);
                 yield return new FrameWait(1);
                 i++;
@@ -1183,7 +1190,7 @@ namespace SkillIssue.CharacterSpace
                 case ("Pushbox"):
                     if (IsAgainstTheWall && !IsGrounded)
                     {
-                        if (!opponent.IsAgainstTheWall)
+                        if (!opponent.IsAgainstTheWall || Managers.Instance.GameManager.CornerCharacter == this)
                         {
                             opponent.transform.Translate(new Vector2(FaceDir, 0) * Managers.Instance.GameManager.GetCombatValues().GetPushMultiplier() * Time.fixedDeltaTime);
                         }

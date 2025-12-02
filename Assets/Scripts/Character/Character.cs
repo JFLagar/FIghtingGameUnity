@@ -1102,7 +1102,6 @@ namespace SkillIssue.CharacterSpace
             // SuperJump
             if (storedMotionInput == MotionInputs.du)
             {
-                Debug.Log("SuperJump");
                 jumpPower = jumpPower * Managers.Instance.GameManager.GetCombatValues().GetJumpMultiplier();
             }
 
@@ -1213,33 +1212,19 @@ namespace SkillIssue.CharacterSpace
             }
         }
 
-        [Button]
         public void EnableInput()
         {
-            inputHandler.PlayerInput.ActivateInput();
+            inputHandler.EnableInput();
         }
 
-        [Button]
         public void DisableInput()
         {
-            inputHandler.PlayerInput.DeactivateInput();
+            inputHandler.DisableInput();
         }
 
-        [Button]
-        public void ToggleRecording()
+        public void SwitchCurrentActionMap(string mapName)
         {
-            if (!Managers.Instance.GameManager.IsRecording)
-                inputHandler.InputRecordingList.Clear();
-            Managers.Instance.GameManager.ToggleRecording();
-            Debug.Log(Managers.Instance.GameManager.IsRecording);
-        }
-
-        [Button]
-        public void StartPlayback()
-        {
-            if (Managers.Instance.GameManager.IsRecording)
-                Managers.Instance.GameManager.ToggleRecording();
-            inputHandler.StartPlayback();
+            inputHandler.PlayerInput.SwitchCurrentActionMap(mapName);
         }
     }
 

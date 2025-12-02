@@ -460,9 +460,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             ""id"": ""69288328-90a9-432b-9a01-75a1d130ed95"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""UIConfirm"",
                     ""type"": ""Button"",
                     ""id"": ""40e9f42c-c80f-4e0f-bc3d-52f8b3007663"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UICancel"",
+                    ""type"": ""Button"",
+                    ""id"": ""5ae42e26-d252-4aa8-8dfb-98587edd2491"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -473,11 +482,22 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""a8e68897-b0c6-4821-89b0-f7635affd1ce"",
-                    ""path"": """",
+                    ""path"": ""<Keyboard>/j"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""New action"",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""UIConfirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d68ec205-35bd-4447-a702-a618cc7ec12f"",
+                    ""path"": ""<Keyboard>/u"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""UICancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -553,7 +573,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Controls_MovementY = m_Controls.FindAction("MovementY", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
-        m_Menu_Newaction = m_Menu.FindAction("New action", throwIfNotFound: true);
+        m_Menu_UIConfirm = m_Menu.FindAction("UIConfirm", throwIfNotFound: true);
+        m_Menu_UICancel = m_Menu.FindAction("UICancel", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -723,12 +744,14 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     // Menu
     private readonly InputActionMap m_Menu;
     private List<IMenuActions> m_MenuActionsCallbackInterfaces = new List<IMenuActions>();
-    private readonly InputAction m_Menu_Newaction;
+    private readonly InputAction m_Menu_UIConfirm;
+    private readonly InputAction m_Menu_UICancel;
     public struct MenuActions
     {
         private @InputActions m_Wrapper;
         public MenuActions(@InputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_Menu_Newaction;
+        public InputAction @UIConfirm => m_Wrapper.m_Menu_UIConfirm;
+        public InputAction @UICancel => m_Wrapper.m_Menu_UICancel;
         public InputActionMap Get() { return m_Wrapper.m_Menu; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -738,16 +761,22 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_MenuActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_MenuActionsCallbackInterfaces.Add(instance);
-            @Newaction.started += instance.OnNewaction;
-            @Newaction.performed += instance.OnNewaction;
-            @Newaction.canceled += instance.OnNewaction;
+            @UIConfirm.started += instance.OnUIConfirm;
+            @UIConfirm.performed += instance.OnUIConfirm;
+            @UIConfirm.canceled += instance.OnUIConfirm;
+            @UICancel.started += instance.OnUICancel;
+            @UICancel.performed += instance.OnUICancel;
+            @UICancel.canceled += instance.OnUICancel;
         }
 
         private void UnregisterCallbacks(IMenuActions instance)
         {
-            @Newaction.started -= instance.OnNewaction;
-            @Newaction.performed -= instance.OnNewaction;
-            @Newaction.canceled -= instance.OnNewaction;
+            @UIConfirm.started -= instance.OnUIConfirm;
+            @UIConfirm.performed -= instance.OnUIConfirm;
+            @UIConfirm.canceled -= instance.OnUIConfirm;
+            @UICancel.started -= instance.OnUICancel;
+            @UICancel.performed -= instance.OnUICancel;
+            @UICancel.canceled -= instance.OnUICancel;
         }
 
         public void RemoveCallbacks(IMenuActions instance)
@@ -814,6 +843,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     }
     public interface IMenuActions
     {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnUIConfirm(InputAction.CallbackContext context);
+        void OnUICancel(InputAction.CallbackContext context);
     }
 }

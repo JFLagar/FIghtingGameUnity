@@ -438,9 +438,18 @@
             "id": "69288328-90a9-432b-9a01-75a1d130ed95",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "UIConfirm",
                     "type": "Button",
                     "id": "40e9f42c-c80f-4e0f-bc3d-52f8b3007663",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "UICancel",
+                    "type": "Button",
+                    "id": "5ae42e26-d252-4aa8-8dfb-98587edd2491",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -451,11 +460,22 @@
                 {
                     "name": "",
                     "id": "a8e68897-b0c6-4821-89b0-f7635affd1ce",
-                    "path": "",
+                    "path": "<Keyboard>/j",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "New action",
+                    "groups": ";Keyboard",
+                    "action": "UIConfirm",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d68ec205-35bd-4447-a702-a618cc7ec12f",
+                    "path": "<Keyboard>/u",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "UICancel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

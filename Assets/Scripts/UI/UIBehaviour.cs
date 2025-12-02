@@ -57,14 +57,15 @@ public class UIBehaviour : MonoBehaviour
             sliders[i].value = characters[i].CurrentHealth;
         }
 
-        if (Managers.Instance.GameManager.IsTrainingModeOn)
-        {
-            characterSelect.gameObject.SetActive(true);
-        }
-        else
-        {
-            characterSelect.gameObject.SetActive(false);
-        }
+        // TO implement
+        //if (Managers.Instance.GameManager.IsTrainingModeOn)
+        //{
+        //    characterSelect.gameObject.SetActive(true);
+        //}
+        //else
+        //{
+        //    characterSelect.gameObject.SetActive(false);
+        //}
 
     }
 
@@ -116,7 +117,7 @@ public class UIBehaviour : MonoBehaviour
     {
         foreach(Character character in characters)
         {
-            // character.GetInputHandler().GetPlayerInput().SwitchCurrentActionMap("Menu");
+            character.SwitchCurrentActionMap("Menu");
         }
         pauseUI.gameObject.SetActive(true);
     }
@@ -126,7 +127,7 @@ public class UIBehaviour : MonoBehaviour
         pauseUI.gameObject.SetActive(false);
         foreach (Character character in characters)
         {
-            // character.GetInputHandler().GetPlayerInput().SwitchCurrentActionMap("Controls");
+            character.SwitchCurrentActionMap("Controls");
         }
     }
 

@@ -2,10 +2,8 @@ using SkillIssue.CharacterSpace;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Schema;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 namespace SkillIssue.Inputs
 {
@@ -149,11 +147,16 @@ namespace SkillIssue.Inputs
 
             inputActions.Controls.Start.performed += StartButton;
             inputActions.Controls.Select.performed += SelectButton;
-            
+
             inputActions.Controls.MovementX.performed += MovementXDown;
             inputActions.Controls.MovementX.canceled += MovementXDown;
             inputActions.Controls.MovementY.performed += MovementYDown;
             inputActions.Controls.MovementY.canceled += MovementYDown;
+
+            inputActions.Menu.Enable();
+            inputActions.Menu.UIConfirm.performed += UIConfirm;
+            inputActions.Menu.UICancel.performed += UICancel;
+            Debug.Log(inputActions.bindingMask);
         }
 
         void UnmapActions()
@@ -174,7 +177,21 @@ namespace SkillIssue.Inputs
             inputActions.Controls.MovementX.canceled -= MovementXDown;
             inputActions.Controls.MovementY.performed -= MovementYDown;
             inputActions.Controls.MovementY.canceled -= MovementYDown;
+
+            inputActions.Menu.UIConfirm.performed -= UIConfirm;
+            inputActions.Menu.UICancel.performed -= UICancel;
+
             inputActions.Controls.Disable();
+        }
+
+        public void EnableInput()
+        {
+            inputActions.Enable();
+        }
+
+        public void DisableInput()
+        {
+            inputActions.Disable();
         }
 
         //DEBUG
@@ -215,7 +232,7 @@ namespace SkillIssue.Inputs
                 isReplaying = false;
                 replayFrame = 0;
                 Debug.Log("ReplayEnded");
-                PlayerInput.ActivateInput();
+                EnableInput();
             }
             BufferedInput[] recordedInputs = InputReplayingList.FindAll(c => c.Frame == replayFrame).ToArray();
             foreach (var input in recordedInputs)
@@ -234,7 +251,7 @@ namespace SkillIssue.Inputs
 
         public void StartPlayback()
         {
-            PlayerInput.DeactivateInput();
+            DisableInput();
             Debug.Log("ReplayStart");
             InputReplayingList.AddRange(InputRecordingList);
             replayFrame = 0;
@@ -257,13 +274,12 @@ namespace SkillIssue.Inputs
             {
                 if (IsSequencePartialMatch(currentInputs, motion.motions))
                 {
-                       character.SetMotionInput(motion.Input);
+                    character.SetMotionInput(motion.Input);
                     if (gameManager.IsRecording)
                         InputRecordingList.AddRange(currentInputs);
                     motionInputQueue.Clear();
                 }
             }
-
         }
 
         bool IsSequencePartialMatch(List<BufferedInput> inputs, Vector2[] motions)
@@ -389,19 +405,29 @@ namespace SkillIssue.Inputs
             throw new NotImplementedException();
         }
 
-        private void Cancel(InputAction.CallbackContext obj)
+        private void UICancel(InputAction.CallbackContext obj)
         {
-            throw new NotImplementedException();
+            Debug.Log("Cancel");
         }
 
-        private void Confirm(InputAction.CallbackContext obj)
+        private void UIConfirm(InputAction.CallbackContext obj)
         {
-            throw new NotImplementedException();
+            Debug.Log("Confirm");
         }
 
         public void MovementXDown(InputAction.CallbackContext context)
         {
             float value = context.ReadValue<float>();
+
+            if (value > 0)
+            {
+                value = 1;
+            }
+            else if (value < 0)
+            {
+                value = -1;
+            }
+
             if (currentMovementControlX == null && value != 0)
             {
                 currentMovementControlX = context.control;
@@ -440,6 +466,16 @@ namespace SkillIssue.Inputs
         public void MovementYDown(InputAction.CallbackContext context)
         {
             float value = context.ReadValue<float>();
+
+            if (value > 0)
+            {
+                value = 1;
+            }
+            else if (value < 0)
+            {
+                value = -1;
+            }
+
             if (currentMovementControlY == null && value != 0)
             {
                 currentMovementControlY = context.control;
@@ -587,8 +623,13 @@ namespace SkillIssue.Inputs
             {
                 character.PerformInput(input.InputType);
             }
-      
+
             character.SetMotionInput(MotionInputs.NONE);
+        }
+
+        public void RemapButtonClicked(InputAction actionToRebind)
+        {
+            var rebindOperation = actionToRebind.PerformInteractiveRebinding().WithControlsExcluding("Mouse").OnMatchWaitForAnother(0.1f).Start();
         }
 
         private void OnDestroy()

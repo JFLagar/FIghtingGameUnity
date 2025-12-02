@@ -1,4 +1,3 @@
-using NUnit;
 using SkillIssue.CharacterSpace;
 using TMPro;
 using UnityEngine;

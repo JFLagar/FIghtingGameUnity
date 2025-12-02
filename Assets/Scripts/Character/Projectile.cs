@@ -1,10 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using SkillIssue;
 using SkillIssue.CharacterSpace;
-using NUnit.Framework.Constraints;
-using System.Net.NetworkInformation;
 
 public class Projectile : MonoBehaviour , IHitboxResponder
 {
@@ -16,6 +13,8 @@ public class Projectile : MonoBehaviour , IHitboxResponder
     ProjectileData projectileData;
     [SerializeField]
     Hitbox hitbox;
+    [SerializeField]
+    Hurtbox hurtbox;
     private AttackData currentAttack;
     private Animator animator;
     Vector2 trajectory;
@@ -36,6 +35,8 @@ public class Projectile : MonoBehaviour , IHitboxResponder
 
         hitbox.targetMask = parent.GetHitboxTargetMask();
         hitbox.gameObject.layer = parent.GetHitboxLayerMask();
+        hurtbox.gameObject.layer = LayerMask.NameToLayer(parent.GetHurtboxLayerMask());
+        hurtbox.character = parent;
 
         if (trajectory.x == -1)
         {

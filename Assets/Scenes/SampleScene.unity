@@ -2118,6 +2118,10 @@ PrefabInstance:
       value: -1.914561
       objectReference: {fileID: 0}
     - target: {fileID: 8416089865207465151, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
+      propertyPath: characterData
+      value: 
+      objectReference: {fileID: 11400000, guid: 65490b17a744a954e8fe1f845aee9783, type: 2}
+    - target: {fileID: 8416089865207465151, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
       propertyPath: hurtboxLayerMask
       value: P2Hurtbox
       objectReference: {fileID: 0}

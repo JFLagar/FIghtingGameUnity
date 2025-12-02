@@ -1,13 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using SkillIssue.CharacterSpace;
 using TMPro;
 using DG.Tweening;
 using NaughtyAttributes;
-using System;
-using System.Linq;
 
 public class UIBehaviour : MonoBehaviour
 {
@@ -139,7 +135,6 @@ public class UIBehaviour : MonoBehaviour
 
     public void Quit()
     {
-        AudioManager.instance.PlaySoundEffect(0);
         Managers.Instance.GameManager.EndGame();
     }
 
@@ -272,7 +267,7 @@ public class UIBehaviour : MonoBehaviour
     [Button]
     public void FadeOut()
     {
-        fadePanel.DOFade(0, 3).OnComplete(() => 
+        fadePanel.DOFade(0, 2).OnComplete(() => 
         {
             foreach(var player in characters)
             {

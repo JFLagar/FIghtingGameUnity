@@ -1,8 +1,6 @@
 using SkillIssue.CharacterSpace;
-using UnityEngine.Animations;
 using UnityEngine;
 using SkillIssue;
-using Unity.VisualScripting;
 
 public class CharacterModel : MonoBehaviour
 {

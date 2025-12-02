@@ -156,7 +156,6 @@ namespace SkillIssue.Inputs
             inputActions.Menu.Enable();
             inputActions.Menu.UIConfirm.performed += UIConfirm;
             inputActions.Menu.UICancel.performed += UICancel;
-            Debug.Log(inputActions.bindingMask);
         }
 
         void UnmapActions()

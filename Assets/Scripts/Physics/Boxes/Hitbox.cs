@@ -18,7 +18,7 @@ namespace SkillIssue
         public Color inactiveColor;
         public Color collisionOpenColor;
         public Color collidingColor;
-
+        private float hitboxGizmosMultiplier = 3f;
         public ColliderState state;
         private IHitboxResponder responder = null;
 
@@ -60,7 +60,7 @@ namespace SkillIssue
         {
             CheckGizmoColor();
             Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.localScale);
-            Gizmos.DrawWireCube(Vector3.zero, hitboxSize *2); // Because size is halfExtents
+            Gizmos.DrawWireCube(Vector3.zero, hitboxSize * hitboxGizmosMultiplier); // Because size is halfExtents
         }
 
         void CheckGizmoColor()

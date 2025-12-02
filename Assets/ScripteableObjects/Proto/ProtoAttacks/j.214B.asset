@@ -25,9 +25,9 @@ MonoBehaviour:
   cancelTypes: 
   canceableAttacks: []
   extraHitstun: 0
-  extraPush: {x: 3, y: -10}
+  extraPush: {x: 1, y: 0}
   animation: {fileID: 7400000, guid: 26831961e363b0040a881dd2a82b067f, type: 2}
   followUpAttack: {fileID: 0}
   followUpProjectile: {fileID: 0}
   collideSound: {fileID: 0}
-  movementDirection: {x: 0.5, y: 1}
+  movementDirection: {x: 1, y: 1}

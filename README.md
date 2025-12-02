@@ -1,6 +1,7 @@
 # This is a personal Project made in Unity 6000.0.29f1
+https://jlagar.itch.io/unity-fg-project
 ## This project is a anime-fighter inspired by ArcSystemWorks games and Tokusatsu
-Currently working on version 0.0.1:
+Currently version 0.0.1:
 - Contains working fighting game character
 - Can be played by two people (one with keyboard, one with gamepad or stick)
 - The game can be played in VS Mode or Training

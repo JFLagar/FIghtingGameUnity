@@ -147,7 +147,7 @@ namespace SkillIssue.CharacterSpace
         void FixedUpdate()
         {
             inputHandler.Update();
-            stateMachine.StateMachineUpdate();
+            //stateMachine.StateMachineUpdate();
             CharacterMove();
             if (!hasBurst)
                 currentBurstCD++;

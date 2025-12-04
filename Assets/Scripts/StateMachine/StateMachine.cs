@@ -1,6 +1,7 @@
 using SkillIssue.CharacterSpace;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 namespace SkillIssue.StateMachineSpace
 {
     public enum ActionStates
@@ -99,6 +100,11 @@ namespace SkillIssue.StateMachineSpace
             return node;
         }
 
+        public IState GetState()
+        {
+            return currentState.State;
+        }
+
         public bool CanAttack()
         {
             bool result = true;
@@ -117,6 +123,11 @@ namespace SkillIssue.StateMachineSpace
             if (currentState.State is AttackState)
                 result = false;
             return result;
+        }
+
+        public void OnAnimationEnd()
+        {
+            currentState.State?.OnAnimationEnd();
         }
 
         class StateNode
@@ -147,10 +158,6 @@ namespace SkillIssue.StateMachineSpace
             CurrentAction = state;
         }
 
-        public States GetState()
-        {
-            return State;
-        }
     }
 
 
@@ -168,21 +175,24 @@ namespace SkillIssue.StateMachineSpace
         }
         public virtual void Update()
         {
+            Debug.Log("Update " + this.GetType().Name);
         }
         public virtual void OnEnter()
         {
+            Debug.Log("OnEnter " + this.GetType().Name);
         }
         public virtual void OnExit()
         {
+            Debug.Log("OnExit " + this.GetType().Name);
         }
         public virtual void FixedUpdate()
         {
-
+            Debug.Log("FixedUpdate " + this.GetType().Name);
         }
 
         public virtual void OnAnimationEnd()
         {
-
+            Debug.Log("OnAnimationEnd " + this.GetType().Name);
         }
     }
 

@@ -9,6 +9,7 @@ namespace SkillIssue.StateMachineSpace
         public void Update() { }
         public void FixedUpdate() { }
         public void OnExit() { }
+        public void OnAnimationEnd() { }
     }
     
 }

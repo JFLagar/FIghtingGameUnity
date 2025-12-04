@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     TextMeshProUGUI frameScriptDisplay;
     [SerializeField]
     GeneralCombatValues generalCombatValues;
-    public bool IsTrainingModeOn {get; private set;}
+    public bool IsTrainingModeOn { get; private set; }
     [SerializeField]
     bool toggleTraining = false;
     public Player CornerPlayer { get; private set; }
@@ -24,8 +24,8 @@ public class GameManager : MonoBehaviour
     bool isGamePaused = false;
     [SerializeField]
     float gameSpeed = 1.0f;
-    public int RecordingFrame {  get; private set; }
-    public bool IsRecording {  get; private set; }
+    public int RecordingFrame { get; private set; }
+    public bool IsRecording { get; private set; }
 
     public int frame = 0;
     public bool countframes = false;
@@ -65,7 +65,12 @@ public class GameManager : MonoBehaviour
             frameScriptDisplay.text = "Frame: " + frame;
         }
     }
-    
+
+    public Player[] GetPlayers()
+    {
+        return players;
+    }
+
     public GeneralCombatValues GetCombatValues()
     {
         return generalCombatValues;

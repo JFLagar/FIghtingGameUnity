@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace SkillIssue.StateMachineSpace
 {
-    public class JumpingState : BaseState
+    public class CrouchingState : BaseState
     {
-        public JumpingState(Player player) : base(player)
+        public CrouchingState(Player player, StateMachine stateMachine) : base(player, stateMachine)
         {
         }
 
@@ -16,12 +16,12 @@ namespace SkillIssue.StateMachineSpace
 
         public override void OnEnter()
         {
-            Debug.Log("Enter Jumping");
+            Debug.Log("Enter Crouching");
         }
 
         public override void OnExit()
         {
-            Debug.Log("Enter Jumping");
+            Debug.Log("Exit Crouching");
         }
 
         public override void Update()
@@ -29,5 +29,4 @@ namespace SkillIssue.StateMachineSpace
             base.Update();
         }
     }
-
 }

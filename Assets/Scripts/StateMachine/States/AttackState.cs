@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace SkillIssue.StateMachineSpace
 {
-    public class StandingState : BaseState
+    public class AttackState : BaseState
     {
-        public StandingState(Player character) : base(character)
+        public AttackState(Player player, StateMachine stateMachine) : base(player, stateMachine)
         {
         }
 
@@ -16,12 +16,12 @@ namespace SkillIssue.StateMachineSpace
 
         public override void OnEnter()
         {
-            Debug.Log("Enter Standing");
+            Debug.Log("Enter Attack");
         }
 
         public override void OnExit()
         {
-            Debug.Log("Exit Standing");
+            Debug.Log("Exit Attack");
         }
 
         public override void Update()
@@ -29,5 +29,4 @@ namespace SkillIssue.StateMachineSpace
             base.Update();
         }
     }
-
 }

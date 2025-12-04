@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace SkillIssue.StateMachineSpace
 {
-    public class CrouchingState : BaseState
+    public class StandingState : BaseState
     {
-        public CrouchingState(Player player) : base(player)
+        public StandingState(Player player, StateMachine stateMachine) : base(player, stateMachine)
         {
         }
 
@@ -16,12 +16,12 @@ namespace SkillIssue.StateMachineSpace
 
         public override void OnEnter()
         {
-            Debug.Log("Enter Crouching");
+            Debug.Log("Enter Standing");
         }
 
         public override void OnExit()
         {
-            Debug.Log("Exit Crouching");
+            Debug.Log("Exit Standing");
         }
 
         public override void Update()

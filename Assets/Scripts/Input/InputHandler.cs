@@ -402,12 +402,12 @@ namespace SkillIssue.Inputs
 
         private void UICancel(InputAction.CallbackContext obj)
         {
-            Debug.Log("Cancel");
+
         }
 
         private void UIConfirm(InputAction.CallbackContext obj)
         {
-            Debug.Log("Confirm");
+
         }
 
         public void MovementXDown(InputAction.CallbackContext context)

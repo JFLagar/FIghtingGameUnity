@@ -46,7 +46,7 @@ public class UIBehaviour : MonoBehaviour
     // Start is called before the first frame update
     public void Initialize()
     {
-    
+        players = Managers.Instance.GameManager.GetPlayers();
         for (int i = 0; i < sliders.Length; i++)
         {
             sliders[i].maxValue = players[i].GetMaxHealth();

@@ -1,9 +1,12 @@
+using EventBus;
+using System;
 using SkillIssue.Inputs;
 using SkillIssue.StateMachineSpace;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+
 namespace SkillIssue.CharacterSpace
 {
     public enum Element
@@ -15,6 +18,9 @@ namespace SkillIssue.CharacterSpace
     }
     public class Player : MonoBehaviour, IPhysics, IHitboxResponder
     {
+        StateMachine stateMachine;
+        InputHandler inputHandler;
+
         public bool isPlayer2;
         [SerializeField]
         Player opponent;
@@ -26,11 +32,6 @@ namespace SkillIssue.CharacterSpace
         GameObject model3D;
         [SerializeField]
         SpriteRenderer vfx;
-
-        [Space]
-
-        StateMachine stateMachine;
-        InputHandler inputHandler;
 
         [Space]
         //Turn this into into scriteable object
@@ -58,11 +59,10 @@ namespace SkillIssue.CharacterSpace
         public int CurrentHealth { get; private set; }
 
         [Space]
-        [SerializeField]
-        int wakingUpFrames = 6;
+
+        //Move to General combat
         [SerializeField]
         int jumpStartup = 4;
-        [SerializeField]
         float gravity;
         float forceLeftOver;
 
@@ -116,6 +116,29 @@ namespace SkillIssue.CharacterSpace
         private CharacterModel characterModel;
         private bool isAnyHitboxOpen => characterModel != null && characterModel.GetHitboxes().FirstOrDefault(c => c.state == ColliderState.Open) != null;
 
+        //EVENTS
+        EventBinding<AttackEvent> testEventBinding;
+
+        private Action _hitAction, _blockAction, _attackAction;
+
+        private void OnEnable()
+        {
+            testEventBinding = new EventBinding<AttackEvent>(HandleTestEvent);
+            EventBus<AttackEvent>.Register(testEventBinding);
+        }
+        private void OnDisable()
+        {
+            EventBus<AttackEvent>.Deregister(testEventBinding);
+        }
+
+        void HandleTestEvent()
+        {
+            _hitAction?.Invoke();
+        }
+
+        void AddTransition(IState from, IState to, IPredicate condition) => stateMachine.AddTransition(from, to, condition);
+        void AddAnyTransition(IState to, IPredicate condition) => stateMachine.AddAnyTransition(to, condition);
+
         public void Initialize()
         {
             characterModel = Instantiate(characterData.GetCharacterModel(), model3D.transform);
@@ -125,14 +148,37 @@ namespace SkillIssue.CharacterSpace
             characterAnimation.Initialize(this, animator);
             inputHandler = new InputHandler();
             inputHandler.Initialize(this);
-            stateMachine = new StateMachine();
-            stateMachine.Initialize(this);
+            InitializeStateMachine();
             attackManager.Initialize(this, characterModel.GetHitboxes());
             gravity = characterData.GetGravity();
             CurrentCombo = new List<AttackData>();
             IsGrounded = true;
         }
 
+        void InitializeStateMachine()
+        {
+            stateMachine = new StateMachine();
+
+            StandingState standingState = new StandingState(this, stateMachine);
+            CrouchingState crouchingState = new CrouchingState(this, stateMachine);
+            JumpingState jumpingState = new JumpingState(this, stateMachine);
+
+            AttackState attackState = new AttackState(this, stateMachine);
+            BlockState blockState = new BlockState(this, stateMachine);
+            HitState hitState = new HitState(this, stateMachine);
+
+            AddAnyTransition(hitState, new ActionPredicate(ref _hitAction));
+            AddAnyTransition(attackState, new ActionWithFuncPredicate(ref _attackAction, () => stateMachine.CanAttack()));
+            AddAnyTransition(blockState, new ActionWithFuncPredicate(ref _blockAction, () => stateMachine.CanBlock()));
+            //TO DO EventPredicate for Blocking Attacking and Getting Hit for any transition
+
+            AddTransition(jumpingState, standingState, new FuncPredicate(() => IsGrounded));
+            AddTransition(crouchingState, standingState, new FuncPredicate(() => GetInputDirection().y >= 0));
+            AddTransition(standingState, crouchingState, new FuncPredicate(() => GetInputDirection().y < 0));
+            AddTransition(standingState, jumpingState, new FuncPredicate(() => !IsGrounded));
+
+            stateMachine.SetState(standingState);
+        }
         // Start is called before the first frame update
         void Start()
         {
@@ -215,7 +261,6 @@ namespace SkillIssue.CharacterSpace
         }
 
         #region Getters and Setters
-
         public LayerMask GetHitboxLayerMask()
         {
             return hitboxLayerMask;
@@ -736,6 +781,7 @@ namespace SkillIssue.CharacterSpace
         public void Attack(AttackData attackData)
         {
             onGoingAttack = attackData;
+            EventBus<AttackEvent>.Raise(new AttackEvent());
             SetActionState(ActionStates.Attack);
         }
 

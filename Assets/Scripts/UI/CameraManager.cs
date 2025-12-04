@@ -41,6 +41,11 @@ public class CameraManager : MonoBehaviour
         cameraOriginY = cam.gameObject.transform.position.y;
     }
 
+    private void Start()
+    {
+        Players = Managers.Instance.GameManager.GetPlayers();
+    }
+
     void LateUpdate()
     {
         float middle = GetCameraMiddleX;

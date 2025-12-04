@@ -2844,7 +2844,7 @@ MonoBehaviour:
   frameScriptDisplay: {fileID: 0}
   generalCombatValues: {fileID: 11400000, guid: 7a3ee158dd976fc43aeaaac477c15efd, type: 2}
   toggleTraining: 0
-  characters:
+  players:
   - {fileID: 8062074396790736155}
   - {fileID: 8416089865207465151}
   uIBehaviour: {fileID: 8062074395404191591}
@@ -2895,9 +2895,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ccaa3cf58f00941a6de328a52bcd08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characters:
-  - {fileID: 8062074396790736155}
-  - {fileID: 8416089865207465151}
+  Players: []
   pos: {x: 0, y: 0, z: -10}
   minZoom: 1.3
   maxZoom: 1.5
@@ -4268,9 +4266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b99a849d54937643a9c2dd0ac3e6133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characters:
-  - {fileID: 8062074396790736155}
-  - {fileID: 8416089865207465151}
+  players: []
   sliders:
   - {fileID: 8062074396508352707}
   - {fileID: 8062074396624267888}
@@ -4688,7 +4684,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba2f1bf74732e1d45a9ccac1eb4a9480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 8416089865207465151}
+  player: {fileID: 8416089865207465151}
   originalScale: {x: 0, y: 0, z: 0}
   shadowOffset: -0.75
 --- !u!212 &8062074395610136034
@@ -6435,7 +6431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba2f1bf74732e1d45a9ccac1eb4a9480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 8062074396790736155}
+  player: {fileID: 8062074396790736155}
   originalScale: {x: 0, y: 0, z: 0}
   shadowOffset: -0.75
 --- !u!212 &8062074396243478748

@@ -19,28 +19,12 @@ namespace SkillIssue.StateMachineSpace
     }
     public class StateMachine
     {
-        StateNode current;
-        private Player player;
+        StateNode currentState;
+        StateNode previousState;
         Dictionary<Type, StateNode> nodes = new();
         HashSet<ITransition> anyTransitions = new();
         public ActionStates CurrentAction { get; private set; }
         public States State { get; private set; }
-
-        public void Initialize(Player controllingPlayer)
-        {
-            player = controllingPlayer;
-            StandingState standingState = new StandingState(controllingPlayer);
-            CrouchingState crouchingState = new CrouchingState(controllingPlayer);
-            JumpingState jumpingState = new JumpingState(controllingPlayer);
-
-            AddAnyTransition(jumpingState, new FuncPredicate(() => !player.IsGrounded));
-    
-            AddTransition(jumpingState, standingState, new FuncPredicate(() => player.IsGrounded));
-            AddTransition(crouchingState, standingState, new FuncPredicate(() => player.GetInputDirection().y >= 0));
-            AddTransition(standingState, crouchingState, new FuncPredicate(()=> player.GetInputDirection().y < 0));
-
-            SetState(standingState);
-        }
 
         public void Update()
         {
@@ -49,31 +33,31 @@ namespace SkillIssue.StateMachineSpace
             {
                 ChangeState(transition.To);
             }
-            current.State?.Update();
+            currentState.State?.Update();
         }
 
         public void FixedUpdate()
         {
-            current.State?.FixedUpdate();
+            currentState.State?.FixedUpdate();
         }
 
         // Set Default State
         public void SetState(IState state)
         {
-            current = nodes[state.GetType()];
-            current.State?.OnEnter();
+            currentState = nodes[state.GetType()];
+            currentState.State?.OnEnter();
         }
 
         void ChangeState(IState state)
         {
-            if (state == current.State) return;
+            if (state == currentState.State) return;
 
-            var previousState = current.State;
+            previousState = currentState;
             var nextState = nodes[state.GetType()].State;
 
-            previousState?.OnExit();
+            previousState.State?.OnExit();
             nextState?.OnEnter();
-            current = nodes[state.GetType()];
+            currentState = nodes[state.GetType()];
         }
 
         ITransition GetTransition()
@@ -84,7 +68,7 @@ namespace SkillIssue.StateMachineSpace
                     return transition;
             }
 
-            foreach (var transition in current.Transitions)
+            foreach (var transition in currentState.Transitions)
             { 
                 if (transition.Condition.Evaluate())
                     return transition; 
@@ -113,6 +97,26 @@ namespace SkillIssue.StateMachineSpace
             }
 
             return node;
+        }
+
+        public bool CanAttack()
+        {
+            bool result = true;
+            if (currentState.State is HitState)
+                result = false;
+            if (currentState.State is BlockState)
+                result = false;
+            return result;
+        }
+
+        public bool CanBlock()
+        {
+            bool result = true;
+            if (currentState.State is HitState)
+                result = false;
+            if (currentState.State is AttackState)
+                result = false;
+            return result;
         }
 
         class StateNode
@@ -155,10 +159,12 @@ namespace SkillIssue.StateMachineSpace
     public class BaseState : IState
     {
         protected readonly Player player;
+        protected readonly StateMachine stateMachine;
 
-        protected BaseState(Player player)
+        protected BaseState(Player player, StateMachine stateMachine)
         {
             this.player = player;
+            this.stateMachine = stateMachine;
         }
         public virtual void Update()
         {
@@ -170,6 +176,11 @@ namespace SkillIssue.StateMachineSpace
         {
         }
         public virtual void FixedUpdate()
+        {
+
+        }
+
+        public virtual void OnAnimationEnd()
         {
 
         }

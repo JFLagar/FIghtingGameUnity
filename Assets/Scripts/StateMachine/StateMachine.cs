@@ -20,24 +20,24 @@ namespace SkillIssue.StateMachineSpace
     public class StateMachine
     {
         StateNode current;
-        private Character character;
+        private Player player;
         Dictionary<Type, StateNode> nodes = new();
         HashSet<ITransition> anyTransitions = new();
         public ActionStates CurrentAction { get; private set; }
         public States State { get; private set; }
 
-        public void Initialize(Character controllingCharacter)
+        public void Initialize(Player controllingPlayer)
         {
-            character = controllingCharacter;
-            StandingState standingState = new StandingState(controllingCharacter);
-            CrouchingState crouchingState = new CrouchingState(controllingCharacter);
-            JumpingState jumpingState = new JumpingState(controllingCharacter);
+            player = controllingPlayer;
+            StandingState standingState = new StandingState(controllingPlayer);
+            CrouchingState crouchingState = new CrouchingState(controllingPlayer);
+            JumpingState jumpingState = new JumpingState(controllingPlayer);
 
-            AddAnyTransition(jumpingState, new FuncPredicate(() => !character.IsGrounded));
+            AddAnyTransition(jumpingState, new FuncPredicate(() => !player.IsGrounded));
     
-            AddTransition(jumpingState, standingState, new FuncPredicate(() => character.IsGrounded));
-            AddTransition(crouchingState, standingState, new FuncPredicate(() => character.GetInputDirection().y >= 0));
-            AddTransition(standingState, crouchingState, new FuncPredicate(()=> character.GetInputDirection().y < 0));
+            AddTransition(jumpingState, standingState, new FuncPredicate(() => player.IsGrounded));
+            AddTransition(crouchingState, standingState, new FuncPredicate(() => player.GetInputDirection().y >= 0));
+            AddTransition(standingState, crouchingState, new FuncPredicate(()=> player.GetInputDirection().y < 0));
 
             SetState(standingState);
         }
@@ -154,11 +154,11 @@ namespace SkillIssue.StateMachineSpace
     //Abstract class
     public class BaseState : IState
     {
-        protected readonly Character character;
+        protected readonly Player player;
 
-        protected BaseState(Character character)
+        protected BaseState(Player player)
         {
-            this.character = character;
+            this.player = player;
         }
         public virtual void Update()
         {

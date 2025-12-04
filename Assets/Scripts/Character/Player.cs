@@ -13,11 +13,11 @@ namespace SkillIssue.CharacterSpace
         Wind = 2,
         Earth = 3
     }
-    public class Character : MonoBehaviour, IPhysics, IHitboxResponder
+    public class Player : MonoBehaviour, IPhysics, IHitboxResponder
     {
         public bool isPlayer2;
         [SerializeField]
-        Character opponent;
+        Player opponent;
         public float FaceDir { get; private set; }
         float xDiff;
         [SerializeField]
@@ -40,7 +40,7 @@ namespace SkillIssue.CharacterSpace
         [Space]
 
         [SerializeField]
-        CharacterAttackManager attackManager;
+        PlayerAttackManager attackManager;
 
         [Space]
 
@@ -421,7 +421,7 @@ namespace SkillIssue.CharacterSpace
             return characterData.GetMaxHP();
         }
 
-        public Character GetOpponent()
+        public Player GetOpponent()
         {
             return opponent;
         }
@@ -910,7 +910,7 @@ namespace SkillIssue.CharacterSpace
             isHardKnockDown = false;
         }
 
-        public void ResetCharacter()
+        public void ResetPlayer()
         {
             ResetPos();
             CurrentHealth = GetMaxHealth();
@@ -1188,7 +1188,7 @@ namespace SkillIssue.CharacterSpace
                 case ("Pushbox"):
                     if (IsAgainstTheWall && !IsGrounded)
                     {
-                        if (!opponent.IsAgainstTheWall || Managers.Instance.GameManager.CornerCharacter == this)
+                        if (!opponent.IsAgainstTheWall || Managers.Instance.GameManager.CornerPlayer == this)
                         {
                             opponent.transform.Translate(new Vector2(FaceDir, 0) * Managers.Instance.GameManager.GetCombatValues().GetPushMultiplier() * Time.fixedDeltaTime);
                         }
@@ -1204,7 +1204,7 @@ namespace SkillIssue.CharacterSpace
         {
             if (LayerMask.LayerToName(collision.gameObject.layer) == "Pushbox")
             {
-                if (Managers.Instance.GameManager.CornerCharacter == opponent && !IsAgainstTheWall)
+                if (Managers.Instance.GameManager.CornerPlayer == opponent && !IsAgainstTheWall)
                 {
                     transform.Translate(new Vector2(-FaceDir, 0) * Managers.Instance.GameManager.GetCombatValues().GetPushMultiplier() * Time.fixedDeltaTime);
                 }

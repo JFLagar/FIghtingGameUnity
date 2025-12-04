@@ -66,7 +66,7 @@ namespace SkillIssue.Inputs
 
     public class InputHandler
     {
-        Character character;
+        Player player;
         public PlayerInput PlayerInput { get; private set; }
         [SerializeField]
         InputActions inputActions;
@@ -111,9 +111,9 @@ namespace SkillIssue.Inputs
         private InputControl currentMovementControlY;
         private Vector2 currentDirection;
 
-        public void Initialize(Character controllingCharacter)
+        public void Initialize(Player controllingPlayer)
         {
-            character = controllingCharacter;
+            player = controllingPlayer;
 
             movementInput.SetInputHandler(this);
             lightButton.SetInputHandler(this);
@@ -121,7 +121,7 @@ namespace SkillIssue.Inputs
             heavyButton.SetInputHandler(this);
             uniqueButton.SetInputHandler(this);
 
-            PlayerInput = character.transform.GetComponent<PlayerInput>();
+            PlayerInput = player.transform.GetComponent<PlayerInput>();
             motionInputs = gameManager.GetCombatValues().GetMotionInputs();
             MapActions(true);
         }
@@ -269,7 +269,7 @@ namespace SkillIssue.Inputs
             {
                 if (IsSequencePartialMatch(currentInputs, motion.motions))
                 {
-                    character.SetMotionInput(motion.Input);
+                    player.SetMotionInput(motion.Input);
                     if (gameManager.IsRecording)
                         InputRecordingList.AddRange(currentInputs);
                     motionInputQueue.Clear();
@@ -285,7 +285,7 @@ namespace SkillIssue.Inputs
             {
                 // Adjust the input direction based on facing direction (only flip X-axis)
                 Vector2 adjustedInputDirection = new Vector2(
-                    inputs[i].Direction.x * character.FaceDir,
+                    inputs[i].Direction.x * player.FaceDir,
                     inputs[i].Direction.y
                 );
 
@@ -391,7 +391,7 @@ namespace SkillIssue.Inputs
                 if (gameManager.IsRecording)
                     InputRecordingList.AddRange(motionInputQueue);
                 motionInputQueue.Clear(); // Clear old motions
-                character.SetMotionInput(MotionInputs.NONE);
+                player.SetMotionInput(MotionInputs.NONE);
             }
         }
 
@@ -616,10 +616,10 @@ namespace SkillIssue.Inputs
             }
             if (input.InputType != InputType.Movement)
             {
-                character.PerformInput(input.InputType);
+                player.PerformInput(input.InputType);
             }
 
-            character.SetMotionInput(MotionInputs.NONE);
+            player.SetMotionInput(MotionInputs.NONE);
         }
 
         public void RemapButtonClicked(InputAction actionToRebind)

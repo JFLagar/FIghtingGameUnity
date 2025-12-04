@@ -7,12 +7,12 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
+public class PlayerAttackManager : MonoBehaviour, IHitboxResponder
 {
     private AttackData previousAttack;
     [SerializeField]
     public Hitbox[] hitboxes;
-    private Character character;
+    private Player player;
     private AttackData currentAttack;
     private bool hit = false;
     int repeatedAttack = 0;
@@ -20,22 +20,22 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
     [SerializeField]
     public Coroutine landCheck = null;
 
-    public void Initialize(Character controllingChar, Hitbox[] hitboxes)
+    public void Initialize(Player player, Hitbox[] hitboxes)
     {
-        character = controllingChar;
+        this.player = player;
         this.hitboxes = hitboxes;
     }
 
     public void Attack(AttackData attack, bool followup = false)
     {
         //check if can cancel
-        if (character.GetCurrentActionState() == ActionStates.Attack && !followup)
+        if (player.GetCurrentActionState() == ActionStates.Attack && !followup)
         {
             if (!IsCancelable(attack))
             {
                 return;
             }
-            character.SetApplyGravity(false);
+            player.SetApplyGravity(false);
         }
         foreach (Hitbox hitbox in hitboxes)
         {
@@ -44,10 +44,10 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
         }
         if (attack.GetAnimationClip() != null)
         {
-            character.GetCharacterAnimation().PlayActionAnimation(attack.GetAnimationClip());
+            player.GetCharacterAnimation().PlayActionAnimation(attack.GetAnimationClip());
         }
         repeatedAttack = 0;
-        character.Attack(attack);
+        player.Attack(attack);
         hit = false;
         previousAttack = attack;
         currentAttack = null;
@@ -68,7 +68,7 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
             Hurtbox hurtbox = collider.GetComponent<Hurtbox>();
             hurtbox?.GetHitBy(previousAttack);
             hit = true;
-            character.HitConnect(previousAttack);
+            player.HitConnect(previousAttack);
         }
     }
 
@@ -86,12 +86,12 @@ public class CharacterAttackManager : MonoBehaviour, IHitboxResponder
 
         if (attack.GetCancelTypes().ToList().Contains(CancelTypes.Self) && attack == previousAttack)
         {
-            if (character.GetComboCount() >= sameLimit)
+            if (player.GetComboCount() >= sameLimit)
             {
-                int count = character.GetComboCount() - 1;
-                while (count >= character.GetComboCount() - sameLimit)
+                int count = player.GetComboCount() - 1;
+                while (count >= player.GetComboCount() - sameLimit)
                 {
-                    if (attack == character.CurrentCombo[count])
+                    if (attack == player.CurrentCombo[count])
                     {
                         repeatedAttack++;
                     }

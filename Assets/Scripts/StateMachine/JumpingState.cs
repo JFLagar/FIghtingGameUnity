@@ -5,7 +5,7 @@ namespace SkillIssue.StateMachineSpace
 {
     public class JumpingState : BaseState
     {
-        public JumpingState(Character character) : base(character)
+        public JumpingState(Player player) : base(player)
         {
         }
 

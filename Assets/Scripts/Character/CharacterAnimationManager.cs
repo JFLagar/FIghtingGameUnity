@@ -10,7 +10,7 @@ public class CharacterAnimationManager : MonoBehaviour
 {
     Animator animator;
 
-    private Character character;
+    private Player character;
 
     PlayableGraph graph;
     private AnimationMixerPlayable mixerPlayable;
@@ -28,7 +28,7 @@ public class CharacterAnimationManager : MonoBehaviour
     public string animName;
 
 
-    public void Initialize(Character character, Animator animator)
+    public void Initialize(Player character, Animator animator)
     {
         this.character = character;
         this.animator = animator;
@@ -240,10 +240,10 @@ public class CharacterAnimationManager : MonoBehaviour
 public class ActionPlayableBehaviour : PlayableBehaviour
 {
     private CharacterAnimationManager controller;
-    private Character character;
+    private Player character;
     private AnimationClip nextClip;
 
-    public void Initialize(CharacterAnimationManager controller, Character character)
+    public void Initialize(CharacterAnimationManager controller, Player character)
     {
         this.controller = controller;
         this.character = character;

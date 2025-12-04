@@ -8,7 +8,7 @@ using NaughtyAttributes;
 public class UIBehaviour : MonoBehaviour
 {
     [SerializeField]
-    Character[] characters;
+    Player[] players;
     [SerializeField]
     Slider[] sliders;
     [SerializeField]
@@ -49,8 +49,8 @@ public class UIBehaviour : MonoBehaviour
     
         for (int i = 0; i < sliders.Length; i++)
         {
-            sliders[i].maxValue = characters[i].GetMaxHealth();
-            sliders[i].value = characters[i].CurrentHealth;
+            sliders[i].maxValue = players[i].GetMaxHealth();
+            sliders[i].value = players[i].CurrentHealth;
         }
 
         // TO implement
@@ -94,9 +94,9 @@ public class UIBehaviour : MonoBehaviour
         {
             slider.value = slider.maxValue;
         }
-        foreach (Character character in characters)
+        foreach (Player player in players)
         {
-            character.ResetCharacter();
+            player.ResetPlayer();
         }
         if (player1WonRounds == p1RoundsIcons.Length || player2WonRounds == p2RoundsIcons.Length)
             ResetScores();
@@ -111,9 +111,9 @@ public class UIBehaviour : MonoBehaviour
     }
     private void OpenPauseUI()
     {
-        foreach(Character character in characters)
+        foreach(Player player in players)
         {
-            character.SwitchCurrentActionMap("Menu");
+            player.SwitchCurrentActionMap("Menu");
         }
         pauseUI.gameObject.SetActive(true);
     }
@@ -121,9 +121,9 @@ public class UIBehaviour : MonoBehaviour
     private void ClosePauseUI()
     {
         pauseUI.gameObject.SetActive(false);
-        foreach (Character character in characters)
+        foreach (Player player in players)
         {
-            character.SwitchCurrentActionMap("Controls");
+            player.SwitchCurrentActionMap("Controls");
         }
     }
 
@@ -191,19 +191,19 @@ public class UIBehaviour : MonoBehaviour
 
     public void UpdateComboCounter(int playerId)
     {
-        if (characters[playerId].GetComboCount() <= 1)
+        if (players[playerId].GetComboCount() <= 1)
         {
             comboDisplays[playerId].text = "";
         }
         else
         {
-            comboDisplays[playerId].text = characters[playerId].GetComboCount() + " HIT";
+            comboDisplays[playerId].text = players[playerId].GetComboCount() + " HIT";
         }
     }
 
     private void AddScore(int PlayerId)
     {
-        foreach (var player in characters)
+        foreach (var player in players)
         {
             player.DisableInput();
         }
@@ -254,7 +254,7 @@ public class UIBehaviour : MonoBehaviour
     [Button]
     public void FadeIn()
     {
-        foreach (var player in characters)
+        foreach (var player in players)
         {
             player.DisableInput();
         }
@@ -269,7 +269,7 @@ public class UIBehaviour : MonoBehaviour
     {
         fadePanel.DOFade(0, 2).OnComplete(() => 
         {
-            foreach(var player in characters)
+            foreach(var player in players)
             {
                 player.EnableInput();
             }

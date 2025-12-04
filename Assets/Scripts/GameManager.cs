@@ -14,9 +14,9 @@ public class GameManager : MonoBehaviour
     public bool IsTrainingModeOn {get; private set;}
     [SerializeField]
     bool toggleTraining = false;
-    public Character CornerCharacter { get; private set; }
+    public Player CornerPlayer { get; private set; }
     [SerializeField]
-    Character[] characters;
+    Player[] players;
     int p1rounds;
     int p2rounds;
     [SerializeField]
@@ -40,8 +40,8 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         IsTrainingModeOn = toggleTraining;
-        foreach (Character character in characters)
-            character.Initialize();
+        foreach (Player player in players)
+            player.Initialize();
         Time.timeScale = gameSpeed;
         if (uIBehaviour != null)
         {
@@ -77,9 +77,9 @@ public class GameManager : MonoBehaviour
         RecordingFrame = 0;
     }
 
-    public void SetCornerChar(Character character)
+    public void SetCornerChar(Player character)
     {
-        CornerCharacter = character;
+        CornerPlayer = character;
     }
 
     public void BackToMenu()
@@ -91,9 +91,9 @@ public class GameManager : MonoBehaviour
     {
         isGamePaused = !isGamePaused;
         Time.timeScale = isGamePaused ? 0f : 1f;
-        foreach (Character character in characters) 
+        foreach (Player player in players) 
         {
-            character.GetCharacterAnimation().SetPlayspeed(Time.timeScale);
+            player.GetCharacterAnimation().SetPlayspeed(Time.timeScale);
         }
         if (uIBehaviour != null)
             uIBehaviour.ShowPauseUI(isGamePaused);

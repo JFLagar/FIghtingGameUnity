@@ -5,7 +5,7 @@ namespace SkillIssue.StateMachineSpace
 {
     public class CrouchingState : BaseState
     {
-        public CrouchingState(Character character) : base(character)
+        public CrouchingState(Player player) : base(player)
         {
         }
 

@@ -5,7 +5,7 @@ using SkillIssue.CharacterSpace;
 
 public class Projectile : MonoBehaviour , IHitboxResponder
 {
-    Character parent;
+    Player parent;
     [SerializeField]
     SpriteRenderer m_renderer;
     [SerializeField]
@@ -19,9 +19,9 @@ public class Projectile : MonoBehaviour , IHitboxResponder
     private Animator animator;
     Vector2 trajectory;
     // Start is called before the first frame update
-    public void Initialize(Character character, ProjectileData data)
+    public void Initialize(Player player, ProjectileData data)
     {
-        parent = character;
+        parent = player;
         float xOrigin = transform.position.x + (parent.FaceDir/2);
         transform.position = new Vector2(xOrigin, 0);
         animator = GetComponent<Animator>();
@@ -36,7 +36,7 @@ public class Projectile : MonoBehaviour , IHitboxResponder
         hitbox.targetMask = parent.GetHitboxTargetMask();
         hitbox.gameObject.layer = parent.GetHitboxLayerMask();
         hurtbox.gameObject.layer = LayerMask.NameToLayer(parent.GetHurtboxLayerMask());
-        hurtbox.character = parent;
+        hurtbox.player = parent;
 
         if (trajectory.x == -1)
         {

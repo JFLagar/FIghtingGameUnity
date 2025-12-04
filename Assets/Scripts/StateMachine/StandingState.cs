@@ -5,7 +5,7 @@ namespace SkillIssue.StateMachineSpace
 {
     public class StandingState : BaseState
     {
-        public StandingState(Character character) : base(character)
+        public StandingState(Player character) : base(character)
         {
         }
 

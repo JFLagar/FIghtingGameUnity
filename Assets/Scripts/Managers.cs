@@ -16,10 +16,6 @@ public class Managers : MonoBehaviour
         }
         else
             DestroyImmediate(this);
-    }
-
-    private void Start()
-    {
         Initialize();
     }
 

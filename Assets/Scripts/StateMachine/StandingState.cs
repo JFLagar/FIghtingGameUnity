@@ -1,10 +1,11 @@
 ﻿using SkillIssue.CharacterSpace;
+using UnityEngine;
 
 namespace SkillIssue.StateMachineSpace
 {
     public class StandingState : BaseState
     {
-        protected StandingState(Character character) : base(character)
+        public StandingState(Character character) : base(character)
         {
         }
 
@@ -15,12 +16,12 @@ namespace SkillIssue.StateMachineSpace
 
         public override void OnEnter()
         {
-            base.OnEnter();
+            Debug.Log("Enter Standing");
         }
 
         public override void OnExit()
         {
-            base.OnExit();
+            Debug.Log("Exit Standing");
         }
 
         public override void Update()

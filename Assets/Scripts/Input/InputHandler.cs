@@ -64,7 +64,7 @@ namespace SkillIssue.Inputs
     }
 
 
-    public class InputHandler : MonoBehaviour
+    public class InputHandler
     {
         Character character;
         public PlayerInput PlayerInput { get; private set; }
@@ -105,7 +105,7 @@ namespace SkillIssue.Inputs
         private bool isReplaying = false;
         int replayFrame = 0;
 
-        private GameManager gameManager;
+        private GameManager gameManager => Managers.Instance.GameManager;
 
         private InputControl currentMovementControlX;
         private InputControl currentMovementControlY;
@@ -121,8 +121,8 @@ namespace SkillIssue.Inputs
             heavyButton.SetInputHandler(this);
             uniqueButton.SetInputHandler(this);
 
-            PlayerInput = transform.parent.GetComponent<PlayerInput>();
-
+            PlayerInput = character.transform.GetComponent<PlayerInput>();
+            motionInputs = gameManager.GetCombatValues().GetMotionInputs();
             MapActions(true);
         }
 
@@ -158,7 +158,7 @@ namespace SkillIssue.Inputs
             inputActions.Menu.UICancel.performed += UICancel;
         }
 
-        void UnmapActions()
+        public void UnmapActions()
         {
             inputActions.Controls.LightButton.performed -= LightButton;
             inputActions.Controls.LightButton.canceled -= LightButton;
@@ -207,10 +207,6 @@ namespace SkillIssue.Inputs
         public void Update()
         {
             InputQueueList = inputQueue.ToList();
-            if (gameManager == null)
-            {
-                gameManager = Managers.Instance.GameManager;
-            }
             if (isReplaying)
             {
                 Debug.Log("Replay");
@@ -631,9 +627,5 @@ namespace SkillIssue.Inputs
             var rebindOperation = actionToRebind.PerformInteractiveRebinding().WithControlsExcluding("Mouse").OnMatchWaitForAnother(0.1f).Start();
         }
 
-        private void OnDestroy()
-        {
-            UnmapActions();
-        }
     }
 }

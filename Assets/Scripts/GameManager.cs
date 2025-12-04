@@ -40,13 +40,14 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         IsTrainingModeOn = toggleTraining;
+        foreach (Character character in characters)
+            character.Initialize();
+        Time.timeScale = gameSpeed;
         if (uIBehaviour != null)
         {
             uIBehaviour.Initialize();
             uIBehaviour.FadeIn();
         }
-
-        Time.timeScale = gameSpeed;
 
     }
     private void FixedUpdate()

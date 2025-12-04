@@ -1,10 +1,11 @@
 ﻿using SkillIssue.CharacterSpace;
+using UnityEngine;
 
 namespace SkillIssue.StateMachineSpace
 {
-    public class CrouchState : BaseState
+    public class JumpingState : BaseState
     {
-        protected CrouchState(Character character) : base(character)
+        public JumpingState(Character character) : base(character)
         {
         }
 
@@ -15,12 +16,12 @@ namespace SkillIssue.StateMachineSpace
 
         public override void OnEnter()
         {
-            base.OnEnter();
+            Debug.Log("Enter Jumping");
         }
 
         public override void OnExit()
         {
-            base.OnExit();
+            Debug.Log("Enter Jumping");
         }
 
         public override void Update()

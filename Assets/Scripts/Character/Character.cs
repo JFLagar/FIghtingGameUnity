@@ -29,9 +29,7 @@ namespace SkillIssue.CharacterSpace
 
         [Space]
 
-        [SerializeField]
         StateMachine stateMachine;
-        [SerializeField]
         InputHandler inputHandler;
 
         [Space]
@@ -118,14 +116,16 @@ namespace SkillIssue.CharacterSpace
         private CharacterModel characterModel;
         private bool isAnyHitboxOpen => characterModel != null && characterModel.GetHitboxes().FirstOrDefault(c => c.state == ColliderState.Open) != null;
 
-        private void Awake()
+        public void Initialize()
         {
             characterModel = Instantiate(characterData.GetCharacterModel(), model3D.transform);
             characterModel.Initialize(this);
             animator = characterModel.GetComponent<Animator>();
             collisions = characterModel.GetCollisions();
             characterAnimation.Initialize(this, animator);
+            inputHandler = new InputHandler();
             inputHandler.Initialize(this);
+            stateMachine = new StateMachine();
             stateMachine.Initialize(this);
             attackManager.Initialize(this, characterModel.GetHitboxes());
             gravity = characterData.GetGravity();
@@ -146,8 +146,7 @@ namespace SkillIssue.CharacterSpace
 
         void FixedUpdate()
         {
-            inputHandler.Update();
-            //stateMachine.StateMachineUpdate();
+            stateMachine.FixedUpdate();
             CharacterMove();
             if (!hasBurst)
                 currentBurstCD++;
@@ -162,6 +161,8 @@ namespace SkillIssue.CharacterSpace
         void Update()
         {
             characterAnimation.AnimUpdate();
+            stateMachine.Update();
+            inputHandler.Update();
             if (opponent == null)
                 return;
 
@@ -392,7 +393,6 @@ namespace SkillIssue.CharacterSpace
         {
             return CurrentCombo.Count;
         }
-
 
         public void SetApplyGravity(bool value)
         {
@@ -1225,8 +1225,12 @@ namespace SkillIssue.CharacterSpace
         {
             inputHandler.PlayerInput.SwitchCurrentActionMap(mapName);
         }
-    }
 
+        void OnDestroy()
+        {
+            inputHandler.UnmapActions();
+        }
+    }
 }
 
 public class FrameWait : CustomYieldInstruction

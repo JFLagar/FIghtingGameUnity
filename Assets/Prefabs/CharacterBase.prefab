@@ -56,13 +56,10 @@ MonoBehaviour:
   render: {fileID: 1957316337702257311}
   model3D: {fileID: 8085034635397743615}
   vfx: {fileID: 7746021680221113552}
-  stateMachine: {fileID: 1957316337707236123}
-  inputHandler: {fileID: 1957316337707236124}
   characterData: {fileID: 11400000, guid: 2cf82aefd8b5d054eb1f2f9c5b1ffdce, type: 2}
   attackManager: {fileID: 7515142340994233024}
   animator: {fileID: 0}
   characterAnimation: {fileID: 2597134761694115151}
-  isAgainstTheWall: 0
   wakingUpFrames: 6
   jumpStartup: 4
   gravity: 0
@@ -86,8 +83,6 @@ MonoBehaviour:
   hasBurst: 0
   burstCD: 100
   currentBurstCD: 0
-  airActions: 0
-  canDoubleJump: 0
 --- !u!114 &7515142340994233024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,8 +376,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1957316337707236126}
-  - component: {fileID: 1957316337707236124}
-  - component: {fileID: 1957316337707236123}
   - component: {fileID: 2000404767772000394}
   m_Layer: 0
   m_Name: Logic
@@ -406,79 +399,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1957316337047856814}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1957316337707236124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1957316337707236127}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bedcc02a8b9e99545a25ac8f8318b85a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  motionInputs:
-  - Input: 0
-    motions:
-    - {x: 0, y: -1}
-    - {x: -1, y: -1}
-    - {x: -1, y: 0}
-  - Input: 1
-    motions:
-    - {x: 0, y: -1}
-    - {x: 1, y: -1}
-    - {x: 1, y: 0}
-  - Input: 2
-    motions:
-    - {x: 0, y: -1}
-    - {x: 0, y: 0}
-    - {x: 0, y: -1}
-  - Input: 3
-    motions:
-    - {x: -1, y: 0}
-    - {x: 0, y: 0}
-    - {x: -1, y: 0}
-  - Input: 4
-    motions:
-    - {x: 1, y: 0}
-    - {x: 0, y: 0}
-    - {x: 1, y: 0}
-  - Input: 5
-    motions:
-    - {x: 1, y: 0}
-    - {x: 0, y: -1}
-    - {x: 1, y: -1}
-  - Input: 6
-    motions:
-    - {x: -1, y: 0}
-    - {x: 0, y: -1}
-    - {x: -1, y: -1}
-  - Input: 7
-    motions:
-    - {x: 0, y: -1}
-    - {x: 0, y: 1}
-  direction: {x: 0, y: 0}
-  currentInputDirection: {x: 0, y: 0}
-  InputQueueList: []
-  InputRecordingList: []
-  bufferTime: 0.5
-  motionBufferTime: 3
-  simultaneousThreshold: 0.1
---- !u!114 &1957316337707236123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1957316337707236127}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8d570d7ec1580b4d87724fc3ddce479, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  character: {fileID: 1957316337047856815}
-  currentAction: 0
 --- !u!114 &2000404767772000394
 MonoBehaviour:
   m_ObjectHideFlags: 0

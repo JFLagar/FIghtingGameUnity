@@ -26,13 +26,28 @@ namespace SkillIssue.StateMachineSpace
         public ActionStates CurrentAction { get; private set; }
         public States State { get; private set; }
 
+        public void Initialize(Character controllingCharacter)
+        {
+            character = controllingCharacter;
+            StandingState standingState = new StandingState(controllingCharacter);
+            CrouchingState crouchingState = new CrouchingState(controllingCharacter);
+            JumpingState jumpingState = new JumpingState(controllingCharacter);
+
+            AddAnyTransition(jumpingState, new FuncPredicate(() => !character.IsGrounded));
+    
+            AddTransition(jumpingState, standingState, new FuncPredicate(() => character.IsGrounded));
+            AddTransition(crouchingState, standingState, new FuncPredicate(() => character.GetInputDirection().y >= 0));
+            AddTransition(standingState, crouchingState, new FuncPredicate(()=> character.GetInputDirection().y < 0));
+
+            SetState(standingState);
+        }
+
         public void Update()
         {
             var transition = GetTransition();
             if (transition != null)
             {
                 ChangeState(transition.To);
-
             }
             current.State?.Update();
         }
@@ -42,6 +57,7 @@ namespace SkillIssue.StateMachineSpace
             current.State?.FixedUpdate();
         }
 
+        // Set Default State
         public void SetState(IState state)
         {
             current = nodes[state.GetType()];
@@ -114,11 +130,6 @@ namespace SkillIssue.StateMachineSpace
             {
                 Transitions.Add(new Transition(to, condition));
             }
-        }
-
-        public void Initialize(Character controllingCharacter)
-        {
-            character = controllingCharacter;
         }
 
         //OLD All these calls should be working inside the state class

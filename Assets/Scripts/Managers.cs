@@ -12,7 +12,7 @@ public class Managers : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //Add not destroy on load when starting the game in the splash screen scene
         }
         else
             DestroyImmediate(this);

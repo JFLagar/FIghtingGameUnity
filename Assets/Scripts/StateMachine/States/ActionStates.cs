@@ -1,4 +1,5 @@
 ﻿using SkillIssue.CharacterSpace;
+using UnityEngine;
 
 namespace SkillIssue.StateMachineSpace
 {
@@ -31,6 +32,22 @@ namespace SkillIssue.StateMachineSpace
         public override void OnAnimationEnd()
         {
             base.OnAnimationEnd();
+        }
+
+        void Jump()
+        {
+            if (!player.CanJump())
+                return;
+            player.StartJumping();
+        }
+
+        void Dash()
+        {
+            if (player.MovementDirectionX != player.FaceDir)
+                return;
+            player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().jumpingClips[2], Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
+            player.ApplyForce(new Vector2(player.FaceDir * Managers.Instance.GameManager.GetCombatValues().GetDashMultiplier(), 0f),
+                Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
         }
     }
 

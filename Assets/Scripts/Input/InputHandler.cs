@@ -493,6 +493,12 @@ namespace SkillIssue.Inputs
             BufferedInput bufferedInput = new BufferedInput(InputType.Movement, !context.canceled, Time.time, direction, gameManager.RecordingFrame);
             if (!motionInputQueue.Any(c => c.Time == bufferedInput.Time))
                 motionInputQueue.Enqueue(bufferedInput);
+
+            if(!context.action.WasReleasedThisFrame() && direction.y > 0)
+            {
+                player.PerformJump();
+            }
+
             if (currentMovementControlY == context.control && context.action.WasReleasedThisFrame())
             {
                 currentMovementControlY = null;
@@ -503,6 +509,7 @@ namespace SkillIssue.Inputs
                 currentMovementControlY = null;
                 direction.y = currentDirection.y;
             }
+
             WasYReleased = context.action.WasReleasedThisFrame();
         }
 
@@ -614,10 +621,7 @@ namespace SkillIssue.Inputs
             {
                 return;
             }
-            if (input.InputType != InputType.Movement)
-            {
-                player.PerformInput(input.InputType);
-            }
+            player.PerformInput(input.InputType);
 
             player.SetMotionInput(MotionInputs.NONE);
         }

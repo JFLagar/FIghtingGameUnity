@@ -117,23 +117,15 @@ namespace SkillIssue.CharacterSpace
         private bool isAnyHitboxOpen => characterModel != null && characterModel.GetHitboxes().FirstOrDefault(c => c.state == ColliderState.Open) != null;
 
         //EVENTS
-        EventBinding<AttackEvent> testEventBinding;
-
-        private Action _hitAction, _blockAction, _attackAction;
+        public event Action _hitAction, _blockAction, _attackAction, _dashAction, _jumpAction;
 
         private void OnEnable()
         {
-            testEventBinding = new EventBinding<AttackEvent>(HandleTestEvent);
-            EventBus<AttackEvent>.Register(testEventBinding);
+
         }
         private void OnDisable()
         {
-            EventBus<AttackEvent>.Deregister(testEventBinding);
-        }
 
-        void HandleTestEvent()
-        {
-            _hitAction?.Invoke();
         }
 
         void AddTransition(IState from, IState to, IPredicate condition) => stateMachine.AddTransition(from, to, condition);
@@ -237,7 +229,6 @@ namespace SkillIssue.CharacterSpace
                         break;
                 }
             }
-
         }
 
         #region Getters and Setters
@@ -377,6 +368,11 @@ namespace SkillIssue.CharacterSpace
         public bool IsKnockedDown()
         {
             return isKnockedDown;
+        }
+
+        public void SetAirActions(int airActions)
+        {
+            AirActions = airActions;
         }
 
         public Vector2 GetInputDirection()
@@ -530,60 +526,22 @@ namespace SkillIssue.CharacterSpace
                 return;
             }
             // Perform dash event in statemachines
+            _dashAction.Invoke();
+        }
 
-
-            if (GetInputDirection().x == FaceDir)
-            {
-                if (GetCurrentActionState() == ActionStates.Attack)
-                {
-                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().jumpingClips[2], Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
-                    ApplyForce(new Vector2(FaceDir * Managers.Instance.GameManager.GetCombatValues().GetDashMultiplier(), 0f),
-                        Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
-                    return;
-                }
-                if (GetCurrentState() is StandingState)
-                {
-                    isRunning = true;
-                }
-                else if ((GetCurrentState() is JumpingState) && (AirActions > 0))
-                {
-                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().jumpingClips[2], Managers.Instance.GameManager.GetCombatValues().GetAirDashAnimationDuration());
-                    ApplyForce(new Vector2(FaceDir * Managers.Instance.GameManager.GetCombatValues().GetDashMultiplier(), 0.1f),
-                        Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
-                    AirActions--;
-                }
-
-            }
-            else
-            {
-                if (GetCurrentState() is StandingState)
-                {
-                    SetActionState(ActionStates.Landing);
-                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().standingClips.LastOrDefault(), Managers.Instance.GameManager.GetCombatValues().GetAirDashAnimationDuration());
-                    ApplyForce(new Vector2(-FaceDir * 2, 0.5f), Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
-                }
-                else if ((GetCurrentState() is JumpingState) && (AirActions > 0))
-                {
-                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().standingClips.LastOrDefault(), Managers.Instance.GameManager.GetCombatValues().GetAirDashAnimationDuration());
-                    ApplyForce(new Vector2(-FaceDir, 0.1f), Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
-                    AirActions--;
-                }
-            }
+        public void SetRunning(bool value)
+        {
+            isRunning = value;
         }
 
         public void PerformJump()
         {
-            Debug.Log(GetCurrentState().GetType().Name);
-            // Perform Jump event on statemachines
-            //SetActionState(ActionStates.None);
-            if (GetCurrentState() is JumpingState)
-            {
-                Debug.Log(GetCurrentState().GetType().Name);
-                if (AirActions > 0)
-                    AirActions--;
-                else
-                    return;
-            }
+            Debug.Log("Invoking Jump");
+            _jumpAction.Invoke();
+        }
+
+        public void StartJumping()
+        {
             SetIsJumping(true);
             if (currentMovementCoroutine != null)
                 StopCoroutine(currentMovementCoroutine);
@@ -723,7 +681,7 @@ namespace SkillIssue.CharacterSpace
             if ((int)type > characterData.GetStandingAttacks().Length)
                 return;
 
-            AttackData attackData = new AttackData();
+            AttackData attackData = null;
             switch (GetCurrentState())
             {
                 case StandingState:
@@ -769,7 +727,7 @@ namespace SkillIssue.CharacterSpace
         public void Attack(AttackData attackData)
         {
             onGoingAttack = attackData;
-            EventBus<AttackEvent>.Raise(new AttackEvent());
+            _attackAction.Invoke();
             SetActionState(ActionStates.Attack);
         }
 

@@ -27,7 +27,7 @@ public class ScreenLimit : MonoBehaviour
             return;
         if (collisionPlayer.MovementDirectionX != 0 && Managers.Instance.GameManager.CornerPlayer == null)
             return;
-        if (Managers.Instance.GameManager.CornerPlayer == null && collisionPlayer.GetCurrentActionState() == SkillIssue.StateMachineSpace.ActionStates.None)
+        if (Managers.Instance.GameManager.CornerPlayer == null)
             Managers.Instance.GameManager.SetCornerChar(collisionPlayer);
         collisionPlayer.SetIsAgainstTheWall(true, screenEdgeFaceDir);        
     }

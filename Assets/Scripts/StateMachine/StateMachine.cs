@@ -1,4 +1,5 @@
 using SkillIssue.CharacterSpace;
+using SkillIssue.Inputs;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,8 +21,9 @@ namespace SkillIssue.StateMachineSpace
     }
     public class StateMachine
     {
+        public bool IsMoveState {  get; private set; }
         StateNode currentState;
-        StateNode previousState;
+        IState previousMovementState;
         Dictionary<Type, StateNode> nodes = new();
         HashSet<ITransition> anyTransitions = new();
         public ActionStates CurrentAction { get; private set; }
@@ -53,12 +55,26 @@ namespace SkillIssue.StateMachineSpace
         {
             if (state == currentState.State) return;
 
-            previousState = currentState;
+            var previousState = currentState;
             var nextState = nodes[state.GetType()].State;
 
             previousState.State?.OnExit();
             nextState?.OnEnter();
             currentState = nodes[state.GetType()];
+            IsMoveState = CheckMoveState();
+        }
+
+        public bool CheckMoveState()
+        {
+            bool result = false;
+            if (currentState.State is CrouchingState)
+                return true;
+            if (currentState.State is StandingState)
+                return true;
+            if (currentState.State is JumpingState)
+                return true;
+
+            return result;
         }
 
         ITransition GetTransition()
@@ -105,6 +121,16 @@ namespace SkillIssue.StateMachineSpace
             return currentState.State;
         }
 
+        public void SetPreviousMovementState(IState state)
+        {
+            previousMovementState = state;
+        }
+
+        public IState GetPreviousMovementState()
+        {
+            return previousMovementState;
+        }
+
         public bool CanAttack()
         {
             bool result = true;
@@ -123,11 +149,6 @@ namespace SkillIssue.StateMachineSpace
             if (currentState.State is AttackState)
                 result = false;
             return result;
-        }
-
-        public void OnAnimationEnd()
-        {
-            currentState.State?.OnAnimationEnd();
         }
 
         class StateNode
@@ -180,11 +201,11 @@ namespace SkillIssue.StateMachineSpace
         }
         public virtual void OnEnter()
         {
-            // Debug.Log("OnEnter " + this.GetType().Name);
+             Debug.Log("OnEnter " + this.GetType().Name);
         }
         public virtual void OnExit()
         {
-            // Debug.Log("OnExit " + this.GetType().Name);
+             Debug.Log("OnExit " + this.GetType().Name);
         }
         public virtual void FixedUpdate()
         {
@@ -194,6 +215,11 @@ namespace SkillIssue.StateMachineSpace
         public virtual void OnAnimationEnd()
         {
             // Debug.Log("OnAnimationEnd " + this.GetType().Name);
+        }
+
+        public virtual void ProcessInput(InputType inputType)
+        {
+            //Debug.Log(inputType + this.Get().Name);
         }
     }
 

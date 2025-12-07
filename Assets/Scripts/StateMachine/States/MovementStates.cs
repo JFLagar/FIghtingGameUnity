@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.TextCore.Text;
 using static UnityEngine.InputSystem.DefaultInputActions;
+using SkillIssue.Inputs;
 
 namespace SkillIssue.StateMachineSpace
 {
@@ -22,21 +23,52 @@ namespace SkillIssue.StateMachineSpace
 
         public override void OnEnter()
         {
+            base.OnEnter();
             player.GetCharacterAnimation().QueueMovementState(player.GetCharacterAnimationsData().standingClips.FirstOrDefault());
             player.ResetAirActions();
+
             player._jumpAction += Jump;
-            base.OnEnter();
+            player._dashAction += Dash;
+            player._overdriveAction += Overdrive;
+            player._inputAction += ProcessInput;
+            player._onAnimationEnd += OnAnimationEnd;
         }
 
         public override void OnExit()
         {
             base.OnExit();
+
             player._jumpAction -= Jump;
+            player._dashAction -= Dash;
+            player._overdriveAction -= Overdrive;
+            player._inputAction -= ProcessInput;
+            player._onAnimationEnd -= OnAnimationEnd;
+            stateMachine.SetPreviousMovementState(this);
         }
 
         public override void Update()
         {
             player.CheckAndFlipCharacterModel();    
+        }
+
+        public override void OnAnimationEnd()
+        {
+            base.OnAnimationEnd();
+        }
+
+        public override void ProcessInput(InputType inputType)
+        {
+            base.ProcessInput(inputType);
+
+            switch (inputType)
+            {
+                case InputType.LMHU:
+                    player.PerformOverdrive();
+                    break;
+                default:
+                    player.PerformAttack(inputType);
+                    break;
+            }
         }
 
         void Jump()
@@ -48,7 +80,7 @@ namespace SkillIssue.StateMachineSpace
 
         void Dash()
         {
-            if (player.MovementDirectionX == player.FaceDir)
+            if (player.GetInputDirection().x == player.FaceDir)
                 player.SetRunning(true);
             else
             {
@@ -57,9 +89,10 @@ namespace SkillIssue.StateMachineSpace
             }
         }
 
-        public override void OnAnimationEnd()
+        void Overdrive()
         {
-            base.OnAnimationEnd();
+            Debug.Log("Overdrive");
+            player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().GetCancelClips().FirstOrDefault());
         }
     }
 
@@ -80,11 +113,19 @@ namespace SkillIssue.StateMachineSpace
             player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
             player.GetCharacterAnimation().QueueMovementState(player.GetCharacterAnimationsData().crouchingClip);
             base.OnEnter();
+
+            player._overdriveAction += Overdrive;
+            player._inputAction += ProcessInput;
+            player._onAnimationEnd += OnAnimationEnd;
         }
 
         public override void OnExit()
         {
             base.OnExit();
+            player._overdriveAction -= Overdrive;
+            player._inputAction -= ProcessInput;
+            player._onAnimationEnd -= OnAnimationEnd;
+            stateMachine.SetPreviousMovementState(this);
         }
 
         public override void Update()
@@ -97,6 +138,26 @@ namespace SkillIssue.StateMachineSpace
         public override void OnAnimationEnd()
         {
             base.OnAnimationEnd();
+        }
+
+        public override void ProcessInput(InputType inputType)
+        {
+            base.ProcessInput(inputType);
+            switch (inputType)
+            {
+                case InputType.LMHU:
+                    player.PerformOverdrive();
+                    break;
+                default:
+                    player.PerformAttack(inputType);
+                    break;
+            }
+        }
+
+        void Overdrive()
+        {
+            Debug.Log("Overdrive");
+            player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().GetCancelClips().FirstOrDefault());
         }
     }
 
@@ -116,14 +177,25 @@ namespace SkillIssue.StateMachineSpace
         public override void OnEnter()
         {
             base.OnEnter();
+
             player.SetDoubleJump(false);
             player._jumpAction += Jump;
+            player._dashAction += Dash;
+            player._overdriveAction += Overdrive;
+            player._inputAction += ProcessInput;
+            player._onAnimationEnd += OnAnimationEnd;
         }
 
         public override void OnExit()
         {
             base.OnExit();
+
             player._jumpAction -= Jump;
+            player._dashAction -= Dash;
+            player._overdriveAction -= Overdrive;
+            player._inputAction -= ProcessInput;
+            player._onAnimationEnd -= OnAnimationEnd;
+            stateMachine.SetPreviousMovementState(this);
         }
 
         public override void Update()
@@ -139,6 +211,26 @@ namespace SkillIssue.StateMachineSpace
             }
             base.Update();
         }
+
+        public override void OnAnimationEnd()
+        {
+            base.OnAnimationEnd();
+        }
+
+        public override void ProcessInput(InputType inputType)
+        {
+            base.ProcessInput(inputType);
+            switch (inputType)
+            {
+                case InputType.LMHU:
+                    player.PerformOverdrive();
+                    break;
+                default:
+                    player.PerformAttack(inputType);
+                    break;
+            }
+        }
+
         void Jump()
         {
             Debug.Log("Jump-Jump");
@@ -160,7 +252,7 @@ namespace SkillIssue.StateMachineSpace
             if (player.AirActions <= 0)
                 return;
 
-            if (player.MovementDirectionX == player.FaceDir)
+            if (player.GetInputDirection().x == player.FaceDir)
             {
                 player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().jumpingClips[2], Managers.Instance.GameManager.GetCombatValues().GetAirDashAnimationDuration());
                 player.ApplyForce(new Vector2(player.FaceDir * Managers.Instance.GameManager.GetCombatValues().GetDashMultiplier(), 0.1f),
@@ -175,9 +267,10 @@ namespace SkillIssue.StateMachineSpace
             }
         }
 
-        public override void OnAnimationEnd()
+        void Overdrive()
         {
-            base.OnAnimationEnd();
+            Debug.Log("Overdrive");
+            player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().GetCancelClips().FirstOrDefault());
         }
     }
 

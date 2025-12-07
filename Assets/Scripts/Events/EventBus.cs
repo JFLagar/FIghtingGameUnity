@@ -20,7 +20,7 @@ namespace EventBus
 
         static void Clear()
         {
-            Debug.Log($"Clearing {typeof(T).Name} bindings");
+            // Debug.Log($"Clearing {typeof(T).Name} bindings");
         }
     }
 }

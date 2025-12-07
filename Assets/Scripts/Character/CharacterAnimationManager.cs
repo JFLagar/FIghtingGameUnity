@@ -300,14 +300,7 @@ public class ActionPlayableBehaviour : PlayableBehaviour
         // Check if animation has finished playing
         if (inputPlayable.IsDone())
         {
-            if (character.GetCurrentActionState() == ActionStates.None)
-            {
-                controller.OnActionAnimationEnd();
-            }
-            else
-            {
-                character.OnAnimationEnd();
-            }
+            character.OnAnimationEnd();
             playable.DisconnectInput(0);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace SkillIssue.StateMachineSpace
 {
     public class ActionPredicate : IPredicate

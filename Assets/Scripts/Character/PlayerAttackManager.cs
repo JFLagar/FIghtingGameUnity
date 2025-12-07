@@ -26,10 +26,10 @@ public class PlayerAttackManager : MonoBehaviour, IHitboxResponder
         this.hitboxes = hitboxes;
     }
 
-    public void Attack(AttackData attack, bool followup = false)
+    public void ProcessAttack(AttackData attack, bool followup = false)
     {
         //check if can cancel
-        if (player.GetCurrentActionState() == ActionStates.Attack && !followup)
+        if (player.GetCurrentState() is AttackState && !followup)
         {
             if (!IsCancelable(attack))
             {
@@ -47,7 +47,7 @@ public class PlayerAttackManager : MonoBehaviour, IHitboxResponder
             player.GetCharacterAnimation().PlayActionAnimation(attack.GetAnimationClip());
         }
         repeatedAttack = 0;
-        player.Attack(attack);
+        player.PerformAttack(attack);
         hit = false;
         previousAttack = attack;
         currentAttack = null;

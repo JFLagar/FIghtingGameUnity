@@ -47,14 +47,14 @@ namespace EventBus
             {
                 var busType = typedef.MakeGenericType(eventType);
                 eventBusTypes.Add(busType);
-                Debug.Log("Initialized EventBus" + eventType.Name);
+               // Debug.Log("Initialized EventBus" + eventType.Name);
             }
             return eventBusTypes;
         }
 
         public static void ClearAllBuses()
         {
-            Debug.Log("Clearing all buses...");
+            // Debug.Log("Clearing all buses...");
             for (int i = 0;  i < EventTypes.Count; i++)
             {
                 var busType = EventBusTypes[i];

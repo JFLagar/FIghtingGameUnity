@@ -97,7 +97,7 @@ namespace SkillIssue.CharacterSpace
         bool isHardKnockDown = false;
         private int hitstop;
 
-        private MotionInputs storedMotionInput = MotionInputs.NONE;
+        public MotionInputs StoredMotionInput { get; private set; }
         public bool SameAttackSequence { get; private set; }
         AttackData onGoingAttack;
 
@@ -117,7 +117,10 @@ namespace SkillIssue.CharacterSpace
         private bool isAnyHitboxOpen => characterModel != null && characterModel.GetHitboxes().FirstOrDefault(c => c.state == ColliderState.Open) != null;
 
         //EVENTS
-        public event Action _hitAction, _blockAction, _attackAction, _dashAction, _jumpAction;
+        public event Action _hitAction, _blockAction, _attackAction, _dashAction, _jumpAction, _onAnimationEnd;
+        public event Action _returnToStand, _returnToCrouch, _returnToJump;
+        public event Action _overdriveAction, _quarterMeterAction, _halfMeterAction;
+        public event Action<InputType> _inputAction;
 
         private void OnEnable()
         {
@@ -145,6 +148,7 @@ namespace SkillIssue.CharacterSpace
             gravity = characterData.GetGravity();
             CurrentCombo = new List<AttackData>();
             IsGrounded = true;
+            SetMotionInput(MotionInputs.NONE);
         }
 
         void InitializeStateMachine()
@@ -162,6 +166,12 @@ namespace SkillIssue.CharacterSpace
             AddAnyTransition(hitState, new ActionPredicate(ref _hitAction));
             AddAnyTransition(attackState, new ActionWithFuncPredicate(ref _attackAction, () => stateMachine.CanAttack()));
             AddAnyTransition(blockState, new ActionWithFuncPredicate(ref _blockAction, () => stateMachine.CanBlock()));
+            AddAnyTransition(standingState, new ActionPredicate(ref _halfMeterAction));
+            AddAnyTransition(standingState, new ActionPredicate(ref _overdriveAction));
+            AddAnyTransition(standingState, new ActionPredicate(ref _returnToStand));
+            AddAnyTransition(crouchingState, new ActionPredicate(ref _returnToCrouch));
+            AddAnyTransition(jumpingState, new ActionPredicate(ref _returnToJump));
+
             //TO DO EventPredicate for Blocking Attacking and Getting Hit for any transition
 
             AddTransition(jumpingState, standingState, new FuncPredicate(() => IsGrounded));
@@ -214,21 +224,6 @@ namespace SkillIssue.CharacterSpace
                 }
             }
 
-            if (visualState)
-            {
-                switch (GetCurrentActionState())
-                {
-                    case ActionStates.None:
-                        render.color = stateColors[0];
-                        break;
-                    case ActionStates.Hit:
-                        render.color = stateColors[1];
-                        break;
-                    case ActionStates.Attack:
-                        render.color = stateColors[2];
-                        break;
-                }
-            }
         }
 
         #region Getters and Setters
@@ -249,7 +244,7 @@ namespace SkillIssue.CharacterSpace
 
         public void SetMotionInput(MotionInputs motion)
         {
-            if (storedMotionInput == motion)
+            if (StoredMotionInput == motion)
                 return;
             switch (motion)
             {
@@ -258,7 +253,7 @@ namespace SkillIssue.CharacterSpace
                     PerformDash();
                     break;
                 default:
-                    storedMotionInput = motion;
+                    StoredMotionInput = motion;
                     break;
             }
         }
@@ -536,7 +531,6 @@ namespace SkillIssue.CharacterSpace
 
         public void PerformJump()
         {
-            Debug.Log("Invoking Jump");
             _jumpAction.Invoke();
         }
 
@@ -550,101 +544,33 @@ namespace SkillIssue.CharacterSpace
 
         public void PerformInput(InputType type)
         {
-            switch (GetCurrentActionState())
-            {
-                case ActionStates.None:
-                    PerformNeutralAction(type);
-                    break;
-                case ActionStates.Attack:
-                    PerformOffensiveAction(type);
-                    //Rapid and OD
-                    break;
-                case ActionStates.Block:
-                    //GC and OD
-                    break;
-                case ActionStates.Hit:
-                    //OD
-                    break;
-            }
+            _inputAction.Invoke(type);
         }
 
-        private void PerformNeutralAction(InputType type)
+        public void PerformOverdrive()
         {
-            if (superMeter > 0 && type == InputType.MH && GetInputDirection().x != FaceDir)
-            {
-                Debug.Log("Barrier");
-                superMeter--;
+            if (!hasBurst)
                 return;
-            }
-
-            if (superMeter >= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter() && type == InputType.MH)
-            {
-                Debug.Log("GuardBreak");
-                superMeter -= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter();
-                return;
-            }
-
-            if (hasBurst && type == InputType.LMHU)
-            {
-                Debug.Log("Burst");
-                hasBurst = false;
-                return;
-            }
-            PerformAttack(type);
+            hasBurst = false;
+            _overdriveAction.Invoke();
         }
 
-        private void PerformOffensiveAction(InputType type)
+        public void PerformHalfMeterAction()
         {
-            if (!CanPerformOffensiveAction())
+            if (superMeter < Managers.Instance.GameManager.GetCombatValues().GetHalfMeter())
                 return;
-
-            //Check for special actions like rapid or OD activation
-            if (superMeter >= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter() && type == InputType.LMH)
-            {
-                Debug.Log("Rapid");
-                superMeter -= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter();
-                return;
-            }
-            if (superMeter >= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter() && type == InputType.MH)
-            {
-                Debug.Log("GuardBreak");
-                superMeter -= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter();
-                return;
-            }
-
-            if (hasBurst && type == InputType.LMHU)
-            {
-                Debug.Log("Burst");
-                hasBurst = false;
-                return;
-            }
-            PerformAttack(type);
+            superMeter -= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter();
+            _halfMeterAction.Invoke();
+            // Rapid logic can go here since its the same
         }
 
-        private void PerformDefensiveAction(InputType type)
+        public void PerformQuarterMeterAction()
         {
-            //Check for guardbreak or burst activation
-            if (superMeter > 0 && type == InputType.MH)
-            {
-                Debug.Log("Barrier");
-                superMeter--;
+            if (superMeter < Managers.Instance.GameManager.GetCombatValues().GetHalfMeter()/2)
                 return;
-            }
-
-            if (superMeter >= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter() && type == InputType.MH && GetInputDirection().x == FaceDir)
-            {
-                Debug.Log("AttackBreak");
-                superMeter -= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter();
-                return;
-            }
-
-            if (hasBurst && type == InputType.LMHU)
-            {
-                Debug.Log("Burst");
-                hasBurst = false;
-                return;
-            }
-
+            superMeter -= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter()/2;
+            _quarterMeterAction.Invoke();
+            // Attack break logic can go here since its the same
         }
 
         public void PerformAttack(InputType type)
@@ -653,18 +579,18 @@ namespace SkillIssue.CharacterSpace
 
             if (type == InputType.Heavy || type == InputType.Unique)
                 return;
-            if (storedMotionInput != MotionInputs.NONE)
+            if (StoredMotionInput != MotionInputs.NONE)
             {
-                if (characterData.FindSpecialAttack(storedMotionInput, type) != null)
+                if (characterData.FindSpecialAttack(StoredMotionInput, type) != null)
                 {
                     if (GetCurrentState() is JumpingState)
                     {
-                        attackManager.Attack(characterData.FindSpecialAttack(storedMotionInput, type, true));
+                        attackManager.ProcessAttack(characterData.FindSpecialAttack(StoredMotionInput, type, true));
                         return;
                     }
                     else 
                     {
-                        attackManager.Attack(characterData.FindSpecialAttack(storedMotionInput, type));
+                        attackManager.ProcessAttack(characterData.FindSpecialAttack(StoredMotionInput, type));
                         return;
                     }
                 }
@@ -673,9 +599,9 @@ namespace SkillIssue.CharacterSpace
             if (type == InputType.LU)
             {
                 if (GetCurrentState() is JumpingState)
-                    attackManager.Attack(characterData.GetGrabData()[1]);
+                    attackManager.ProcessAttack(characterData.GetGrabData()[1]);
                 else
-                    attackManager.Attack(characterData.GetGrabData()[0]);
+                    attackManager.ProcessAttack(characterData.GetGrabData()[0]);
                 return;
             }
             if ((int)type > characterData.GetStandingAttacks().Length)
@@ -720,27 +646,28 @@ namespace SkillIssue.CharacterSpace
             }
             if (attackData != null)
             {
-                attackManager.Attack(attackData);
+                attackManager.ProcessAttack(attackData);
             }
         }
 
-        public void Attack(AttackData attackData)
+        public void PerformAttack(AttackData attackData)
         {
             onGoingAttack = attackData;
             _attackAction.Invoke();
-            SetActionState(ActionStates.Attack);
         }
 
         public void HurtboxOnCollision(AttackData attack, bool blockCheck = false)
         {
-            if (GetCurrentActionState() == ActionStates.Attack)
+            // COUNTERHIT
+            if (GetCurrentState() is AttackState)
             {
                 PerformGettingHit(attack);
                 return;
             }
+
             if (attack.IsGrab())
             {
-                if (GetCurrentState() is JumpingState || GetCurrentActionState() == ActionStates.Hit)
+                if (GetCurrentState() is JumpingState || GetCurrentState() is HitState)
                     return;
                 PerformGettingHit(attack);
                 return;
@@ -826,6 +753,27 @@ namespace SkillIssue.CharacterSpace
                 ApplyForce(blockDir, Managers.Instance.GameManager.GetCombatValues().GetHitMovementDuration());
         }
 
+        public void ReturnToMovementState()
+        {
+            if (stateMachine.IsMoveState)
+                return;
+            IState state = stateMachine.GetPreviousMovementState();
+            switch (state)
+            {
+                case StandingState:
+                    _returnToStand.Invoke();
+                    break;
+                case CrouchingState:
+                    _returnToCrouch.Invoke();
+                    break;
+                case JumpingState:
+                    _returnToJump.Invoke();
+                    break;
+                default:
+                    break;
+            }
+        }
+
         private int CalculateHitstun(AttackData attack)
         {
             int attackLevel = 1;
@@ -889,6 +837,11 @@ namespace SkillIssue.CharacterSpace
 
         }
 
+        public void ConsumeBarrier()
+        {
+            superMeter -= (int)MathF.Floor(1 * Time.deltaTime);
+        }
+
         public void CheckAndFlipCharacterModel()
         {
             if (xDiff < 0)
@@ -911,14 +864,9 @@ namespace SkillIssue.CharacterSpace
 
         public void OnAnimationEnd()
         {
-            if (GetCurrentActionState() == ActionStates.Hit)
-           {
-                opponent.ResetAttackInfo();
-                MovementDirectionX = 0;
-            }
-            stateMachine.OnAnimationEnd();
+            _onAnimationEnd.Invoke();
+            ReturnToMovementState();
             characterAnimation.OnActionAnimationEnd();
-            SetActionState(ActionStates.None);
             isKnockedDown = false;
             isHardKnockDown = false;
         }
@@ -1100,7 +1048,7 @@ namespace SkillIssue.CharacterSpace
             //Followup of grabs or other attacks
             if (CurrentCombo.Count != 0 && CurrentCombo.Last().GetFollowUpAttackData() != null)
             {
-                attackManager.Attack(CurrentCombo.Last().GetFollowUpAttackData(), true);
+                attackManager.ProcessAttack(CurrentCombo.Last().GetFollowUpAttackData(), true);
             }
             currentHitstopCoroutine = null;
         }
@@ -1112,7 +1060,7 @@ namespace SkillIssue.CharacterSpace
             GetCharacterAnimation().PlayActionAnimation(GetCharacterAnimationsData().jumpingClips.FirstOrDefault());
             float jumpPower = GetJumpPower();
             // SuperJump
-            if (storedMotionInput == MotionInputs.du)
+            if (StoredMotionInput == MotionInputs.du)
             {
                 jumpPower = jumpPower * Managers.Instance.GameManager.GetCombatValues().GetJumpMultiplier();
             }
@@ -1120,7 +1068,7 @@ namespace SkillIssue.CharacterSpace
             yield return new FrameWait(jumpStartup);
             SetActionState(ActionStates.None);
             ApplyForce(new Vector2(GetInputDirection().x, 1f), jumpPower);
-            storedMotionInput = MotionInputs.NONE;
+            StoredMotionInput = MotionInputs.NONE;
         }
         #endregion
 

@@ -1,10 +1,7 @@
 ﻿using SkillIssue.CharacterSpace;
-using UnityEngine;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine.TextCore.Text;
-using static UnityEngine.InputSystem.DefaultInputActions;
 using SkillIssue.Inputs;
+using System.Linq;
+using UnityEngine;
 
 namespace SkillIssue.StateMachineSpace
 {
@@ -48,7 +45,7 @@ namespace SkillIssue.StateMachineSpace
 
         public override void Update()
         {
-            player.CheckAndFlipCharacterModel();    
+            player.CheckAndFlipCharacterModel();
         }
 
         public override void OnAnimationEnd()
@@ -62,13 +59,31 @@ namespace SkillIssue.StateMachineSpace
 
             switch (inputType)
             {
+                case InputType.NONE:
+                    break;
                 case InputType.LMHU:
                     player.PerformOverdrive();
                     break;
                 default:
-                    player.PerformAttack(inputType);
+                    Attack(inputType);
                     break;
             }
+        }
+
+        void Attack(InputType inputType)
+        {
+            AttackData attackData;
+            if (inputType == InputType.LU)
+            {
+                attackData = player.GetCharacterData().GetGrabData()[0];
+                player.ProcessAttack(attackData);
+                return;
+            }
+            if (player.GetInputDirection().x == player.FaceDir)
+                attackData = player.GetCharacterData().GetForwardAttacks()[(int)inputType];
+            else
+                attackData = player.GetCharacterData().GetStandingAttacks()[((int)inputType)];
+            player.ProcessAttack(attackData);
         }
 
         void Jump()
@@ -145,13 +160,28 @@ namespace SkillIssue.StateMachineSpace
             base.ProcessInput(inputType);
             switch (inputType)
             {
+                case InputType.NONE:
+                    break;
                 case InputType.LMHU:
                     player.PerformOverdrive();
                     break;
                 default:
-                    player.PerformAttack(inputType);
+                    Attack(inputType);
                     break;
             }
+        }
+
+        void Attack(InputType inputType)
+        {
+            AttackData attackData;
+            if (inputType == InputType.LU)
+            {
+                attackData = player.GetCharacterData().GetGrabData()[0];
+                player.ProcessAttack(attackData);
+                return;
+            }
+            attackData = player.GetCharacterData().GetCrouchingAttacks()[((int)inputType)];
+            player.ProcessAttack(attackData);
         }
 
         void Overdrive()
@@ -222,11 +252,13 @@ namespace SkillIssue.StateMachineSpace
             base.ProcessInput(inputType);
             switch (inputType)
             {
+                case InputType.NONE:
+                    break;
                 case InputType.LMHU:
                     player.PerformOverdrive();
                     break;
                 default:
-                    player.PerformAttack(inputType);
+                    Attack(inputType);
                     break;
             }
         }
@@ -265,6 +297,19 @@ namespace SkillIssue.StateMachineSpace
                 player.ApplyForce(new Vector2(-player.FaceDir, 0.1f), Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
                 player.SetAirActions(player.AirActions - 1);
             }
+        }
+
+        void Attack(InputType inputType)
+        {
+            AttackData attackData;
+            if (inputType == InputType.LU)
+            {
+                attackData = player.GetCharacterData().GetGrabData()[1];
+                player.ProcessAttack(attackData);
+                return;
+            }
+            attackData = player.GetCharacterData().GetJumpAttacks()[((int)inputType)];
+            player.ProcessAttack(attackData);
         }
 
         void Overdrive()

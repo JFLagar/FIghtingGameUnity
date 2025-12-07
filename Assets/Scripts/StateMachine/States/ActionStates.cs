@@ -1,6 +1,5 @@
 ﻿using SkillIssue.CharacterSpace;
 using SkillIssue.Inputs;
-using System.Collections;
 using System.Linq;
 using UnityEngine;
 
@@ -59,8 +58,10 @@ namespace SkillIssue.StateMachineSpace
         public override void ProcessInput(InputType inputType)
         {
             base.ProcessInput(inputType);
-            switch(inputType)
+            switch (inputType)
             {
+                case InputType.NONE:
+                    break;
                 case InputType.LMHU:
                     player.PerformOverdrive();
                     break;
@@ -71,9 +72,38 @@ namespace SkillIssue.StateMachineSpace
                     player.PerformQuarterMeterAction();
                     break;
                 default:
-                    player.PerformAttack(inputType);
+                    Attack(inputType);
                     break;
             }
+        }
+
+        void Attack(InputType inputType)
+        {
+            AttackData attackData;
+            if (inputType == InputType.LU)
+            {
+                if (!player.IsGrounded)
+                    attackData = player.GetCharacterData().GetGrabData()[1];
+                else
+                    attackData = player.GetCharacterData().GetGrabData()[0];
+                player.ProcessAttack(attackData);
+                return;
+            }
+            if (!player.IsGrounded)
+            {
+                attackData = player.GetCharacterData().GetJumpAttacks()[(int)inputType];
+                player.ProcessAttack(attackData);
+                return;
+            }
+
+            if (player.GetInputDirection().y < 0)
+                attackData = player.GetCharacterData().GetCrouchingAttacks()[(int)inputType];
+            else if (player.GetInputDirection().x == player.FaceDir)
+                attackData = player.GetCharacterData().GetForwardAttacks()[(int)inputType];
+            else
+                attackData = player.GetCharacterData().GetStandingAttacks()[((int)inputType)];
+
+            player.ProcessAttack(attackData);
         }
 
         void Jump()
@@ -98,17 +128,12 @@ namespace SkillIssue.StateMachineSpace
             player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().GetCancelClips().FirstOrDefault());
         }
 
-        void Attack(InputType inputType)
-        {
-
-        }
-
         void GuardBreak()
         {
             Debug.Log("GuardBreak");
             // Perform here the attack
         }
-        
+
         void Rapid()
         {
             Debug.Log("Rapid");
@@ -135,6 +160,9 @@ namespace SkillIssue.StateMachineSpace
             player._overdriveAction += Overdrive;
             player._inputAction += ProcessInput;
             player._onAnimationEnd += OnAnimationEnd;
+            player._blockAction += Block;
+
+            Block();    
         }
 
         public override void OnExit()
@@ -144,6 +172,23 @@ namespace SkillIssue.StateMachineSpace
             player._overdriveAction -= Overdrive;
             player._inputAction -= ProcessInput;
             player._onAnimationEnd -= OnAnimationEnd;
+            player._blockAction -= Block;
+        }
+
+        private void Block()
+        {
+            AttackData attack = player.HitAttack;
+            player.PlaySound(attack.GetCollideAudioClip());
+            Vector2 dir = CalculateHitPush(attack);
+            Vector2 blockDir = new(dir.x, 0);
+
+            player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().blockingClips[0]);
+            if (player.IsAgainstTheWall && player.FaceDir != player.WallFaceDirection && attack.GetProjectileData() == null)
+            {
+                player.ApplyCounterPush(-blockDir, Managers.Instance.GameManager.GetCombatValues().GetHitMovementDuration());
+            }
+            else
+                player.ApplyForce(blockDir, Managers.Instance.GameManager.GetCombatValues().GetHitMovementDuration());
         }
 
         public override void Update()
@@ -173,7 +218,7 @@ namespace SkillIssue.StateMachineSpace
                         ToggleBarrier(true);
                     break;
                 default:
-                    if(barrier == true)
+                    if (barrier == true)
                         ToggleBarrier(false);
                     break;
             }
@@ -195,6 +240,25 @@ namespace SkillIssue.StateMachineSpace
         {
             barrier = value;
         }
+
+        private Vector2 CalculateHitPush(AttackData attack)
+        {
+            int attackLevel = 1;
+            if (attack.GetAttackLevel() != 0)
+                attackLevel = attack.GetAttackLevel();
+            Vector2 result = new Vector2();
+            result.x = ((attackLevel) + attack.GetExtraPush().x) * -player.FaceDir;
+            if (attack.CausesLaunch() || player.IsKnockedDown() || stateMachine.GetPreviousMovementState() is JumpingState)
+            {
+                if (result.y == 0)
+                {
+                    result.y = 1;
+                }
+                result.y = (attackLevel) + attack.GetExtraPush().y + Managers.Instance.GameManager.GetCombatValues().GetHitVerticalBase();
+            }
+
+            return result;
+        }
     }
 
     public class HitState : BaseState
@@ -214,6 +278,9 @@ namespace SkillIssue.StateMachineSpace
             player._overdriveAction += Burst;
             player._inputAction += ProcessInput;
             player._onAnimationEnd += OnAnimationEnd;
+            player._hitAction += Hit;
+
+            Hit();
         }
 
         public override void OnExit()
@@ -222,6 +289,44 @@ namespace SkillIssue.StateMachineSpace
             player._overdriveAction -= Burst;
             player._inputAction -= ProcessInput;
             player._onAnimationEnd -= OnAnimationEnd;
+            player._hitAction -= Hit;
+        }
+
+        void Hit()
+        {
+            AttackData attack = player.HitAttack;
+            Vector2 dir = CalculateHitPush(attack);
+            player.PlaySound(attack.GetCollideAudioClip()); ;
+            if (attack.CausesLaunch() || player.IsKnockedDown())
+            {
+                player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().hitClips[2], CalculateHitstun(attack));
+            }
+            else
+            {
+                if (attack.IsGrab())
+                {
+                    player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().hitClips[0]);
+                }
+                else
+                {
+                    if (stateMachine.GetPreviousMovementState() is JumpingState)
+                    {
+                        player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().hitClips[0], CalculateHitstun(attack));
+                    }
+                    else
+                        player.GetCharacterAnimation().PlayHitAnimation(player.GetCharacterAnimationsData().hitClips[0], CalculateHitstun(attack));
+                }
+            }
+            player.StartHitstopCoroutine();
+            // Use Event in UI to show HP changes
+
+
+            //if its a projectile dont push back the attacking character
+            if (player.IsAgainstTheWall && player.FaceDir != player.WallFaceDirection && attack.GetProjectileData() == null)
+            {
+                player.ApplyCounterPush(-dir, Managers.Instance.GameManager.GetCombatValues().GetHitMovementDuration());
+            }
+            player.ApplyForce(dir, Managers.Instance.GameManager.GetCombatValues().GetHitMovementDuration());
         }
 
         public override void Update()
@@ -232,11 +337,14 @@ namespace SkillIssue.StateMachineSpace
         public override void OnAnimationEnd()
         {
             base.OnAnimationEnd();
+            player.PerformRecovery();
         }
 
         public override void ProcessInput(InputType inputType)
         {
             base.ProcessInput(inputType);
+            if (inputType == InputType.LMHU)
+                player.PerformOverdrive();
         }
 
         void Burst()
@@ -244,6 +352,34 @@ namespace SkillIssue.StateMachineSpace
             Debug.Log("Burst");
             player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().GetCancelClips().LastOrDefault());
             //Perform here the attack
+        }
+
+        private int CalculateHitstun(AttackData attack)
+        {
+            int attackLevel = 1;
+            if (attack.GetAttackLevel() != 0)
+                attackLevel = attack.GetAttackLevel();
+            int result = (attackLevel * 2) + Managers.Instance.GameManager.GetCombatValues().GetHitstunBase() + attack.GetExtraHitstun(); //attacklevel + hitstunbase(10) + extra
+            return result;
+        }
+
+        private Vector2 CalculateHitPush(AttackData attack)
+        {
+            int attackLevel = 1;
+            if (attack.GetAttackLevel() != 0)
+                attackLevel = attack.GetAttackLevel();
+            Vector2 result = new Vector2();
+            result.x = ((attackLevel) + attack.GetExtraPush().x) * -player.FaceDir;
+            if (attack.CausesLaunch() || player.IsKnockedDown() || stateMachine.GetPreviousMovementState() is JumpingState)
+            {
+                if (result.y == 0)
+                {
+                    result.y = 1;
+                }
+                result.y = (attackLevel) + attack.GetExtraPush().y + Managers.Instance.GameManager.GetCombatValues().GetHitVerticalBase();
+            }
+
+            return result;
         }
     }
 }

@@ -201,11 +201,11 @@ namespace SkillIssue.StateMachineSpace
         }
         public virtual void OnEnter()
         {
-             Debug.Log("OnEnter " + this.GetType().Name);
+             //Debug.Log("OnEnter " + this.GetType().Name);
         }
         public virtual void OnExit()
         {
-             Debug.Log("OnExit " + this.GetType().Name);
+             //Debug.Log("OnExit " + this.GetType().Name);
         }
         public virtual void FixedUpdate()
         {
@@ -214,12 +214,12 @@ namespace SkillIssue.StateMachineSpace
 
         public virtual void OnAnimationEnd()
         {
-            // Debug.Log("OnAnimationEnd " + this.GetType().Name);
+            Debug.Log("OnAnimationEnd " + this.GetType().Name);
         }
 
         public virtual void ProcessInput(InputType inputType)
         {
-            //Debug.Log(inputType + this.Get().Name);
+            Debug.Log(inputType + this.GetType().Name);
         }
     }
 

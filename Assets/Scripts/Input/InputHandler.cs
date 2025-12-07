@@ -17,7 +17,8 @@ namespace SkillIssue.Inputs
         LU,
         MH,
         LMH,
-        LMHU
+        LMHU,
+        NONE
     }
 
     public enum MotionInputs
@@ -619,7 +620,8 @@ namespace SkillIssue.Inputs
         {
             if (!input.IsPressed)
             {
-                return;
+                BufferedInput emptyInput = new BufferedInput(InputType.NONE, false, 0, Vector2.zero, 0);
+                input = emptyInput;
             }
             player.PerformInput(input.InputType);
 

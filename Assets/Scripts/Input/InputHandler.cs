@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 namespace SkillIssue.Inputs
 {
@@ -17,7 +18,8 @@ namespace SkillIssue.Inputs
         LU,
         MH,
         LMH,
-        LMHU
+        LMHU,
+        NONE
     }
 
     public enum MotionInputs
@@ -64,9 +66,9 @@ namespace SkillIssue.Inputs
     }
 
 
-    public class InputHandler : MonoBehaviour
+    public class InputHandler
     {
-        Character character;
+        Player player;
         public PlayerInput PlayerInput { get; private set; }
         [SerializeField]
         InputActions inputActions;
@@ -100,20 +102,20 @@ namespace SkillIssue.Inputs
         [SerializeField]
         private float motionBufferTime = 0.8f;
         [SerializeField]
-        private float simultaneousThreshold = 0.1f;
+        private float simultaneousThreshold = 0.3f;
 
         private bool isReplaying = false;
         int replayFrame = 0;
 
-        private GameManager gameManager;
+        private GameManager gameManager => Managers.Instance.GameManager;
 
         private InputControl currentMovementControlX;
         private InputControl currentMovementControlY;
         private Vector2 currentDirection;
 
-        public void Initialize(Character controllingCharacter)
+        public void Initialize(Player controllingPlayer)
         {
-            character = controllingCharacter;
+            player = controllingPlayer;
 
             movementInput.SetInputHandler(this);
             lightButton.SetInputHandler(this);
@@ -121,8 +123,8 @@ namespace SkillIssue.Inputs
             heavyButton.SetInputHandler(this);
             uniqueButton.SetInputHandler(this);
 
-            PlayerInput = transform.parent.GetComponent<PlayerInput>();
-
+            PlayerInput = player.transform.GetComponent<PlayerInput>();
+            motionInputs = gameManager.GetCombatValues().GetMotionInputs();
             MapActions(true);
         }
 
@@ -145,6 +147,17 @@ namespace SkillIssue.Inputs
             inputActions.Controls.UniqueButton.performed += UniqueButton;
             inputActions.Controls.UniqueButton.canceled += UniqueButton;
 
+            inputActions.Controls.LU.performed += LUButton;
+            inputActions.Controls.LU.canceled += LUButton;
+            inputActions.Controls.LM.performed += LMButton;
+            inputActions.Controls.LM.canceled += LMButton;
+            inputActions.Controls.MH.performed += MHButton;
+            inputActions.Controls.MH.canceled += MHButton;
+            inputActions.Controls.LMH.performed += LMHButton;
+            inputActions.Controls.LMH.canceled += LMHButton;
+            inputActions.Controls.LMHU.performed += LMHUButton;
+            inputActions.Controls.LMHU.canceled += LMHUButton;
+
             inputActions.Controls.Start.performed += StartButton;
             inputActions.Controls.Select.performed += SelectButton;
 
@@ -158,7 +171,7 @@ namespace SkillIssue.Inputs
             inputActions.Menu.UICancel.performed += UICancel;
         }
 
-        void UnmapActions()
+        public void UnmapActions()
         {
             inputActions.Controls.LightButton.performed -= LightButton;
             inputActions.Controls.LightButton.canceled -= LightButton;
@@ -168,6 +181,18 @@ namespace SkillIssue.Inputs
             inputActions.Controls.HeavyButton.canceled -= HeavyButton;
             inputActions.Controls.UniqueButton.performed -= UniqueButton;
             inputActions.Controls.UniqueButton.canceled -= UniqueButton;
+
+            inputActions.Controls.LU.performed -= LUButton;
+            inputActions.Controls.LU.canceled -= LUButton;
+            inputActions.Controls.LM.performed -= LMButton;
+            inputActions.Controls.LM.canceled -= LMButton;
+            inputActions.Controls.MH.performed -= MHButton;
+            inputActions.Controls.MH.canceled -= MHButton;
+            inputActions.Controls.LMH.performed -= LMHButton;
+            inputActions.Controls.LMH.canceled -= LMHButton;
+            inputActions.Controls.LMHU.performed -= LMHUButton;
+            inputActions.Controls.LMHU.canceled -= LMHUButton;
+
 
             inputActions.Controls.Start.performed -= StartButton;
             inputActions.Controls.Select.performed -= SelectButton;
@@ -207,10 +232,6 @@ namespace SkillIssue.Inputs
         public void Update()
         {
             InputQueueList = inputQueue.ToList();
-            if (gameManager == null)
-            {
-                gameManager = Managers.Instance.GameManager;
-            }
             if (isReplaying)
             {
                 Debug.Log("Replay");
@@ -273,7 +294,7 @@ namespace SkillIssue.Inputs
             {
                 if (IsSequencePartialMatch(currentInputs, motion.motions))
                 {
-                    character.SetMotionInput(motion.Input);
+                    player.SetMotionInput(motion.Input);
                     if (gameManager.IsRecording)
                         InputRecordingList.AddRange(currentInputs);
                     motionInputQueue.Clear();
@@ -289,7 +310,7 @@ namespace SkillIssue.Inputs
             {
                 // Adjust the input direction based on facing direction (only flip X-axis)
                 Vector2 adjustedInputDirection = new Vector2(
-                    inputs[i].Direction.x * character.FaceDir,
+                    inputs[i].Direction.x * player.FaceDir,
                     inputs[i].Direction.y
                 );
 
@@ -346,16 +367,18 @@ namespace SkillIssue.Inputs
                 }
             }
 
+            if (lightInput != null && uniqueInput != null && (Mathf.Abs(lightInput.Time - uniqueInput.Time) <= simultaneousThreshold))
+                simultPressInput = new BufferedInput(InputType.LU, true, Time.time, direction, uniqueInput.Frame);
+
             if (mediumInput != null && heavyInput != null && (Mathf.Abs(mediumInput.Time - heavyInput.Time) <= simultaneousThreshold))
             {
                 simultPressInput = new BufferedInput(InputType.MH, true, Time.time, direction, heavyInput.Frame);
-                if (lightButton != null && (Mathf.Abs(simultPressInput.Time - lightInput.Time) <= simultaneousThreshold))
+                if (lightInput != null && (Mathf.Abs(simultPressInput.Time - lightInput.Time) <= simultaneousThreshold))
                     simultPressInput.SetInputType(InputType.LMH);
                 if (simultPressInput.InputType == InputType.LMH && uniqueInput != null && (Mathf.Abs(simultPressInput.Time - uniqueInput.Time) <= simultaneousThreshold))
                     simultPressInput.SetInputType(InputType.LMHU);
             }
-            if (lightInput != null && uniqueInput != null && (Mathf.Abs(lightInput.Time - uniqueInput.Time) <= simultaneousThreshold))
-                simultPressInput = new BufferedInput(InputType.LU, true, Time.time, direction, uniqueInput.Frame);
+
             if (simultPressInput != null)
             {
                 if (gameManager.IsRecording)
@@ -395,7 +418,7 @@ namespace SkillIssue.Inputs
                 if (gameManager.IsRecording)
                     InputRecordingList.AddRange(motionInputQueue);
                 motionInputQueue.Clear(); // Clear old motions
-                character.SetMotionInput(MotionInputs.NONE);
+                player.SetMotionInput(MotionInputs.NONE);
             }
         }
 
@@ -406,12 +429,12 @@ namespace SkillIssue.Inputs
 
         private void UICancel(InputAction.CallbackContext obj)
         {
-            Debug.Log("Cancel");
+
         }
 
         private void UIConfirm(InputAction.CallbackContext obj)
         {
-            Debug.Log("Confirm");
+
         }
 
         public void MovementXDown(InputAction.CallbackContext context)
@@ -497,6 +520,12 @@ namespace SkillIssue.Inputs
             BufferedInput bufferedInput = new BufferedInput(InputType.Movement, !context.canceled, Time.time, direction, gameManager.RecordingFrame);
             if (!motionInputQueue.Any(c => c.Time == bufferedInput.Time))
                 motionInputQueue.Enqueue(bufferedInput);
+
+            if(!context.action.WasReleasedThisFrame() && direction.y > 0)
+            {
+                player.PerformJump();
+            }
+
             if (currentMovementControlY == context.control && context.action.WasReleasedThisFrame())
             {
                 currentMovementControlY = null;
@@ -507,6 +536,7 @@ namespace SkillIssue.Inputs
                 currentMovementControlY = null;
                 direction.y = currentDirection.y;
             }
+
             WasYReleased = context.action.WasReleasedThisFrame();
         }
 
@@ -579,6 +609,158 @@ namespace SkillIssue.Inputs
                 uniqueButton.InputReleased();
         }
 
+        public void LUButton(InputAction.CallbackContext context)
+        {
+            if (context.action.WasPressedThisFrame())
+            {
+                lightButton.InputPressed();
+                uniqueButton.InputPressed();
+            }
+            if (context.action.WasReleasedThisFrame())
+            {
+                lightButton.InputReleased();
+                uniqueButton.InputReleased();
+            }
+        }
+
+        public void LUFunction(bool isPressed)
+        {
+            if (isPressed)
+            {
+                lightButton.InputPressed();
+                uniqueButton.InputPressed();
+            }
+            else
+            {
+                lightButton.InputReleased();
+                uniqueButton.InputReleased();
+            }
+        }
+
+        public void LMButton(InputAction.CallbackContext context)
+        {
+            if (context.action.WasPressedThisFrame())
+            {
+                lightButton.InputPressed();
+                mediumButton.InputPressed();
+            }
+            if (context.action.WasReleasedThisFrame())
+            {
+                lightButton.InputReleased();
+                mediumButton.InputReleased();
+            }
+        }
+
+        public void LMFunction(bool isPressed)
+        {
+            if (isPressed)
+            {
+                lightButton.InputPressed();
+                mediumButton.InputPressed();
+            }
+            else
+            {
+                lightButton.InputReleased();
+                mediumButton.InputReleased();
+            }
+        }
+
+        public void MHButton(InputAction.CallbackContext context)
+        {
+            if (context.action.WasPressedThisFrame())
+            {
+                mediumButton.InputPressed();
+                heavyButton.InputPressed();
+            }
+            if (context.action.WasReleasedThisFrame())
+            {
+                mediumButton.InputReleased();
+                heavyButton.InputReleased();
+            }
+        }
+
+        public void MHFunction(bool isPressed)
+        {
+            if (isPressed)
+            {
+                mediumButton.InputPressed();
+                heavyButton.InputPressed();
+            }
+            else
+            {
+                mediumButton.InputReleased();
+                heavyButton.InputReleased();
+            }
+        }
+
+        public void LMHButton(InputAction.CallbackContext context)
+        {
+            if (context.action.WasPressedThisFrame())
+            {
+                lightButton.InputPressed();
+                mediumButton.InputPressed();
+                heavyButton.InputPressed();
+            }
+            if (context.action.WasReleasedThisFrame())
+            {
+                lightButton.InputReleased();
+                mediumButton.InputReleased();
+                heavyButton.InputReleased() ;
+            }
+        }
+
+        public void LMHFunction(bool isPressed)
+        {
+            if (isPressed)
+            {
+                lightButton.InputPressed();
+                mediumButton.InputPressed();
+                heavyButton.InputPressed();
+            }
+            else
+            {
+                lightButton.InputReleased();
+                mediumButton.InputReleased();
+                heavyButton.InputReleased();
+            }
+        }
+
+        public void LMHUButton(InputAction.CallbackContext context)
+        {
+            if (context.action.WasPressedThisFrame())
+            {
+                lightButton.InputPressed();
+                mediumButton.InputPressed();
+                heavyButton.InputPressed();
+                uniqueButton.InputPressed();
+            }
+            if (context.action.WasReleasedThisFrame())
+            {
+                lightButton.InputReleased();
+                mediumButton.InputReleased();
+                heavyButton.InputReleased();
+                uniqueButton.InputReleased();
+            }
+        }
+
+        public void LMHUFunction(bool isPressed)
+        {
+            if (isPressed)
+            {
+                lightButton.InputPressed();
+                mediumButton.InputPressed();
+                heavyButton.InputPressed();
+                uniqueButton.InputPressed();
+            }
+            else
+            {
+                lightButton.InputReleased();
+                mediumButton.InputReleased();
+                heavyButton.InputReleased();
+                uniqueButton.InputReleased();
+            }
+        }
+
         public void MovementUp(InputAction.CallbackContext context)
         {
             direction = Vector2.zero;
@@ -616,14 +798,12 @@ namespace SkillIssue.Inputs
         {
             if (!input.IsPressed)
             {
-                return;
+                BufferedInput emptyInput = new BufferedInput(InputType.NONE, false, 0, Vector2.zero, 0);
+                input = emptyInput;
             }
-            if (input.InputType != InputType.Movement)
-            {
-                character.PerformInput(input.InputType);
-            }
+            player.PerformInput(input.InputType);
 
-            character.SetMotionInput(MotionInputs.NONE);
+            player.SetMotionInput(MotionInputs.NONE);
         }
 
         public void RemapButtonClicked(InputAction actionToRebind)
@@ -631,9 +811,5 @@ namespace SkillIssue.Inputs
             var rebindOperation = actionToRebind.PerformInteractiveRebinding().WithControlsExcluding("Mouse").OnMatchWaitForAnother(0.1f).Start();
         }
 
-        private void OnDestroy()
-        {
-            UnmapActions();
-        }
     }
 }

@@ -1,7 +1,6 @@
 using SkillIssue.CharacterSpace;
 using SkillIssue.StateMachineSpace;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
@@ -10,7 +9,7 @@ public class CharacterAnimationManager : MonoBehaviour
 {
     Animator animator;
 
-    private Character character;
+    private Player character;
 
     PlayableGraph graph;
     private AnimationMixerPlayable mixerPlayable;
@@ -28,14 +27,14 @@ public class CharacterAnimationManager : MonoBehaviour
     public string animName;
 
 
-    public void Initialize(Character character, Animator animator)
+    public void Initialize(Player character, Animator animator)
     {
         this.character = character;
         this.animator = animator;
 
         animator.updateMode = AnimatorUpdateMode.Fixed;
         // Create PlayableGraph
-        graph = PlayableGraph.Create("CharacterAnimationGraph"+character.name);
+        graph = PlayableGraph.Create("CharacterAnimationGraph" + character.name);
         graph.SetTimeUpdateMode(DirectorUpdateMode.Manual);
 
         // Create Animation Mixer with 2 inputs (Movement + Action)
@@ -49,7 +48,7 @@ public class CharacterAnimationManager : MonoBehaviour
         mixerPlayable.SetInputWeight(0, 1.0f);
 
         // Create reusable ActionPlayableBehaviour
-        actionScriptPlayable = ScriptPlayable<ActionPlayableBehaviour>.Create(graph,1);
+        actionScriptPlayable = ScriptPlayable<ActionPlayableBehaviour>.Create(graph, 1);
         actionScriptPlayable.GetBehaviour().Initialize(this, character);
         // Connect to Mixer (initially disabled)
         graph.Connect(actionScriptPlayable, 0, mixerPlayable, 1);
@@ -126,22 +125,35 @@ public class CharacterAnimationManager : MonoBehaviour
     }
 
     // Switch Movement Animation using cached playables
-    public void ChangeMovementState(AnimationClip newClip)
+    public void ChangeMovementState(AnimationClip movementClip)
     {
-        if (newClip == null)
+        if (movementClip == null)
         {
             Debug.LogError("No animation assigned");
             return;
         }
-        if (!movementPlayables.ContainsKey(newClip)) return;
+        if (!movementPlayables.ContainsKey(movementClip)) return;
 
         graph.Disconnect(mixerPlayable, 0);
-        graph.Connect(movementPlayables[newClip], 0, mixerPlayable, 0);
-        if(character.GetCurrentActionState() != ActionStates.None || mixerPlayable.GetInputWeight(1) != 0)
+        graph.Connect(movementPlayables[movementClip], 0, mixerPlayable, 0);
+
+        animName = movementClip.name;
+    }
+
+    public void QueueMovementState(AnimationClip movementClip)
+    {
+        if (movementClip == null)
         {
-            mixerPlayable.SetInputWeight(0,0);
+            Debug.LogError("No animation assigned");
+            return;
         }
-        animName = newClip.name;
+        if (!movementPlayables.ContainsKey(movementClip)) return;
+
+        graph.Disconnect(mixerPlayable, 0);
+        graph.Connect(movementPlayables[movementClip], 0, mixerPlayable, 0);
+        mixerPlayable.SetInputWeight(0, 0);
+
+        animName = movementClip.name;
     }
 
     // Play Action Animation (Overrides Movement)
@@ -167,7 +179,7 @@ public class CharacterAnimationManager : MonoBehaviour
         // Reconnect to existing ActionPlayableBehaviour
         graph.Disconnect(actionScriptPlayable, 0);
         graph.Connect(actionPlayable, 0, actionScriptPlayable, 0);
-        
+
         additionalLenght = additionalLenght * Time.fixedDeltaTime;
         actionPlayable.SetDuration(actionClip.length + additionalLenght);
         mixerPlayable.SetInputWeight(1, 1.0f); // Enable action animation
@@ -240,10 +252,10 @@ public class CharacterAnimationManager : MonoBehaviour
 public class ActionPlayableBehaviour : PlayableBehaviour
 {
     private CharacterAnimationManager controller;
-    private Character character;
+    private Player character;
     private AnimationClip nextClip;
 
-    public void Initialize(CharacterAnimationManager controller, Character character)
+    public void Initialize(CharacterAnimationManager controller, Player character)
     {
         this.controller = controller;
         this.character = character;
@@ -288,14 +300,7 @@ public class ActionPlayableBehaviour : PlayableBehaviour
         // Check if animation has finished playing
         if (inputPlayable.IsDone())
         {
-            if (character.GetCurrentActionState() == ActionStates.None)
-            {
-                controller.OnActionAnimationEnd();
-            }
-            else
-            {
-                character.OnAnimationEnd();
-            }
+            character.OnAnimationEnd();
             playable.DisconnectInput(0);
         }
     }

@@ -11,12 +11,12 @@ public class GameManager : MonoBehaviour
     TextMeshProUGUI frameScriptDisplay;
     [SerializeField]
     GeneralCombatValues generalCombatValues;
-    public bool IsTrainingModeOn {get; private set;}
+    public bool IsTrainingModeOn { get; private set; }
     [SerializeField]
     bool toggleTraining = false;
-    public Character CornerCharacter { get; private set; }
+    public Player CornerPlayer { get; private set; }
     [SerializeField]
-    Character[] characters;
+    Player[] players;
     int p1rounds;
     int p2rounds;
     [SerializeField]
@@ -24,8 +24,8 @@ public class GameManager : MonoBehaviour
     bool isGamePaused = false;
     [SerializeField]
     float gameSpeed = 1.0f;
-    public int RecordingFrame {  get; private set; }
-    public bool IsRecording {  get; private set; }
+    public int RecordingFrame { get; private set; }
+    public bool IsRecording { get; private set; }
 
     public int frame = 0;
     public bool countframes = false;
@@ -40,13 +40,14 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         IsTrainingModeOn = toggleTraining;
+        foreach (Player player in players)
+            player.Initialize();
+        Time.timeScale = gameSpeed;
         if (uIBehaviour != null)
         {
             uIBehaviour.Initialize();
             uIBehaviour.FadeIn();
         }
-
-        Time.timeScale = gameSpeed;
 
     }
     private void FixedUpdate()
@@ -64,7 +65,12 @@ public class GameManager : MonoBehaviour
             frameScriptDisplay.text = "Frame: " + frame;
         }
     }
-    
+
+    public Player[] GetPlayers()
+    {
+        return players;
+    }
+
     public GeneralCombatValues GetCombatValues()
     {
         return generalCombatValues;
@@ -76,9 +82,9 @@ public class GameManager : MonoBehaviour
         RecordingFrame = 0;
     }
 
-    public void SetCornerChar(Character character)
+    public void SetCornerChar(Player character)
     {
-        CornerCharacter = character;
+        CornerPlayer = character;
     }
 
     public void BackToMenu()
@@ -90,9 +96,9 @@ public class GameManager : MonoBehaviour
     {
         isGamePaused = !isGamePaused;
         Time.timeScale = isGamePaused ? 0f : 1f;
-        foreach (Character character in characters) 
+        foreach (Player player in players) 
         {
-            character.GetCharacterAnimation().SetPlayspeed(Time.timeScale);
+            player.GetCharacterAnimation().SetPlayspeed(Time.timeScale);
         }
         if (uIBehaviour != null)
             uIBehaviour.ShowPauseUI(isGamePaused);

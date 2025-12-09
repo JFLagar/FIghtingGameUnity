@@ -23,7 +23,7 @@ public class CharacterAI : MonoBehaviour
     public AIAction aIAction;
     public AIState aIState;
     InputHandler handler;
-    Character character;
+    Player player;
     public bool initiated = false;
     public Vector2 dir = Vector2.zero;
     public int attackInput;

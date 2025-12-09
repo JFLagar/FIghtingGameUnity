@@ -4,7 +4,7 @@ using SkillIssue;
 
 public class CharacterModel : MonoBehaviour
 {
-    private Character character;
+    private Player character;
     [SerializeField]
     private Animator animator;
     [SerializeField]
@@ -13,12 +13,12 @@ public class CharacterModel : MonoBehaviour
     private Hitbox[] hitboxes;
     [SerializeField]
     private Transform collisions;
-    public void Initialize(Character character)
+    public void Initialize(Player character)
     {
         this.character = character;
         foreach (Hurtbox hurtbox in hurtboxes)
         {
-            hurtbox.character = character;
+            hurtbox.player = character;
             hurtbox.gameObject.layer = LayerMask.NameToLayer(character.GetHurtboxLayerMask());
         }
         foreach (Hitbox hitbox in hitboxes)

@@ -7,7 +7,7 @@ public class CameraManager : MonoBehaviour
 {
     Camera cam;
     [SerializeField]
-    Character[] characters;
+    Player[] Players;
     [SerializeField]
     Vector3 pos = new Vector3(0, 0, -10);
     [SerializeField]
@@ -28,10 +28,10 @@ public class CameraManager : MonoBehaviour
     private float visibleRightEdgeLimit;
     private float visibleLeftEdgeLimit;
 
-    private float GetDistanceX => Mathf.Abs(characters[0].transform.position.x - characters[1].transform.position.x);
-    private float GetCameraMiddleX => (characters[0].transform.position.x + characters[1].transform.position.x) / 2;
-    private float GetDistanceY => Mathf.Abs(characters[0].transform.position.y - characters[1].transform.position.y);
-    private float GetCameraMiddleY => (characters[0].transform.position.y + characters[1].transform.position.y) / 2;
+    private float GetDistanceX => Mathf.Abs(Players[0].transform.position.x - Players[1].transform.position.x);
+    private float GetCameraMiddleX => (Players[0].transform.position.x + Players[1].transform.position.x) / 2;
+    private float GetDistanceY => Mathf.Abs(Players[0].transform.position.y - Players[1].transform.position.y);
+    private float GetCameraMiddleY => (Players[0].transform.position.y + Players[1].transform.position.y) / 2;
 
     private float cameraOriginY = 0;
 
@@ -39,6 +39,11 @@ public class CameraManager : MonoBehaviour
     {
         cam = FindFirstObjectByType<Camera>();
         cameraOriginY = cam.gameObject.transform.position.y;
+    }
+
+    private void Start()
+    {
+        Players = Managers.Instance.GameManager.GetPlayers();
     }
 
     void LateUpdate()

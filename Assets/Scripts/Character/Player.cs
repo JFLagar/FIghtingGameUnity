@@ -1,9 +1,11 @@
 using SkillIssue.Inputs;
 using SkillIssue.StateMachineSpace;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+
 namespace SkillIssue.CharacterSpace
 {
     public enum Element
@@ -13,11 +15,14 @@ namespace SkillIssue.CharacterSpace
         Wind = 2,
         Earth = 3
     }
-    public class Character : MonoBehaviour, IPhysics, IHitboxResponder
+    public class Player : MonoBehaviour, IPhysics, IHitboxResponder
     {
+        StateMachine stateMachine;
+        InputHandler inputHandler;
+
         public bool isPlayer2;
         [SerializeField]
-        Character opponent;
+        Player opponent;
         public float FaceDir { get; private set; }
         float xDiff;
         [SerializeField]
@@ -28,13 +33,6 @@ namespace SkillIssue.CharacterSpace
         SpriteRenderer vfx;
 
         [Space]
-
-        [SerializeField]
-        StateMachine stateMachine;
-        [SerializeField]
-        InputHandler inputHandler;
-
-        [Space]
         //Turn this into into scriteable object
         [SerializeField]
         CharacterData characterData;
@@ -42,7 +40,7 @@ namespace SkillIssue.CharacterSpace
         [Space]
 
         [SerializeField]
-        CharacterAttackManager attackManager;
+        PlayerAttackManager attackManager;
 
         [Space]
 
@@ -59,12 +57,13 @@ namespace SkillIssue.CharacterSpace
         public float PosY { get; private set; }
         public int CurrentHealth { get; private set; }
 
+        public AttackData HitAttack { get; private set; }
+
         [Space]
-        [SerializeField]
-        int wakingUpFrames = 6;
+
+        //Move to General combat
         [SerializeField]
         int jumpStartup = 4;
-        [SerializeField]
         float gravity;
         float forceLeftOver;
 
@@ -99,7 +98,7 @@ namespace SkillIssue.CharacterSpace
         bool isHardKnockDown = false;
         private int hitstop;
 
-        private MotionInputs storedMotionInput = MotionInputs.NONE;
+        public MotionInputs StoredMotionInput { get; private set; }
         public bool SameAttackSequence { get; private set; }
         AttackData onGoingAttack;
 
@@ -118,19 +117,61 @@ namespace SkillIssue.CharacterSpace
         private CharacterModel characterModel;
         private bool isAnyHitboxOpen => characterModel != null && characterModel.GetHitboxes().FirstOrDefault(c => c.state == ColliderState.Open) != null;
 
-        private void Awake()
+        //EVENTS
+        public event Action _hitAction, _blockAction, _attackAction, _dashAction, _jumpAction, _onAnimationEnd;
+        public event Action _returnToStand, _returnToCrouch, _returnToJump;
+        public event Action _overdriveAction, _quarterMeterAction, _halfMeterAction;
+        public event Action<InputType> _inputAction;
+
+        void AddTransition(IState from, IState to, IPredicate condition) => stateMachine.AddTransition(from, to, condition);
+        void AddAnyTransition(IState to, IPredicate condition) => stateMachine.AddAnyTransition(to, condition);
+
+        public void Initialize()
         {
             characterModel = Instantiate(characterData.GetCharacterModel(), model3D.transform);
             characterModel.Initialize(this);
             animator = characterModel.GetComponent<Animator>();
             collisions = characterModel.GetCollisions();
             characterAnimation.Initialize(this, animator);
+            inputHandler = new InputHandler();
             inputHandler.Initialize(this);
-            stateMachine.Initialize(this);
+            InitializeStateMachine();
             attackManager.Initialize(this, characterModel.GetHitboxes());
             gravity = characterData.GetGravity();
             CurrentCombo = new List<AttackData>();
             IsGrounded = true;
+            SetMotionInput(MotionInputs.NONE);
+        }
+
+        void InitializeStateMachine()
+        {
+            stateMachine = new StateMachine();
+
+            StandingState standingState = new StandingState(this, stateMachine);
+            CrouchingState crouchingState = new CrouchingState(this, stateMachine);
+            JumpingState jumpingState = new JumpingState(this, stateMachine);
+
+            AttackState attackState = new AttackState(this, stateMachine);
+            BlockState blockState = new BlockState(this, stateMachine);
+            HitState hitState = new HitState(this, stateMachine);
+
+            AddAnyTransition(hitState, new ActionPredicate(ref _hitAction));
+            AddAnyTransition(attackState, new ActionWithFuncPredicate(ref _attackAction, () => stateMachine.CanAttack()));
+            AddAnyTransition(blockState, new ActionWithFuncPredicate(ref _blockAction, () => stateMachine.CanBlock()));
+            AddAnyTransition(standingState, new ActionPredicate(ref _halfMeterAction));
+            AddAnyTransition(standingState, new ActionPredicate(ref _overdriveAction));
+            AddAnyTransition(standingState, new ActionPredicate(ref _returnToStand));
+            AddAnyTransition(crouchingState, new ActionPredicate(ref _returnToCrouch));
+            AddAnyTransition(jumpingState, new ActionPredicate(ref _returnToJump));
+
+            //TO DO EventPredicate for Blocking Attacking and Getting Hit for any transition
+
+            AddTransition(jumpingState, standingState, new FuncPredicate(() => IsGrounded));
+            AddTransition(crouchingState, standingState, new FuncPredicate(() => GetInputDirection().y >= 0));
+            AddTransition(standingState, crouchingState, new FuncPredicate(() => GetInputDirection().y < 0));
+            AddTransition(standingState, jumpingState, new FuncPredicate(() => !IsGrounded));
+
+            stateMachine.SetState(standingState);
         }
 
         // Start is called before the first frame update
@@ -146,9 +187,7 @@ namespace SkillIssue.CharacterSpace
 
         void FixedUpdate()
         {
-            inputHandler.Update();
-            stateMachine.StateMachineUpdate();
-            CharacterMove();
+            stateMachine.FixedUpdate();
             if (!hasBurst)
                 currentBurstCD++;
             if (currentBurstCD == burstCD)
@@ -162,30 +201,12 @@ namespace SkillIssue.CharacterSpace
         void Update()
         {
             characterAnimation.AnimUpdate();
+            stateMachine.Update();
+            inputHandler.Update();
             if (opponent == null)
                 return;
 
             xDiff = transform.position.x - opponent.transform.position.x;
-
-            if (GetCurrentState() != States.Jumping && GetCurrentActionState() == ActionStates.None)
-            {
-                if (xDiff < 0)
-                {
-                    FaceDir = 1;
-                    if (render != null)
-                        render.flipX = false;
-
-                }
-                else
-                {
-                    FaceDir = -1;
-                    if (render != null)
-                        render.flipX = true;
-                }
-                vfx.flipX = render.flipX;
-                model3D.transform.localScale = new Vector3(Mathf.Abs(model3D.transform.localScale.x) * FaceDir, model3D.transform.localScale.y, model3D.transform.localScale.z);
-                model3D.transform.localRotation = new Quaternion(model3D.transform.localRotation.x, Mathf.Abs(model3D.transform.localRotation.y) * FaceDir, model3D.transform.localRotation.z, model3D.transform.localRotation.w);
-            }
 
             if (GetCurrentActionState() == ActionStates.Hit)
             {
@@ -195,26 +216,9 @@ namespace SkillIssue.CharacterSpace
                 }
             }
 
-            if (visualState)
-            {
-                switch (GetCurrentActionState())
-                {
-                    case ActionStates.None:
-                        render.color = stateColors[0];
-                        break;
-                    case ActionStates.Hit:
-                        render.color = stateColors[1];
-                        break;
-                    case ActionStates.Attack:
-                        render.color = stateColors[2];
-                        break;
-                }
-            }
-
         }
 
         #region Getters and Setters
-
         public LayerMask GetHitboxLayerMask()
         {
             return hitboxLayerMask;
@@ -230,9 +234,20 @@ namespace SkillIssue.CharacterSpace
             return hurtboxLayerMask;
         }
 
+        public CharacterData GetCharacterData()
+        {
+            return characterData;
+        }
+
+        public void PerformRecovery()
+        {
+            opponent.ResetAttackInfo();
+            MovementDirectionX = 0;
+        }
+
         public void SetMotionInput(MotionInputs motion)
         {
-            if (storedMotionInput == motion)
+            if (StoredMotionInput == motion)
                 return;
             switch (motion)
             {
@@ -241,7 +256,7 @@ namespace SkillIssue.CharacterSpace
                     PerformDash();
                     break;
                 default:
-                    storedMotionInput = motion;
+                    StoredMotionInput = motion;
                     break;
             }
         }
@@ -353,6 +368,11 @@ namespace SkillIssue.CharacterSpace
             return isKnockedDown;
         }
 
+        public void SetAirActions(int airActions)
+        {
+            AirActions = airActions;
+        }
+
         public Vector2 GetInputDirection()
         {
             return inputHandler.GetDirection();
@@ -373,7 +393,7 @@ namespace SkillIssue.CharacterSpace
             CanDoubleJump = value;
         }
 
-        public States GetCurrentState()
+        public IState GetCurrentState()
         {
             return stateMachine.GetState();
         }
@@ -392,7 +412,6 @@ namespace SkillIssue.CharacterSpace
         {
             return CurrentCombo.Count;
         }
-
 
         public void SetApplyGravity(bool value)
         {
@@ -421,7 +440,7 @@ namespace SkillIssue.CharacterSpace
             return characterData.GetMaxHP();
         }
 
-        public Character GetOpponent()
+        public Player GetOpponent()
         {
             return opponent;
         }
@@ -504,56 +523,22 @@ namespace SkillIssue.CharacterSpace
             {
                 return;
             }
-            if (GetInputDirection().x == FaceDir)
-            {
-                if (GetCurrentActionState() == ActionStates.Attack)
-                {
-                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().jumpingClips[2], Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
-                    ApplyForce(new Vector2(FaceDir * Managers.Instance.GameManager.GetCombatValues().GetDashMultiplier(), 0f),
-                        Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
-                    return;
-                }
-                if (GetCurrentState() == States.Standing)
-                {
-                    isRunning = true;
-                }
-                else if ((GetCurrentState() == States.Jumping) && (AirActions > 0))
-                {
-                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().jumpingClips[2], Managers.Instance.GameManager.GetCombatValues().GetAirDashAnimationDuration());
-                    ApplyForce(new Vector2(FaceDir * Managers.Instance.GameManager.GetCombatValues().GetDashMultiplier(), 0.1f),
-                        Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
-                    AirActions--;
-                }
+            // Perform dash event in statemachines
+            _dashAction.Invoke();
+        }
 
-            }
-            else
-            {
-
-                if (GetCurrentState() == States.Standing)
-                {
-                    SetActionState(ActionStates.Landing);
-                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().standingClips.LastOrDefault(), Managers.Instance.GameManager.GetCombatValues().GetAirDashAnimationDuration());
-                    ApplyForce(new Vector2(-FaceDir * 2, 0.5f), Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
-                }
-                else if ((GetCurrentState() == States.Jumping) && (AirActions > 0))
-                {
-                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().standingClips.LastOrDefault(), Managers.Instance.GameManager.GetCombatValues().GetAirDashAnimationDuration());
-                    ApplyForce(new Vector2(-FaceDir, 0.1f), Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
-                    AirActions--;
-                }
-            }
+        public void SetRunning(bool value)
+        {
+            isRunning = value;
         }
 
         public void PerformJump()
         {
-            //SetActionState(ActionStates.None);
-            if (GetCurrentState() == States.Jumping)
-            {
-                if (AirActions > 0)
-                    AirActions--;
-                else
-                    return;
-            }
+            _jumpAction.Invoke();
+        }
+
+        public void StartJumping()
+        {
             SetIsJumping(true);
             if (currentMovementCoroutine != null)
                 StopCoroutine(currentMovementCoroutine);
@@ -562,199 +547,87 @@ namespace SkillIssue.CharacterSpace
 
         public void PerformInput(InputType type)
         {
-            switch (GetCurrentActionState())
-            {
-                case ActionStates.None:
-                    PerformNeutralAction(type);
-                    break;
-                case ActionStates.Attack:
-                    PerformOffensiveAction(type);
-                    //Rapid and OD
-                    break;
-                case ActionStates.Block:
-                    //GC and OD
-                    break;
-                case ActionStates.Hit:
-                    //OD
-                    break;
-            }
+            _inputAction.Invoke(type);
         }
 
-        private void PerformNeutralAction(InputType type)
+        public bool PerformOverdrive()
         {
-            if (superMeter > 0 && type == InputType.MH && GetInputDirection().x != FaceDir)
-            {
-                Debug.Log("Barrier");
-                superMeter--;
-                return;
-            }
-
-            if (superMeter >= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter() && type == InputType.MH)
-            {
-                Debug.Log("GuardBreak");
-                superMeter -= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter();
-                return;
-            }
-
-            if (hasBurst && type == InputType.LMHU)
-            {
-                Debug.Log("Burst");
-                hasBurst = false;
-                return;
-            }
-            PerformAttack(type);
+            if (!hasBurst)
+                return false;
+            hasBurst = false;
+            _overdriveAction.Invoke();
+            return true;
         }
 
-        private void PerformOffensiveAction(InputType type)
+        public bool PerformHalfMeterAction()
         {
-            if (!CanPerformOffensiveAction())
-                return;
-
-            //Check for special actions like rapid or OD activation
-            if (superMeter >= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter() && type == InputType.LMH)
-            {
-                Debug.Log("Rapid");
-                superMeter -= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter();
-                return;
-            }
-            if (superMeter >= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter() && type == InputType.MH)
-            {
-                Debug.Log("GuardBreak");
-                superMeter -= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter();
-                return;
-            }
-
-            if (hasBurst && type == InputType.LMHU)
-            {
-                Debug.Log("Burst");
-                hasBurst = false;
-                return;
-            }
-            PerformAttack(type);
+            if (superMeter < Managers.Instance.GameManager.GetCombatValues().GetHalfMeter())
+                return false;
+            superMeter -= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter();
+            _halfMeterAction.Invoke();
+            return true;
+            // Rapid logic can go here since its the same
         }
 
-        private void PerformDefensiveAction(InputType type)
+        public bool PerformQuarterMeterAction()
         {
-            //Check for guardbreak or burst activation
-            if (superMeter > 0 && type == InputType.MH)
-            {
-                Debug.Log("Barrier");
-                superMeter--;
-                return;
-            }
-
-            if (superMeter >= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter() && type == InputType.MH && GetInputDirection().x == FaceDir)
-            {
-                Debug.Log("AttackBreak");
-                superMeter -= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter();
-                return;
-            }
-
-            if (hasBurst && type == InputType.LMHU)
-            {
-                Debug.Log("Burst");
-                hasBurst = false;
-                return;
-            }
-
+            if (superMeter < Managers.Instance.GameManager.GetCombatValues().GetHalfMeter() / 2)
+                return false;
+            superMeter -= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter() / 2;
+            _quarterMeterAction.Invoke();
+            return true;
+            // Attack break logic can go here since its the same
         }
 
-        public void PerformAttack(InputType type)
+        public void ProcessAttack(AttackData attack)
         {
-            if (type == InputType.Heavy || type == InputType.Unique)
+            // Perform attack event in statemachines
+            if (attack == null) 
                 return;
-            if (storedMotionInput != MotionInputs.NONE)
+
+            if (StoredMotionInput != MotionInputs.NONE)
             {
-                if (characterData.FindSpecialAttack(storedMotionInput, type) != null)
+                if (characterData.FindSpecialAttack(StoredMotionInput, attack.GetInputType()) != null)
                 {
-                    if (GetCurrentState() != States.Jumping)
+                    if (GetCurrentState() is JumpingState || stateMachine.GetPreviousMovementState() is JumpingState)
                     {
-                        attackManager.Attack(characterData.FindSpecialAttack(storedMotionInput, type));
+                        attackManager.ProcessAttack(characterData.FindSpecialAttack(StoredMotionInput, attack.GetInputType(), true));
                         return;
                     }
-                    else 
+                    else
                     {
-                        attackManager.Attack(characterData.FindSpecialAttack(storedMotionInput, type, true));
+                        attackManager.ProcessAttack(characterData.FindSpecialAttack(StoredMotionInput, attack.GetInputType()));
+                        return;
                     }
                 }
             }
-
-            if (type == InputType.LU)
-            {
-                if (GetCurrentState() != States.Jumping)
-                    attackManager.Attack(characterData.GetGrabData()[0]);
-                else
-                    attackManager.Attack(characterData.GetGrabData()[1]);
-                return;
-            }
-            if ((int)type > characterData.GetStandingAttacks().Length)
-                return;
-
-            AttackData attackData = new AttackData();
-            switch (GetCurrentState())
-            {
-                case States.Standing:
-
-                    {
-                        switch (inputHandler.GetDirection().y)
-                        {
-                            case 0f:
-                                attackData = inputHandler.GetDirection().x == FaceDir ? characterData.GetForwardAttacks()[((int)type)] : characterData.GetStandingAttacks()[((int)type)];
-                                break;
-                            case 1f:
-                                attackData = characterData.GetJumpAttacks()[((int)type)];
-                                break;
-                            case -1f:
-                                attackData = inputHandler.GetDirection().x == FaceDir ? characterData.GetForwardAttacks()[((int)type)] : characterData.GetCrouchingAttacks()[((int)type)];
-                                break;
-                        }
-
-                    }
-                    break;
-
-                case States.Crouching:
-                    switch (inputHandler.GetDirection().y)
-                    {
-                        case 0f:
-                            attackData = inputHandler.GetDirection().x == FaceDir ? characterData.GetForwardAttacks()[((int)type)] : characterData.GetStandingAttacks()[((int)type)];
-                            break;
-                        case -1f:
-                            attackData = inputHandler.GetDirection().x == FaceDir ? characterData.GetForwardAttacks()[((int)type)] : characterData.GetCrouchingAttacks()[((int)type)];
-                            break;
-                    }
-                    break;
-                case States.Jumping:
-                    attackData = characterData.GetJumpAttacks()[((int)type)];
-                    break;
-            }
-            if (attackData != null)
-            {
-                attackManager.Attack(attackData);
-            }
+            attackManager.ProcessAttack(attack);
         }
 
-        public void Attack(AttackData attackData)
+        public void PerformAttack(AttackData attackData)
         {
             onGoingAttack = attackData;
-            SetActionState(ActionStates.Attack);
+            _attackAction.Invoke();
         }
 
         public void HurtboxOnCollision(AttackData attack, bool blockCheck = false)
         {
-            if (GetCurrentActionState() == ActionStates.Attack)
+            // COUNTERHIT
+            if (GetCurrentState() is AttackState)
             {
                 PerformGettingHit(attack);
                 return;
             }
+
             if (attack.IsGrab())
             {
-                if (GetCurrentState() == States.Jumping || GetCurrentActionState() == ActionStates.Hit)
+                if (GetCurrentState() is JumpingState || GetCurrentState() is HitState)
                     return;
                 PerformGettingHit(attack);
                 return;
             }
 
-            if (IsBlocking(attack.GetAttackAttribute()))
+            if (IsBlocking(attack))
             {
                 PerformBlock(attack, blockCheck);
                 return;
@@ -769,101 +642,50 @@ namespace SkillIssue.CharacterSpace
 
         private void PerformGettingHit(AttackData attack)
         {
-            Vector2 dir = CalculateHitPush(attack);
-            PlaySound(attack.GetCollideAudioClip()); ;
-            if (attack.CausesLaunch() || isKnockedDown)
-            {
-                characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[2], CalculateHitstun(attack));
-                isKnockedDown = true;
-                if (attack.CausesHardKnockdown())
-                {
-                    isHardKnockDown = true;
-                }
-            }
-            else
-            {
-                if (attack.IsGrab())
-                {
-                    characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[0]);
-                }
-                else
-                {
-                    if (GetCurrentState() == States.Jumping)
-                    {
-                        characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().hitClips[(int)GetCurrentState()], CalculateHitstun(attack));
-                    }
-                    else
-                        characterAnimation.PlayHitAnimation(GetCharacterAnimationsData().hitClips[(int)GetCurrentState()], CalculateHitstun(attack));
-                }
-            }
+            HitAttack = attack;
+            _hitAction.Invoke();
+            // On Enter of Hit State          
+        }
+
+        public void StartHitstopCoroutine()
+        {
             if (currentHitstopCoroutine != null)
                 StopCoroutine(currentHitstopCoroutine);
 
-            hitstop = attack.GetAttackLevel() + Managers.Instance.GameManager.GetCombatValues().GetHitstopBase();
+            hitstop = HitAttack.GetAttackLevel() + Managers.Instance.GameManager.GetCombatValues().GetHitstopBase();
             currentHitstopCoroutine = StartCoroutine(WaitForHitStopCoroutine());
-            if (CurrentHealth > 0)
-            {
-                CurrentHealth -= attack.GetDamage();
-                Managers.Instance.GameManager.UpdateHealth(playerId, CurrentHealth);
-            }
-            //if its a projectile dont push back the attacking character
-            if (IsAgainstTheWall && FaceDir != WallFaceDirection && attack.GetProjectileData() == null)
-            {
-                ApplyCounterPush(-dir, Managers.Instance.GameManager.GetCombatValues().GetHitMovementDuration());
-            }
-            ApplyForce(dir, Managers.Instance.GameManager.GetCombatValues().GetHitMovementDuration());
-            SetActionState(ActionStates.Hit);
         }
 
         private void PerformBlock(AttackData attack, bool blockCheck = false)
         {
-            PlaySound(attack.GetCollideAudioClip());
-            Vector2 dir = CalculateHitPush(attack);
-            Vector2 blockDir = new(dir.x, 0);
-            SetActionState(ActionStates.Block);
-
-            if (!blockCheck)
-                characterAnimation.PlayActionAnimation(GetCharacterAnimationsData().blockingClips[(int)GetCurrentState()]);
-            if (IsAgainstTheWall && FaceDir != WallFaceDirection)
-            {
-                ApplyCounterPush(-blockDir, Managers.Instance.GameManager.GetCombatValues().GetHitMovementDuration());
-            }
-            else
-                ApplyForce(blockDir, Managers.Instance.GameManager.GetCombatValues().GetHitMovementDuration());
+            // On Enter of block
+            _blockAction.Invoke();
+            HitAttack = attack;
         }
 
-        private int CalculateHitstun(AttackData attack)
+        public void ReturnToMovementState()
         {
-            int attackLevel = 1;
-            if (attack.GetAttackLevel() != 0)
-                attackLevel = attack.GetAttackLevel();
-            int result = (attackLevel * 2) + Managers.Instance.GameManager.GetCombatValues().GetHitstunBase() + attack.GetExtraHitstun(); //attacklevel + hitstunbase(10) + extra
-            return result;
-        }
-
-        private Vector2 CalculateHitPush(AttackData attack)
-        {
-            int attackLevel = 1;
-            if (attack.GetAttackLevel() != 0)
-                attackLevel = attack.GetAttackLevel();
-            Vector2 result = new Vector2();
-            result.x = ((attackLevel) + attack.GetExtraPush().x) * -FaceDir;
-            if (attack.CausesLaunch() || isKnockedDown || GetCurrentState() == States.Jumping)
+            if (stateMachine.IsMoveState)
+                return;
+            IState state = stateMachine.GetPreviousMovementState();
+            switch (state)
             {
-                if (result.y == 0)
-                {
-                    result.y = 1;
-                }
-                result.y = (attackLevel) + attack.GetExtraPush().y + Managers.Instance.GameManager.GetCombatValues().GetHitVerticalBase();
+                case StandingState:
+                    _returnToStand.Invoke();
+                    break;
+                case CrouchingState:
+                    _returnToCrouch.Invoke();
+                    break;
+                case JumpingState:
+                    _returnToJump.Invoke();
+                    break;
+                default:
+                    break;
             }
-
-            return result;
         }
 
         public void CharacterMove()
         {
-            if (GetCurrentActionState() != ActionStates.None || GetCurrentState() != States.Standing)
-                return;
             float speed = characterData.GetMovementSpeed();
             MovementDirectionX = GetInputDirection().x;
             Vector3 destination = new(GetInputDirection().x, 0);
@@ -897,20 +719,42 @@ namespace SkillIssue.CharacterSpace
 
         }
 
-        public void OnAnimationEnd()
+        public void ConsumeBarrier()
         {
-            if (GetCurrentActionState() == ActionStates.Hit)
-           {
-                opponent.ResetAttackInfo();
-                MovementDirectionX = 0;
-            }
-            characterAnimation.OnActionAnimationEnd();
-            SetActionState(ActionStates.None);
-            isKnockedDown = false;
-            isHardKnockDown = false;
+            superMeter -= (int)MathF.Floor(1 * Time.deltaTime);
         }
 
-        public void ResetCharacter()
+        public void CheckAndFlipCharacterModel()
+        {
+            if (xDiff < 0)
+            {
+                FaceDir = 1;
+                if (render != null)
+                    render.flipX = false;
+
+            }
+            else
+            {
+                FaceDir = -1;
+                if (render != null)
+                    render.flipX = true;
+            }
+            vfx.flipX = render.flipX;
+            model3D.transform.localScale = new Vector3(Mathf.Abs(model3D.transform.localScale.x) * FaceDir, model3D.transform.localScale.y, model3D.transform.localScale.z);
+            model3D.transform.localRotation = new Quaternion(model3D.transform.localRotation.x, Mathf.Abs(model3D.transform.localRotation.y) * FaceDir, model3D.transform.localRotation.z, model3D.transform.localRotation.w);
+        }
+
+        public void OnAnimationEnd()
+        {
+            _onAnimationEnd.Invoke();
+            ReturnToMovementState();
+            characterAnimation.OnActionAnimationEnd();
+            isKnockedDown = false;
+            isHardKnockDown = false;
+            HitAttack = null;
+        }
+
+        public void ResetPlayer()
         {
             ResetPos();
             CurrentHealth = GetMaxHealth();
@@ -994,7 +838,7 @@ namespace SkillIssue.CharacterSpace
 
         public void ApplyCounterPush(Vector2 direction, float duration)
         {
-            if (opponent.GetCurrentState() == States.Jumping)
+            if (opponent.GetCurrentState() is JumpingState)
                 return;
             Vector2 dir = new(direction.x, 0f);
             opponent.ApplyForce(dir, duration, true);
@@ -1058,7 +902,7 @@ namespace SkillIssue.CharacterSpace
                 {
                     if (IsAgainstTheWall && Mathf.Sign(direction.x) == WallFaceDirection)
                         direction.x = 0;
-                }     
+                }
                 transform.Translate(gravity * Time.fixedDeltaTime * direction);
                 yield return new FrameWait(1);
                 i++;
@@ -1087,7 +931,7 @@ namespace SkillIssue.CharacterSpace
             //Followup of grabs or other attacks
             if (CurrentCombo.Count != 0 && CurrentCombo.Last().GetFollowUpAttackData() != null)
             {
-                attackManager.Attack(CurrentCombo.Last().GetFollowUpAttackData(), true);
+                attackManager.ProcessAttack(CurrentCombo.Last().GetFollowUpAttackData(), true);
             }
             currentHitstopCoroutine = null;
         }
@@ -1099,7 +943,7 @@ namespace SkillIssue.CharacterSpace
             GetCharacterAnimation().PlayActionAnimation(GetCharacterAnimationsData().jumpingClips.FirstOrDefault());
             float jumpPower = GetJumpPower();
             // SuperJump
-            if (storedMotionInput == MotionInputs.du)
+            if (StoredMotionInput == MotionInputs.du)
             {
                 jumpPower = jumpPower * Managers.Instance.GameManager.GetCombatValues().GetJumpMultiplier();
             }
@@ -1107,7 +951,7 @@ namespace SkillIssue.CharacterSpace
             yield return new FrameWait(jumpStartup);
             SetActionState(ActionStates.None);
             ApplyForce(new Vector2(GetInputDirection().x, 1f), jumpPower);
-            storedMotionInput = MotionInputs.NONE;
+            StoredMotionInput = MotionInputs.NONE;
         }
         #endregion
 
@@ -1115,11 +959,6 @@ namespace SkillIssue.CharacterSpace
         {
             if (collider == GetComponent<Collider2D>())
                 return;
-        }
-
-        public void HitRecover()
-        {
-            characterAnimation.ResumeActionPlayable();
         }
 
         public void HitboxesEnabled()
@@ -1157,22 +996,23 @@ namespace SkillIssue.CharacterSpace
             Managers.Instance.GameManager.UpdateComboCounter(playerId);
         }
 
-        bool IsBlocking(AttackAttribute attack)
+        bool IsBlocking(AttackData attack)
         {
             if (GetCurrentActionState() == ActionStates.Hit)
                 return false;
+            AttackAttribute attribute = attack.GetAttackAttribute();
             switch (GetCurrentState())
             {
-                case States.Standing:
-                    if (attack == AttackAttribute.Low)
+                case StandingState:
+                    if (attribute == AttackAttribute.Low)
                         return false;
                     break;
-                case States.Crouching:
-                    if (attack == AttackAttribute.High)
+                case CrouchingState:
+                    if (attribute == AttackAttribute.High)
                         return false;
                     break;
-                case States.Jumping:
-                    if (attack == AttackAttribute.Mid)
+                case JumpingState:
+                    if (attack.GetAttackState() != States.Jumping)
                         return false;
                     break;
             }
@@ -1188,7 +1028,7 @@ namespace SkillIssue.CharacterSpace
                 case ("Pushbox"):
                     if (IsAgainstTheWall && !IsGrounded)
                     {
-                        if (!opponent.IsAgainstTheWall || Managers.Instance.GameManager.CornerCharacter == this)
+                        if (!opponent.IsAgainstTheWall || Managers.Instance.GameManager.CornerPlayer == this)
                         {
                             opponent.transform.Translate(new Vector2(FaceDir, 0) * Managers.Instance.GameManager.GetCombatValues().GetPushMultiplier() * Time.fixedDeltaTime);
                         }
@@ -1204,7 +1044,7 @@ namespace SkillIssue.CharacterSpace
         {
             if (LayerMask.LayerToName(collision.gameObject.layer) == "Pushbox")
             {
-                if (Managers.Instance.GameManager.CornerCharacter == opponent && !IsAgainstTheWall)
+                if (Managers.Instance.GameManager.CornerPlayer == opponent && !IsAgainstTheWall)
                 {
                     transform.Translate(new Vector2(-FaceDir, 0) * Managers.Instance.GameManager.GetCombatValues().GetPushMultiplier() * Time.fixedDeltaTime);
                 }
@@ -1225,8 +1065,12 @@ namespace SkillIssue.CharacterSpace
         {
             inputHandler.PlayerInput.SwitchCurrentActionMap(mapName);
         }
-    }
 
+        void OnDestroy()
+        {
+            inputHandler.UnmapActions();
+        }
+    }
 }
 
 public class FrameWait : CustomYieldInstruction

@@ -1,3 +1,4 @@
+using SkillIssue.Inputs;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GeneralCombatValues", menuName = "Scriptable Objects/GeneralCombatValues")]
@@ -27,6 +28,8 @@ public class GeneralCombatValues : ScriptableObject
     private float dashMultiplier = 1.5f;
     [SerializeField]
     private Projectile baseProjectile;
+    [SerializeField]
+    private MotionInputStruct[] motionInputs;
 
     public int GetDashDuration() {  return dashDuration; }
     public int GetAirDashAnimationDuration() {  return airDashAnimationDuration; }
@@ -39,6 +42,6 @@ public class GeneralCombatValues : ScriptableObject
     public float GetPushMultiplier() {  return pushMultiplier; }
     public float GetJumpMultiplier() {  return jumpMultiplier; }
     public float GetDashMultiplier() { return dashMultiplier; }
-
+    public MotionInputStruct[] GetMotionInputs() { return motionInputs;}
     public Projectile GetProjectile() { return baseProjectile; }
 }

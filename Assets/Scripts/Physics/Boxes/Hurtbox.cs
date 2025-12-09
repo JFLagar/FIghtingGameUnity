@@ -5,7 +5,7 @@ namespace SkillIssue
 {
     public class Hurtbox : MonoBehaviour
     {
-        public Character character;
+        public Player player;
         public ColliderState state = ColliderState.Open;
         public BoxCollider2D boxCollider;
         public Color inactiveColor;
@@ -30,11 +30,11 @@ namespace SkillIssue
 
                 if (!blockCheck)
                 {
-                    character.HurtboxOnCollision(data);
+                    player.HurtboxOnCollision(data);
                 }     
                 else
                 {
-                    character.HurtboxOnCollision(data, true);
+                    player.HurtboxOnCollision(data, true);
                     Debug.Log("Blocking Zone");
                 }
                 

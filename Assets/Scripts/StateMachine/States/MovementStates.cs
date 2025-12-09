@@ -60,9 +60,12 @@ namespace SkillIssue.StateMachineSpace
             switch (inputType)
             {
                 case InputType.NONE:
+                case InputType.MH:
+                case InputType.LMH:
                     break;
                 case InputType.LMHU:
-                    player.PerformOverdrive();
+                    if (!player.PerformOverdrive())
+                        Attack(InputType.Unique);
                     break;
                 default:
                     Attack(inputType);
@@ -72,6 +75,8 @@ namespace SkillIssue.StateMachineSpace
 
         void Attack(InputType inputType)
         {
+            if (inputType == InputType.Heavy || inputType == InputType.Unique)
+                return;
             AttackData attackData;
             if (inputType == InputType.LU)
             {
@@ -161,9 +166,12 @@ namespace SkillIssue.StateMachineSpace
             switch (inputType)
             {
                 case InputType.NONE:
+                case InputType.MH:
+                case InputType.LMH:
                     break;
                 case InputType.LMHU:
-                    player.PerformOverdrive();
+                    if (!player.PerformOverdrive())
+                        Attack(InputType.Unique);
                     break;
                 default:
                     Attack(inputType);
@@ -173,6 +181,8 @@ namespace SkillIssue.StateMachineSpace
 
         void Attack(InputType inputType)
         {
+            if (inputType == InputType.Heavy || inputType == InputType.Unique)
+                return;
             AttackData attackData;
             if (inputType == InputType.LU)
             {
@@ -253,9 +263,12 @@ namespace SkillIssue.StateMachineSpace
             switch (inputType)
             {
                 case InputType.NONE:
+                case InputType.MH:
+                case InputType.LMH:
                     break;
                 case InputType.LMHU:
-                    player.PerformOverdrive();
+                    if (!player.PerformOverdrive())
+                        Attack(InputType.Unique);
                     break;
                 default:
                     Attack(inputType);
@@ -301,6 +314,8 @@ namespace SkillIssue.StateMachineSpace
 
         void Attack(InputType inputType)
         {
+            if (inputType == InputType.Heavy || inputType == InputType.Unique)
+                return;
             AttackData attackData;
             if (inputType == InputType.LU)
             {

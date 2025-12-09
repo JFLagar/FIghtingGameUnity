@@ -63,13 +63,16 @@ namespace SkillIssue.StateMachineSpace
                 case InputType.NONE:
                     break;
                 case InputType.LMHU:
-                    player.PerformOverdrive();
+                    if (!player.PerformOverdrive())
+                        Attack(InputType.Unique);
                     break;
                 case InputType.LMH:
-                    player.PerformHalfMeterAction();
+                    if (!player.PerformHalfMeterAction())
+                        Attack(InputType.Heavy);
                     break;
                 case InputType.MH:
-                    player.PerformQuarterMeterAction();
+                    if (!player.PerformQuarterMeterAction())
+                        Attack(InputType.Heavy);
                     break;
                 default:
                     Attack(inputType);
@@ -79,6 +82,8 @@ namespace SkillIssue.StateMachineSpace
 
         void Attack(InputType inputType)
         {
+            if (inputType == InputType.Heavy || inputType == InputType.Unique)
+                return;
             AttackData attackData;
             if (inputType == InputType.LU)
             {

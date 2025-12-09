@@ -123,15 +123,6 @@ namespace SkillIssue.CharacterSpace
         public event Action _overdriveAction, _quarterMeterAction, _halfMeterAction;
         public event Action<InputType> _inputAction;
 
-        private void OnEnable()
-        {
-
-        }
-        private void OnDisable()
-        {
-
-        }
-
         void AddTransition(IState from, IState to, IPredicate condition) => stateMachine.AddTransition(from, to, condition);
         void AddAnyTransition(IState to, IPredicate condition) => stateMachine.AddAnyTransition(to, condition);
 
@@ -559,29 +550,32 @@ namespace SkillIssue.CharacterSpace
             _inputAction.Invoke(type);
         }
 
-        public void PerformOverdrive()
+        public bool PerformOverdrive()
         {
             if (!hasBurst)
-                return;
+                return false;
             hasBurst = false;
             _overdriveAction.Invoke();
+            return true;
         }
 
-        public void PerformHalfMeterAction()
+        public bool PerformHalfMeterAction()
         {
             if (superMeter < Managers.Instance.GameManager.GetCombatValues().GetHalfMeter())
-                return;
+                return false;
             superMeter -= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter();
             _halfMeterAction.Invoke();
+            return true;
             // Rapid logic can go here since its the same
         }
 
-        public void PerformQuarterMeterAction()
+        public bool PerformQuarterMeterAction()
         {
             if (superMeter < Managers.Instance.GameManager.GetCombatValues().GetHalfMeter() / 2)
-                return;
+                return false;
             superMeter -= Managers.Instance.GameManager.GetCombatValues().GetHalfMeter() / 2;
             _quarterMeterAction.Invoke();
+            return true;
             // Attack break logic can go here since its the same
         }
 
@@ -589,9 +583,6 @@ namespace SkillIssue.CharacterSpace
         {
             // Perform attack event in statemachines
             if (attack == null) 
-                return;
-            InputType type = attack.GetInputType();
-            if (type == InputType.Heavy || type == InputType.Unique)
                 return;
 
             if (StoredMotionInput != MotionInputs.NONE)

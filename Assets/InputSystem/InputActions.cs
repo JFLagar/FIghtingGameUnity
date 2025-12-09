@@ -98,6 +98,51 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": ""Normalize(min=-1,max=1)"",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LU"",
+                    ""type"": ""Button"",
+                    ""id"": ""de92a142-1ec0-4242-8525-cad5e2e68a89"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LM"",
+                    ""type"": ""Button"",
+                    ""id"": ""018d021a-8237-4e5b-a011-f2b1df168765"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MH"",
+                    ""type"": ""Button"",
+                    ""id"": ""a350fe6a-e802-47e9-82c2-8eaa386a789a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LMH"",
+                    ""type"": ""Button"",
+                    ""id"": ""f3ca3234-1c02-4768-b56e-313bfb7adc98"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LMHU"",
+                    ""type"": ""Button"",
+                    ""id"": ""df63aad5-4a18-40a1-89bb-2c06e900b9c0"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -452,6 +497,116 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""MovementY"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1bbae1bd-a492-4d97-97cb-e7f4409ee66f"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""LU"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c68d4966-1e75-46b6-9531-28e85fe5bbc3"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""LU"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d5c3c02f-d920-48b7-b570-4f73ba3a3958"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""MH"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""990ed94d-2653-4e58-a798-f8323fe824b4"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MH"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f26f8c85-33af-42d5-bf62-8896af9e5885"",
+                    ""path"": ""<Keyboard>/n"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""LMH"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9ad4e7fe-909f-4169-9d56-ce6c11df82fb"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""LMH"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""71164b15-00b7-4772-b9f2-1a9a0587d244"",
+                    ""path"": ""<Keyboard>/m"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""LMHU"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""587e8153-44b5-483f-9640-1d14b14df0ef"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""LMHU"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""78a095d9-b68b-4378-8a4e-a83c6910cdac"",
+                    ""path"": ""<Keyboard>/o"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""LM"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d0680230-35bf-4aeb-890c-59511938dbd7"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""LM"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -571,6 +726,11 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Controls_Select = m_Controls.FindAction("Select", throwIfNotFound: true);
         m_Controls_MovementX = m_Controls.FindAction("MovementX", throwIfNotFound: true);
         m_Controls_MovementY = m_Controls.FindAction("MovementY", throwIfNotFound: true);
+        m_Controls_LU = m_Controls.FindAction("LU", throwIfNotFound: true);
+        m_Controls_LM = m_Controls.FindAction("LM", throwIfNotFound: true);
+        m_Controls_MH = m_Controls.FindAction("MH", throwIfNotFound: true);
+        m_Controls_LMH = m_Controls.FindAction("LMH", throwIfNotFound: true);
+        m_Controls_LMHU = m_Controls.FindAction("LMHU", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_UIConfirm = m_Menu.FindAction("UIConfirm", throwIfNotFound: true);
@@ -650,6 +810,11 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_Select;
     private readonly InputAction m_Controls_MovementX;
     private readonly InputAction m_Controls_MovementY;
+    private readonly InputAction m_Controls_LU;
+    private readonly InputAction m_Controls_LM;
+    private readonly InputAction m_Controls_MH;
+    private readonly InputAction m_Controls_LMH;
+    private readonly InputAction m_Controls_LMHU;
     public struct ControlsActions
     {
         private @InputActions m_Wrapper;
@@ -662,6 +827,11 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Select => m_Wrapper.m_Controls_Select;
         public InputAction @MovementX => m_Wrapper.m_Controls_MovementX;
         public InputAction @MovementY => m_Wrapper.m_Controls_MovementY;
+        public InputAction @LU => m_Wrapper.m_Controls_LU;
+        public InputAction @LM => m_Wrapper.m_Controls_LM;
+        public InputAction @MH => m_Wrapper.m_Controls_MH;
+        public InputAction @LMH => m_Wrapper.m_Controls_LMH;
+        public InputAction @LMHU => m_Wrapper.m_Controls_LMHU;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -695,6 +865,21 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @MovementY.started += instance.OnMovementY;
             @MovementY.performed += instance.OnMovementY;
             @MovementY.canceled += instance.OnMovementY;
+            @LU.started += instance.OnLU;
+            @LU.performed += instance.OnLU;
+            @LU.canceled += instance.OnLU;
+            @LM.started += instance.OnLM;
+            @LM.performed += instance.OnLM;
+            @LM.canceled += instance.OnLM;
+            @MH.started += instance.OnMH;
+            @MH.performed += instance.OnMH;
+            @MH.canceled += instance.OnMH;
+            @LMH.started += instance.OnLMH;
+            @LMH.performed += instance.OnLMH;
+            @LMH.canceled += instance.OnLMH;
+            @LMHU.started += instance.OnLMHU;
+            @LMHU.performed += instance.OnLMHU;
+            @LMHU.canceled += instance.OnLMHU;
         }
 
         private void UnregisterCallbacks(IControlsActions instance)
@@ -723,6 +908,21 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @MovementY.started -= instance.OnMovementY;
             @MovementY.performed -= instance.OnMovementY;
             @MovementY.canceled -= instance.OnMovementY;
+            @LU.started -= instance.OnLU;
+            @LU.performed -= instance.OnLU;
+            @LU.canceled -= instance.OnLU;
+            @LM.started -= instance.OnLM;
+            @LM.performed -= instance.OnLM;
+            @LM.canceled -= instance.OnLM;
+            @MH.started -= instance.OnMH;
+            @MH.performed -= instance.OnMH;
+            @MH.canceled -= instance.OnMH;
+            @LMH.started -= instance.OnLMH;
+            @LMH.performed -= instance.OnLMH;
+            @LMH.canceled -= instance.OnLMH;
+            @LMHU.started -= instance.OnLMHU;
+            @LMHU.performed -= instance.OnLMHU;
+            @LMHU.canceled -= instance.OnLMHU;
         }
 
         public void RemoveCallbacks(IControlsActions instance)
@@ -840,6 +1040,11 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnSelect(InputAction.CallbackContext context);
         void OnMovementX(InputAction.CallbackContext context);
         void OnMovementY(InputAction.CallbackContext context);
+        void OnLU(InputAction.CallbackContext context);
+        void OnLM(InputAction.CallbackContext context);
+        void OnMH(InputAction.CallbackContext context);
+        void OnLMH(InputAction.CallbackContext context);
+        void OnLMHU(InputAction.CallbackContext context);
     }
     public interface IMenuActions
     {

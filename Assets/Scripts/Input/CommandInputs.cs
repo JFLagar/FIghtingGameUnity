@@ -7,8 +7,6 @@ namespace SkillIssue.Inputs
     public class CommandInputs : ICommandInput
     {
         public InputHandler InputHandler {  get; private set; }
-        bool pressed = false;
-        private float buttonHeld;
         public void SetInputHandler(InputHandler inputHandler)
         {
             InputHandler = inputHandler;

@@ -47,6 +47,8 @@ namespace SkillIssue.StateMachineSpace
 
         public override void Update()
         {
+            if (player.GetInputDirection().y > 0)
+                player.PerformJump();
             base.Update();
         }
 

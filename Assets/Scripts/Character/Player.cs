@@ -539,9 +539,13 @@ namespace SkillIssue.CharacterSpace
 
         public void StartJumping()
         {
+            if (IsJumping && GetCurrentState() is StandingState || IsJumping && GetCurrentState() is AttackState)
+                return;
             SetIsJumping(true);
             if (currentMovementCoroutine != null)
+            {
                 StopCoroutine(currentMovementCoroutine);
+            }
             currentMovementCoroutine = StartCoroutine(JumpCoroutine());
         }
 
@@ -938,18 +942,16 @@ namespace SkillIssue.CharacterSpace
 
         public IEnumerator JumpCoroutine()
         {
-            SetActionState(ActionStates.Landing);
             GetCharacterAnimation().PlayActionAnimation(GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
             GetCharacterAnimation().PlayActionAnimation(GetCharacterAnimationsData().jumpingClips.FirstOrDefault());
             float jumpPower = GetJumpPower();
+
+            yield return new FrameWait(jumpStartup);
             // SuperJump
             if (StoredMotionInput == MotionInputs.du)
             {
                 jumpPower = jumpPower * Managers.Instance.GameManager.GetCombatValues().GetJumpMultiplier();
             }
-
-            yield return new FrameWait(jumpStartup);
-            SetActionState(ActionStates.None);
             ApplyForce(new Vector2(GetInputDirection().x, 1f), jumpPower);
             StoredMotionInput = MotionInputs.NONE;
         }

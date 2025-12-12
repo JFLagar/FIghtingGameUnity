@@ -521,11 +521,6 @@ namespace SkillIssue.Inputs
             if (!motionInputQueue.Any(c => c.Time == bufferedInput.Time))
                 motionInputQueue.Enqueue(bufferedInput);
 
-            if(!context.action.WasReleasedThisFrame() && direction.y > 0)
-            {
-                player.PerformJump();
-            }
-
             if (currentMovementControlY == context.control && context.action.WasReleasedThisFrame())
             {
                 currentMovementControlY = null;

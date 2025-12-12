@@ -45,7 +45,10 @@ namespace SkillIssue.StateMachineSpace
 
         public override void Update()
         {
+            if (player.GetInputDirection().y > 0)
+                player.PerformJump();
             player.CheckAndFlipCharacterModel();
+            base.Update();
         }
 
         public override void OnAnimationEnd()
@@ -245,6 +248,9 @@ namespace SkillIssue.StateMachineSpace
                 player.SetApplyGravity(true);
             }
 
+            if (player.GetInputDirection().y > 0)
+                player.PerformJump();
+
             if (player.WasYReleased())
             {
                 player.SetDoubleJump(true);
@@ -278,7 +284,6 @@ namespace SkillIssue.StateMachineSpace
 
         void Jump()
         {
-            Debug.Log("Jump-Jump");
             if (player.CanDoubleJump && player.CanJump())
             {
                 if (player.AirActions > 0)
@@ -287,6 +292,7 @@ namespace SkillIssue.StateMachineSpace
                     return;
                 player.StartJumping();
                 player.SetDoubleJump(false);
+                Debug.Log("Jump-Jump");
             }
             else
                 return;

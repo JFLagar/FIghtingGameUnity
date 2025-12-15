@@ -208,7 +208,7 @@ namespace SkillIssue.CharacterSpace
 
             xDiff = transform.position.x - opponent.transform.position.x;
 
-            if (GetCurrentActionState() == ActionStates.Hit)
+            if (GetCurrentState() is HitState)
             {
                 if (currentProjectile != null)
                 {
@@ -353,11 +353,6 @@ namespace SkillIssue.CharacterSpace
             return animationClips;
         }
 
-        public ActionStates GetCurrentActionState()
-        {
-            return stateMachine.GetActionState();
-        }
-
         public bool IsHardKnockedDown()
         {
             return isHardKnockDown;
@@ -376,11 +371,6 @@ namespace SkillIssue.CharacterSpace
         public Vector2 GetInputDirection()
         {
             return inputHandler.GetDirection();
-        }
-
-        public void SetActionState(ActionStates action)
-        {
-            stateMachine.SetCurrentActionState(action);
         }
 
         public bool WasYReleased()
@@ -471,9 +461,9 @@ namespace SkillIssue.CharacterSpace
 
         public bool CanJump()
         {
-            if (GetCurrentActionState() != ActionStates.None)
+            if (GetCurrentState() is AttackState)
             {
-                if (onGoingAttack != null && onGoingAttack.GetCancelTypes().ToList().Contains(CancelTypes.Jump) && isAnyHitboxOpen && opponent.GetCurrentActionState() == ActionStates.Hit)
+                if (onGoingAttack != null && onGoingAttack.GetCancelTypes().ToList().Contains(CancelTypes.Jump) && isAnyHitboxOpen && opponent.GetCurrentState() is HitState)
                 {
                     ResetAttackSequence();
                     return true;
@@ -485,11 +475,9 @@ namespace SkillIssue.CharacterSpace
 
         public bool CanDash()
         {
-            if (GetCurrentActionState() != ActionStates.None)
+            if (GetCurrentState() is AttackState)
             {
-                if (IsGrounded && GetCurrentActionState() == ActionStates.Landing)
-                    return true;
-                if (onGoingAttack != null && onGoingAttack.GetCancelTypes().ToList().Contains(CancelTypes.Dash) && opponent.GetCurrentActionState() == ActionStates.Hit && GetInputDirection().x == FaceDir)
+                if (onGoingAttack != null && onGoingAttack.GetCancelTypes().ToList().Contains(CancelTypes.Dash) && opponent.GetCurrentState() is HitState && GetInputDirection().x == FaceDir)
                 {
                     ResetAttackSequence();
                     return true;
@@ -497,17 +485,6 @@ namespace SkillIssue.CharacterSpace
                 return false;
             }
             return true;
-        }
-
-        public bool CanPerformOffensiveAction()
-        {
-            if (GetCurrentActionState() != ActionStates.Attack)
-                return false;
-            if (opponent.GetCurrentActionState() == ActionStates.Block)
-                return true;
-            if (opponent.GetCurrentActionState() == ActionStates.Hit)
-                return true;
-            return false;
         }
 
         public void ResetAttackSequence()
@@ -534,6 +511,10 @@ namespace SkillIssue.CharacterSpace
 
         public void PerformJump()
         {
+            if (!CanJump())
+            {
+                return;
+            }
             _jumpAction.Invoke();
         }
 
@@ -977,9 +958,9 @@ namespace SkillIssue.CharacterSpace
             if (attack.GetAttackLevel() != 0)
                 attackLevel = attack.GetAttackLevel();
             hitstop = attackLevel + Managers.Instance.GameManager.GetCombatValues().GetHitstopBase();
-            currentHitstopCoroutine = StartCoroutine(WaitForHitStopCoroutine());
+            StartHitstopCoroutine();
 
-            if (opponent.GetCurrentActionState() == ActionStates.Block)
+            if (opponent.GetCurrentState() is BlockState)
             {
                 CurrentCombo.Clear();
             }
@@ -1000,7 +981,7 @@ namespace SkillIssue.CharacterSpace
 
         bool IsBlocking(AttackData attack)
         {
-            if (GetCurrentActionState() == ActionStates.Hit)
+            if (GetCurrentState() is HitState)
                 return false;
             AttackAttribute attribute = attack.GetAttackAttribute();
             switch (GetCurrentState())
@@ -1018,7 +999,7 @@ namespace SkillIssue.CharacterSpace
                         return false;
                     break;
             }
-            if (inputHandler.GetDirection().x == -FaceDir || GetCurrentActionState() == ActionStates.Block)
+            if (inputHandler.GetDirection().x == -FaceDir || GetCurrentState() is BlockState)
                 return true;
             return false;
         }

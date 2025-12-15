@@ -96,8 +96,6 @@ namespace SkillIssue.StateMachineSpace
 
         void Jump()
         {
-            if (!player.CanJump())
-                return;
             player.StartJumping();
         }
 
@@ -284,7 +282,7 @@ namespace SkillIssue.StateMachineSpace
 
         void Jump()
         {
-            if (player.CanDoubleJump && player.CanJump())
+            if (player.CanDoubleJump)
             {
                 if (player.AirActions > 0)
                     player.SetAirActions(player.AirActions - 1);
@@ -292,7 +290,6 @@ namespace SkillIssue.StateMachineSpace
                     return;
                 player.StartJumping();
                 player.SetDoubleJump(false);
-                Debug.Log("Jump-Jump");
             }
             else
                 return;

@@ -5,14 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace SkillIssue.StateMachineSpace
 {
-    public enum ActionStates
-    {
-        None, // Default state
-        Landing, //To avoid instawalking
-        Attack, //Can go back to None or proper Attack, getting hit here will trigger counterhit
-        Block, //Goes back to None
-        Hit, //King = Overrides all States and Goes back to None
-    }
+
     public enum States
     {
         Standing,
@@ -26,7 +19,6 @@ namespace SkillIssue.StateMachineSpace
         IState previousMovementState;
         Dictionary<Type, StateNode> nodes = new();
         HashSet<ITransition> anyTransitions = new();
-        public ActionStates CurrentAction { get; private set; }
         public States State { get; private set; }
 
         public void Update()
@@ -167,18 +159,6 @@ namespace SkillIssue.StateMachineSpace
                 Transitions.Add(new Transition(to, condition));
             }
         }
-
-        //OLD All these calls should be working inside the state class
-        public ActionStates GetActionState()
-        {
-            return CurrentAction;
-        }
-
-        public void SetCurrentActionState(ActionStates state)
-        {
-            CurrentAction = state;
-        }
-
     }
 
 

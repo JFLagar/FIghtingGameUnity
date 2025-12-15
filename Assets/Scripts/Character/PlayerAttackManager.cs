@@ -35,7 +35,8 @@ public class PlayerAttackManager : MonoBehaviour, IHitboxResponder
             {
                 return;
             }
-            player.SetApplyGravity(false);
+            //if (player.GetOpponent().GetCurrentState() is HitState)
+            //    player.SetApplyGravity(false);
         }
         foreach (Hitbox hitbox in hitboxes)
         {

@@ -13,6 +13,8 @@ namespace SkillIssue.StateMachineSpace
 
         public override void FixedUpdate()
         {
+            if (player.IsApplyingGravity)
+                player.ApplyGravity();
             base.FixedUpdate();
         }
 
@@ -115,8 +117,6 @@ namespace SkillIssue.StateMachineSpace
 
         void Jump()
         {
-            if (!player.CanJump())
-                return;
             player.StartJumping();
         }
 
@@ -276,6 +276,8 @@ namespace SkillIssue.StateMachineSpace
 
         public override void FixedUpdate()
         {
+            if (player.IsApplyingGravity)
+                player.ApplyGravity();
             base.FixedUpdate();
         }
 

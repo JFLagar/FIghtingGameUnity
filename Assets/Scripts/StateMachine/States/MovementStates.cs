@@ -14,7 +14,6 @@ namespace SkillIssue.StateMachineSpace
 
         public override void FixedUpdate()
         {
-            player.CharacterMove();
             base.FixedUpdate();
         }
 
@@ -47,6 +46,7 @@ namespace SkillIssue.StateMachineSpace
         {
             if (player.GetInputDirection().y > 0)
                 player.PerformJump();
+            player.CharacterMove();
             player.CheckAndFlipCharacterModel();
             base.Update();
         }

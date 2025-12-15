@@ -628,6 +628,7 @@ namespace SkillIssue.CharacterSpace
         private void PerformGettingHit(AttackData attack)
         {
             HitAttack = attack;
+            hitstop = HitAttack.GetAttackLevel() + Managers.Instance.GameManager.GetCombatValues().GetHitstopBase();
             _hitAction.Invoke();
             // On Enter of Hit State          
         }
@@ -637,7 +638,6 @@ namespace SkillIssue.CharacterSpace
             if (currentHitstopCoroutine != null)
                 StopCoroutine(currentHitstopCoroutine);
 
-            hitstop = HitAttack.GetAttackLevel() + Managers.Instance.GameManager.GetCombatValues().GetHitstopBase();
             currentHitstopCoroutine = StartCoroutine(WaitForHitStopCoroutine());
         }
 

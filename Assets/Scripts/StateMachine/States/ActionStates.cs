@@ -124,7 +124,7 @@ namespace SkillIssue.StateMachineSpace
         {
             if (player.MovementDirectionX != player.FaceDir)
                 return;
-            player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().jumpingClips[2], Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
+            player.PlayActionAnimation(player.GetCharacterAnimationsData().jumpingClips[2], Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
             player.ApplyForce(new Vector2(player.FaceDir * Managers.Instance.GameManager.GetCombatValues().GetDashMultiplier(), 0f),
                 Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
         }
@@ -132,7 +132,7 @@ namespace SkillIssue.StateMachineSpace
         void Overdrive()
         {
             Debug.Log("Overdrive");
-            player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().GetCancelClips().FirstOrDefault());
+            player.PlayActionAnimation(player.GetCharacterAnimationsData().GetCancelClips().FirstOrDefault());
         }
 
         void GuardBreak()
@@ -144,7 +144,7 @@ namespace SkillIssue.StateMachineSpace
         void Rapid()
         {
             Debug.Log("Rapid");
-            player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().GetCancelClips().FirstOrDefault());
+            player.PlayActionAnimation(player.GetCharacterAnimationsData().GetCancelClips().FirstOrDefault());
         }
     }
 
@@ -189,7 +189,7 @@ namespace SkillIssue.StateMachineSpace
             Vector2 dir = CalculateHitPush(attack);
             Vector2 blockDir = new(dir.x, 0);
 
-            player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().blockingClips[0]);
+            player.PlayActionAnimation(player.GetCharacterAnimationsData().blockingClips[0]);
             if (player.IsAgainstTheWall && player.FaceDir != player.WallFaceDirection && attack.GetProjectileData() == null)
             {
                 player.ApplyCounterPush(-blockDir, Managers.Instance.GameManager.GetCombatValues().GetHitMovementDuration());
@@ -234,7 +234,7 @@ namespace SkillIssue.StateMachineSpace
         void Overdrive()
         {
             Debug.Log("Overdrive");
-            player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().GetCancelClips().FirstOrDefault());
+            player.PlayActionAnimation(player.GetCharacterAnimationsData().GetCancelClips().FirstOrDefault());
         }
 
         void AttackBreak()
@@ -308,22 +308,22 @@ namespace SkillIssue.StateMachineSpace
             player.PlaySound(attack.GetCollideAudioClip()); ;
             if (attack.CausesLaunch() || player.IsKnockedDown())
             {
-                player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().hitClips[2], CalculateHitstun(attack));
+                player.PlayActionAnimation(player.GetCharacterAnimationsData().hitClips[2], CalculateHitstun(attack));
             }
             else
             {
                 if (attack.IsGrab())
                 {
-                    player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().hitClips[0]);
+                    player.PlayActionAnimation(player.GetCharacterAnimationsData().hitClips[0]);
                 }
                 else
                 {
                     if (stateMachine.GetPreviousMovementState() is JumpingState)
                     {
-                        player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().hitClips[0], CalculateHitstun(attack));
+                        player.PlayActionAnimation(player.GetCharacterAnimationsData().hitClips[0], CalculateHitstun(attack));
                     }
                     else
-                        player.GetCharacterAnimation().PlayHitAnimation(player.GetCharacterAnimationsData().hitClips[0], CalculateHitstun(attack));
+                        player.PlayHitAnimation(player.GetCharacterAnimationsData().hitClips[0], CalculateHitstun(attack));
                 }
             }
             player.StartHitstopCoroutine();
@@ -359,7 +359,7 @@ namespace SkillIssue.StateMachineSpace
         void Burst()
         {
             Debug.Log("Burst");
-            player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().GetCancelClips().LastOrDefault());
+            player.PlayActionAnimation(player.GetCharacterAnimationsData().GetCancelClips().LastOrDefault());
             //Perform here the attack
         }
 

@@ -1,6 +1,7 @@
 using SkillIssue;
 using UnityEngine;
 using SkillIssue.Inputs;
+using SkillIssue.Animations;
 
 [CreateAssetMenu(fileName = "CharacterData", menuName = "Scriptable Objects/CharacterData")]
 public class CharacterData : ScriptableObject

@@ -41,6 +41,16 @@ namespace SkillIssue
             }
         }
 
+        public void SetState(ColliderState state)
+        {
+            this.state = state;
+        }
+
+        public void SetSize(Vector3 size)
+        {
+            boxCollider.size = size;
+        }
+
         void OnDrawGizmosSelected()
         {
             CheckGizmoColor();

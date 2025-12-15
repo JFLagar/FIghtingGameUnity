@@ -1,11 +1,6 @@
-
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using Unity.Collections;
 using UnityEngine;
 using SkillIssue.Inputs;
-using Unity.VisualScripting;
+using SkillIssue.Animations;
 using NaughtyAttributes;
 using SkillIssue.StateMachineSpace;
 namespace SkillIssue
@@ -74,7 +69,7 @@ namespace SkillIssue
         [Space]
 
         [SerializeField]
-        private AnimationClip animation;
+        private AnimationData animation;
         [SerializeField]
         private AttackData followUpAttack;
         [SerializeField]
@@ -103,7 +98,7 @@ namespace SkillIssue
         public int GetExtraHitstun() { return extraHitstun;}
         public Vector2 GetExtraPush() { return extraPush;}
 
-        public AnimationClip GetAnimationClip() {  return animation; }
+        public AnimationData GetAnimationClip() {  return animation; }
         public AttackData GetFollowUpAttackData() { return followUpAttack; }
         public AudioClip GetCollideAudioClip() { return collideSound; }
         public ProjectileData GetProjectileData() { return followUpProjectile; }

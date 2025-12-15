@@ -1,5 +1,6 @@
 using SkillIssue.Inputs;
 using SkillIssue.StateMachineSpace;
+using SkillIssue.Animations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -126,6 +127,9 @@ namespace SkillIssue.CharacterSpace
         void AddTransition(IState from, IState to, IPredicate condition) => stateMachine.AddTransition(from, to, condition);
         void AddAnyTransition(IState to, IPredicate condition) => stateMachine.AddAnyTransition(to, condition);
 
+        AnimationData currentAnimation = null;
+        int currentFrame = 0;
+
         public void Initialize()
         {
             characterModel = Instantiate(characterData.GetCharacterModel(), model3D.transform);
@@ -195,6 +199,8 @@ namespace SkillIssue.CharacterSpace
                 hasBurst = true;
                 currentBurstCD = 0;
             }
+            if (currentAnimation != null)
+                CheckForFrameEvents();
         }
 
         // Update is called once per frame
@@ -216,6 +222,45 @@ namespace SkillIssue.CharacterSpace
                 }
             }
 
+        }
+
+        void CheckForFrameEvents()
+        {
+            currentFrame++;
+            FrameData frame = currentAnimation.Frames().FirstOrDefault(c => c.Frame() == currentFrame);
+            ProcessFrame(frame);
+            if (currentAnimation.EndFrame() == currentFrame)
+                currentAnimation = null;
+        }
+
+        void ProcessFrame(FrameData frame)
+        {
+            foreach (var hitbox in characterModel.GetHitboxes())
+            {
+                hitbox.hitboxSize = Vector3.zero;
+                hitbox.transform.position = Vector3.zero;
+                hitbox.SetState(ColliderState.Closed);
+            }
+            foreach (var hurtbox in characterModel.GetHurtboxes())
+            {
+                hurtbox.SetSize(Vector3.zero);
+                hurtbox.transform.position = Vector3.zero;
+                hurtbox.SetState(ColliderState.Closed);
+            }
+            for (int i = 0; i == frame.Hitboxes().Length; i++)
+            {
+                Hitbox hitbox = characterModel.GetHitboxes()[i];
+                hitbox.hitboxSize = frame.Hitboxes()[i].Size();
+                hitbox.transform.position = frame.Hitboxes()[i].Position();
+                hitbox.SetState(ColliderState.Open);
+            }
+            for (int i = 0; i == frame.Hurtboxes().Length; i++)
+            {
+                Hurtbox hurtbox = characterModel.GetHurtboxes()[i];
+                hurtbox.SetSize(frame.Hitboxes()[i].Size());
+                hurtbox.transform.position = frame.Hitboxes()[i].Position();
+                hurtbox.SetState(ColliderState.Open);
+            }
         }
 
         #region Getters and Setters
@@ -272,13 +317,13 @@ namespace SkillIssue.CharacterSpace
             List<AnimationClip> animationClips = new();
             foreach (var anim in animationsData.standingClips)
             {
-                animationClips.Add(anim);
+                animationClips.Add(anim.AnimationClip());
             }
             foreach (var anim in animationsData.jumpingClips)
             {
-                animationClips.Add(anim);
+                animationClips.Add(anim.AnimationClip());
             }
-            animationClips.Add(animationsData.crouchingClip);
+            animationClips.Add(animationsData.crouchingClip.AnimationClip());
             return animationClips;
         }
 
@@ -289,65 +334,65 @@ namespace SkillIssue.CharacterSpace
 
             foreach (var anim in animationsData.blockingClips)
             {
-                animationClips.Add(anim);
+                animationClips.Add(anim.AnimationClip());
             }
             foreach (var anim in animationsData.hitClips)
             {
-                animationClips.Add(anim);
+                animationClips.Add(anim.AnimationClip());
             }
             foreach (var anim in animationsData.stateTransitionClips)
             {
-                animationClips.Add(anim);
+                animationClips.Add(anim.AnimationClip());
             }
             foreach (var anim in animationsData.wakeupClips)
             {
-                animationClips.Add(anim);
+                animationClips.Add(anim.AnimationClip());
             }
             foreach (var anim in animationsData.recoveryClips)
             {
-                animationClips.Add(anim);
+                animationClips.Add(anim.AnimationClip());
             }
             foreach (var anim in animationsData.cancelClips)
             {
-                animationClips.Add(anim);
+                animationClips.Add(anim.AnimationClip());
             }
 
             // Attack Animations
             foreach (var attack in characterData.GetStandingAttacks())
             {
-                animationClips.Add(attack.GetAnimationClip());
+                animationClips.Add(attack.GetAnimationClip().AnimationClip());
                 if (attack.GetFollowUpAttackData() != null)
-                    animationClips.Add(attack.GetFollowUpAttackData().GetAnimationClip());
+                    animationClips.Add(attack.GetFollowUpAttackData().GetAnimationClip().AnimationClip());
             }
             foreach (var attack in characterData.GetCrouchingAttacks())
             {
-                animationClips.Add(attack.GetAnimationClip());
+                animationClips.Add(attack.GetAnimationClip().AnimationClip());
                 if (attack.GetFollowUpAttackData() != null)
-                    animationClips.Add(attack.GetFollowUpAttackData().GetAnimationClip());
+                    animationClips.Add(attack.GetFollowUpAttackData().GetAnimationClip().AnimationClip());
             }
             foreach (var attack in characterData.GetJumpAttacks())
             {
-                animationClips.Add(attack.GetAnimationClip());
+                animationClips.Add(attack.GetAnimationClip().AnimationClip());
                 if (attack.GetFollowUpAttackData() != null)
-                    animationClips.Add(attack.GetFollowUpAttackData().GetAnimationClip());
+                    animationClips.Add(attack.GetFollowUpAttackData().GetAnimationClip().AnimationClip());
             }
             foreach (var attack in characterData.GetSpecialAttacks())
             {
-                animationClips.Add(attack.GetAnimationClip());
+                animationClips.Add(attack.GetAnimationClip().AnimationClip());
                 if (attack.GetFollowUpAttackData() != null)
-                    animationClips.Add(attack.GetFollowUpAttackData().GetAnimationClip());
+                    animationClips.Add(attack.GetFollowUpAttackData().GetAnimationClip().AnimationClip());
             }
             foreach (var attack in characterData.GetForwardAttacks())
             {
-                animationClips.Add(attack.GetAnimationClip());
+                animationClips.Add(attack.GetAnimationClip().AnimationClip());
                 if (attack.GetFollowUpAttackData() != null)
-                    animationClips.Add(attack.GetFollowUpAttackData().GetAnimationClip());
+                    animationClips.Add(attack.GetFollowUpAttackData().GetAnimationClip().AnimationClip());
             }
             foreach (var attack in characterData.GetGrabData())
             {
-                animationClips.Add(attack.GetAnimationClip());
+                animationClips.Add(attack.GetAnimationClip().AnimationClip());
                 if (attack.GetFollowUpAttackData() != null)
-                    animationClips.Add(attack.GetFollowUpAttackData().GetAnimationClip());
+                    animationClips.Add(attack.GetFollowUpAttackData().GetAnimationClip().AnimationClip());
             }
 
             return animationClips;
@@ -567,7 +612,7 @@ namespace SkillIssue.CharacterSpace
         public void ProcessAttack(AttackData attack)
         {
             // Perform attack event in statemachines
-            if (attack == null) 
+            if (attack == null)
                 return;
 
             if (StoredMotionInput != MotionInputs.NONE)
@@ -681,7 +726,7 @@ namespace SkillIssue.CharacterSpace
                     destination.x = 0;
                 if (GetInputDirection().x != FaceDir)
                 {
-                    characterAnimation.ChangeMovementState(GetCharacterAnimationsData().standingClips[2]);
+                    ChangeMovementState(GetCharacterAnimationsData().standingClips[2]);
                     speed = characterData.GetMovementSpeed() / Managers.Instance.GameManager.GetCombatValues().GetBackWalkReduction();
                     isRunning = false;
                 }
@@ -689,13 +734,13 @@ namespace SkillIssue.CharacterSpace
                 else
                 {
                     int moveId = isRunning ? 3 : 1;
-                    characterAnimation.ChangeMovementState(GetCharacterAnimationsData().standingClips[moveId]);
+                    ChangeMovementState(GetCharacterAnimationsData().standingClips[moveId]);
                     speed = isRunning ? characterData.GetRunSpeed() : characterData.GetMovementSpeed();
                 }
             }
             else
             {
-                characterAnimation.ChangeMovementState(GetCharacterAnimationsData().standingClips.FirstOrDefault());
+                ChangeMovementState(GetCharacterAnimationsData().standingClips.FirstOrDefault());
                 isRunning = false;
             }
 
@@ -755,6 +800,36 @@ namespace SkillIssue.CharacterSpace
             }
             currentProjectile = Instantiate(Managers.Instance.GameManager.GetCombatValues().GetProjectile(), this.transform);
             currentProjectile.Initialize(this, onGoingAttack.GetProjectileData());
+        }
+
+        public void ChangeMovementState(AnimationData animationData)
+        {
+            GetCharacterAnimation().ChangeMovementState(animationData.AnimationClip());
+            PrepareAnimation(animationData);
+        }
+
+        public void QueueMovementState(AnimationData animationData)
+        {
+            GetCharacterAnimation().QueueMovementState(animationData.AnimationClip());
+            PrepareAnimation(animationData);
+        }
+
+        public void PlayActionAnimation(AnimationData animationData, float duration = 0)
+        {
+            GetCharacterAnimation().PlayActionAnimation(animationData.AnimationClip(), duration);
+            PrepareAnimation(animationData);
+        }
+
+        public void PlayHitAnimation(AnimationData animationData,float duration = 0)
+        {
+            GetCharacterAnimation().PlayHitAnimation(animationData.AnimationClip(), duration);
+            PrepareAnimation(animationData);
+        }
+
+        void PrepareAnimation(AnimationData animationData)
+        {
+            currentFrame = 0;
+            currentAnimation = animationData;
         }
 
         public void AnimationMovement()
@@ -862,7 +937,7 @@ namespace SkillIssue.CharacterSpace
         {
             if (!IsApplyingGravity)
                 return;
-            characterAnimation.ChangeMovementState(GetCharacterAnimationsData().jumpingClips.FirstOrDefault());
+            ChangeMovementState(GetCharacterAnimationsData().jumpingClips.FirstOrDefault());
             if (!IsGrounded && currentMovementCoroutine == null)
                 SetIsJumping(false);
             if ((IsAgainstTheWall && Mathf.Sign(WallFaceDirection) == WallFaceDirection))
@@ -923,8 +998,8 @@ namespace SkillIssue.CharacterSpace
 
         public IEnumerator JumpCoroutine()
         {
-            GetCharacterAnimation().PlayActionAnimation(GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
-            GetCharacterAnimation().PlayActionAnimation(GetCharacterAnimationsData().jumpingClips.FirstOrDefault());
+            PlayActionAnimation(GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
+            PlayActionAnimation(GetCharacterAnimationsData().jumpingClips.FirstOrDefault());
             float jumpPower = GetJumpPower();
 
             yield return new FrameWait(jumpStartup);

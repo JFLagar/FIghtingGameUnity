@@ -1,5 +1,6 @@
 using SkillIssue.CharacterSpace;
 using SkillIssue.StateMachineSpace;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -32,7 +33,7 @@ public class CharacterAnimationManager : MonoBehaviour
         this.character = character;
         this.animator = animator;
 
-        animator.updateMode = AnimatorUpdateMode.Fixed;
+        animator.updateMode = AnimatorUpdateMode.Normal;
         // Create PlayableGraph
         graph = PlayableGraph.Create("CharacterAnimationGraph" + character.name);
         graph.SetTimeUpdateMode(DirectorUpdateMode.Manual);
@@ -249,6 +250,7 @@ public class CharacterAnimationManager : MonoBehaviour
 
 }
 
+[Serializable]
 public class ActionPlayableBehaviour : PlayableBehaviour
 {
     private CharacterAnimationManager controller;

@@ -45,7 +45,7 @@ public class PlayerAttackManager : MonoBehaviour, IHitboxResponder
         }
         if (attack.GetAnimationClip() != null)
         {
-            player.GetCharacterAnimation().PlayActionAnimation(attack.GetAnimationClip());
+            player.PlayActionAnimation(attack.GetAnimationClip());
         }
         repeatedAttack = 0;
         player.PerformAttack(attack);

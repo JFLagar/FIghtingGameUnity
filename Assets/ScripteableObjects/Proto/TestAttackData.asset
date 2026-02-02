@@ -12,15 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eebcc116bb770e54691318e638bafd4a, type: 3}
   m_Name: TestAttackData
   m_EditorClassIdentifier: 
-  standingAttacks:
-  - {fileID: 11400000, guid: 71bd4ba5a27f6a346923c8f3d1eb01b6, type: 2}
-  crouchingAttacks:
-  - {fileID: 11400000, guid: 71bd4ba5a27f6a346923c8f3d1eb01b6, type: 2}
-  jumpingAttacks:
-  - {fileID: 11400000, guid: 71bd4ba5a27f6a346923c8f3d1eb01b6, type: 2}
-  forwardAttacks:
-  - {fileID: 11400000, guid: 71bd4ba5a27f6a346923c8f3d1eb01b6, type: 2}
-  specialAttacks:
-  - {fileID: 11400000, guid: 71bd4ba5a27f6a346923c8f3d1eb01b6, type: 2}
-  grabs:
-  - {fileID: 11400000, guid: 71bd4ba5a27f6a346923c8f3d1eb01b6, type: 2}
+  standingAttacks: []
+  crouchingAttacks: []
+  jumpingAttacks: []
+  forwardAttacks: []
+  specialAttacks: []
+  grabs: []

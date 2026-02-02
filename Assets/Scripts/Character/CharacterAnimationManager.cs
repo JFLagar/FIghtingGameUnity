@@ -38,7 +38,7 @@ public class CharacterAnimationManager : MonoBehaviour
         animator.updateMode = AnimatorUpdateMode.Normal;
         // Create PlayableGraph
         graph = PlayableGraph.Create("CharacterAnimationGraph" + character.name);
-        graph.SetTimeUpdateMode(DirectorUpdateMode.Manual);
+        graph.SetTimeUpdateMode(DirectorUpdateMode.GameTime);
 
         // Create Animation Mixer with 2 inputs (Movement + Action)
         mixerPlayable = AnimationMixerPlayable.Create(graph, 2);
@@ -68,8 +68,8 @@ public class CharacterAnimationManager : MonoBehaviour
         action = mixerPlayable.GetInputWeight(0) == 0 ? 1 : 0;
         aPlayable = mixerPlayable.GetInputWeight(1);
         mPlayable = mixerPlayable.GetInputWeight(0);
-        time = 1f * Time.fixedDeltaTime;
-        graph.Evaluate(time);
+        //time = 1f * Time.fixedDeltaTime;
+        //graph.Evaluate(time);
     }
 
     private void CacheAnimationsPlayable()

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TestAnims
   m_EditorClassIdentifier: 
   standingClips:
-  - animationClip: {fileID: -6456735551303713624, guid: 8de8f4c8d0d7772499edfef4af33d320, type: 3}
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
     frameEvents: []
     animationEvent:
       m_PersistentCalls:
@@ -28,16 +28,121 @@ MonoBehaviour:
     animationEvent:
       m_PersistentCalls:
         m_Calls: []
-  jumpingClips: []
-  crouchingClip:
-    animationClip: {fileID: 0}
+  jumpingClips:
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
     frameEvents: []
     animationEvent:
       m_PersistentCalls:
         m_Calls: []
-  hitClips: []
-  stateTransitionClips: []
-  wakeupClips: []
-  recoveryClips: []
-  cancelClips: []
-  blockingClips: []
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+    frameEvents: []
+    animationEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+    frameEvents: []
+    animationEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  crouchingClip:
+    animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+    frameEvents: []
+    animationEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  hitClips:
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+    frameEvents: []
+    animationEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+    frameEvents: []
+    animationEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+    frameEvents: []
+    animationEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  stateTransitionClips:
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+    frameEvents: []
+    animationEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+    frameEvents: []
+    animationEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+    frameEvents: []
+    animationEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  wakeupClips:
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+    frameEvents: []
+    animationEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+    frameEvents: []
+    animationEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+    frameEvents: []
+    animationEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  recoveryClips:
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+    frameEvents: []
+    animationEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+    frameEvents: []
+    animationEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+    frameEvents: []
+    animationEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  cancelClips:
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+    frameEvents: []
+    animationEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+    frameEvents: []
+    animationEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+    frameEvents: []
+    animationEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  blockingClips:
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+    frameEvents: []
+    animationEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+    frameEvents: []
+    animationEvent:
+      m_PersistentCalls:
+        m_Calls: []
+  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+    frameEvents: []
+    animationEvent:
+      m_PersistentCalls:
+        m_Calls: []

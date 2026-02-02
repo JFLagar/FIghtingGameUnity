@@ -14,8 +14,6 @@ namespace SkillIssue.Animations
         [SerializeField]
         public AnimationData crouchingClip;
         [SerializeField]
-        public AnimationData[] blockingClips;
-        [SerializeField]
         public AnimationData[] hitClips;
         [SerializeField]
         public AnimationData[] stateTransitionClips;
@@ -25,6 +23,8 @@ namespace SkillIssue.Animations
         public AnimationData[] recoveryClips;
         [SerializeField]
         public AnimationData[] cancelClips;
+        [SerializeField]
+        public AnimationData[] blockingClips;
 
         public AnimationData[] GetStandingClips() { return standingClips; }
         public AnimationData[] GetJumpingClips() { return jumpingClips; }
@@ -37,25 +37,13 @@ namespace SkillIssue.Animations
         public AnimationData[] GetCancelClips() { return cancelClips; }
 
     }
-
-    [CreateAssetMenu(fileName = "AnimationData", menuName = "Scriptable Objects/AnimationData")]
-    public class AnimationData : ScriptableObject
-    {
-        [SerializeField]
-        private AnimationClip animationClip;
-        [SerializeField]
-        private int endFrame;
-        [SerializeField]
-        private FrameData[] frames;
-        public AnimationClip AnimationClip() { return animationClip; }
-        public int EndFrame() { return endFrame; }
-        public FrameData[] Frames() { return frames; }
-    }
     [Serializable]
-    public struct FrameData
+    public class FrameEvent
     {
         [SerializeField]
         int frame;
+        [SerializeField]
+        AnimationData.EventType type;
         [SerializeField]
         CollisionData[] hitboxes;
         [SerializeField]
@@ -63,6 +51,7 @@ namespace SkillIssue.Animations
         public int Frame() { return frame; }
         public CollisionData[] Hitboxes() { return hitboxes; }
         public CollisionData[] Hurtboxes() { return hurtboxes; }
+        public AnimationData.EventType Type() { return type; }
     }
 
     [Serializable]

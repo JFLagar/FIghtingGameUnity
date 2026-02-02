@@ -1,6 +1,6 @@
+using SkillIssue.Animations;
 using SkillIssue.Inputs;
 using SkillIssue.StateMachineSpace;
-using SkillIssue.Animations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -227,39 +227,71 @@ namespace SkillIssue.CharacterSpace
         void CheckForFrameEvents()
         {
             currentFrame++;
-            FrameData frame = currentAnimation.Frames().FirstOrDefault(c => c.Frame() == currentFrame);
-            ProcessFrame(frame);
-            if (currentAnimation.EndFrame() == currentFrame)
-                currentAnimation = null;
+            FrameEvent frame = currentAnimation.FrameEvents().FirstOrDefault(c => c.Frame() == currentFrame);
+            if (frame != null)
+            {
+                ProcessFrame(currentAnimation.FrameEvents().FirstOrDefault(c => c.Frame() == currentFrame));
+            }
         }
 
-        void ProcessFrame(FrameData frame)
+        void ProcessFrame(FrameEvent frame)
         {
-            foreach (var hitbox in characterModel.GetHitboxes())
+
+            switch (frame.Type())
             {
-                hitbox.hitboxSize = Vector3.zero;
-                hitbox.transform.position = Vector3.zero;
-                hitbox.SetState(ColliderState.Closed);
-            }
-            foreach (var hurtbox in characterModel.GetHurtboxes())
-            {
-                hurtbox.SetSize(Vector3.zero);
-                hurtbox.transform.position = Vector3.zero;
-                hurtbox.SetState(ColliderState.Closed);
-            }
-            for (int i = 0; i == frame.Hitboxes().Length; i++)
-            {
-                Hitbox hitbox = characterModel.GetHitboxes()[i];
-                hitbox.hitboxSize = frame.Hitboxes()[i].Size();
-                hitbox.transform.position = frame.Hitboxes()[i].Position();
-                hitbox.SetState(ColliderState.Open);
-            }
-            for (int i = 0; i == frame.Hurtboxes().Length; i++)
-            {
-                Hurtbox hurtbox = characterModel.GetHurtboxes()[i];
-                hurtbox.SetSize(frame.Hitboxes()[i].Size());
-                hurtbox.transform.position = frame.Hitboxes()[i].Position();
-                hurtbox.SetState(ColliderState.Open);
+                case AnimationData.EventType.Open:
+                    {
+                        foreach (var hitbox in characterModel.GetHitboxes())
+                        {
+                            hitbox.hitboxSize = Vector3.zero;
+                            hitbox.transform.position = Vector3.zero;
+                            hitbox.SetState(ColliderState.Closed);
+                        }
+                        foreach (var hurtbox in characterModel.GetHurtboxes())
+                        {
+                            hurtbox.SetSize(Vector3.zero);
+                            hurtbox.transform.position = Vector3.zero;
+                            hurtbox.SetState(ColliderState.Closed);
+                        }
+                        Debug.Log(frame.Frame());
+                        for (int i = 0; i < frame.Hitboxes().Length; i++)
+                        {
+                            Hitbox hitbox = characterModel.GetHitboxes()[i];
+                            hitbox.hitboxSize = frame.Hitboxes()[i].Size();
+                            hitbox.transform.position = frame.Hitboxes()[i].Position();
+                            hitbox.SetState(ColliderState.Open);
+                        }
+                        for (int i = 0; i < frame.Hurtboxes().Length; i++)
+                        {
+                            Hurtbox hurtbox = characterModel.GetHurtboxes()[i];
+                            hurtbox.SetSize(frame.Hitboxes()[i].Size());
+                            hurtbox.transform.position = frame.Hitboxes()[i].Position();
+                            hurtbox.SetState(ColliderState.Open);
+                        }
+                    }
+                    break;
+                case AnimationData.EventType.Close:
+                    {
+                        Debug.Log(frame.Frame() + 100);
+                        currentAnimation = null;
+                    }
+                    break;
+                case AnimationData.EventType.Projectile:
+                    {
+                        SpawnProjectile();
+                    }
+                    break;
+                case AnimationData.EventType.Movement:
+                    {
+                        AnimationMovement();
+                    }
+                    break;
+                case AnimationData.EventType.MovementEnd:
+                    {
+                        AnimationMovementEnd();
+                    }
+                    break;
+
             }
         }
 
@@ -820,7 +852,7 @@ namespace SkillIssue.CharacterSpace
             PrepareAnimation(animationData);
         }
 
-        public void PlayHitAnimation(AnimationData animationData,float duration = 0)
+        public void PlayHitAnimation(AnimationData animationData, float duration = 0)
         {
             GetCharacterAnimation().PlayHitAnimation(animationData.AnimationClip(), duration);
             PrepareAnimation(animationData);
@@ -828,6 +860,7 @@ namespace SkillIssue.CharacterSpace
 
         void PrepareAnimation(AnimationData animationData)
         {
+            Debug.Log("Preparing");
             currentFrame = 0;
             currentAnimation = animationData;
         }

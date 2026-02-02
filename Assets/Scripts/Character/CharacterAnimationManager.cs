@@ -25,6 +25,8 @@ public class CharacterAnimationManager : MonoBehaviour
 
 
     public int action;
+    public float aPlayable;
+    public float mPlayable;
     public string animName;
 
 
@@ -64,6 +66,8 @@ public class CharacterAnimationManager : MonoBehaviour
     public void AnimUpdate()
     {
         action = mixerPlayable.GetInputWeight(0) == 0 ? 1 : 0;
+        aPlayable = mixerPlayable.GetInputWeight(1);
+        mPlayable = mixerPlayable.GetInputWeight(0);
         time = 1f * Time.fixedDeltaTime;
         graph.Evaluate(time);
     }

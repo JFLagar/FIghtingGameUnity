@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
-using System;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace SkillIssue.Animations
 {
@@ -18,9 +19,9 @@ namespace SkillIssue.Animations
         [SerializeField]
         private AnimationClip animationClip;
         [SerializeField]
-        FrameEvent[] frameEvents;
+        List<FrameEvent> frameEvents = new List<FrameEvent>();
         public AnimationClip AnimationClip() { return animationClip; }
-        public FrameEvent[] FrameEvents() { return frameEvents;}
+        public List<FrameEvent> FrameEvents() { return frameEvents;}
     }
 }
 

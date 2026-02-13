@@ -227,10 +227,10 @@ namespace SkillIssue.CharacterSpace
         void CheckForFrameEvents()
         {
             currentFrame++;
-            FrameEvent frame = currentAnimation.FrameEvents().FirstOrDefault(c => c.Frame() == currentFrame);
+            FrameEvent frame = currentAnimation.FrameEvents().FirstOrDefault(c => c.Frame == currentFrame);
             if (frame != null)
             {
-                ProcessFrame(currentAnimation.FrameEvents().FirstOrDefault(c => c.Frame() == currentFrame));
+                ProcessFrame(currentAnimation.FrameEvents().FirstOrDefault(c => c.Frame == currentFrame));
             }
         }
 
@@ -253,15 +253,15 @@ namespace SkillIssue.CharacterSpace
                             hurtbox.transform.position = Vector3.zero;
                             hurtbox.SetState(ColliderState.Closed);
                         }
-                        Debug.Log(frame.Frame());
-                        for (int i = 0; i < frame.Hitboxes().Length; i++)
+                        Debug.Log(frame.Frame);
+                        for (int i = 0; i < frame.Hitboxes().Count; i++)
                         {
                             Hitbox hitbox = characterModel.GetHitboxes()[i];
                             hitbox.hitboxSize = frame.Hitboxes()[i].Size();
                             hitbox.transform.position = frame.Hitboxes()[i].Position();
                             hitbox.SetState(ColliderState.Open);
                         }
-                        for (int i = 0; i < frame.Hurtboxes().Length; i++)
+                        for (int i = 0; i < frame.Hurtboxes().Count; i++)
                         {
                             Hurtbox hurtbox = characterModel.GetHurtboxes()[i];
                             hurtbox.SetSize(frame.Hitboxes()[i].Size());
@@ -272,7 +272,7 @@ namespace SkillIssue.CharacterSpace
                     break;
                 case AnimationData.EventType.Close:
                     {
-                        Debug.Log(frame.Frame() + 100);
+                        Debug.Log(frame.Frame + 100);
                         currentAnimation = null;
                     }
                     break;

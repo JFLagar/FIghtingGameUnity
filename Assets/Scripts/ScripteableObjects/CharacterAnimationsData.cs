@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SkillIssue.Animations
@@ -37,7 +38,6 @@ namespace SkillIssue.Animations
         public AnimationData[] GetCancelClips() { return cancelClips; }
 
     }
-
     [Serializable]
     public class FrameEvent
     {
@@ -46,12 +46,12 @@ namespace SkillIssue.Animations
         [SerializeField]
         AnimationData.EventType type;
         [SerializeField]
-        CollisionData[] hitboxes;
+        List<CollisionData> hitboxes = new List<CollisionData>();
         [SerializeField]
-        CollisionData[] hurtboxes;
-        public int Frame() { return frame; }
-        public CollisionData[] Hitboxes() { return hitboxes; }
-        public CollisionData[] Hurtboxes() { return hurtboxes; }
+        List<CollisionData> hurtboxes = new List<CollisionData>();
+        public int Frame{ get { return frame; } set { frame = value; } }
+        public List<CollisionData> Hitboxes() { return hitboxes; }
+        public List<CollisionData> Hurtboxes() { return hurtboxes; }
         public AnimationData.EventType Type() { return type; }
     }
 

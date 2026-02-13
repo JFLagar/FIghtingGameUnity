@@ -4,8 +4,8 @@ using System;
 
 namespace SkillIssue.Animations
 {
-    [Serializable]
-    public class AnimationData
+    [CreateAssetMenu(fileName = "CharacterAnimationsData", menuName = "Scriptable Objects/AnimationsData")]
+    public class AnimationData : ScriptableObject
     {
         public enum EventType
         {
@@ -19,11 +19,8 @@ namespace SkillIssue.Animations
         private AnimationClip animationClip;
         [SerializeField]
         FrameEvent[] frameEvents;
-        [SerializeField]
-        private UnityEvent animationEvent;
         public AnimationClip AnimationClip() { return animationClip; }
         public FrameEvent[] FrameEvents() { return frameEvents;}
-        public UnityEvent AnimationEvent() { return animationEvent;}
     }
 }
 

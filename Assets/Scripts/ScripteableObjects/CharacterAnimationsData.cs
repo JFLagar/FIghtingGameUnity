@@ -37,6 +37,7 @@ namespace SkillIssue.Animations
         public AnimationData[] GetCancelClips() { return cancelClips; }
 
     }
+
     [Serializable]
     public class FrameEvent
     {

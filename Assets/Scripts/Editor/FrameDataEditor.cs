@@ -1,4 +1,6 @@
 using SkillIssue.Animations;
+using System.Reflection;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
@@ -10,8 +12,10 @@ public class FrameDataEditor : EditorWindow
     private VisualTreeAsset m_VisualTreeAsset = default;
     
     private ObjectField animationdataField;
+    private ObjectField modelField;
     private ListView frameEventList;
     private VisualElement frameInspector;
+    private IMGUIContainer animationPreview;
 
     private PropertyField propertyField;
 
@@ -22,6 +26,10 @@ public class FrameDataEditor : EditorWindow
     private FrameEvent currentFrameEvent;
 
     int selecteFrameIndex = 0;
+
+    private AnimationClip targetClip;
+    private EditorWindow animationWindow;
+    private GameObject previewInstance;
 
     [MenuItem("Window/UI Toolkit/FrameDataEditor")]
     public static void ShowExample()
@@ -40,10 +48,13 @@ public class FrameDataEditor : EditorWindow
         root.Add(treeAsset);
 
         animationdataField = treeAsset.Q<ObjectField>("AnimationDataField");
+        modelField = treeAsset.Q<ObjectField>("PrefabModelField");
         frameEventList = treeAsset.Q<ListView>("FrameEventList");
         addFrameEventButton = treeAsset.Q<Button>("AddFrameEventButton");
         removeFrameEventButton = treeAsset.Q<Button>("RemoveFrameEventButton");
         frameInspector = treeAsset.Q<VisualElement>("FrameEventInspector");
+        animationPreview = treeAsset.Q<IMGUIContainer>("AnimationPreview");
+
 
         propertyField = treeAsset.Q<PropertyField>("FrameEventField");
 
@@ -51,6 +62,7 @@ public class FrameDataEditor : EditorWindow
         removeFrameEventButton.RegisterCallback<MouseUpEvent>((evt) => RemoveFrameEvent());
 
         animationdataField.RegisterValueChangedCallback(OnAnimationDataChanged);
+        modelField.RegisterValueChangedCallback(OnModelChanged);
     }
 
     void OnAnimationDataChanged(ChangeEvent<Object> evt)
@@ -64,6 +76,21 @@ public class FrameDataEditor : EditorWindow
         currentAnimationData = evt.newValue as AnimationData;
         PopulateList();
 
+    }
+
+    void OnModelChanged(ChangeEvent<Object> evt)
+    {
+        if (evt.newValue == null)
+        {
+            Debug.Log("value is null");
+            return;
+        }
+        if (evt.newValue.GetComponent<CharacterModel>() == null)
+        {
+            Debug.LogError("Prefab is missing CharacterModel");
+            modelField.SetValueWithoutNotify(null);
+            return;
+        }
     }
 
     void PopulateList()
@@ -105,19 +132,11 @@ public class FrameDataEditor : EditorWindow
     
     void UpdateFrameInspector()
     {
-        // Inspector Method
-
-        //frameInspector.Clear();
-        //InspectorElement propertyField = new InspectorElement();
         SerializedObject serializedObject = new SerializedObject(currentAnimationData);
 
-        //propertyField.Bind(serializedObject);
-
-        //frameInspector.Add(propertyField);
         SerializedProperty listProperty = serializedObject.FindProperty("frameEvents");
         SerializedProperty selectedFrame = listProperty.GetArrayElementAtIndex(selecteFrameIndex) as SerializedProperty;
         propertyField.BindProperty(selectedFrame);
-        
     }
 }
 

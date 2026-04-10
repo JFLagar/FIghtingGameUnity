@@ -1,16 +1,22 @@
 <engine:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:engine="UnityEngine.UIElements" xmlns:editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
     <Style src="project://database/Assets/Scripts/Editor/FrameDataEditor.uss?fileID=7433441132597879392&amp;guid=03f38475e6e06ac4cabb819033b062ea&amp;type=3#FrameDataEditor" />
     <engine:VisualElement name="Root" style="flex-grow: 1; flex-direction: row;">
-        <engine:VisualElement name="AnimationDataContainer" style="flex-grow: 1;">
-            <editor:ObjectField label="Object Field" name="AnimationDataField" data-source-type="SkillIssue.Animations.AnimationData, Assembly-CSharp" type="SkillIssue.Animations.AnimationData, Assembly-CSharp" />
-            <engine:ListView name="FrameEventList" />
-            <engine:VisualElement name="ButtonContainer" style="flex-grow: 1; flex-direction: row; align-content: stretch; justify-content: space-around;">
-                <engine:Button text="+" name="AddFrameEventButton" />
-                <engine:Button text="-" name="RemoveFrameEventButton" />
-            </engine:VisualElement>
+        <engine:VisualElement name="AnimationContainer" style="flex-grow: 1; min-width: 100px; min-height: 100px;">
+            <engine:IMGUIContainer name="AnimationPreview" />
         </engine:VisualElement>
-        <engine:VisualElement name="FrameEventInspector" style="flex-grow: 1;">
-            <editor:PropertyField name="FrameEventField" />
+        <engine:VisualElement name="FrameInfoContainer" style="flex-grow: 1;">
+            <engine:VisualElement name="AnimationDataContainer" style="flex-grow: 1;">
+                <editor:ObjectField label="Object Field" name="AnimationDataField" data-source-type="SkillIssue.Animations.AnimationData, Assembly-CSharp" type="SkillIssue.Animations.AnimationData, Assembly-CSharp" />
+                <editor:ObjectField label="Object Field" name="PrefabModelField" data-source-type="SkillIssue.Animations.AnimationData, Assembly-CSharp" type="UnityEngine.GameObject, UnityEngine.CoreModule" />
+                <engine:ListView name="FrameEventList" />
+                <engine:VisualElement name="ButtonContainer" style="flex-grow: 1; flex-direction: row; align-content: stretch; justify-content: space-around; width: auto; height: auto;">
+                    <engine:Button text="+" name="AddFrameEventButton" class="frame-button" />
+                    <engine:Button text="-" name="RemoveFrameEventButton" class="frame-button" />
+                </engine:VisualElement>
+            </engine:VisualElement>
+            <engine:VisualElement name="FrameEventInspector" style="flex-grow: 1;">
+                <editor:PropertyField name="FrameEventField" />
+            </engine:VisualElement>
         </engine:VisualElement>
     </engine:VisualElement>
 </engine:UXML>

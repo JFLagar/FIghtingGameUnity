@@ -12,3 +12,11 @@
 
 .unity-property-field {
 }
+
+.unity-button {
+}
+
+.frame-button {
+    width: 20px;
+    height: 20px;
+}

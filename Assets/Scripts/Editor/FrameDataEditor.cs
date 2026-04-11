@@ -2,6 +2,7 @@ using SkillIssue.Animations;
 using System.Reflection;
 using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -15,7 +16,7 @@ public class FrameDataEditor : EditorWindow
     private ObjectField modelField;
     private ListView frameEventList;
     private VisualElement frameInspector;
-    private IMGUIContainer animationPreview;
+    private VisualElement buttonContainer;
 
     private PropertyField propertyField;
 
@@ -25,11 +26,9 @@ public class FrameDataEditor : EditorWindow
     private AnimationData currentAnimationData;
     private FrameEvent currentFrameEvent;
 
-    int selecteFrameIndex = 0;
+    int selectedFrameIndex = 0;
 
-    private AnimationClip targetClip;
-    private EditorWindow animationWindow;
-    private GameObject previewInstance;
+    private AnimationWindow animationWindow;
 
     [MenuItem("Window/UI Toolkit/FrameDataEditor")]
     public static void ShowExample()
@@ -53,8 +52,7 @@ public class FrameDataEditor : EditorWindow
         addFrameEventButton = treeAsset.Q<Button>("AddFrameEventButton");
         removeFrameEventButton = treeAsset.Q<Button>("RemoveFrameEventButton");
         frameInspector = treeAsset.Q<VisualElement>("FrameEventInspector");
-        animationPreview = treeAsset.Q<IMGUIContainer>("AnimationPreview");
-
+        buttonContainer = treeAsset.Q<VisualElement>("ButtonContainer");
 
         propertyField = treeAsset.Q<PropertyField>("FrameEventField");
 
@@ -63,6 +61,9 @@ public class FrameDataEditor : EditorWindow
 
         animationdataField.RegisterValueChangedCallback(OnAnimationDataChanged);
         modelField.RegisterValueChangedCallback(OnModelChanged);
+        animationdataField.visible = false;
+        buttonContainer.visible = false;
+        frameInspector.visible = false;
     }
 
     void OnAnimationDataChanged(ChangeEvent<Object> evt)
@@ -70,11 +71,15 @@ public class FrameDataEditor : EditorWindow
 
         if (evt.newValue == null)
         {
+            buttonContainer.visible = false;
+            frameInspector.visible = false;
             Debug.Log("value is null");
             return;
         }
         currentAnimationData = evt.newValue as AnimationData;
         PopulateList();
+        buttonContainer.visible = true;
+        frameInspector.visible = true;
 
     }
 
@@ -83,6 +88,7 @@ public class FrameDataEditor : EditorWindow
         if (evt.newValue == null)
         {
             Debug.Log("value is null");
+            animationdataField.visible = false;
             return;
         }
         if (evt.newValue.GetComponent<CharacterModel>() == null)
@@ -91,6 +97,9 @@ public class FrameDataEditor : EditorWindow
             modelField.SetValueWithoutNotify(null);
             return;
         }
+        string prefabPath = AssetDatabase.GetAssetPath((GameObject)evt.newValue);
+        PrefabStageUtility.OpenPrefab(prefabPath);
+        animationdataField.visible = true;
     }
 
     void PopulateList()
@@ -108,9 +117,10 @@ public class FrameDataEditor : EditorWindow
         frameEventList.selectionType = SelectionType.Single;
         frameEventList.selectionChanged += _ =>
         {
-            selecteFrameIndex = frameEventList.selectedIndex;
-            currentFrameEvent = currentAnimationData.FrameEvents()[selecteFrameIndex];
+            selectedFrameIndex = frameEventList.selectedIndex;
+            currentFrameEvent = currentAnimationData.FrameEvents()[selectedFrameIndex];
             UpdateFrameInspector();
+            PlayAnimationAtFrame();
         };
     }
 
@@ -126,7 +136,7 @@ public class FrameDataEditor : EditorWindow
     {
         if (currentAnimationData == null || currentAnimationData.FrameEvents().Count == 0)
             return;
-        currentAnimationData.FrameEvents().RemoveAt(selecteFrameIndex);
+        currentAnimationData.FrameEvents().RemoveAt(selectedFrameIndex);
         frameEventList.Rebuild();
     }   
     
@@ -135,8 +145,34 @@ public class FrameDataEditor : EditorWindow
         SerializedObject serializedObject = new SerializedObject(currentAnimationData);
 
         SerializedProperty listProperty = serializedObject.FindProperty("frameEvents");
-        SerializedProperty selectedFrame = listProperty.GetArrayElementAtIndex(selecteFrameIndex) as SerializedProperty;
+        SerializedProperty selectedFrame = listProperty.GetArrayElementAtIndex(selectedFrameIndex) as SerializedProperty;
         propertyField.BindProperty(selectedFrame);
+    }
+    private void PlayAnimationAtFrame()
+    {
+        AnimationClip targetClip = currentAnimationData.AnimationClip();
+        if (targetClip == null) return;
+        GetAnimationWindow();
+        if (animationWindow != null)
+        {
+            animationWindow.animationClip = targetClip;
+            animationWindow.playing = true;
+            animationWindow.previewing = true;
+            animationWindow.playing = false;
+            animationWindow.time = (currentFrameEvent.Frame / 60f);
+            animationWindow.Repaint();
+        }
+    }
+
+    private void GetAnimationWindow()
+    {
+        if (animationWindow == null) TryGetAnimationWindow();
+    }
+
+    private bool TryGetAnimationWindow()
+    {
+        animationWindow = EditorWindow.GetWindow<AnimationWindow>();
+        return animationWindow != null;
     }
 }
 

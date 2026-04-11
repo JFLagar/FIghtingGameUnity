@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 881c381d86719ed40a5da035c2b13a4d, type: 3}
   m_Name: TestAnimData
   m_EditorClassIdentifier: 
-  animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
+  animationClip: {fileID: -1835302214601652446, guid: 8de8f4c8d0d7772499edfef4af33d320, type: 3}
   frameEvents:
   - frame: 50
     type: 0

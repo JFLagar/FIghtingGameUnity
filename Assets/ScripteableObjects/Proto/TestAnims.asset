@@ -13,136 +13,35 @@ MonoBehaviour:
   m_Name: TestAnims
   m_EditorClassIdentifier: 
   standingClips:
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - animationClip: {fileID: -7232688157270164967, guid: 8de8f4c8d0d7772499edfef4af33d320, type: 3}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - animationClip: {fileID: 7081070718314868740, guid: 8de8f4c8d0d7772499edfef4af33d320, type: 3}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
   jumpingClips:
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  crouchingClip:
-    animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
+  crouchingClip: {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
   hitClips:
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
   stateTransitionClips:
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
   wakeupClips:
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
   recoveryClips:
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
   cancelClips:
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
   blockingClips:
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  - animationClip: {fileID: 7400000, guid: cab83607a6aa8a848a8f37b8d0813d77, type: 2}
-    frameEvents: []
-    animationEvent:
-      m_PersistentCalls:
-        m_Calls: []
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
+  - {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}

@@ -128,6 +128,7 @@ namespace SkillIssue.CharacterSpace
         void AddAnyTransition(IState to, IPredicate condition) => stateMachine.AddAnyTransition(to, condition);
 
         AnimationData currentAnimation = null;
+        [SerializeField]
         int currentFrame = 0;
 
         public void Initialize()
@@ -254,18 +255,23 @@ namespace SkillIssue.CharacterSpace
                             hurtbox.SetState(ColliderState.Closed);
                         }
                         Debug.Log(frame.Frame);
-                        for (int i = 0; i < frame.Hitboxes().Count; i++)
+                        for (int i = 0; i < frame.Hitboxes().Count+1; i++)
                         {
-                            Hitbox hitbox = characterModel.GetHitboxes()[i];
-                            hitbox.hitboxSize = frame.Hitboxes()[i].Size();
-                            hitbox.transform.position = frame.Hitboxes()[i].Position();
+                            if (i == 0)
+                                continue;
+                            Hitbox hitbox = characterModel.GetHitboxes()[i-1];
+                            hitbox.SetSize(frame.Hitboxes()[i-1].Size());
+                            hitbox.SetPosition(frame.Hitboxes()[i-1].Position());
                             hitbox.SetState(ColliderState.Open);
                         }
-                        for (int i = 0; i < frame.Hurtboxes().Count; i++)
+                        for (int i = 0; i < frame.Hurtboxes().Count+1; i++)
                         {
-                            Hurtbox hurtbox = characterModel.GetHurtboxes()[i];
-                            hurtbox.SetSize(frame.Hitboxes()[i].Size());
-                            hurtbox.transform.position = frame.Hitboxes()[i].Position();
+                            if (i == 0)
+                                continue;
+                            Hurtbox hurtbox = characterModel.GetHurtboxes()[i - 1];
+                            hurtbox.SetSize(frame.Hurtboxes()[i - 1].Size());
+                            hurtbox.SetPosition(frame.Hurtboxes()[i - 1].Position());
+                            Debug.Log(frame.Hurtboxes()[i - 1].Position() + " / " + hurtbox.transform.position);
                             hurtbox.SetState(ColliderState.Open);
                         }
                     }
@@ -860,7 +866,10 @@ namespace SkillIssue.CharacterSpace
 
         void PrepareAnimation(AnimationData animationData)
         {
-            Debug.Log("Preparing");
+            if (currentAnimation = animationData)
+            {
+                return;
+            }
             currentFrame = 0;
             currentAnimation = animationData;
         }

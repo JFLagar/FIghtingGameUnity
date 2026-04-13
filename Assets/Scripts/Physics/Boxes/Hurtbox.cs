@@ -53,7 +53,7 @@ namespace SkillIssue
 
         public void SetPosition(Vector3 position)
         {
-            this.transform.position = position;
+            this.transform.localPosition = position;
         }
 
         void OnDrawGizmosSelected()

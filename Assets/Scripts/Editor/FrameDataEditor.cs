@@ -1,5 +1,6 @@
 using SkillIssue;
 using SkillIssue.Animations;
+using System.Drawing.Drawing2D;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -67,62 +68,56 @@ public class FrameDataEditor : EditorWindow
         buttonContainer.visible = false;
         frameInspector.visible = false;
 
-        var updateButton = new Button();
-        updateButton.text = "Update";
-        updateButton.clicked += () =>
-        {
-            PaintCollisionData();
-            PlayAnimationAtFrame();
-        };
-        root.Add(updateButton);
+        SceneView.duringSceneGui += PaintCollisionData;
     }
 
-    void PaintCollisionData()
+    void PaintCollisionData(SceneView sceneView)
     {
         if (model == null && currentAnimationData == null)
             return;
-        if (animationWindow != null)
-        {
-            animationWindow.previewing = false;
-            animationWindow.Repaint();
-        }
+        CharacterModel characterModel = model.GetComponent<CharacterModel>();
+       Transform collisions = characterModel.GetCollisions();
 
         bool open = currentFrameEvent.Type() == AnimationData.EventType.Open;
-
+        Handles.color = Color.red;
         for (int i = 0; i < currentFrameEvent.Hitboxes().Count + 1; i++)
         {
             if (i == 1 || !open)
             {
                 foreach (Hitbox hitbox in model.GetComponent<CharacterModel>().GetHitboxes())
                 {
-                    hitbox.SetState(ColliderState.Closed);
+                    Handles.DrawWireCube(Vector3.zero, Vector3.zero);
                 }
             }
             if (i == 0)
                 continue;
             if (open)
             {
-                model.GetComponent<CharacterModel>().GetHitboxes()[i - 1].SetState(ColliderState.Open);
-                model.GetComponent<CharacterModel>().GetHitboxes()[i - 1].SetSize(currentFrameEvent.Hitboxes()[i - 1].Size());
-                model.GetComponent<CharacterModel>().GetHitboxes()[i - 1].SetPosition(currentFrameEvent.Hitboxes()[i - 1].Position());
+                Handles.matrix = Matrix4x4.TRS(currentFrameEvent.Hitboxes()[i-1].Position(), collisions.rotation, collisions.localScale);
+                Handles.DrawWireCube(Vector3.zero, new Vector3(currentFrameEvent.Hitboxes()[i-1].Size().x, currentFrameEvent.Hitboxes()[i - 1].Size().y) * 0.5f);
             }
         }
+        Handles.color = Color.blue;
 
         for (int i = 0; i < currentFrameEvent.Hurtboxes().Count + 1; i++)
         {
-            if (i == 0)
-                continue;
-            if (i == 1)
+            if (i == 1 || !open)
             {
-                foreach (Hurtbox hurtbox in model.GetComponent<CharacterModel>().GetHurtboxes())
+                foreach (Hurtbox hitbox in model.GetComponent<CharacterModel>().GetHurtboxes())
                 {
-                    hurtbox.SetState(ColliderState.Closed);
+                    Handles.DrawWireCube(Vector3.zero, Vector3.zero);
                 }
             }
-            model.GetComponent<CharacterModel>().GetHurtboxes()[i - 1].SetState(ColliderState.Open);
-            model.GetComponent<CharacterModel>().GetHurtboxes()[i - 1].SetSize(currentFrameEvent.Hurtboxes()[i - 1].Size());
-            model.GetComponent<CharacterModel>().GetHurtboxes()[i - 1].SetPosition(currentFrameEvent.Hurtboxes()[i - 1].Position());
+            if (i == 0)
+                continue;
+            if (open)
+            {
+                Handles.matrix = Matrix4x4.TRS(currentFrameEvent.Hurtboxes()[i - 1].Position(), collisions.rotation, collisions.localScale);
+                Handles.DrawWireCube(Vector3.zero, new Vector3(currentFrameEvent.Hurtboxes()[i - 1].Size().x, currentFrameEvent.Hurtboxes()[i - 1].Size().y) * 0.5f);
+            }
         }
+
+        sceneView.Repaint();
     }
 
     void OnAnimationDataChanged(ChangeEvent<Object> evt)
@@ -182,7 +177,6 @@ public class FrameDataEditor : EditorWindow
             selectedFrameIndex = frameEventList.selectedIndex;
             currentFrameEvent = currentAnimationData.FrameEvents()[selectedFrameIndex];
             UpdateFrameInspector();
-            PaintCollisionData();
             PlayAnimationAtFrame();
         };
     }

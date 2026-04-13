@@ -17,9 +17,9 @@ MonoBehaviour:
   - frame: 50
     type: 0
     hitboxes:
-    - size: {x: 0, y: 0, z: 0}
+    - size: {x: 1, y: 89, z: 0}
       position: {x: 0, y: 0, z: 0}
-    - size: {x: 0, y: 0, z: 0}
+    - size: {x: -0.36, y: 0, z: 0}
       position: {x: 0, y: 0, z: 0}
     - size: {x: 0, y: 0, z: 0}
       position: {x: 0, y: 0, z: 0}
@@ -29,7 +29,9 @@ MonoBehaviour:
   - frame: 45
     type: 0
     hitboxes: []
-    hurtboxes: []
+    hurtboxes:
+    - size: {x: 1.73, y: 1.46, z: 1.49}
+      position: {x: 0, y: 0, z: 0}
   - frame: 0
     type: 0
     hitboxes: []

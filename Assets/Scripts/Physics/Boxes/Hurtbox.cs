@@ -51,11 +51,16 @@ namespace SkillIssue
             boxCollider.size = size;
         }
 
+        public void SetPosition(Vector3 position)
+        {
+            this.transform.position = position;
+        }
+
         void OnDrawGizmosSelected()
         {
             CheckGizmoColor();
             Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.localScale);
-            Gizmos.DrawWireCube(Vector3.zero, new Vector3(boxCollider.size.x, boxCollider.size.y, 1)); // Because size is halfExtents
+            Gizmos.DrawWireCube(Vector3.zero, new Vector3(boxCollider.size.x, boxCollider.size.y) * 0.5f); // Because size is halfExtents
         }
 
         void CheckGizmoColor()

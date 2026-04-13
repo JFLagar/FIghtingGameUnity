@@ -1,5 +1,5 @@
+using SkillIssue;
 using SkillIssue.Animations;
-using System.Reflection;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -11,7 +11,7 @@ public class FrameDataEditor : EditorWindow
 {
     [SerializeField]
     private VisualTreeAsset m_VisualTreeAsset = default;
-    
+
     private ObjectField animationdataField;
     private ObjectField modelField;
     private ListView frameEventList;
@@ -29,6 +29,8 @@ public class FrameDataEditor : EditorWindow
     int selectedFrameIndex = 0;
 
     private AnimationWindow animationWindow;
+
+    GameObject model;
 
     [MenuItem("Window/UI Toolkit/FrameDataEditor")]
     public static void ShowExample()
@@ -64,6 +66,63 @@ public class FrameDataEditor : EditorWindow
         animationdataField.visible = false;
         buttonContainer.visible = false;
         frameInspector.visible = false;
+
+        var updateButton = new Button();
+        updateButton.text = "Update";
+        updateButton.clicked += () =>
+        {
+            PaintCollisionData();
+            PlayAnimationAtFrame();
+        };
+        root.Add(updateButton);
+    }
+
+    void PaintCollisionData()
+    {
+        if (model == null && currentAnimationData == null)
+            return;
+        if (animationWindow != null)
+        {
+            animationWindow.previewing = false;
+            animationWindow.Repaint();
+        }
+
+        bool open = currentFrameEvent.Type() == AnimationData.EventType.Open;
+
+        for (int i = 0; i < currentFrameEvent.Hitboxes().Count + 1; i++)
+        {
+            if (i == 1 || !open)
+            {
+                foreach (Hitbox hitbox in model.GetComponent<CharacterModel>().GetHitboxes())
+                {
+                    hitbox.SetState(ColliderState.Closed);
+                }
+            }
+            if (i == 0)
+                continue;
+            if (open)
+            {
+                model.GetComponent<CharacterModel>().GetHitboxes()[i - 1].SetState(ColliderState.Open);
+                model.GetComponent<CharacterModel>().GetHitboxes()[i - 1].SetSize(currentFrameEvent.Hitboxes()[i - 1].Size());
+                model.GetComponent<CharacterModel>().GetHitboxes()[i - 1].SetPosition(currentFrameEvent.Hitboxes()[i - 1].Position());
+            }
+        }
+
+        for (int i = 0; i < currentFrameEvent.Hurtboxes().Count + 1; i++)
+        {
+            if (i == 0)
+                continue;
+            if (i == 1)
+            {
+                foreach (Hurtbox hurtbox in model.GetComponent<CharacterModel>().GetHurtboxes())
+                {
+                    hurtbox.SetState(ColliderState.Closed);
+                }
+            }
+            model.GetComponent<CharacterModel>().GetHurtboxes()[i - 1].SetState(ColliderState.Open);
+            model.GetComponent<CharacterModel>().GetHurtboxes()[i - 1].SetSize(currentFrameEvent.Hurtboxes()[i - 1].Size());
+            model.GetComponent<CharacterModel>().GetHurtboxes()[i - 1].SetPosition(currentFrameEvent.Hurtboxes()[i - 1].Position());
+        }
     }
 
     void OnAnimationDataChanged(ChangeEvent<Object> evt)
@@ -98,8 +157,11 @@ public class FrameDataEditor : EditorWindow
             return;
         }
         string prefabPath = AssetDatabase.GetAssetPath((GameObject)evt.newValue);
-        PrefabStageUtility.OpenPrefab(prefabPath);
+        PrefabStage prefabStage = PrefabStageUtility.OpenPrefab(prefabPath);
+        model = prefabStage.prefabContentsRoot;
         animationdataField.visible = true;
+
+
     }
 
     void PopulateList()
@@ -120,6 +182,7 @@ public class FrameDataEditor : EditorWindow
             selectedFrameIndex = frameEventList.selectedIndex;
             currentFrameEvent = currentAnimationData.FrameEvents()[selectedFrameIndex];
             UpdateFrameInspector();
+            PaintCollisionData();
             PlayAnimationAtFrame();
         };
     }
@@ -138,8 +201,8 @@ public class FrameDataEditor : EditorWindow
             return;
         currentAnimationData.FrameEvents().RemoveAt(selectedFrameIndex);
         frameEventList.Rebuild();
-    }   
-    
+    }
+
     void UpdateFrameInspector()
     {
         SerializedObject serializedObject = new SerializedObject(currentAnimationData);
@@ -174,5 +237,6 @@ public class FrameDataEditor : EditorWindow
         animationWindow = EditorWindow.GetWindow<AnimationWindow>();
         return animationWindow != null;
     }
+
 }
 

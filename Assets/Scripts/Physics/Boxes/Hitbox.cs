@@ -88,5 +88,16 @@ namespace SkillIssue
         {
             responder = hitboxResponder;
         }
+
+
+        public void SetSize(Vector3 size)
+        {
+            hitboxSize = size;
+        }
+
+        public void SetPosition(Vector3 position)
+        {
+            this.transform.position = position;
+        }
     }
 }

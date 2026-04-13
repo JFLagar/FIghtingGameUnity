@@ -232,5 +232,9 @@ public class FrameDataEditor : EditorWindow
         return animationWindow != null;
     }
 
+    private void OnDisable()
+    {
+        SceneView.duringSceneGui -= PaintCollisionData;
+    }
 }
 

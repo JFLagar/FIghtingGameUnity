@@ -254,7 +254,6 @@ namespace SkillIssue.CharacterSpace
                             hurtbox.transform.position = Vector3.zero;
                             hurtbox.SetState(ColliderState.Closed);
                         }
-                        Debug.Log(frame.Frame);
                         for (int i = 0; i < frame.Hitboxes().Count+1; i++)
                         {
                             if (i == 0)
@@ -271,7 +270,6 @@ namespace SkillIssue.CharacterSpace
                             Hurtbox hurtbox = characterModel.GetHurtboxes()[i - 1];
                             hurtbox.SetSize(frame.Hurtboxes()[i - 1].Size());
                             hurtbox.SetPosition(frame.Hurtboxes()[i - 1].Position());
-                            Debug.Log(frame.Hurtboxes()[i - 1].Position() + " / " + hurtbox.transform.position);
                             hurtbox.SetState(ColliderState.Open);
                         }
                     }

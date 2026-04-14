@@ -1,6 +1,5 @@
 using SkillIssue;
 using SkillIssue.Animations;
-using System.Drawing.Drawing2D;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -67,8 +66,6 @@ public class FrameDataEditor : EditorWindow
         animationdataField.visible = false;
         buttonContainer.visible = false;
         frameInspector.visible = false;
-
-        SceneView.duringSceneGui += PaintCollisionData;
     }
 
     void PaintCollisionData(SceneView sceneView)
@@ -76,7 +73,7 @@ public class FrameDataEditor : EditorWindow
         if (model == null && currentAnimationData == null)
             return;
         CharacterModel characterModel = model.GetComponent<CharacterModel>();
-       Transform collisions = characterModel.GetCollisions();
+        Transform collisions = characterModel.GetCollisions();
 
         bool open = currentFrameEvent.Type() == AnimationData.EventType.Open;
         Handles.color = Color.red;
@@ -93,8 +90,8 @@ public class FrameDataEditor : EditorWindow
                 continue;
             if (open)
             {
-                Handles.matrix = Matrix4x4.TRS(currentFrameEvent.Hitboxes()[i-1].Position(), collisions.rotation, collisions.localScale);
-                Handles.DrawWireCube(Vector3.zero, new Vector3(currentFrameEvent.Hitboxes()[i-1].Size().x, currentFrameEvent.Hitboxes()[i - 1].Size().y) * 0.5f);
+                Handles.matrix = Matrix4x4.TRS(currentFrameEvent.Hitboxes()[i - 1].Position(), collisions.rotation, collisions.localScale);
+                Handles.DrawWireCube(Vector3.zero, new Vector3(currentFrameEvent.Hitboxes()[i - 1].Size().x, currentFrameEvent.Hitboxes()[i - 1].Size().y) * 0.5f);
             }
         }
         Handles.color = Color.blue;
@@ -232,9 +229,17 @@ public class FrameDataEditor : EditorWindow
         return animationWindow != null;
     }
 
+    private void OnEnable()
+    {
+        SceneView.duringSceneGui += PaintCollisionData;
+    }
+
     private void OnDisable()
     {
         SceneView.duringSceneGui -= PaintCollisionData;
+        model = null;
+        currentAnimationData = null;
+        currentFrameEvent = null;
     }
 }
 

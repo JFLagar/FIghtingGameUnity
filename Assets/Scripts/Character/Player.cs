@@ -240,43 +240,52 @@ namespace SkillIssue.CharacterSpace
 
             switch (frame.Type())
             {
-                case AnimationData.EventType.Open:
+                case AnimationData.EventType.CollisionBox:
                     {
-                        foreach (var hitbox in characterModel.GetHitboxes())
-                        {
-                            hitbox.hitboxSize = Vector3.zero;
-                            hitbox.transform.position = Vector3.zero;
-                            hitbox.SetState(ColliderState.Closed);
-                        }
                         foreach (var hurtbox in characterModel.GetHurtboxes())
                         {
                             hurtbox.SetSize(Vector3.zero);
                             hurtbox.transform.position = Vector3.zero;
                             hurtbox.SetState(ColliderState.Closed);
                         }
-                        for (int i = 0; i < frame.Hitboxes().Count+1; i++)
+
+                        for (int i = 0; i < frame.Hitboxes().Count + 1; i++)
                         {
                             if (i == 0)
                                 continue;
-                            Hitbox hitbox = characterModel.GetHitboxes()[i-1];
-                            hitbox.SetSize(frame.Hitboxes()[i-1].Size());
-                            hitbox.SetPosition(frame.Hitboxes()[i-1].Position());
-                            hitbox.SetState(ColliderState.Open);
+                            if (i == 1)
+                            {
+                                foreach (var box in characterModel.GetHitboxes())
+                                {
+                                    box.SetState(ColliderState.Closed);
+                                }
+                            }
+                            Hitbox hitbox = characterModel.GetHitboxes()[i - 1];
+                            hitbox.SetSize(frame.Hitboxes()[i - 1].Size());
+                            hitbox.SetPosition(frame.Hitboxes()[i - 1].Position());
+                            hitbox.SetState(frame.Hitboxes()[i - 1].State());
                         }
-                        for (int i = 0; i < frame.Hurtboxes().Count+1; i++)
+                        for (int i = 0; i < frame.Hurtboxes().Count + 1; i++)
                         {
                             if (i == 0)
                                 continue;
+                            if (i == 1)
+                            {
+                                foreach (var box in characterModel.GetHurtboxes())
+                                {
+                                    box.SetState(ColliderState.Closed);
+                                }
+                            }
                             Hurtbox hurtbox = characterModel.GetHurtboxes()[i - 1];
                             hurtbox.SetSize(frame.Hurtboxes()[i - 1].Size());
                             hurtbox.SetPosition(frame.Hurtboxes()[i - 1].Position());
-                            hurtbox.SetState(ColliderState.Open);
+                            hurtbox.SetState(frame.Hurtboxes()[i - 1].State());
                         }
                     }
                     break;
-                case AnimationData.EventType.Close:
+                case AnimationData.EventType.AnimationEnd:
                     {
-                        Debug.Log(frame.Frame + 100);
+                        Debug.Log(frame.Frame + "End");
                         currentAnimation = null;
                     }
                     break;

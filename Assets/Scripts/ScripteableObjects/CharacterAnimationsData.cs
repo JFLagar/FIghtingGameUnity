@@ -42,7 +42,7 @@ namespace SkillIssue.Animations
     public class FrameEvent
     {
         [SerializeField]
-        int frame;
+        int frame = 1;
         [SerializeField]
         AnimationData.EventType type;
         [SerializeField]
@@ -59,10 +59,13 @@ namespace SkillIssue.Animations
     public struct CollisionData
     {
         [SerializeField]
+        ColliderState state;
+        [SerializeField]
         Vector3 size;
         [SerializeField]
         Vector3 position;
 
+        public ColliderState State() { return state; }
         public Vector3 Size() { return size; }
         public Vector3 Position() { return position; }
     }

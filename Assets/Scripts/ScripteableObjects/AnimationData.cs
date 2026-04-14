@@ -10,8 +10,8 @@ namespace SkillIssue.Animations
     {
         public enum EventType
         {
-            Open, //Change hitboxes/Hurtboxes
-            Close, //Call Anim End
+            CollisionBox, //Change hitboxes/Hurtboxes
+            AnimationEnd, //Call Anim End
             Movement,
             MovementEnd,
             Projectile

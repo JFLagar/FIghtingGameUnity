@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  state: 0
+  state: 1
   boxCollider: {fileID: 8230868541060757595}
   inactiveColor: {r: 1, g: 1, b: 1, a: 0}
   collisionOpenColor: {r: 0, g: 0.559567, b: 1, a: 0.5372549}
@@ -151,7 +151,7 @@ MonoBehaviour:
   inactiveColor: {r: 0.05724907, g: 0, b: 1, a: 0}
   collisionOpenColor: {r: 1, g: 0, b: 0, a: 1}
   collidingColor: {r: 1, g: 0.7463412, b: 0, a: 1}
-  state: 0
+  state: 1
 --- !u!1 &2044107099531953061
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,7 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  state: 0
+  state: 1
   boxCollider: {fileID: 7098303207171440118}
   inactiveColor: {r: 1, g: 1, b: 1, a: 0}
   collisionOpenColor: {r: 0, g: 0.559567, b: 1, a: 0.5372549}
@@ -303,7 +303,7 @@ MonoBehaviour:
   inactiveColor: {r: 0.05724907, g: 0, b: 1, a: 0}
   collisionOpenColor: {r: 1, g: 0, b: 0, a: 1}
   collidingColor: {r: 1, g: 0.7463412, b: 0, a: 1}
-  state: 0
+  state: 1
 --- !u!1 &4121528622652015266
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,7 +383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  state: 0
+  state: 1
   boxCollider: {fileID: 2126431105655451360}
   inactiveColor: {r: 1, g: 1, b: 1, a: 0}
   collisionOpenColor: {r: 0, g: 0.559567, b: 1, a: 0.5372549}
@@ -488,7 +488,7 @@ MonoBehaviour:
   inactiveColor: {r: 0.05724907, g: 0, b: 1, a: 0}
   collisionOpenColor: {r: 1, g: 0, b: 0, a: 1}
   collidingColor: {r: 1, g: 0.7463412, b: 0, a: 1}
-  state: 0
+  state: 1
 --- !u!1 &5083168731195777118
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,7 +541,7 @@ MonoBehaviour:
   inactiveColor: {r: 0.05724907, g: 0, b: 1, a: 0}
   collisionOpenColor: {r: 1, g: 0, b: 0, a: 1}
   collidingColor: {r: 1, g: 0.7463412, b: 0, a: 1}
-  state: 0
+  state: 1
 --- !u!1 &5150775819179542233
 GameObject:
   m_ObjectHideFlags: 0
@@ -632,7 +632,7 @@ MonoBehaviour:
   inactiveColor: {r: 0.05724907, g: 0, b: 1, a: 0}
   collisionOpenColor: {r: 1, g: 0, b: 0, a: 1}
   collidingColor: {r: 1, g: 0.7463412, b: 0, a: 1}
-  state: 0
+  state: 1
 --- !u!1 &5947771691845956422
 GameObject:
   m_ObjectHideFlags: 0
@@ -679,7 +679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  state: 0
+  state: 1
   boxCollider: {fileID: 8018885361715487042}
   inactiveColor: {r: 1, g: 1, b: 1, a: 0}
   collisionOpenColor: {r: 0, g: 0.559567, b: 1, a: 0.5372549}
@@ -778,7 +778,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  state: 0
+  state: 1
   boxCollider: {fileID: 95242481709908449}
   inactiveColor: {r: 1, g: 1, b: 1, a: 0}
   collisionOpenColor: {r: 0, g: 0.559567, b: 1, a: 0.5372549}
@@ -877,7 +877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  state: 0
+  state: 1
   boxCollider: {fileID: 4065531509535755004}
   inactiveColor: {r: 1, g: 1, b: 1, a: 0}
   collisionOpenColor: {r: 0, g: 0.559567, b: 1, a: 0.5372549}
@@ -976,7 +976,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  state: 0
+  state: 1
   boxCollider: {fileID: 7428080768312222044}
   inactiveColor: {r: 1, g: 1, b: 1, a: 0}
   collisionOpenColor: {r: 0, g: 0.559567, b: 1, a: 0.5372549}
@@ -1081,7 +1081,7 @@ MonoBehaviour:
   inactiveColor: {r: 0.05724907, g: 0, b: 1, a: 0}
   collisionOpenColor: {r: 1, g: 0, b: 0, a: 1}
   collidingColor: {r: 1, g: 0.7463412, b: 0, a: 1}
-  state: 0
+  state: 1
 --- !u!1 &9103267069822500843
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,13 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 881c381d86719ed40a5da035c2b13a4d, type: 3}
   m_Name: TestAnimData
   m_EditorClassIdentifier: 
-  animationClip: {fileID: -1835302214601652446, guid: 8de8f4c8d0d7772499edfef4af33d320, type: 3}
+  animationClip: {fileID: -6456735551303713624, guid: 8de8f4c8d0d7772499edfef4af33d320, type: 3}
   frameEvents:
   - frame: 1
     type: 0
     hitboxes:
-    - size: {x: 0, y: 0, z: 0}
+    - state: 1
+      size: {x: 0, y: 0, z: 0}
       position: {x: 0, y: 0, z: 0}
     hurtboxes:
-    - size: {x: 3, y: 1, z: 0}
+    - state: 0
+      size: {x: 3, y: 1, z: 0}
+      position: {x: 0.1, y: 0.1, z: 0}
+  - frame: 4
+    type: 0
+    hitboxes:
+    - state: 0
+      size: {x: 1, y: 1, z: 1}
+      position: {x: 0, y: 0, z: 0}
+    hurtboxes:
+    - state: 0
+      size: {x: 3, y: 3, z: 0}
       position: {x: 0.1, y: 0.1, z: 0}

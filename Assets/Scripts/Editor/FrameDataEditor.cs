@@ -70,16 +70,15 @@ public class FrameDataEditor : EditorWindow
 
     void PaintCollisionData(SceneView sceneView)
     {
-        if (model == null && currentAnimationData == null)
+        if (model == null || currentAnimationData == null || currentFrameEvent == null)
             return;
         CharacterModel characterModel = model.GetComponent<CharacterModel>();
         Transform collisions = characterModel.GetCollisions();
 
-        bool open = currentFrameEvent.Type() == AnimationData.EventType.Open;
         Handles.color = Color.red;
         for (int i = 0; i < currentFrameEvent.Hitboxes().Count + 1; i++)
         {
-            if (i == 1 || !open)
+            if (i == 1)
             {
                 foreach (Hitbox hitbox in model.GetComponent<CharacterModel>().GetHitboxes())
                 {
@@ -88,17 +87,17 @@ public class FrameDataEditor : EditorWindow
             }
             if (i == 0)
                 continue;
-            if (open)
+            if (currentFrameEvent.Hitboxes()[i -1].State() == ColliderState.Open)
             {
                 Handles.matrix = Matrix4x4.TRS(currentFrameEvent.Hitboxes()[i - 1].Position(), collisions.rotation, collisions.localScale);
-                Handles.DrawWireCube(Vector3.zero, new Vector3(currentFrameEvent.Hitboxes()[i - 1].Size().x, currentFrameEvent.Hitboxes()[i - 1].Size().y) * 0.5f);
+                Handles.DrawWireCube(Vector3.zero, new Vector3(currentFrameEvent.Hitboxes()[i - 1].Size().x, currentFrameEvent.Hitboxes()[i - 1].Size().y));
             }
         }
         Handles.color = Color.blue;
 
         for (int i = 0; i < currentFrameEvent.Hurtboxes().Count + 1; i++)
         {
-            if (i == 1 || !open)
+            if (i == 1)
             {
                 foreach (Hurtbox hitbox in model.GetComponent<CharacterModel>().GetHurtboxes())
                 {
@@ -107,10 +106,10 @@ public class FrameDataEditor : EditorWindow
             }
             if (i == 0)
                 continue;
-            if (open)
+            if (currentFrameEvent.Hurtboxes()[i-1].State() == ColliderState.Open)
             {
                 Handles.matrix = Matrix4x4.TRS(currentFrameEvent.Hurtboxes()[i - 1].Position(), collisions.rotation, collisions.localScale);
-                Handles.DrawWireCube(Vector3.zero, new Vector3(currentFrameEvent.Hurtboxes()[i - 1].Size().x, currentFrameEvent.Hurtboxes()[i - 1].Size().y) * 0.5f);
+                Handles.DrawWireCube(Vector3.zero, new Vector3(currentFrameEvent.Hurtboxes()[i - 1].Size().x, currentFrameEvent.Hurtboxes()[i - 1].Size().y)/2);
             }
         }
 

@@ -60,7 +60,7 @@ namespace SkillIssue
         {
             CheckGizmoColor();
             Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.localScale);
-            Gizmos.DrawWireCube(Vector3.zero, new Vector3(boxCollider.size.x, boxCollider.size.y) * 0.5f); // Because size is halfExtents
+            Gizmos.DrawWireCube(Vector3.zero, new Vector3(boxCollider.size.x, boxCollider.size.y)); // Because size is halfExtents
         }
 
         void CheckGizmoColor()

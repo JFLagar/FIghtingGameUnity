@@ -1,0 +1,22 @@
+.custom-label {
+    font-size: 20px;
+    -unity-font-style: bold;
+    color: rgb(68, 138, 255);
+}
+
+.unity-base-field {
+}
+
+.unity-object-field {
+}
+
+.unity-property-field {
+}
+
+.unity-button {
+}
+
+.frame-button {
+    width: 20px;
+    height: 20px;
+}

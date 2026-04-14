@@ -20,7 +20,7 @@ namespace SkillIssue.StateMachineSpace
         public override void OnEnter()
         {
             base.OnEnter();
-            player.GetCharacterAnimation().QueueMovementState(player.GetCharacterAnimationsData().standingClips.FirstOrDefault());
+            player.QueueMovementState(player.GetCharacterAnimationsData().standingClips.FirstOrDefault());
             player.ResetAirActions();
 
             player._jumpAction += Jump;
@@ -105,7 +105,7 @@ namespace SkillIssue.StateMachineSpace
                 player.SetRunning(true);
             else
             {
-                player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().standingClips.LastOrDefault(), Managers.Instance.GameManager.GetCombatValues().GetAirDashAnimationDuration());
+                player.PlayActionAnimation(player.GetCharacterAnimationsData().standingClips.LastOrDefault(), Managers.Instance.GameManager.GetCombatValues().GetAirDashAnimationDuration());
                 player.ApplyForce(new Vector2(-player.FaceDir * 2, 0.5f), Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
             }
         }
@@ -113,7 +113,7 @@ namespace SkillIssue.StateMachineSpace
         void Overdrive()
         {
             Debug.Log("Overdrive");
-            player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().GetCancelClips().FirstOrDefault());
+            player.PlayActionAnimation(player.GetCharacterAnimationsData().GetCancelClips().FirstOrDefault());
         }
     }
 
@@ -131,8 +131,8 @@ namespace SkillIssue.StateMachineSpace
 
         public override void OnEnter()
         {
-            player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
-            player.GetCharacterAnimation().QueueMovementState(player.GetCharacterAnimationsData().crouchingClip);
+            player.PlayActionAnimation(player.GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
+            player.QueueMovementState(player.GetCharacterAnimationsData().crouchingClip);
             base.OnEnter();
 
             player._overdriveAction += Overdrive;
@@ -198,7 +198,7 @@ namespace SkillIssue.StateMachineSpace
         void Overdrive()
         {
             Debug.Log("Overdrive");
-            player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().GetCancelClips().FirstOrDefault());
+            player.PlayActionAnimation(player.GetCharacterAnimationsData().GetCancelClips().FirstOrDefault());
         }
     }
 
@@ -302,14 +302,14 @@ namespace SkillIssue.StateMachineSpace
 
             if (player.GetInputDirection().x == player.FaceDir)
             {
-                player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().jumpingClips[2], Managers.Instance.GameManager.GetCombatValues().GetAirDashAnimationDuration());
+                player.PlayActionAnimation(player.GetCharacterAnimationsData().jumpingClips[2], Managers.Instance.GameManager.GetCombatValues().GetAirDashAnimationDuration());
                 player.ApplyForce(new Vector2(player.FaceDir * Managers.Instance.GameManager.GetCombatValues().GetDashMultiplier(), 0.1f),
                     Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
                 player.SetAirActions(player.AirActions - 1);
             }
             else
             {
-                player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().standingClips.LastOrDefault(), Managers.Instance.GameManager.GetCombatValues().GetAirDashAnimationDuration());
+                player.PlayActionAnimation(player.GetCharacterAnimationsData().standingClips.LastOrDefault(), Managers.Instance.GameManager.GetCombatValues().GetAirDashAnimationDuration());
                 player.ApplyForce(new Vector2(-player.FaceDir, 0.1f), Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
                 player.SetAirActions(player.AirActions - 1);
             }
@@ -333,7 +333,7 @@ namespace SkillIssue.StateMachineSpace
         void Overdrive()
         {
             Debug.Log("Overdrive");
-            player.GetCharacterAnimation().PlayActionAnimation(player.GetCharacterAnimationsData().GetCancelClips().FirstOrDefault());
+            player.PlayActionAnimation(player.GetCharacterAnimationsData().GetCancelClips().FirstOrDefault());
         }
     }
 

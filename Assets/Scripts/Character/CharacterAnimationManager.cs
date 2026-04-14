@@ -1,5 +1,6 @@
 using SkillIssue.CharacterSpace;
 using SkillIssue.StateMachineSpace;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -24,6 +25,8 @@ public class CharacterAnimationManager : MonoBehaviour
 
 
     public int action;
+    public float aPlayable;
+    public float mPlayable;
     public string animName;
 
 
@@ -32,10 +35,10 @@ public class CharacterAnimationManager : MonoBehaviour
         this.character = character;
         this.animator = animator;
 
-        animator.updateMode = AnimatorUpdateMode.Fixed;
+        animator.updateMode = AnimatorUpdateMode.Normal;
         // Create PlayableGraph
         graph = PlayableGraph.Create("CharacterAnimationGraph" + character.name);
-        graph.SetTimeUpdateMode(DirectorUpdateMode.Manual);
+        graph.SetTimeUpdateMode(DirectorUpdateMode.GameTime);
 
         // Create Animation Mixer with 2 inputs (Movement + Action)
         mixerPlayable = AnimationMixerPlayable.Create(graph, 2);
@@ -63,8 +66,10 @@ public class CharacterAnimationManager : MonoBehaviour
     public void AnimUpdate()
     {
         action = mixerPlayable.GetInputWeight(0) == 0 ? 1 : 0;
-        time = 1f * Time.fixedDeltaTime;
-        graph.Evaluate(time);
+        aPlayable = mixerPlayable.GetInputWeight(1);
+        mPlayable = mixerPlayable.GetInputWeight(0);
+        //time = 1f * Time.fixedDeltaTime;
+        //graph.Evaluate(time);
     }
 
     private void CacheAnimationsPlayable()
@@ -249,6 +254,7 @@ public class CharacterAnimationManager : MonoBehaviour
 
 }
 
+[Serializable]
 public class ActionPlayableBehaviour : PlayableBehaviour
 {
     private CharacterAnimationManager controller;

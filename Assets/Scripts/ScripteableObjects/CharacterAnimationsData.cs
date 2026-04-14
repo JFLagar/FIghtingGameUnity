@@ -1,36 +1,74 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "CharacterAnimationsData", menuName = "Scriptable Objects/CharacterAnimationsData")]
-public class CharacterAnimationsData : ScriptableObject
+namespace SkillIssue.Animations
 {
-    //0 Standing and Walking
-    [SerializeField]
-    public AnimationClip[] standingClips;
-    [SerializeField]
-    public AnimationClip[] jumpingClips;
-    [SerializeField]
-    public AnimationClip crouchingClip;
-    [SerializeField]
-    public AnimationClip[] blockingClips;
-    [SerializeField]
-    public AnimationClip[] hitClips;
-    [SerializeField]
-    public AnimationClip[] stateTransitionClips;
-    [SerializeField]
-    public AnimationClip[] wakeupClips;
-    [SerializeField]
-    public AnimationClip[] recoveryClips;
-    [SerializeField]
-    public AnimationClip[] cancelClips;
+    [CreateAssetMenu(fileName = "CharacterAnimationsData", menuName = "Scriptable Objects/CharacterAnimationsData")]
+    public class CharacterAnimationsData : ScriptableObject
+    {
+        //0 Standing and Walking
+        [SerializeField]
+        public AnimationData[] standingClips;
+        [SerializeField]
+        public AnimationData[] jumpingClips;
+        [SerializeField]
+        public AnimationData crouchingClip;
+        [SerializeField]
+        public AnimationData[] hitClips;
+        [SerializeField]
+        public AnimationData[] stateTransitionClips;
+        [SerializeField]
+        public AnimationData[] wakeupClips;
+        [SerializeField]
+        public AnimationData[] recoveryClips;
+        [SerializeField]
+        public AnimationData[] cancelClips;
+        [SerializeField]
+        public AnimationData[] blockingClips;
 
-    public AnimationClip[] GetStandingClips() {  return standingClips; }
-    public AnimationClip[] GetJumpingClips() { return jumpingClips; }
-    public AnimationClip GetCrouchingClip() { return crouchingClip; }
-    public AnimationClip[] GetBlockingClips() { return blockingClips; }
-    public AnimationClip[] GetHitClips() { return hitClips; }
-    public AnimationClip[] GetStateTransitionClips() { return stateTransitionClips; }
-    public AnimationClip[] GetWakeupClips() { return  wakeupClips; }
-    public AnimationClip[] GetRecoveryClips() { return recoveryClips; }
-    public AnimationClip[] GetCancelClips() { return cancelClips; }
+        public AnimationData[] GetStandingClips() { return standingClips; }
+        public AnimationData[] GetJumpingClips() { return jumpingClips; }
+        public AnimationData GetCrouchingClip() { return crouchingClip; }
+        public AnimationData[] GetBlockingClips() { return blockingClips; }
+        public AnimationData[] GetHitClips() { return hitClips; }
+        public AnimationData[] GetStateTransitionClips() { return stateTransitionClips; }
+        public AnimationData[] GetWakeupClips() { return wakeupClips; }
+        public AnimationData[] GetRecoveryClips() { return recoveryClips; }
+        public AnimationData[] GetCancelClips() { return cancelClips; }
 
+    }
+    [Serializable]
+    public class FrameEvent
+    {
+        [SerializeField]
+        int frame = 1;
+        [SerializeField]
+        AnimationData.EventType type;
+        [SerializeField]
+        List<CollisionData> hitboxes = new List<CollisionData>();
+        [SerializeField]
+        List<CollisionData> hurtboxes = new List<CollisionData>();
+        public int Frame{ get { return frame; } set { frame = value; } }
+        public List<CollisionData> Hitboxes() { return hitboxes; }
+        public List<CollisionData> Hurtboxes() { return hurtboxes; }
+        public AnimationData.EventType Type() { return type; }
+    }
+
+    [Serializable]
+    public struct CollisionData
+    {
+        [SerializeField]
+        ColliderState state;
+        [SerializeField]
+        Vector3 size;
+        [SerializeField]
+        Vector3 position;
+
+        public ColliderState State() { return state; }
+        public Vector3 Size() { return size; }
+        public Vector3 Position() { return position; }
+    }
 }
+
+

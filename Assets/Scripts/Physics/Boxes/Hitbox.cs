@@ -6,8 +6,8 @@ namespace SkillIssue
 {
     public enum ColliderState
     {
-        Closed,
         Open,
+        Closed,
         Colliding
     }
     public class Hitbox : MonoBehaviour
@@ -18,7 +18,6 @@ namespace SkillIssue
         public Color inactiveColor;
         public Color collisionOpenColor;
         public Color collidingColor;
-        private float hitboxGizmosMultiplier = 3f;
         public ColliderState state;
         private IHitboxResponder responder = null;
 
@@ -30,8 +29,11 @@ namespace SkillIssue
         void CheckCollision()
         {
             if (state == ColliderState.Closed) { return; }
+            //Ignore contactOffset
+            Vector3 adjustedSize = hitboxSize - (Vector3.one * Physics2D.defaultContactOffset * 2);
+            adjustedSize = Vector3.Max(adjustedSize, Vector3.zero);
 
-            Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, hitboxSize * 2, 0, targetMask);
+            Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, adjustedSize, 0, targetMask);
             if (colliders.Length!= 0)
             {
                 if (state == ColliderState.Colliding)
@@ -44,7 +46,9 @@ namespace SkillIssue
                     if (collidedbox?.state == ColliderState.Open)
                     {
                         if (collidedbox?.blockCheck == false)
-                            state = ColliderState.Colliding;
+                        {
+                            SetState(ColliderState.Colliding);
+                        }
                         responder?.BoxCollisionedWith(aCollider);
                         return;
                     }
@@ -52,15 +56,15 @@ namespace SkillIssue
             }
             else
             {
-                state = ColliderState.Open;
+                SetState(ColliderState.Open);
             }
         }
 
         void OnDrawGizmosSelected()
         {
             CheckGizmoColor();
-            Gizmos.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.localScale);
-            Gizmos.DrawWireCube(Vector3.zero, hitboxSize * hitboxGizmosMultiplier); // Because size is halfExtents
+
+            Gizmos.DrawWireCube(transform.position, hitboxSize); // Because size is halfExtents
         }
 
         void CheckGizmoColor()
@@ -87,6 +91,17 @@ namespace SkillIssue
         public void SetResponder(IHitboxResponder hitboxResponder)
         {
             responder = hitboxResponder;
+        }
+
+
+        public void SetSize(Vector3 size)
+        {
+            hitboxSize = size;
+        }
+
+        public void SetPosition(Vector3 position)
+        {
+            this.transform.localPosition = position;
         }
     }
 }

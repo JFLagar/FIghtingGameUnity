@@ -28,6 +28,7 @@ public class PlayerAttackManager : MonoBehaviour, IHitboxResponder
 
     public void ProcessAttack(AttackData attack, bool followup = false)
     {
+        Debug.Log("attacking");
         //check if can cancel
         if (player.GetCurrentState() is AttackState && !followup)
         {
@@ -45,7 +46,7 @@ public class PlayerAttackManager : MonoBehaviour, IHitboxResponder
         }
         if (attack.GetAnimationClip() != null)
         {
-            player.GetCharacterAnimation().PlayActionAnimation(attack.GetAnimationClip());
+            player.PlayActionAnimation(attack.GetAnimationClip());
         }
         repeatedAttack = 0;
         player.PerformAttack(attack);

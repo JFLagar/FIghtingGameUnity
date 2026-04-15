@@ -285,8 +285,7 @@ namespace SkillIssue.CharacterSpace
                     break;
                 case AnimationData.EventType.AnimationEnd:
                     {
-                        Debug.Log(frame.Frame + "End");
-                        currentAnimation = null;
+                        OnAnimationEnd();
                     }
                     break;
                 case AnimationData.EventType.Projectile:
@@ -827,6 +826,8 @@ namespace SkillIssue.CharacterSpace
             isKnockedDown = false;
             isHardKnockDown = false;
             HitAttack = null;
+            currentAnimation = null;
+            Debug.Log("AnimEnd");
         }
 
         public void ResetPlayer()

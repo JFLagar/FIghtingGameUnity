@@ -24,15 +24,14 @@ public class CameraManager : MonoBehaviour
     private float GetCameraMiddleX => (Players[0].transform.position.x + Players[1].transform.position.x) / 2;
     private float GetDistanceY => Mathf.Abs(Players[0].transform.position.y - Players[1].transform.position.y);
     private float GetCameraMiddleY => (Players[0].transform.position.y + Players[1].transform.position.y) / 2;
-
+    [SerializeField]
     private float cameraOriginY = 0;
 
     private void Start()
     {
         Players = Managers.Instance.GameManager.GetPlayers();
         activeCamera = CinemachineBrain.GetActiveBrain(0).ActiveVirtualCamera as CinemachineCamera;
-
-        cameraOriginY = 0.8f;
+        activeCamera.GetComponent<CinemachineConfiner2D>().InvalidateBoundingShapeCache();
     }
 
     void LateUpdate()
@@ -40,8 +39,8 @@ public class CameraManager : MonoBehaviour
         if (activeCamera == null) return;
         float middle = GetCameraMiddleX;
         float distance = GetDistanceX;
+        HandleCameraZoom(distance, middle);
         HandleCameraPosition(middle);
-        //HandleCameraZoom(distance, middle);
     }
 
     private void HandleCameraPosition(float middle)

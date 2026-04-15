@@ -250,8 +250,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   screenEdgeFaceDir: 1
-  useRenderer: 0
-  screenEdgeRenderer: {fileID: 0}
 --- !u!61 &2199847278585640385
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -953,7 +951,7 @@ GameObject:
   - component: {fileID: 3463442184045619945}
   - component: {fileID: 8765619080753937859}
   m_Layer: 0
-  m_Name: Camera1
+  m_Name: CameraStandard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -988,7 +986,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
   Priority:
     Enabled: 0
-    m_Value: 0
+    m_Value: 20
   OutputChannel: 1
   StandbyUpdate: 2
   m_StreamingVersion: 20241001
@@ -2093,8 +2091,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   screenEdgeFaceDir: -1
-  useRenderer: 0
-  screenEdgeRenderer: {fileID: 0}
 --- !u!61 &1535457490562602648
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3075,11 +3071,9 @@ MonoBehaviour:
   pos: {x: 0, y: 0, z: -10}
   minZoom: 2.1
   maxZoom: 2.5
-  edgePadding: 0.5
   verticalMinimumHeight: 0.5
   cameraMovementDuration: 0.5
-  isOnScreenEdge: 0
-  screenEdgeFaceDir: 0
+  cameraOriginY: 0
 --- !u!1 &8062074394946529036
 GameObject:
   m_ObjectHideFlags: 0

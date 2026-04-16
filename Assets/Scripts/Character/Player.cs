@@ -827,7 +827,6 @@ namespace SkillIssue.CharacterSpace
             isHardKnockDown = false;
             HitAttack = null;
             currentAnimation = null;
-            Debug.Log("AnimEnd");
         }
 
         public void ResetPlayer()

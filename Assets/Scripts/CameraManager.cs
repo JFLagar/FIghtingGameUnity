@@ -3,6 +3,9 @@ using UnityEngine;
 using NaughtyAttributes;
 using DG.Tweening;
 using Unity.Cinemachine;
+using System.Linq;
+using Unity.VisualScripting;
+using UnityEngine.UIElements;
 
 public class CameraManager : MonoBehaviour
 {
@@ -19,7 +22,10 @@ public class CameraManager : MonoBehaviour
     float verticalMinimumHeight = 0.5f;
     [SerializeField]
     float cameraMovementDuration = 0.5f;
-    CinemachineCamera activeCamera;
+    [SerializeField]
+    CinemachineCamera gameCamera;
+    [SerializeField]
+    CinemachineCamera cinematicCamera;
     private float GetDistanceX => Mathf.Abs(Players[0].transform.position.x - Players[1].transform.position.x);
     private float GetCameraMiddleX => (Players[0].transform.position.x + Players[1].transform.position.x) / 2;
     private float GetDistanceY => Mathf.Abs(Players[0].transform.position.y - Players[1].transform.position.y);
@@ -27,20 +33,29 @@ public class CameraManager : MonoBehaviour
     [SerializeField]
     private float cameraOriginY = 0;
 
+    bool isZoomfixed = false;
+    CinemachineConfiner2D confiner;
     private void Start()
     {
         Players = Managers.Instance.GameManager.GetPlayers();
-        activeCamera = CinemachineBrain.GetActiveBrain(0).ActiveVirtualCamera as CinemachineCamera;
-        activeCamera.GetComponent<CinemachineConfiner2D>().InvalidateBoundingShapeCache();
+        gameCamera = FindObjectsByType<CinemachineCamera>(FindObjectsSortMode.None).First(x => x.Priority >= 20);
+        confiner = gameCamera.GetComponent<CinemachineConfiner2D>();
+        cinematicCamera = FindObjectsByType<CinemachineCamera>(FindObjectsSortMode.None).First(x => x.Priority < 20);
     }
 
     void LateUpdate()
     {
-        if (activeCamera == null) return;
+        if (gameCamera == null) return;
         float middle = GetCameraMiddleX;
         float distance = GetDistanceX;
         HandleCameraZoom(distance, middle);
         HandleCameraPosition(middle);
+
+        if (!isZoomfixed && gameCamera != null && confiner != null)
+        {
+                confiner.InvalidateBoundingShapeCache();
+                isZoomfixed = true;
+        }
     }
 
     private void HandleCameraPosition(float middle)
@@ -54,14 +69,32 @@ public class CameraManager : MonoBehaviour
         else
             pos.y = cameraOriginY;
 
-        if (activeCamera.transform.position != pos)
-            activeCamera.transform.DOMove(pos, cameraMovementDuration);
+        if (gameCamera.transform.position != pos)
+            gameCamera.transform.DOMove(pos, cameraMovementDuration);
     }
 
     private void HandleCameraZoom(float distance, float middle)
     {
         float targetSize = Mathf.Clamp(distance / 2, minZoom, maxZoom);
-        activeCamera.Lens.OrthographicSize = targetSize;
+        gameCamera.Lens.OrthographicSize = targetSize;
     }
 
+    public void SwitchCamera(bool isCinematic, Player trackingPlayer)
+    {
+        CameraTarget target = new CameraTarget();
+        target.TrackingTarget = trackingPlayer.gameObject.transform;
+        cinematicCamera.Target = target;
+
+        gameCamera.Priority = isCinematic ? 0 : 20; 
+    }
+
+    [Button]
+    public void SwitchCamera()
+    {
+        CameraTarget target = new CameraTarget();
+        target.TrackingTarget = Players[0].gameObject.transform;
+        cinematicCamera.Target = target;
+
+        gameCamera.Priority = gameCamera.Priority == 20 ? 0 : 20;
+    }
 }

@@ -2321,14 +2321,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -12.195532
       objectReference: {fileID: 0}
-    - target: {fileID: 8765619080753937859, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
-      propertyPath: Damping
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8765619080753937859, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
-      propertyPath: OversizeWindow.Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8775688649783944186, guid: 7eb10fad230cc1a4dafe0982b5171ca3, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

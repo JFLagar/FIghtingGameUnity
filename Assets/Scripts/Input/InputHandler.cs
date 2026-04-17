@@ -101,6 +101,8 @@ namespace SkillIssue.Inputs
 
         [SerializeField]
         Queue<BufferedInput> inputQueue = new Queue<BufferedInput>();
+        [SerializeField]
+        Queue<BufferedInput> motionInputQueue = new Queue<BufferedInput>();
         public List<BufferedInput> InputQueueList = new List<BufferedInput>();
         public List<BufferedInput> InputRecordingList = new List<BufferedInput>();
         private List<BufferedInput> InputReplayingList = new List<BufferedInput>();
@@ -250,7 +252,6 @@ namespace SkillIssue.Inputs
 
         public void Update()
         {
-            InputQueueList = inputQueue.ToList();
             if (isReplaying)
             {
                 Debug.Log("Replay");
@@ -293,7 +294,7 @@ namespace SkillIssue.Inputs
         void CheckForMotionInputs()
         {
             List<BufferedInput> currentInputs = new List<BufferedInput>();
-            foreach (var input in inputQueue.Where(c => c.IsMotion()))
+            foreach (var input in motionInputQueue)
             {
                 if (Time.time - input.Time <= bufferTime)
                     currentInputs.Add(input);
@@ -422,7 +423,13 @@ namespace SkillIssue.Inputs
 
         void CleanupMotionBuffer()
         {
-            //Empty Until MotionQueue is needed
+            if (motionInputQueue.Count > 0 && Time.time - motionInputQueue.Peek().Time > motionBufferTime)
+            {
+                if (gameManager.IsRecording)
+                    InputRecordingList.AddRange(motionInputQueue);
+                motionInputQueue.Clear(); // Clear old motions
+                player.SetMotionInput(MotionInputs.NONE);
+            }
         }
 
         private void NavigateUI(InputAction.CallbackContext obj)
@@ -658,7 +665,6 @@ namespace SkillIssue.Inputs
 
         public void UpButton(InputAction.CallbackContext context)
         {
-            if (context.action.WasPressedThisFrame())
                 upButton.InputPressed();
             if (context.action.WasReleasedThisFrame())
                 upButton.InputReleased();
@@ -673,7 +679,6 @@ namespace SkillIssue.Inputs
         }
         public void DownButton(InputAction.CallbackContext context)
         {
-            if (context.action.WasPressedThisFrame())
                 downButton.InputPressed();
             if (context.action.WasReleasedThisFrame())
                 downButton.InputReleased();
@@ -689,7 +694,6 @@ namespace SkillIssue.Inputs
 
         public void LeftButton(InputAction.CallbackContext context)
         {
-            if (context.action.WasPressedThisFrame())
                 leftButton.InputPressed();
             if (context.action.WasReleasedThisFrame())
                 leftButton.InputReleased();
@@ -705,7 +709,6 @@ namespace SkillIssue.Inputs
 
         public void RightButton(InputAction.CallbackContext context)
         {
-            if (context.action.WasPressedThisFrame())
                 rightButton.InputPressed();
             if (context.action.WasReleasedThisFrame())
                 rightButton.InputReleased();
@@ -735,6 +738,7 @@ namespace SkillIssue.Inputs
         {
             if (CheckforRepeatedInputs(input, Time.time))
                 inputQueue.Enqueue(new BufferedInput(input, isPressed, Time.time, gameManager.RecordingFrame));
+            Debug.Log(input + " " + isPressed);
         }
 
         public bool CheckforRepeatedInputs(InputType input, float time)
@@ -759,11 +763,8 @@ namespace SkillIssue.Inputs
                 }
                 player.PerformInput(input.InputType);
             }
-
             else
                 ProcessInputDirection(input);
-
-            player.SetMotionInput(MotionInputs.NONE);
         }
 
         void ProcessInputDirection(BufferedInput input)
@@ -774,20 +775,43 @@ namespace SkillIssue.Inputs
                 case InputType.Down:
                     if (input.IsPressed)
                     {
-                        inputDirection.y = input.InputType == InputType.Up ? 1 : -1;
+                        if (inputDirection.y == 0)
+                            inputDirection.y = input.InputType == InputType.Up ? 1 : -1;
+                        else
+                            inputDirection.y = 0;
+                        
                     }
                     else
+                    {
                         inputDirection.y = 0;
+                        if (upButton.IsPressed)
+                            inputDirection.y = 1;
+                        if (downButton.IsPressed)
+                            inputDirection.y = -1;
+                    }
                         break;
                 case InputType.Right:
                 case InputType.Left:
                     if (input.IsPressed)
                     {
-                        inputDirection.x = input.InputType == InputType.Right ? 1 : -1;
+                        if (inputDirection.x == 0)
+                            inputDirection.x = input.InputType == InputType.Right ? 1 : -1;
+                        else
+                            inputDirection.x = 0;
                     }
                     else
+                    {
                         inputDirection.x = 0;
+                        if (rightButton.IsPressed)
+                            inputDirection.x = 1;
+                        if (leftButton.IsPressed)
+                            inputDirection.x = -1;
+                    }
                     break;
+            }
+            if (!motionInputQueue.Any(c => c.Time == input.Time))
+            {
+                motionInputQueue.Enqueue(input);
             }
         }
 

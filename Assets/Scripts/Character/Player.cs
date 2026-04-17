@@ -130,6 +130,7 @@ namespace SkillIssue.CharacterSpace
         AnimationData currentAnimation = null;
         [SerializeField]
         int currentFrame = 0;
+        public Vector2 direction;
 
         public void Initialize()
         {
@@ -222,6 +223,7 @@ namespace SkillIssue.CharacterSpace
                     DestroyImmediate(currentProjectile.gameObject);
                 }
             }
+            direction = GetInputDirection();
         }
 
         void CheckForFrameEvents()
@@ -345,6 +347,7 @@ namespace SkillIssue.CharacterSpace
                     break;
                 default:
                     StoredMotionInput = motion;
+                    Debug.Log(motion);
                     break;
             }
         }
@@ -458,7 +461,7 @@ namespace SkillIssue.CharacterSpace
 
         public Vector2 GetInputDirection()
         {
-            return inputHandler.GetDirection();
+            return inputHandler.GetInputDirection();
         }
 
         public bool WasYReleased()
@@ -1129,7 +1132,7 @@ namespace SkillIssue.CharacterSpace
                         return false;
                     break;
             }
-            if (inputHandler.GetDirection().x == -FaceDir || GetCurrentState() is BlockState)
+            if (GetInputDirection().x == -FaceDir || GetCurrentState() is BlockState)
                 return true;
             return false;
         }

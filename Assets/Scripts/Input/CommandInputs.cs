@@ -21,11 +21,11 @@ namespace SkillIssue.Inputs
         public string name = "Light";
         public override void InputPressed()
         {
-            InputHandler.AddAttackInput(InputType.Light, true);
+            InputHandler.AddInput(InputType.Light, true);
         }
         public override void InputReleased()
         {
-            InputHandler.AddAttackInput(InputType.Light, false);
+            InputHandler.AddInput(InputType.Light, false);
         }
     }
     public class MediumInput : CommandInputs
@@ -33,11 +33,11 @@ namespace SkillIssue.Inputs
         public string name = "Medium";
         public override void InputPressed()
         {
-            InputHandler.AddAttackInput(InputType.Medium, true);
+            InputHandler.AddInput(InputType.Medium, true);
         }
         public override void InputReleased()
         {
-            InputHandler.AddAttackInput(InputType.Medium, false);
+            InputHandler.AddInput(InputType.Medium, false);
         }
     }
     public class HeavyInput : CommandInputs
@@ -45,11 +45,11 @@ namespace SkillIssue.Inputs
         public string name = "Heavy";
         public override void InputPressed()
         {
-            InputHandler.AddAttackInput(InputType.Heavy, true);
+            InputHandler.AddInput(InputType.Heavy, true);
         }
         public override void InputReleased()
         {
-            InputHandler.AddAttackInput(InputType.Heavy, false);
+            InputHandler.AddInput(InputType.Heavy, false);
         }
     }
     public class UniqueInput : CommandInputs
@@ -57,23 +57,67 @@ namespace SkillIssue.Inputs
         public string name = "Unique";
         public override void InputPressed()
         {
-            InputHandler.AddAttackInput(InputType.Unique, true);
+            InputHandler.AddInput(InputType.Unique, true);
         }
         public override void InputReleased()
         {
-            InputHandler.AddAttackInput(InputType.Unique, false);
+            InputHandler.AddInput(InputType.Unique, false);
         }
     }
-    public class MovementInput : CommandInputs
+
+    public class UpInput : CommandInputs
     {
+        public string name = "Up";
         public override void InputPressed()
         {
-
+            InputHandler.AddInput(InputType.Up, true);
+            InputHandler.WasYReleased = false;
         }
         public override void InputReleased()
         {
-
+            InputHandler.AddInput(InputType.Up, false);
+            InputHandler.WasYReleased = true;
         }
     }
+
+    public class DownInput : CommandInputs
+    {
+        public string name = "Down";
+        public override void InputPressed()
+        {
+            InputHandler.AddInput(InputType.Down, true);
+        }
+        public override void InputReleased()
+        {
+            InputHandler.AddInput(InputType.Down, false);
+        }
+    }
+
+    public class LeftInput : CommandInputs
+    {
+        public string name = "Left";
+        public override void InputPressed()
+        {
+            InputHandler.AddInput(InputType.Left, true);
+        }
+        public override void InputReleased()
+        {
+            InputHandler.AddInput(InputType.Left, false);
+        }
+    }
+
+    public class RightInput : CommandInputs
+    {
+        public string name = "Right";
+        public override void InputPressed()
+        {
+            InputHandler.AddInput(InputType.Right, true);
+        }
+        public override void InputReleased()
+        {
+            InputHandler.AddInput(InputType.Right, false);
+        }
+    }
+
 }
 

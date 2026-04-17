@@ -84,7 +84,7 @@ public class CameraManager : MonoBehaviour
         CameraTarget target = new CameraTarget();
         target.TrackingTarget = trackingPlayer.gameObject.transform;
         cinematicCamera.Target = target;
-
+        Debug.Log(isCinematic, target.TrackingTarget);
         gameCamera.Priority = isCinematic ? 0 : 20; 
     }
 

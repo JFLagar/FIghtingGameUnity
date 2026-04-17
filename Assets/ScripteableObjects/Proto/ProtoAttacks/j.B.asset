@@ -22,12 +22,13 @@ MonoBehaviour:
   isGrab: 0
   causesLaunch: 0
   causesHardKnockdown: 0
+  cinematicAttack: 0
   cancelTypes: 01000000
   canceableAttacks:
   - {fileID: 11400000, guid: 4953dd561d95fb544ba9d1e28014b470, type: 2}
   extraHitstun: 0
   extraPush: {x: 0, y: 0}
-  animation: {fileID: 7400000, guid: 5480ea896f0f99846990506446e41760, type: 2}
+  animation: {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
   followUpAttack: {fileID: 0}
   followUpProjectile: {fileID: 0}
   collideSound: {fileID: 0}

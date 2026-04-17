@@ -222,7 +222,6 @@ namespace SkillIssue.CharacterSpace
                     DestroyImmediate(currentProjectile.gameObject);
                 }
             }
-
         }
 
         void CheckForFrameEvents()
@@ -873,12 +872,12 @@ namespace SkillIssue.CharacterSpace
 
         void PrepareAnimation(AnimationData animationData)
         {
-            if (currentAnimation = animationData)
+            if (currentAnimation == animationData)
             {
                 return;
             }
-            currentFrame = 0;
             currentAnimation = animationData;
+            currentFrame = 0;
         }
 
         public void AnimationMovement()
@@ -1022,6 +1021,11 @@ namespace SkillIssue.CharacterSpace
 
         public IEnumerator WaitForHitStopCoroutine()
         {
+            if (HitAttack)
+            {
+                Managers.Instance.CameraManager.SwitchCamera(true, this);
+                yield return new FrameWait(8);
+            }
             bool wasApplyingGravity = IsApplyingGravity;
             //int target = hitstop;
             int target = Managers.Instance.GameManager.GetCombatValues().GetHitstopBase();
@@ -1042,6 +1046,8 @@ namespace SkillIssue.CharacterSpace
             {
                 attackManager.ProcessAttack(CurrentCombo.Last().GetFollowUpAttackData(), true);
             }
+            if (HitAttack)
+                Managers.Instance.CameraManager.SwitchCamera(false, this);
             currentHitstopCoroutine = null;
         }
 

@@ -51,6 +51,8 @@ namespace SkillIssue
         private bool causesLaunch;
         [SerializeField]
         private bool causesHardKnockdown;
+        [SerializeField]
+        private bool cinematicAttack;
 
         [Space]
 
@@ -91,6 +93,7 @@ namespace SkillIssue
         public bool IsGrab() { return isGrab; }
         public bool CausesLaunch() { return causesLaunch; }
         public bool CausesHardKnockdown () { return causesHardKnockdown; }
+        public bool IsCinematic() { return cinematicAttack; }
 
         public CancelTypes[] GetCancelTypes() { return cancelTypes; }
         public AttackData[] GetCancelableAttacks() { return canceableAttacks; }

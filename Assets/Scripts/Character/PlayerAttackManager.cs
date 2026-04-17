@@ -28,7 +28,6 @@ public class PlayerAttackManager : MonoBehaviour, IHitboxResponder
 
     public void ProcessAttack(AttackData attack, bool followup = false)
     {
-        Debug.Log("attacking");
         //check if can cancel
         if (player.GetCurrentState() is AttackState && !followup)
         {

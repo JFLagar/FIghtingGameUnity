@@ -22,6 +22,7 @@ MonoBehaviour:
   isGrab: 0
   causesLaunch: 0
   causesHardKnockdown: 0
+  cinematicAttack: 1
   cancelTypes: 000000000100000003000000
   canceableAttacks:
   - {fileID: 11400000, guid: 4b2d995cac05dc14487c3d27a1ffbb94, type: 2}
@@ -29,7 +30,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bf59d6d857cefc84a9d24a0c8bc6fe9d, type: 2}
   extraHitstun: 0
   extraPush: {x: 0, y: 0}
-  animation: {fileID: 7400000, guid: 35cce58e01c595c4f9c1bb3a008ba8fb, type: 2}
+  animation: {fileID: 11400000, guid: 86dcf2669e80b404e856a5043a3bf137, type: 2}
   followUpAttack: {fileID: 0}
   followUpProjectile: {fileID: 0}
   collideSound: {fileID: 0}
+  movementDirection: {x: 0, y: 0}

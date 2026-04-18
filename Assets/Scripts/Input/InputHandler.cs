@@ -299,36 +299,43 @@ namespace SkillIssue.Inputs
                 if (Time.time - input.Time <= bufferTime)
                     currentInputs.Add(input);
             }
-            if (currentInputs.Count == 0)
+            if (currentInputs.Count <= 1)
             {
                 return;
             }
             foreach (var motion in motionInputs)
             {
-                if (IsSequencePartialMatch(currentInputs, motion.motions))
+                if (IsSequencePartialMatch(currentInputs, motion))
                 {
                     player.SetMotionInput(motion.Input);
-                    return;
+                    CleanupMotionBuffer();
                 }
             }
         }
 
-        bool IsSequencePartialMatch(List<BufferedInput> inputs, Vector2[] motions)
+        bool IsSequencePartialMatch(List<BufferedInput> inputs, MotionInputStruct motion)
        {
+            Vector2 adjustedInputDirection = Vector2.zero;
             BufferedInput previousInput = null;
             int seqIndex = 0;
             for (int i = 0; i < inputs.Count; i++)
             {
-                // Adjust the input direction based on facing direction (only flip X-axis)
-                Vector2 adjustedInputDirection = new Vector2(
-                    GetInputDirection().x * player.FaceDir,
-                    GetInputDirection().y
-                );
+                switch(inputs[i].InputType)
+                {
+                    case InputType.Up:
+                        case InputType.Down:
+                        adjustedInputDirection.y = CalculateInputDirection(inputs[i]).y;
+                        break;
+                    case InputType.Left:
+                    case InputType.Right:
+                        adjustedInputDirection.x = CalculateInputDirection(inputs[i]).x;
+                        break;
+                }
 
-                if (adjustedInputDirection == motions[seqIndex] && CheckForReleasedInput(inputs[i], previousInput))
+                if (adjustedInputDirection == motion.motions[seqIndex] && CheckForReleasedInput(inputs[i], previousInput))
                     seqIndex++;
 
-                if (seqIndex >= motions.Length)
+                if (seqIndex >= motion.motions.Length)
                     return true;
 
                 previousInput = inputs[i];
@@ -736,17 +743,22 @@ namespace SkillIssue.Inputs
 
         public void AddInput(InputType input, bool isPressed)
         {
-            if (CheckforRepeatedInputs(input, Time.time))
-                inputQueue.Enqueue(new BufferedInput(input, isPressed, Time.time, gameManager.RecordingFrame));
-            Debug.Log(input + " " + isPressed);
+            if (CheckforRepeatedInputs(input, isPressed, Time.time))
+            {
+                BufferedInput bufferedInput = new BufferedInput(input, isPressed, Time.time, gameManager.RecordingFrame);
+                inputQueue.Enqueue(bufferedInput);
+                if (bufferedInput.IsMotion() && !motionInputQueue.Any(c => c.Time == bufferedInput.Time && c.IsPressed == isPressed))
+                {
+                    motionInputQueue.Enqueue(bufferedInput);
+                }
+            }
         }
 
-        public bool CheckforRepeatedInputs(InputType input, float time)
+        public bool CheckforRepeatedInputs(InputType input, bool isPressed, float time)
         {
-            BufferedInput bufferedInput = inputQueue.Where(c => c.InputType == input && c.IsPressed && c.Time <= time - bufferTime).FirstOrDefault();
+            BufferedInput bufferedInput = inputQueue.Where(c => c.InputType == input && c.IsPressed == isPressed && time - c.Time <= bufferTime).FirstOrDefault();
             if (bufferedInput != null)
             {
-                Debug.Log("Mashing: " + input);
                 return false;
             }
             return true;
@@ -764,10 +776,10 @@ namespace SkillIssue.Inputs
                 player.PerformInput(input.InputType);
             }
             else
-                ProcessInputDirection(input);
+                ProcessDirection(input);
         }
 
-        void ProcessInputDirection(BufferedInput input)
+        void ProcessDirection(BufferedInput input)
         {
             switch(input.InputType)
             {
@@ -808,10 +820,6 @@ namespace SkillIssue.Inputs
                             inputDirection.x = -1;
                     }
                     break;
-            }
-            if (!motionInputQueue.Any(c => c.Time == input.Time))
-            {
-                motionInputQueue.Enqueue(input);
             }
         }
 

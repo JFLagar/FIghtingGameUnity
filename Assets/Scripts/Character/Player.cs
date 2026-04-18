@@ -339,8 +339,6 @@ namespace SkillIssue.CharacterSpace
         {
             if (StoredMotionInput == motion)
                 return;
-            if (motion != MotionInputs.NONE)
-            Debug.Log(motion);
             switch (motion)
             {
                 case MotionInputs.ff:

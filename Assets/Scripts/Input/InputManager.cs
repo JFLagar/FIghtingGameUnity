@@ -47,8 +47,8 @@ public class InputManager : MonoBehaviour
 
     void JoinPlayer(InputDevice device, int id)
     {
-        //playerInputManager.JoinPlayer(pairWithDevice: device);
         PlayerInput player = playerInputManager.JoinPlayer(pairWithDevice: device);
+        player.SwitchCurrentActionMap("Controls");
         PlayerController controller = player.GetComponent<PlayerController>();
         SetupController(controller, id);
         Debug.Log(device);

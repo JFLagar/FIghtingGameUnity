@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
   m_Actions: {fileID: -944628639613478452, guid: 9d50d0cc57b72104fa184b1b07e4c256, type: 3}
-  m_NotificationBehavior: 3
+  m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -297,7 +297,7 @@ MonoBehaviour:
     m_ActionId: 5ae42e26-d252-4aa8-8dfb-98587edd2491
     m_ActionName: 'Menu/UICancel[/Keyboard/u]'
   m_NeverAutoSwitchControlSchemes: 1
-  m_DefaultControlScheme: Empty
-  m_DefaultActionMap: 
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: 8dd4a956-e767-41fe-8ecd-d5a71f139d98
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}

@@ -77,8 +77,6 @@ namespace SkillIssue.Inputs
     {
         Player player;
         public PlayerInput PlayerInput { get; private set; }
-        [SerializeField]
-        InputActions inputActions;
         private LightInput lightButton = new LightInput();
         private MediumInput mediumButton = new MediumInput();
         private HeavyInput heavyButton = new HeavyInput();
@@ -136,108 +134,8 @@ namespace SkillIssue.Inputs
 
             PlayerInput = controller.GetPlayerInput();
             motionInputs = gameManager.GetCombatValues().GetMotionInputs();
-            MapActions(true);
         }
 
-        void MapActions(bool player)
-        {
-            inputActions = new InputActions();
-            inputActions.Disable();
-            inputActions.bindingMask = new InputBinding()
-            {
-                groups = PlayerInput.defaultControlScheme
-            };
-            inputActions.Enable();
-            inputActions.Controls.Enable();
-            inputActions.Controls.LightButton.performed += LightButton;
-            inputActions.Controls.LightButton.canceled += LightButton;
-            inputActions.Controls.MediumButton.performed += MediumButton;
-            inputActions.Controls.MediumButton.canceled += MediumButton;
-            inputActions.Controls.HeavyButton.performed += HeavyButton;
-            inputActions.Controls.HeavyButton.canceled += HeavyButton;
-            inputActions.Controls.UniqueButton.performed += UniqueButton;
-            inputActions.Controls.UniqueButton.canceled += UniqueButton;
-
-            inputActions.Controls.LU.performed += LUButton;
-            inputActions.Controls.LU.canceled += LUButton;
-            inputActions.Controls.LM.performed += LMButton;
-            inputActions.Controls.LM.canceled += LMButton;
-            inputActions.Controls.MH.performed += MHButton;
-            inputActions.Controls.MH.canceled += MHButton;
-            inputActions.Controls.LMH.performed += LMHButton;
-            inputActions.Controls.LMH.canceled += LMHButton;
-            inputActions.Controls.LMHU.performed += LMHUButton;
-            inputActions.Controls.LMHU.canceled += LMHUButton;
-
-            inputActions.Controls.Start.performed += StartButton;
-            inputActions.Controls.Select.performed += SelectButton;
-
-            inputActions.Controls.UpButton.performed += UpButton;
-            inputActions.Controls.UpButton.canceled += UpButton;
-            inputActions.Controls.DownButton.performed += DownButton;
-            inputActions.Controls.DownButton.canceled += DownButton;
-
-            inputActions.Controls.LeftButton.performed += LeftButton;
-            inputActions.Controls.LeftButton.canceled += LeftButton;
-            inputActions.Controls.RightButton.performed += RightButton;
-            inputActions.Controls.RightButton.canceled += RightButton;
-
-            inputActions.Menu.Enable();
-            inputActions.Menu.UIConfirm.performed += UIConfirm;
-            inputActions.Menu.UICancel.performed += UICancel;
-        }
-
-        public void UnmapActions()
-        {
-            inputActions.Controls.LightButton.performed -= LightButton;
-            inputActions.Controls.LightButton.canceled -= LightButton;
-            inputActions.Controls.MediumButton.performed -= MediumButton;
-            inputActions.Controls.MediumButton.canceled -= MediumButton;
-            inputActions.Controls.HeavyButton.performed -= HeavyButton;
-            inputActions.Controls.HeavyButton.canceled -= HeavyButton;
-            inputActions.Controls.UniqueButton.performed -= UniqueButton;
-            inputActions.Controls.UniqueButton.canceled -= UniqueButton;
-
-            inputActions.Controls.LU.performed -= LUButton;
-            inputActions.Controls.LU.canceled -= LUButton;
-            inputActions.Controls.LM.performed -= LMButton;
-            inputActions.Controls.LM.canceled -= LMButton;
-            inputActions.Controls.MH.performed -= MHButton;
-            inputActions.Controls.MH.canceled -= MHButton;
-            inputActions.Controls.LMH.performed -= LMHButton;
-            inputActions.Controls.LMH.canceled -= LMHButton;
-            inputActions.Controls.LMHU.performed -= LMHUButton;
-            inputActions.Controls.LMHU.canceled -= LMHUButton;
-
-
-            inputActions.Controls.Start.performed -= StartButton;
-            inputActions.Controls.Select.performed -= SelectButton;
-
-            inputActions.Controls.UpButton.performed -= UpButton;
-            inputActions.Controls.UpButton.canceled -= UpButton;
-            inputActions.Controls.DownButton.performed -= DownButton;
-            inputActions.Controls.DownButton.canceled -= DownButton;
-
-            inputActions.Controls.LeftButton.performed -= LeftButton;
-            inputActions.Controls.LeftButton.canceled -= LeftButton;
-            inputActions.Controls.RightButton.performed -= RightButton;
-            inputActions.Controls.RightButton.canceled -= RightButton;
-
-            inputActions.Menu.UIConfirm.performed -= UIConfirm;
-            inputActions.Menu.UICancel.performed -= UICancel;
-
-            inputActions.Controls.Disable();
-        }
-
-        public void EnableInput()
-        {
-            inputActions.Enable();
-        }
-
-        public void DisableInput()
-        {
-            inputActions.Disable();
-        }
 
         public Vector2 GetInputDirection()
         {
@@ -272,7 +170,6 @@ namespace SkillIssue.Inputs
                 isReplaying = false;
                 replayFrame = 0;
                 Debug.Log("ReplayEnded");
-                EnableInput();
             }
             BufferedInput[] recordedInputs = InputReplayingList.FindAll(c => c.Frame == replayFrame).ToArray();
             foreach (var input in recordedInputs)
@@ -284,7 +181,6 @@ namespace SkillIssue.Inputs
 
         public void StartPlayback()
         {
-            DisableInput();
             Debug.Log("ReplayStart");
             InputReplayingList.AddRange(InputRecordingList);
             replayFrame = 0;

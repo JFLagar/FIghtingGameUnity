@@ -1,5 +1,4 @@
-﻿using NaughtyAttributes;
-using SkillIssue.CharacterSpace;
+﻿using SkillIssue.CharacterSpace;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,7 +25,7 @@ public class PlayerController : MonoBehaviour
     // UNITY EVENTS
     public void UpButton(InputAction.CallbackContext cxt)
     {
-       assignedPlayer.GetInputHandler().UpButton(cxt);
+        assignedPlayer.GetInputHandler().UpButton(cxt);
     }
 
     public void DownButton(InputAction.CallbackContext cxt)
@@ -38,22 +37,27 @@ public class PlayerController : MonoBehaviour
     {
         assignedPlayer.GetInputHandler().LeftButton(cxt);
     }
+
     public void RightButton(InputAction.CallbackContext cxt)
     {
         assignedPlayer.GetInputHandler().RightButton(cxt);
     }
+
     public void LightButton(InputAction.CallbackContext cxt)
     {
         assignedPlayer.GetInputHandler().LightButton(cxt);
     }
+
     public void MediumButton(InputAction.CallbackContext cxt)
     {
         assignedPlayer.GetInputHandler().MediumButton(cxt);
     }
+
     public void HeavyButton(InputAction.CallbackContext cxt)
     {
         assignedPlayer.GetInputHandler().HeavyButton(cxt);
     }
+
     public void UniqueButton(InputAction.CallbackContext cxt)
     {
         assignedPlayer.GetInputHandler().UniqueButton(cxt);

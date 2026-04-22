@@ -106,7 +106,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Up",
+                    "name": "UpButton",
                     "type": "Button",
                     "id": "d1111da6-f03c-4fea-879b-d274bf8b8ff4",
                     "expectedControlType": "",
@@ -115,7 +115,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Down",
+                    "name": "DownButton",
                     "type": "Button",
                     "id": "9e5a0940-5f31-4804-b1d7-c6c291b96871",
                     "expectedControlType": "",
@@ -124,7 +124,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Left",
+                    "name": "LeftButton",
                     "type": "Button",
                     "id": "ff4fb8de-b939-4f8a-8ad7-f161087fef64",
                     "expectedControlType": "",
@@ -133,7 +133,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Right",
+                    "name": "RightButton",
                     "type": "Button",
                     "id": "9c45ac24-7988-487d-a045-ef2c8af5f53d",
                     "expectedControlType": "",
@@ -171,7 +171,7 @@
                     "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
+                    "groups": ";Gamepad;Joystick",
                     "action": "LightButton",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -204,7 +204,7 @@
                     "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
+                    "groups": ";Gamepad;Joystick",
                     "action": "MediumButton",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -237,7 +237,7 @@
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
+                    "groups": ";Gamepad;Joystick",
                     "action": "HeavyButton",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -270,7 +270,7 @@
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
+                    "groups": ";Gamepad;Joystick",
                     "action": "UniqueButton",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -292,7 +292,7 @@
                     "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
+                    "groups": ";Gamepad;Joystick",
                     "action": "Start",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -314,7 +314,7 @@
                     "path": "<Gamepad>/select",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Gamepad;Joystick",
                     "action": "Select",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -336,7 +336,7 @@
                     "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
+                    "groups": ";Gamepad;Joystick",
                     "action": "LU",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -358,7 +358,7 @@
                     "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Gamepad;Joystick",
                     "action": "MH",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -380,7 +380,7 @@
                     "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
+                    "groups": ";Gamepad;Joystick",
                     "action": "LMH",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -402,7 +402,7 @@
                     "path": "<Gamepad>/leftTrigger",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
+                    "groups": ";Gamepad;Joystick",
                     "action": "LMHU",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -436,7 +436,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard",
-                    "action": "Up",
+                    "action": "UpButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -446,8 +446,8 @@
                     "path": "<Gamepad>/dpad/up",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Up",
+                    "groups": ";Gamepad;Joystick",
+                    "action": "UpButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -457,8 +457,8 @@
                     "path": "<Gamepad>/leftStick/up",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Up",
+                    "groups": ";Gamepad;Joystick",
+                    "action": "UpButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -469,7 +469,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard",
-                    "action": "Down",
+                    "action": "DownButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -479,8 +479,8 @@
                     "path": "<Gamepad>/dpad/down",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Down",
+                    "groups": ";Gamepad;Joystick",
+                    "action": "DownButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -490,8 +490,8 @@
                     "path": "<Gamepad>/leftStick/down",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Down",
+                    "groups": ";Gamepad;Joystick",
+                    "action": "DownButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -502,7 +502,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard",
-                    "action": "Left",
+                    "action": "LeftButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -512,8 +512,8 @@
                     "path": "<Gamepad>/dpad/left",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Left",
+                    "groups": ";Gamepad;Joystick",
+                    "action": "LeftButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -523,8 +523,8 @@
                     "path": "<Gamepad>/leftStick/left",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Left",
+                    "groups": ";Gamepad;Joystick",
+                    "action": "LeftButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -534,8 +534,8 @@
                     "path": "<Gamepad>/dpad/right",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Right",
+                    "groups": ";Gamepad;Joystick",
+                    "action": "RightButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -546,7 +546,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard",
-                    "action": "Right",
+                    "action": "RightButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -556,8 +556,8 @@
                     "path": "<Gamepad>/leftStick/right",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Right",
+                    "groups": ";Gamepad;Joystick",
+                    "action": "RightButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -630,15 +630,26 @@
             "devices": [
                 {
                     "devicePath": "<Gamepad>",
-                    "isOptional": true,
-                    "isOR": false
-                },
-                {
-                    "devicePath": "<Joystick>",
-                    "isOptional": true,
+                    "isOptional": false,
                     "isOR": false
                 }
             ]
+        },
+        {
+            "name": "Joystick",
+            "bindingGroup": "Joystick",
+            "devices": [
+                {
+                    "devicePath": "<Joystick>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Empty",
+            "bindingGroup": "Empty",
+            "devices": []
         }
     ]
 }

@@ -111,20 +111,14 @@ public class UIBehaviour : MonoBehaviour
     }
     private void OpenPauseUI()
     {
-        foreach(Player player in players)
-        {
-            player.SwitchCurrentActionMap("Menu");
-        }
+        Managers.Instance.InputManager.SwitchToMap("Menu");
         pauseUI.gameObject.SetActive(true);
     }
 
     private void ClosePauseUI()
     {
+        Managers.Instance.InputManager.SwitchToMap("Controls");
         pauseUI.gameObject.SetActive(false);
-        foreach (Player player in players)
-        {
-            player.SwitchCurrentActionMap("Controls");
-        }
     }
 
     public void MainMenu()
@@ -203,10 +197,7 @@ public class UIBehaviour : MonoBehaviour
 
     private void AddScore(int PlayerId)
     {
-        foreach (var player in players)
-        {
-            player.DisableInput();
-        }
+        Managers.Instance.InputManager.DisableInput();
         roundActive = false;
         if (PlayerId == 0)
             player1WonRounds++;
@@ -254,10 +245,7 @@ public class UIBehaviour : MonoBehaviour
     [Button]
     public void FadeIn()
     {
-        foreach (var player in players)
-        {
-            player.DisableInput();
-        }
+        Managers.Instance.InputManager.DisableInput();
         fadePanel.DOFade(1, 1).OnComplete(()=>
         {
             ResetAll(); FadeOut();
@@ -269,10 +257,7 @@ public class UIBehaviour : MonoBehaviour
     {
         fadePanel.DOFade(0, 2).OnComplete(() => 
         {
-            foreach(var player in players)
-            {
-                player.EnableInput();
-            }
+            Managers.Instance.InputManager.EnableInput();
             roundActive = true; 
         }) ;
     }

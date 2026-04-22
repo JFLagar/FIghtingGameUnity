@@ -192,7 +192,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Up"",
+                    ""name"": ""UpButton"",
                     ""type"": ""Button"",
                     ""id"": ""d1111da6-f03c-4fea-879b-d274bf8b8ff4"",
                     ""expectedControlType"": """",
@@ -201,7 +201,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Down"",
+                    ""name"": ""DownButton"",
                     ""type"": ""Button"",
                     ""id"": ""9e5a0940-5f31-4804-b1d7-c6c291b96871"",
                     ""expectedControlType"": """",
@@ -210,7 +210,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Left"",
+                    ""name"": ""LeftButton"",
                     ""type"": ""Button"",
                     ""id"": ""ff4fb8de-b939-4f8a-8ad7-f161087fef64"",
                     ""expectedControlType"": """",
@@ -219,7 +219,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Right"",
+                    ""name"": ""RightButton"",
                     ""type"": ""Button"",
                     ""id"": ""9c45ac24-7988-487d-a045-ef2c8af5f53d"",
                     ""expectedControlType"": """",
@@ -257,7 +257,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/buttonWest"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
+                    ""groups"": "";Gamepad;Joystick"",
                     ""action"": ""LightButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -290,7 +290,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
+                    ""groups"": "";Gamepad;Joystick"",
                     ""action"": ""MediumButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -323,7 +323,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
+                    ""groups"": "";Gamepad;Joystick"",
                     ""action"": ""HeavyButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -356,7 +356,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
+                    ""groups"": "";Gamepad;Joystick"",
                     ""action"": ""UniqueButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -378,7 +378,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
+                    ""groups"": "";Gamepad;Joystick"",
                     ""action"": ""Start"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -400,7 +400,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/select"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad;Joystick"",
                     ""action"": ""Select"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -422,7 +422,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
+                    ""groups"": "";Gamepad;Joystick"",
                     ""action"": ""LU"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -444,7 +444,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad;Joystick"",
                     ""action"": ""MH"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -466,7 +466,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/rightTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
+                    ""groups"": "";Gamepad;Joystick"",
                     ""action"": ""LMH"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -488,7 +488,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
+                    ""groups"": "";Gamepad;Joystick"",
                     ""action"": ""LMHU"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -522,7 +522,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard"",
-                    ""action"": ""Up"",
+                    ""action"": ""UpButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -532,8 +532,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/dpad/up"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Up"",
+                    ""groups"": "";Gamepad;Joystick"",
+                    ""action"": ""UpButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -543,8 +543,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick/up"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Up"",
+                    ""groups"": "";Gamepad;Joystick"",
+                    ""action"": ""UpButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -555,7 +555,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard"",
-                    ""action"": ""Down"",
+                    ""action"": ""DownButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -565,8 +565,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/dpad/down"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Down"",
+                    ""groups"": "";Gamepad;Joystick"",
+                    ""action"": ""DownButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -576,8 +576,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick/down"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Down"",
+                    ""groups"": "";Gamepad;Joystick"",
+                    ""action"": ""DownButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -588,7 +588,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard"",
-                    ""action"": ""Left"",
+                    ""action"": ""LeftButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -598,8 +598,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/dpad/left"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Left"",
+                    ""groups"": "";Gamepad;Joystick"",
+                    ""action"": ""LeftButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -609,8 +609,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick/left"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Left"",
+                    ""groups"": "";Gamepad;Joystick"",
+                    ""action"": ""LeftButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -620,8 +620,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/dpad/right"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Right"",
+                    ""groups"": "";Gamepad;Joystick"",
+                    ""action"": ""RightButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -632,7 +632,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard"",
-                    ""action"": ""Right"",
+                    ""action"": ""RightButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -642,8 +642,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick/right"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
-                    ""action"": ""Right"",
+                    ""groups"": "";Gamepad;Joystick"",
+                    ""action"": ""RightButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -716,15 +716,26 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             ""devices"": [
                 {
                     ""devicePath"": ""<Gamepad>"",
-                    ""isOptional"": true,
-                    ""isOR"": false
-                },
-                {
-                    ""devicePath"": ""<Joystick>"",
-                    ""isOptional"": true,
+                    ""isOptional"": false,
                     ""isOR"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Joystick"",
+            ""bindingGroup"": ""Joystick"",
+            ""devices"": [
+                {
+                    ""devicePath"": ""<Joystick>"",
+                    ""isOptional"": false,
+                    ""isOR"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Empty"",
+            ""bindingGroup"": ""Empty"",
+            ""devices"": []
         }
     ]
 }");
@@ -741,10 +752,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Controls_MH = m_Controls.FindAction("MH", throwIfNotFound: true);
         m_Controls_LMH = m_Controls.FindAction("LMH", throwIfNotFound: true);
         m_Controls_LMHU = m_Controls.FindAction("LMHU", throwIfNotFound: true);
-        m_Controls_Up = m_Controls.FindAction("Up", throwIfNotFound: true);
-        m_Controls_Down = m_Controls.FindAction("Down", throwIfNotFound: true);
-        m_Controls_Left = m_Controls.FindAction("Left", throwIfNotFound: true);
-        m_Controls_Right = m_Controls.FindAction("Right", throwIfNotFound: true);
+        m_Controls_UpButton = m_Controls.FindAction("UpButton", throwIfNotFound: true);
+        m_Controls_DownButton = m_Controls.FindAction("DownButton", throwIfNotFound: true);
+        m_Controls_LeftButton = m_Controls.FindAction("LeftButton", throwIfNotFound: true);
+        m_Controls_RightButton = m_Controls.FindAction("RightButton", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_UIConfirm = m_Menu.FindAction("UIConfirm", throwIfNotFound: true);
@@ -841,10 +852,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_MH;
     private readonly InputAction m_Controls_LMH;
     private readonly InputAction m_Controls_LMHU;
-    private readonly InputAction m_Controls_Up;
-    private readonly InputAction m_Controls_Down;
-    private readonly InputAction m_Controls_Left;
-    private readonly InputAction m_Controls_Right;
+    private readonly InputAction m_Controls_UpButton;
+    private readonly InputAction m_Controls_DownButton;
+    private readonly InputAction m_Controls_LeftButton;
+    private readonly InputAction m_Controls_RightButton;
     /// <summary>
     /// Provides access to input actions defined in input action map "Controls".
     /// </summary>
@@ -901,21 +912,21 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @LMHU => m_Wrapper.m_Controls_LMHU;
         /// <summary>
-        /// Provides access to the underlying input action "Controls/Up".
+        /// Provides access to the underlying input action "Controls/UpButton".
         /// </summary>
-        public InputAction @Up => m_Wrapper.m_Controls_Up;
+        public InputAction @UpButton => m_Wrapper.m_Controls_UpButton;
         /// <summary>
-        /// Provides access to the underlying input action "Controls/Down".
+        /// Provides access to the underlying input action "Controls/DownButton".
         /// </summary>
-        public InputAction @Down => m_Wrapper.m_Controls_Down;
+        public InputAction @DownButton => m_Wrapper.m_Controls_DownButton;
         /// <summary>
-        /// Provides access to the underlying input action "Controls/Left".
+        /// Provides access to the underlying input action "Controls/LeftButton".
         /// </summary>
-        public InputAction @Left => m_Wrapper.m_Controls_Left;
+        public InputAction @LeftButton => m_Wrapper.m_Controls_LeftButton;
         /// <summary>
-        /// Provides access to the underlying input action "Controls/Right".
+        /// Provides access to the underlying input action "Controls/RightButton".
         /// </summary>
-        public InputAction @Right => m_Wrapper.m_Controls_Right;
+        public InputAction @RightButton => m_Wrapper.m_Controls_RightButton;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -975,18 +986,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @LMHU.started += instance.OnLMHU;
             @LMHU.performed += instance.OnLMHU;
             @LMHU.canceled += instance.OnLMHU;
-            @Up.started += instance.OnUp;
-            @Up.performed += instance.OnUp;
-            @Up.canceled += instance.OnUp;
-            @Down.started += instance.OnDown;
-            @Down.performed += instance.OnDown;
-            @Down.canceled += instance.OnDown;
-            @Left.started += instance.OnLeft;
-            @Left.performed += instance.OnLeft;
-            @Left.canceled += instance.OnLeft;
-            @Right.started += instance.OnRight;
-            @Right.performed += instance.OnRight;
-            @Right.canceled += instance.OnRight;
+            @UpButton.started += instance.OnUpButton;
+            @UpButton.performed += instance.OnUpButton;
+            @UpButton.canceled += instance.OnUpButton;
+            @DownButton.started += instance.OnDownButton;
+            @DownButton.performed += instance.OnDownButton;
+            @DownButton.canceled += instance.OnDownButton;
+            @LeftButton.started += instance.OnLeftButton;
+            @LeftButton.performed += instance.OnLeftButton;
+            @LeftButton.canceled += instance.OnLeftButton;
+            @RightButton.started += instance.OnRightButton;
+            @RightButton.performed += instance.OnRightButton;
+            @RightButton.canceled += instance.OnRightButton;
         }
 
         /// <summary>
@@ -1031,18 +1042,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @LMHU.started -= instance.OnLMHU;
             @LMHU.performed -= instance.OnLMHU;
             @LMHU.canceled -= instance.OnLMHU;
-            @Up.started -= instance.OnUp;
-            @Up.performed -= instance.OnUp;
-            @Up.canceled -= instance.OnUp;
-            @Down.started -= instance.OnDown;
-            @Down.performed -= instance.OnDown;
-            @Down.canceled -= instance.OnDown;
-            @Left.started -= instance.OnLeft;
-            @Left.performed -= instance.OnLeft;
-            @Left.canceled -= instance.OnLeft;
-            @Right.started -= instance.OnRight;
-            @Right.performed -= instance.OnRight;
-            @Right.canceled -= instance.OnRight;
+            @UpButton.started -= instance.OnUpButton;
+            @UpButton.performed -= instance.OnUpButton;
+            @UpButton.canceled -= instance.OnUpButton;
+            @DownButton.started -= instance.OnDownButton;
+            @DownButton.performed -= instance.OnDownButton;
+            @DownButton.canceled -= instance.OnDownButton;
+            @LeftButton.started -= instance.OnLeftButton;
+            @LeftButton.performed -= instance.OnLeftButton;
+            @LeftButton.canceled -= instance.OnLeftButton;
+            @RightButton.started -= instance.OnRightButton;
+            @RightButton.performed -= instance.OnRightButton;
+            @RightButton.canceled -= instance.OnRightButton;
         }
 
         /// <summary>
@@ -1209,6 +1220,32 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_GamepadSchemeIndex];
         }
     }
+    private int m_JoystickSchemeIndex = -1;
+    /// <summary>
+    /// Provides access to the input control scheme.
+    /// </summary>
+    /// <seealso cref="UnityEngine.InputSystem.InputControlScheme" />
+    public InputControlScheme JoystickScheme
+    {
+        get
+        {
+            if (m_JoystickSchemeIndex == -1) m_JoystickSchemeIndex = asset.FindControlSchemeIndex("Joystick");
+            return asset.controlSchemes[m_JoystickSchemeIndex];
+        }
+    }
+    private int m_EmptySchemeIndex = -1;
+    /// <summary>
+    /// Provides access to the input control scheme.
+    /// </summary>
+    /// <seealso cref="UnityEngine.InputSystem.InputControlScheme" />
+    public InputControlScheme EmptyScheme
+    {
+        get
+        {
+            if (m_EmptySchemeIndex == -1) m_EmptySchemeIndex = asset.FindControlSchemeIndex("Empty");
+            return asset.controlSchemes[m_EmptySchemeIndex];
+        }
+    }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Controls" which allows adding and removing callbacks.
     /// </summary>
@@ -1294,33 +1331,33 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLMHU(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Up" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "UpButton" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnUp(InputAction.CallbackContext context);
+        void OnUpButton(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Down" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "DownButton" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnDown(InputAction.CallbackContext context);
+        void OnDownButton(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Left" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "LeftButton" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnLeft(InputAction.CallbackContext context);
+        void OnLeftButton(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Right" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "RightButton" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRight(InputAction.CallbackContext context);
+        void OnRightButton(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Menu" which allows adding and removing callbacks.

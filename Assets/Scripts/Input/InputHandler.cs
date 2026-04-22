@@ -120,7 +120,7 @@ namespace SkillIssue.Inputs
 
         private Vector2 inputDirection = new Vector2();
 
-        public void Initialize(Player controllingPlayer)
+        public void Initialize(Player controllingPlayer, PlayerController controller)
         {
             player = controllingPlayer;
 
@@ -134,7 +134,7 @@ namespace SkillIssue.Inputs
             leftButton.SetInputHandler(this);
             rightButton.SetInputHandler(this);
 
-            PlayerInput = player.transform.GetComponent<PlayerInput>();
+            PlayerInput = controller.GetPlayerInput();
             motionInputs = gameManager.GetCombatValues().GetMotionInputs();
             MapActions(true);
         }
@@ -172,15 +172,15 @@ namespace SkillIssue.Inputs
             inputActions.Controls.Start.performed += StartButton;
             inputActions.Controls.Select.performed += SelectButton;
 
-            inputActions.Controls.Up.performed += UpButton;
-            inputActions.Controls.Up.canceled += UpButton;
-            inputActions.Controls.Down.performed += DownButton;
-            inputActions.Controls.Down.canceled += DownButton;
+            inputActions.Controls.UpButton.performed += UpButton;
+            inputActions.Controls.UpButton.canceled += UpButton;
+            inputActions.Controls.DownButton.performed += DownButton;
+            inputActions.Controls.DownButton.canceled += DownButton;
 
-            inputActions.Controls.Left.performed += LeftButton;
-            inputActions.Controls.Left.canceled += LeftButton;
-            inputActions.Controls.Right.performed += RightButton;
-            inputActions.Controls.Right.canceled += RightButton;
+            inputActions.Controls.LeftButton.performed += LeftButton;
+            inputActions.Controls.LeftButton.canceled += LeftButton;
+            inputActions.Controls.RightButton.performed += RightButton;
+            inputActions.Controls.RightButton.canceled += RightButton;
 
             inputActions.Menu.Enable();
             inputActions.Menu.UIConfirm.performed += UIConfirm;
@@ -213,15 +213,15 @@ namespace SkillIssue.Inputs
             inputActions.Controls.Start.performed -= StartButton;
             inputActions.Controls.Select.performed -= SelectButton;
 
-            inputActions.Controls.Up.performed -= UpButton;
-            inputActions.Controls.Up.canceled -= UpButton;
-            inputActions.Controls.Down.performed -= DownButton;
-            inputActions.Controls.Down.canceled -= DownButton;
+            inputActions.Controls.UpButton.performed -= UpButton;
+            inputActions.Controls.UpButton.canceled -= UpButton;
+            inputActions.Controls.DownButton.performed -= DownButton;
+            inputActions.Controls.DownButton.canceled -= DownButton;
 
-            inputActions.Controls.Left.performed -= LeftButton;
-            inputActions.Controls.Left.canceled -= LeftButton;
-            inputActions.Controls.Right.performed -= RightButton;
-            inputActions.Controls.Right.canceled -= RightButton;
+            inputActions.Controls.LeftButton.performed -= LeftButton;
+            inputActions.Controls.LeftButton.canceled -= LeftButton;
+            inputActions.Controls.RightButton.performed -= RightButton;
+            inputActions.Controls.RightButton.canceled -= RightButton;
 
             inputActions.Menu.UIConfirm.performed -= UIConfirm;
             inputActions.Menu.UICancel.performed -= UICancel;

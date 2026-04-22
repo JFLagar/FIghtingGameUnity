@@ -6,6 +6,7 @@ public class Managers : MonoBehaviour
     public GameManager GameManager { get; private set; }
     public CameraManager CameraManager { get; private set; }
     public AudioManager AudioManager { get; private set; }
+    public InputManager InputManager { get; private set; }
 
     private void Awake()
     {
@@ -24,5 +25,6 @@ public class Managers : MonoBehaviour
         GameManager = FindFirstObjectByType<GameManager>();
         CameraManager = FindFirstObjectByType<CameraManager>();
         AudioManager = FindFirstObjectByType<AudioManager>();
+        InputManager = FindFirstObjectByType<InputManager>();
     }
 }

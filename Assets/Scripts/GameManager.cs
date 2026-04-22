@@ -40,8 +40,6 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         IsTrainingModeOn = toggleTraining;
-        foreach (Player player in players)
-            player.Initialize();
         Time.timeScale = gameSpeed;
         if (uIBehaviour != null)
         {

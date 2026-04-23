@@ -19,6 +19,16 @@ public class InputManager : MonoBehaviour
     void InitializeDevices()
     {
         int deviceId = 0;
+        foreach (InputDevice device in InputSystem.devices)
+        {
+            if (deviceId >= playerInputManager.maxPlayerCount)
+                return;
+            if (device is Keyboard)
+            {
+                JoinPlayer(device, deviceId);
+                deviceId++;
+            }
+        }
         foreach (Gamepad device in Gamepad.all)
         {
             if (deviceId >= playerInputManager.maxPlayerCount)
@@ -33,16 +43,6 @@ public class InputManager : MonoBehaviour
             JoinPlayer(device, deviceId);
             deviceId++;
         }
-        //foreach (InputDevice device in InputSystem.devices)
-        //{
-        //    if (deviceId >= playerInputManager.maxPlayerCount)
-        //        return;
-        //    if (device is Keyboard)
-        //    {
-        //        JoinPlayer(device, deviceId);
-        //        deviceId++;
-        //    }
-        //}
     }
 
     void JoinPlayer(InputDevice device, int id)
@@ -51,7 +51,6 @@ public class InputManager : MonoBehaviour
         player.SwitchCurrentActionMap("Controls");
         PlayerController controller = player.GetComponent<PlayerController>();
         SetupController(controller, id);
-        Debug.Log(device);
     }
 
     void SetupController(PlayerController controller, int id)

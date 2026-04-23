@@ -25,21 +25,29 @@ public class PlayerController : MonoBehaviour
     // UNITY EVENTS
     public void UpButton(InputAction.CallbackContext cxt)
     {
+        if (cxt.phase == InputActionPhase.Started)
+            return;
         assignedPlayer.GetInputHandler().UpButton(cxt);
     }
 
     public void DownButton(InputAction.CallbackContext cxt)
     {
+        if (cxt.phase == InputActionPhase.Started)
+            return;
         assignedPlayer.GetInputHandler().DownButton(cxt);
     }
 
     public void LeftButton(InputAction.CallbackContext cxt)
     {
+        if (cxt.phase == InputActionPhase.Started)
+            return;
         assignedPlayer.GetInputHandler().LeftButton(cxt);
     }
 
     public void RightButton(InputAction.CallbackContext cxt)
     {
+        if (cxt.phase == InputActionPhase.Started)
+            return;
         assignedPlayer.GetInputHandler().RightButton(cxt);
     }
 

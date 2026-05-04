@@ -5,25 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public TextMeshProUGUI text;
     public RectTransform[] uiElements;
-
-    public InputMapping inputMapping;
-    public Button[] buttons;
-
-    public Slider[] elementSliders;
-    public Image[] elementIcon;
-    public Sprite[] elementSprites;
+    //public Button[] buttons;
 
     public void OpenUIElement(int id)
     {
-        AudioManager.instance.PlaySoundEffect(1);
         foreach (RectTransform transform in uiElements)
         {
             transform.gameObject.SetActive(false);
         }
         uiElements[id].gameObject.SetActive(true);
-        buttons[id].Select();
+        //buttons[id].Select();
     }
 
     public void StartButton(bool training)
@@ -40,31 +32,12 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene(1);
     }
 
     public void QuitButton()
     {
         Application.Quit();
-    }
-
-    public void OnSliderChange(bool isP2Slider)
-    {
-        AudioManager.instance.PlaySoundEffect(0);
-        int playerId = 0;
-        playerId = isP2Slider ? 1 : 0;
-            switch (elementSliders[playerId].value)
-            {
-                //Here add to the local persistence manager which character 
-                case 0:
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-            }
     }
 
 }

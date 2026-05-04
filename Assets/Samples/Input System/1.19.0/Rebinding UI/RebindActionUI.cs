@@ -330,6 +330,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                             m_RebindOverlay.SetActive(false);
                         UpdateBindingDisplay();
                         CleanUp();
+                        Debug.Log("Cancel rebinding");
                     })
                 // We want matching events to be suppressed during rebinding (this is also default).
                 //.WithMatchingEventsBeingSuppressed()
@@ -347,7 +348,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                         m_RebindStopEvent?.Invoke(this, operation);
                         UpdateBindingDisplay();
                         CleanUp();
-
+                        Debug.Log("Rebidding done"); 
                         // If there's more composite parts we should bind, initiate a rebind
                         // for the next part.
                         if (allCompositeParts)
@@ -364,7 +365,8 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 partName = $"Binding '{action.bindings[bindingIndex].name}'. ";
 
             // Bring up rebind overlay, if we have one.
-            m_RebindOverlay?.SetActive(true);
+            if (m_RebindOverlay != null)
+                m_RebindOverlay.SetActive(true);
             if (m_RebindText != null)
             {
                 var text = !string.IsNullOrEmpty(m_RebindOperation.expectedControlType)

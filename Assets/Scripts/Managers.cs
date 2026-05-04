@@ -13,7 +13,6 @@ public class Managers : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            //Add not destroy on load when starting the game in the splash screen scene
         }
         else
             DestroyImmediate(this);
@@ -26,5 +25,10 @@ public class Managers : MonoBehaviour
         CameraManager = FindFirstObjectByType<CameraManager>();
         AudioManager = FindFirstObjectByType<AudioManager>();
         InputManager = FindFirstObjectByType<InputManager>();
+    }
+
+    private void Start()
+    {
+        Debug.Log("SceneStarted");
     }
 }

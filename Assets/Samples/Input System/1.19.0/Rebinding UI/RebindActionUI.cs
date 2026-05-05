@@ -23,7 +23,6 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             set
             {
                 m_Action = value;
-                UpdateActionLabel();
                 UpdateBindingDisplay();
             }
         }
@@ -53,19 +52,6 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         }
 
         /// <summary>
-        /// Text component that receives the name of the action. Optional.
-        /// </summary>
-        public Text actionLabel
-        {
-            get => m_ActionLabel;
-            set
-            {
-                m_ActionLabel = value;
-                UpdateActionLabel();
-            }
-        }
-
-        /// <summary>
         /// Text component that receives the display string of the binding. Can be <c>null</c> in which
         /// case the component entirely relies on <see cref="updateBindingUIEvent"/>.
         /// </summary>
@@ -79,53 +65,6 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             }
         }
 
-        /// <summary>
-        /// Optional text component that receives a text prompt when waiting for a control to be actuated.
-        /// </summary>
-        /// <seealso cref="startRebindEvent"/>
-        /// <seealso cref="rebindOverlay"/>
-        public Text rebindPrompt
-        {
-            get => m_RebindText;
-            set => m_RebindText = value;
-        }
-
-        /// <summary>
-        /// Optional text component that shows relevant information when waiting for a control to be actuated.
-        /// </summary>
-        /// <seealso cref="rebindPrompt"/>
-        /// <seealso cref="rebindOverlay"/>
-        public Text rebindInfo
-        {
-            get => m_RebindInfo;
-            set => m_RebindInfo = value;
-        }
-
-        /// <summary>
-        /// Optional button to manually cancel rebinding while waiting.
-        /// </summary>
-        public Button rebindCancelButton
-        {
-            get => m_RebindCancelButton;
-            set => m_RebindCancelButton = value;
-        }
-
-        /// <summary>
-        /// Optional UI that is activated when an interactive rebind is started and deactivated when the rebind
-        /// is finished. This is normally used to display an overlay over the current UI while the system is
-        /// waiting for a control to be actuated.
-        /// </summary>
-        /// <remarks>
-        /// If neither <see cref="rebindPrompt"/> nor <c>rebindOverlay</c> is set, the component will temporarily
-        /// replaced the <see cref="bindingText"/> (if not <c>null</c>) with <c>"Waiting..."</c>.
-        /// </remarks>
-        /// <seealso cref="startRebindEvent"/>
-        /// <seealso cref="rebindPrompt"/>
-        public GameObject rebindOverlay
-        {
-            get => m_RebindOverlay;
-            set => m_RebindOverlay = value;
-        }
 
         /// <summary>
         /// Event that is triggered every time the UI updates to reflect the current binding.
@@ -295,10 +234,6 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
             void CleanUp()
             {
-                // Restore monitoring cancel button clicks
-                if (m_RebindCancelButton != null)
-                    m_RebindCancelButton.onClick.RemoveListener(CancelRebind);
-
                 m_RebindOperation?.Dispose();
                 m_RebindOperation = null;
 
@@ -326,8 +261,6 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                     operation =>
                     {
                         m_RebindStopEvent?.Invoke(this, operation);
-                        if (m_RebindOverlay != null)
-                            m_RebindOverlay.SetActive(false);
                         UpdateBindingDisplay();
                         CleanUp();
                         Debug.Log("Cancel rebinding");
@@ -343,8 +276,6 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 .OnComplete(
                     operation =>
                     {
-                        if (m_RebindOverlay != null)
-                            m_RebindOverlay.SetActive(false);
                         m_RebindStopEvent?.Invoke(this, operation);
                         UpdateBindingDisplay();
                         CleanUp();
@@ -363,35 +294,6 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             var partName = default(string);
             if (action.bindings[bindingIndex].isPartOfComposite)
                 partName = $"Binding '{action.bindings[bindingIndex].name}'. ";
-
-            // Bring up rebind overlay, if we have one.
-            if (m_RebindOverlay != null)
-                m_RebindOverlay.SetActive(true);
-            if (m_RebindText != null)
-            {
-                var text = !string.IsNullOrEmpty(m_RebindOperation.expectedControlType)
-                    ? $"{partName}Waiting for {m_RebindOperation.expectedControlType} input..."
-                    : $"{partName}Waiting for input...";
-                m_RebindText.text = text;
-            }
-
-            // Optionally allow canceling rebind via a button if it applicable for the use-case
-            if (m_RebindCancelButton != null)
-            {
-                m_RebindCancelButton.onClick.AddListener(CancelRebind);
-            }
-
-            // Update rebind overlay information, if we have one.
-            if (m_RebindInfo != null)
-            {
-                m_RebindStartTime = Time.realtimeSinceStartup;
-                UpdateRebindInfo(m_RebindStartTime);
-            }
-
-            // If we have no rebind overlay and no callback but we have a binding text label,
-            // temporarily set the binding text label to "<Waiting>".
-            if (m_RebindOverlay == null && m_RebindText == null && m_RebindStartEvent == null && m_BindingText != null)
-                m_BindingText.text = "<Waiting...>";
 
             // Give listeners a chance to act on the rebind starting.
             m_RebindStartEvent?.Invoke(this, m_RebindOperation);
@@ -412,19 +314,12 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             var text = (m_RebindOperation.timeout > 0.0f)
                 ? $"Cancels in <b>{remainingTimeoutWholeSeconds}</b> seconds if no matching input is provided."
                 : string.Empty;
-            m_RebindInfo.text = text;
             m_LastRemainingTimeoutSeconds = remainingTimeoutWholeSeconds;
         }
 
         private void CancelRebind()
         {
             m_RebindOperation?.Cancel();
-        }
-
-        protected void Update()
-        {
-            if (m_RebindInfo != null)
-                UpdateRebindInfo(Time.realtimeSinceStartupAsDouble);
         }
 
         protected void OnEnable()
@@ -488,30 +383,9 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         [SerializeField]
         private InputBinding.DisplayStringOptions m_DisplayStringOptions;
 
-        [Tooltip("Text label that will receive the name of the action. Optional. Set to None to have the "
-            + "rebind UI not show a label for the action.")]
-        [SerializeField]
-        private Text m_ActionLabel;
-
         [Tooltip("Text label that will receive the current, formatted binding string.")]
         [SerializeField]
         private Text m_BindingText;
-
-        [Tooltip("Optional UI that will be shown while a rebind is in progress.")]
-        [SerializeField]
-        private GameObject m_RebindOverlay;
-
-        [Tooltip("Optional text label that will be updated with prompt for user input.")]
-        [SerializeField]
-        private Text m_RebindText;
-
-        [Tooltip("Optional text label that will be updated with relevant information during rebinding.")]
-        [SerializeField]
-        private Text m_RebindInfo;
-
-        [Tooltip("Optional cancellation UI button for rebinding overlay.")]
-        [SerializeField]
-        private Button m_RebindCancelButton;
 
         [Tooltip("Optional rebinding timeout in seconds. If zero, no timeout will be used.")]
         [SerializeField]
@@ -544,20 +418,11 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         #if UNITY_EDITOR
         protected void OnValidate()
         {
-            UpdateActionLabel();
             UpdateBindingDisplay();
         }
 
         #endif
 
-        private void UpdateActionLabel()
-        {
-            if (m_ActionLabel != null)
-            {
-                var action = m_Action?.action;
-                m_ActionLabel.text = action != null ? action.name : string.Empty;
-            }
-        }
 
         [Serializable]
         public class UpdateBindingUIEvent : UnityEvent<RebindActionUI, string, string, string>

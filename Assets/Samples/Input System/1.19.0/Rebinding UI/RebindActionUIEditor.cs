@@ -15,12 +15,8 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
     {
         protected void OnEnable()
         {
-            m_ActionLabelProperty = serializedObject.FindProperty("m_ActionLabel");
+
             m_BindingTextProperty = serializedObject.FindProperty("m_BindingText");
-            m_RebindOverlayProperty = serializedObject.FindProperty("m_RebindOverlay");
-            m_RebindTextProperty = serializedObject.FindProperty("m_RebindText");
-            m_RebindInfoProperty = serializedObject.FindProperty("m_RebindInfo");
-            m_RebindCancelButtonProperty = serializedObject.FindProperty("m_RebindCancelButton");
             m_RebindTimeoutProperty = serializedObject.FindProperty("m_RebindTimeout");
             m_UpdateBindingUIEventProperty = serializedObject.FindProperty("m_UpdateBindingUIEvent");
             m_RebindStartEventProperty = serializedObject.FindProperty("m_RebindStartEvent");
@@ -41,12 +37,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             EditorGUILayout.LabelField(m_UILabel);
             using (new EditorGUI.IndentLevelScope())
             {
-                EditorGUILayout.PropertyField(m_ActionLabelProperty);
                 EditorGUILayout.PropertyField(m_BindingTextProperty);
-                EditorGUILayout.PropertyField(m_RebindOverlayProperty);
-                EditorGUILayout.PropertyField(m_RebindTextProperty);
-                EditorGUILayout.PropertyField(m_RebindInfoProperty);
-                EditorGUILayout.PropertyField(m_RebindCancelButtonProperty);
             }
 
             // Rebind options section.
@@ -73,13 +64,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 m_BindingUI.Refresh();
             }
         }
-
-        private SerializedProperty m_ActionLabelProperty;
         private SerializedProperty m_BindingTextProperty;
-        private SerializedProperty m_RebindOverlayProperty;
-        private SerializedProperty m_RebindTextProperty;
-        private SerializedProperty m_RebindInfoProperty;
-        private SerializedProperty m_RebindCancelButtonProperty;
         private SerializedProperty m_RebindTimeoutProperty;
         private SerializedProperty m_RebindStartEventProperty;
         private SerializedProperty m_RebindStopEventProperty;

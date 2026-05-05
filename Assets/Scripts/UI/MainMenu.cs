@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem.Samples.RebindUI;
 
 public class MainMenu : MonoBehaviour
 {
@@ -42,7 +43,11 @@ public class MainMenu : MonoBehaviour
 
     public void ResetInputMapping()
     {
-
+        RebindActionUI[] rebindActionUIs = FindObjectsByType<RebindActionUI>(FindObjectsSortMode.None);
+        foreach(var action in rebindActionUIs)
+        {
+            action.ResetToDefault();
+        }
     }
 
 }

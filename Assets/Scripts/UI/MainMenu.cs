@@ -7,7 +7,12 @@ using UnityEngine.InputSystem.Samples.RebindUI;
 public class MainMenu : MonoBehaviour
 {
     public RectTransform[] uiElements;
-    //public Button[] buttons;
+    public Selectable[] selectables;
+
+    private void Start()
+    {
+        InputManager.Instance.SwitchToMap("Menu");    
+    }
 
     public void OpenUIElement(int id)
     {
@@ -16,7 +21,7 @@ public class MainMenu : MonoBehaviour
             transform.gameObject.SetActive(false);
         }
         uiElements[id].gameObject.SetActive(true);
-        //buttons[id].Select();
+        selectables[id].Select();
     }
 
     public void StartButton(bool training)

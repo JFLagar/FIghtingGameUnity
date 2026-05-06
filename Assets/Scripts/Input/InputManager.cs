@@ -5,17 +5,41 @@ using System.Collections.Generic;
 
 public class InputManager : MonoBehaviour
 {
+    public static InputManager Instance;
     PlayerInputManager playerInputManager;
     [SerializeField]
     PlayerController playerControllerPrefab;
     List<PlayerController> playerControllers = new List<PlayerController>();
+    PlayerController mainPlayerController;
 
-    private void Start()
+    private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            DestroyImmediate(gameObject);
+            return;
+        }
+
         playerInputManager = GetComponent<PlayerInputManager>();
         playerInputManager.playerPrefab = playerControllerPrefab.gameObject;
         InitializeDevices();
     }
+
+    public PlayerController GetMainPlayerController()
+    {
+        return mainPlayerController;
+    }
+
+    public void SetMainPlayerController(PlayerController playerController)
+    {
+        playerController = mainPlayerController;
+    }
+
     void InitializeDevices()
     {
         int deviceId = 0;
@@ -49,17 +73,17 @@ public class InputManager : MonoBehaviour
     {
         PlayerInput player = playerInputManager.JoinPlayer(pairWithDevice: device);
         player.SwitchCurrentActionMap("Controls");
+        player.gameObject.transform.parent = gameObject.transform;
         PlayerController controller = player.GetComponent<PlayerController>();
-        SetupController(controller, id);
+        playerControllers.Add(controller);
     }
 
-    void SetupController(PlayerController controller, int id)
+    public void SetupController(int id)
     {
         Player[] activePlayers = Managers.Instance.GameManager.GetPlayers();
         if (activePlayers.Length < id - 1)
             return;
-        controller.Initialize(activePlayers[id], id);
-        playerControllers.Add(controller);
+        playerControllers[id].Initialize(activePlayers[id], id);
     }
 
     public void DisableInput()

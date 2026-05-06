@@ -1,4 +1,5 @@
 using SkillIssue.CharacterSpace;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -39,6 +40,11 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        for (int i = 0; i <= players.Length -1 ; i++)
+        {
+            Managers.Instance.InputManager.SetupController(i);
+            Managers.Instance.InputManager.SwitchToMap("Controls");
+        }
         IsTrainingModeOn = toggleTraining;
         Time.timeScale = gameSpeed;
         if (uIBehaviour != null)

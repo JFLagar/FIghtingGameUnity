@@ -5,15 +5,15 @@ using System.IO;
 
 public class SaveDataManager : MonoBehaviour
 {
-    public static SaveDataManager instance;
+    public static SaveDataManager Instance;
     private string saveDataPath;
     public UserData ActiveSaveData { get; private set; }
     // Start is called before the first frame update
     void Awake()
     {
-        if (instance != null)
+        if (Instance != null)
             return;
-        instance = this;
+        Instance = this;
         DontDestroyOnLoad(this);
     }
     private void Start()

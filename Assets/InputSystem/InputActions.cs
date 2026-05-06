@@ -670,6 +670,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UINavigate"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""8c6780e8-6d7b-43a5-a3cd-ec2b43997587"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -677,6 +686,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""a8e68897-b0c6-4821-89b0-f7635affd1ce"",
                     ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""UIConfirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""19f19ae5-b120-43f7-bc6b-f6cbd0912a63"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad;Joystick"",
+                    ""action"": ""UIConfirm"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""063e5d57-b7c8-46cd-addb-384e341f43bd"",
+                    ""path"": ""<Keyboard>/enter"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard"",
@@ -694,6 +725,105 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""UICancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c3fe1b57-1776-4e5a-99e7-3c497b94bbbb"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad;Joystick"",
+                    ""action"": ""UICancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""598a2f15-574b-4145-bc62-204644eb5b6c"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""UICancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1f4621d0-8b89-4136-811a-985f105b3e07"",
+                    ""path"": ""<Gamepad>/dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad;Joystick"",
+                    ""action"": ""UINavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eb9c8159-b5e8-4f24-9858-e5bf4b1cbd0d"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad;Joystick"",
+                    ""action"": ""UINavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""78395617-f4ec-488c-85fe-d9ebb9551004"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UINavigate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""179cdd7f-811b-40a3-af7f-ef6dd7a82d02"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UINavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""a9b71754-541a-4a97-a990-4f3ce6db753d"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UINavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""e4121acc-0b32-4635-9c19-6146d4161b1c"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UINavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""86263084-88e2-4819-a288-33e8285efa94"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UINavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -760,6 +890,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_UIConfirm = m_Menu.FindAction("UIConfirm", throwIfNotFound: true);
         m_Menu_UICancel = m_Menu.FindAction("UICancel", throwIfNotFound: true);
+        m_Menu_UINavigate = m_Menu.FindAction("UINavigate", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -1093,6 +1224,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private List<IMenuActions> m_MenuActionsCallbackInterfaces = new List<IMenuActions>();
     private readonly InputAction m_Menu_UIConfirm;
     private readonly InputAction m_Menu_UICancel;
+    private readonly InputAction m_Menu_UINavigate;
     /// <summary>
     /// Provides access to input actions defined in input action map "Menu".
     /// </summary>
@@ -1112,6 +1244,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Menu/UICancel".
         /// </summary>
         public InputAction @UICancel => m_Wrapper.m_Menu_UICancel;
+        /// <summary>
+        /// Provides access to the underlying input action "Menu/UINavigate".
+        /// </summary>
+        public InputAction @UINavigate => m_Wrapper.m_Menu_UINavigate;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1144,6 +1280,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @UICancel.started += instance.OnUICancel;
             @UICancel.performed += instance.OnUICancel;
             @UICancel.canceled += instance.OnUICancel;
+            @UINavigate.started += instance.OnUINavigate;
+            @UINavigate.performed += instance.OnUINavigate;
+            @UINavigate.canceled += instance.OnUINavigate;
         }
 
         /// <summary>
@@ -1161,6 +1300,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @UICancel.started -= instance.OnUICancel;
             @UICancel.performed -= instance.OnUICancel;
             @UICancel.canceled -= instance.OnUICancel;
+            @UINavigate.started -= instance.OnUINavigate;
+            @UINavigate.performed -= instance.OnUINavigate;
+            @UINavigate.canceled -= instance.OnUINavigate;
         }
 
         /// <summary>
@@ -1380,5 +1522,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnUICancel(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "UINavigate" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnUINavigate(InputAction.CallbackContext context);
     }
 }

@@ -177,6 +177,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 action.RemoveBindingOverride(bindingIndex);
             }
             UpdateBindingDisplay();
+            SaveDataManager.Instance.SaveInputData();
         }
 
         /// <summary>
@@ -263,7 +264,6 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                         m_RebindStopEvent?.Invoke(this, operation);
                         UpdateBindingDisplay();
                         CleanUp();
-                        Debug.Log("Cancel rebinding");
                     })
                 // We want matching events to be suppressed during rebinding (this is also default).
                 //.WithMatchingEventsBeingSuppressed()
@@ -279,7 +279,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                         m_RebindStopEvent?.Invoke(this, operation);
                         UpdateBindingDisplay();
                         CleanUp();
-                        Debug.Log("Rebidding done"); 
+                        SaveDataManager.Instance.SaveInputData();
                         // If there's more composite parts we should bind, initiate a rebind
                         // for the next part.
                         if (allCompositeParts)

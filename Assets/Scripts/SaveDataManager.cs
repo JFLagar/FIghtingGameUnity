@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.InputSystem;
+using System.Linq;
 
 public class SaveDataManager : MonoBehaviour
 {
@@ -22,15 +24,14 @@ public class SaveDataManager : MonoBehaviour
 
         if (CheckData())
         {
-            Debug.Log("Exists");
             string json = File.ReadAllText(saveDataPath);
             ActiveSaveData = JsonUtility.FromJson<UserData>(json);
         }
         else
         {
-            Debug.Log("Doesn't Exist");
             SaveData(new UserData());
         }
+        LoadInputData();
     }
     public void SaveData(UserData m_data)
     {
@@ -54,6 +55,41 @@ public class SaveDataManager : MonoBehaviour
             return false;
         }
     }
+
+    public void SaveInputData()
+    {
+        PlayerController[] playerControllers = InputManager.Instance.GetPlayerControllers();
+        for (int i = 0; i <= playerControllers.Length - 1; i++)
+        { 
+            string json = playerControllers[i].GetPlayerInput().actions.SaveBindingOverridesAsJson();
+            // check if theres a save for the ID
+            InputUserData inputUserData = ActiveSaveData.InputUserDatas.FirstOrDefault(c => c.ControllerID == playerControllers[i].Id);
+            if (inputUserData != null)
+            {
+                inputUserData.InputMaps = json;
+            }
+            else
+            {
+                inputUserData = new InputUserData(playerControllers[i].Id,0,json);
+                ActiveSaveData.InputUserDatas.Add(inputUserData);
+            }
+        }
+        SaveData(ActiveSaveData);
+    }
+
+    public void LoadInputData()
+    {
+        PlayerController[] playerControllers = InputManager.Instance.GetPlayerControllers();
+        for (int i = 0; i <= playerControllers.Length - 1; i++)
+        {
+            // check if theres a save for the ID
+            InputUserData inputUserData = ActiveSaveData.InputUserDatas.FirstOrDefault(c => c.ControllerID == playerControllers[i].Id);
+            if (inputUserData != null)
+            {
+                playerControllers[i].GetPlayerInput().actions.LoadBindingOverridesFromJson(inputUserData.InputMaps);
+            }
+        }
+    }
 }
 
 [System.Serializable]
@@ -68,4 +104,10 @@ public class InputUserData
     public int ControllerID;
     public int ProfileID;
     public string InputMaps;
+    public InputUserData(int controllerID, int profileID, string inputMaps)
+    {
+        ControllerID = controllerID;
+        ProfileID = profileID;
+        InputMaps = inputMaps;
+    }
 }

@@ -35,6 +35,11 @@ public class InputManager : MonoBehaviour
         return mainPlayerController;
     }
 
+    public PlayerController[] GetPlayerControllers()
+    {
+        return playerControllers.ToArray();
+    }
+
     public void SetMainPlayerController(PlayerController playerController)
     {
         playerController = mainPlayerController;
@@ -67,6 +72,7 @@ public class InputManager : MonoBehaviour
             JoinPlayer(device, deviceId);
             deviceId++;
         }
+
     }
 
     void JoinPlayer(InputDevice device, int id)
@@ -75,6 +81,7 @@ public class InputManager : MonoBehaviour
         player.SwitchCurrentActionMap("Controls");
         player.gameObject.transform.parent = gameObject.transform;
         PlayerController controller = player.GetComponent<PlayerController>();
+        controller.Id = id;
         playerControllers.Add(controller);
     }
 

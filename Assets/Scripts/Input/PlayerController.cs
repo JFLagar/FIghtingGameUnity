@@ -4,8 +4,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    private int id;
+    public int Id;
     [SerializeField]
     private Player assignedPlayer;
 
@@ -14,7 +13,6 @@ public class PlayerController : MonoBehaviour
 
         assignedPlayer = player;
         player.Initialize(this);
-        id = playerId;
     }
 
     public PlayerInput GetPlayerInput()

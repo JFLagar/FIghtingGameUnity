@@ -679,6 +679,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MenuStart"",
+                    ""type"": ""Button"",
+                    ""id"": ""2797dd24-0eeb-42b8-88e0-0ad34a3d9693"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -700,17 +709,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad;Joystick"",
-                    ""action"": ""UIConfirm"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""063e5d57-b7c8-46cd-addb-384e341f43bd"",
-                    ""path"": ""<Keyboard>/enter"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard"",
                     ""action"": ""UIConfirm"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -824,6 +822,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""UINavigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""48c61a53-93ed-4020-bf9c-280bee22ea96"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""MenuStart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""22ab0214-57d1-46ba-9bd5-3a80e7349f6d"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""MenuStart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -891,6 +911,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Menu_UIConfirm = m_Menu.FindAction("UIConfirm", throwIfNotFound: true);
         m_Menu_UICancel = m_Menu.FindAction("UICancel", throwIfNotFound: true);
         m_Menu_UINavigate = m_Menu.FindAction("UINavigate", throwIfNotFound: true);
+        m_Menu_MenuStart = m_Menu.FindAction("MenuStart", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -1225,6 +1246,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Menu_UIConfirm;
     private readonly InputAction m_Menu_UICancel;
     private readonly InputAction m_Menu_UINavigate;
+    private readonly InputAction m_Menu_MenuStart;
     /// <summary>
     /// Provides access to input actions defined in input action map "Menu".
     /// </summary>
@@ -1248,6 +1270,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Menu/UINavigate".
         /// </summary>
         public InputAction @UINavigate => m_Wrapper.m_Menu_UINavigate;
+        /// <summary>
+        /// Provides access to the underlying input action "Menu/MenuStart".
+        /// </summary>
+        public InputAction @MenuStart => m_Wrapper.m_Menu_MenuStart;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1283,6 +1309,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @UINavigate.started += instance.OnUINavigate;
             @UINavigate.performed += instance.OnUINavigate;
             @UINavigate.canceled += instance.OnUINavigate;
+            @MenuStart.started += instance.OnMenuStart;
+            @MenuStart.performed += instance.OnMenuStart;
+            @MenuStart.canceled += instance.OnMenuStart;
         }
 
         /// <summary>
@@ -1303,6 +1332,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @UINavigate.started -= instance.OnUINavigate;
             @UINavigate.performed -= instance.OnUINavigate;
             @UINavigate.canceled -= instance.OnUINavigate;
+            @MenuStart.started -= instance.OnMenuStart;
+            @MenuStart.performed -= instance.OnMenuStart;
+            @MenuStart.canceled -= instance.OnMenuStart;
         }
 
         /// <summary>
@@ -1529,5 +1561,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnUINavigate(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "MenuStart" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMenuStart(InputAction.CallbackContext context);
     }
 }

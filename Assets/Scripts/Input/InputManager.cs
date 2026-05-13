@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using SkillIssue.CharacterSpace;
 using System.Collections.Generic;
+using System.Linq;
+using NaughtyAttributes;
 
 public class InputManager : MonoBehaviour
 {
@@ -10,6 +12,8 @@ public class InputManager : MonoBehaviour
     [SerializeField]
     PlayerController playerControllerPrefab;
     List<PlayerController> playerControllers = new List<PlayerController>();
+    [ReadOnly]
+    [SerializeField]
     PlayerController mainPlayerController;
 
     private void Awake()
@@ -42,22 +46,22 @@ public class InputManager : MonoBehaviour
 
     public void SetMainPlayerController(PlayerController playerController)
     {
-        playerController = mainPlayerController;
+        if (playerController == null)
+            return;
+        //Swap the IDs between controllers
+        if (playerController.Id != 0)
+        {
+            playerControllers.FirstOrDefault(c => c.Id == 0).Id = playerController.Id;
+            playerController.Id = 0;
+        }
+        mainPlayerController = playerController;
+        playerController.SetMainController();
     }
 
     void InitializeDevices()
     {
         int deviceId = 0;
-        foreach (InputDevice device in InputSystem.devices)
-        {
-            if (deviceId >= playerInputManager.maxPlayerCount)
-                return;
-            if (device is Keyboard)
-            {
-                JoinPlayer(device, deviceId);
-                deviceId++;
-            }
-        }
+
         foreach (Gamepad device in Gamepad.all)
         {
             if (deviceId >= playerInputManager.maxPlayerCount)
@@ -72,7 +76,16 @@ public class InputManager : MonoBehaviour
             JoinPlayer(device, deviceId);
             deviceId++;
         }
-
+        foreach (InputDevice device in InputSystem.devices)
+        {
+            if (deviceId >= playerInputManager.maxPlayerCount)
+                return;
+            if (device is Keyboard)
+            {
+                JoinPlayer(device, deviceId);
+                deviceId++;
+            }
+        }
     }
 
     void JoinPlayer(InputDevice device, int id)
@@ -82,6 +95,8 @@ public class InputManager : MonoBehaviour
         player.gameObject.transform.parent = gameObject.transform;
         PlayerController controller = player.GetComponent<PlayerController>();
         controller.Id = id;
+        if (controller.Id == 0)
+            SetMainPlayerController(controller);
         playerControllers.Add(controller);
     }
 

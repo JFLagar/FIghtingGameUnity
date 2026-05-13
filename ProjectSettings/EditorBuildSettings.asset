@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/SplashScreen.unity
+    guid: 7c2d228a21ee91b45be117ac0a0c5d57
+  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: f8143aeddd0f035439b886fbacbbac89
   - enabled: 1
@@ -13,5 +16,5 @@ EditorBuildSettings:
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 10711e7e582b13444aa600ca2e25c55f, type: 2}
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 9d50d0cc57b72104fa184b1b07e4c256, type: 3}
+    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 7dead05c54ca85b4681351aafd8bd03a, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -1,16 +1,22 @@
 ﻿using SkillIssue.CharacterSpace;
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     public int Id;
     [SerializeField]
     private Player assignedPlayer;
+    public Action<InputAction.CallbackContext, PlayerController> _startAction;
+    [SerializeField]
+    private MultiplayerEventSystem eventSystem;
 
     public void Initialize(Player player, int playerId)
     {
-
         assignedPlayer = player;
         player.Initialize(this);
     }
@@ -18,6 +24,22 @@ public class PlayerController : MonoBehaviour
     public PlayerInput GetPlayerInput()
     {
         return GetComponent<PlayerInput>();
+    }
+
+    public void SetMainController()
+    {
+        eventSystem.playerRoot = FindAnyObjectByType<Canvas>().gameObject;
+    }
+
+    public void SetPlayerUI(GameObject uiGameObject, Selectable selectable)
+    {
+        eventSystem.playerRoot = uiGameObject;
+        SelectUIElement(selectable);
+    }
+
+    public void SelectUIElement(Selectable selectable)
+    {
+        eventSystem.SetSelectedGameObject(selectable.gameObject);
     }
 
     // UNITY EVENTS
@@ -91,5 +113,13 @@ public class PlayerController : MonoBehaviour
     public void MHButton(InputAction.CallbackContext cxt)
     {
         assignedPlayer.GetInputHandler().MHButton(cxt);
+    }
+
+    public void StatButton(InputAction.CallbackContext cxt)
+    {
+        if (_startAction == null) 
+            return;
+        if (cxt.phase == InputActionPhase.Started)
+            _startAction.Invoke(cxt, this);
     }
 }

@@ -11,7 +11,8 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        InputManager.Instance.SwitchToMap("Menu");    
+        InputManager.Instance.SwitchToMap("Menu");
+        InputManager.Instance.GetMainPlayerController().SetPlayerUI(gameObject, selectables[0]);
     }
 
     public void OpenUIElement(int id)
@@ -21,7 +22,7 @@ public class MainMenu : MonoBehaviour
             transform.gameObject.SetActive(false);
         }
         uiElements[id].gameObject.SetActive(true);
-        selectables[id].Select();
+        InputManager.Instance.GetMainPlayerController().SelectUIElement(selectables[id]);
     }
 
     public void StartButton(bool training)
@@ -38,7 +39,7 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
 
     public void QuitButton()

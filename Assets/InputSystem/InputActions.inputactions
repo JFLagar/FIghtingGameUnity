@@ -593,6 +593,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "MenuStart",
+                    "type": "Button",
+                    "id": "2797dd24-0eeb-42b8-88e0-0ad34a3d9693",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -614,17 +623,6 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad;Joystick",
-                    "action": "UIConfirm",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "063e5d57-b7c8-46cd-addb-384e341f43bd",
-                    "path": "<Keyboard>/enter",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard",
                     "action": "UIConfirm",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -738,6 +736,28 @@
                     "action": "UINavigate",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "48c61a53-93ed-4020-bf9c-280bee22ea96",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "MenuStart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "22ab0214-57d1-46ba-9bd5-3a80e7349f6d",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard",
+                    "action": "MenuStart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

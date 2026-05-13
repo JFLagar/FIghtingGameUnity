@@ -13,11 +13,18 @@ public class SaveDataManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        if (Instance != null)
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            DestroyImmediate(gameObject);
             return;
-        Instance = this;
-        DontDestroyOnLoad(this);
+        }
     }
+
     private void Start()
     {
         saveDataPath = Application.persistentDataPath + "/data.json";
@@ -33,6 +40,7 @@ public class SaveDataManager : MonoBehaviour
         }
         LoadInputData();
     }
+
     public void SaveData(UserData m_data)
     {
         string json = JsonUtility.ToJson(m_data);

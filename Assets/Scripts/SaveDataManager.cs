@@ -28,21 +28,14 @@ public class SaveDataManager : MonoBehaviour
     private void Start()
     {
         saveDataPath = Application.persistentDataPath + "/data.json";
-
-        if (CheckData())
-        {
-            string json = File.ReadAllText(saveDataPath);
-            ActiveSaveData = JsonUtility.FromJson<UserData>(json);
-        }
-        else
-        {
-            SaveData(new UserData());
-        }
-        LoadInputData();
     }
 
-    public void SaveData(UserData m_data)
+    public void SaveData(UserData m_data = null)
     {
+        if (m_data == null)
+        {
+            m_data = ActiveSaveData;
+        }
         string json = JsonUtility.ToJson(m_data);
         File.WriteAllText(saveDataPath, json);
         json = File.ReadAllText(saveDataPath);
@@ -83,6 +76,20 @@ public class SaveDataManager : MonoBehaviour
             }
         }
         SaveData(ActiveSaveData);
+    }
+
+    public void LoadData()
+    {
+        if (CheckData())
+        {
+            string json = File.ReadAllText(saveDataPath);
+            ActiveSaveData = JsonUtility.FromJson<UserData>(json);
+        }
+        else
+        {
+            SaveData(new UserData());
+        }
+        LoadInputData();
     }
 
     public void LoadInputData()

@@ -2,58 +2,59 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.InputSystem;
+using System.Linq;
 
-public enum Controllers
-{
-    keyboard1,
-    keyboard2,
-    controller1,
-    controller2
-}
 public class SaveDataManager : MonoBehaviour
 {
-    public static SaveDataManager instance;
-    public Controllers controllerP1 , controllerP2;
-    private string saveData;
-    public UserData data;
+    public static SaveDataManager Instance;
+    private string saveDataPath;
+    public UserData ActiveSaveData { get; private set; }
     // Start is called before the first frame update
     void Awake()
     {
-        if (instance != null)
-            return;
-        instance = this;
-        DontDestroyOnLoad(this);
-    }
-    private void Start()
-    {
-        saveData = Application.persistentDataPath + "/data.json";
-
-        if (File.Exists(saveData))
+        if (Instance == null)
         {
-            Debug.Log("Exists");
-            string json = File.ReadAllText(saveData);
-            data = JsonUtility.FromJson<UserData>(json);
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            Debug.Log("Doesn't Exist");
-            ReWriteData(new UserData());
+            DestroyImmediate(gameObject);
+            return;
         }
     }
-    public void ReWriteData(UserData m_data)
+
+    private void Start()
+    {
+        saveDataPath = Application.persistentDataPath + "/data.json";
+
+        if (CheckData())
+        {
+            string json = File.ReadAllText(saveDataPath);
+            ActiveSaveData = JsonUtility.FromJson<UserData>(json);
+        }
+        else
+        {
+            SaveData(new UserData());
+        }
+        LoadInputData();
+    }
+
+    public void SaveData(UserData m_data)
     {
         string json = JsonUtility.ToJson(m_data);
-        File.WriteAllText(saveData, json);
-        json = File.ReadAllText(saveData);
-        data = JsonUtility.FromJson<UserData>(json);
+        File.WriteAllText(saveDataPath, json);
+        json = File.ReadAllText(saveDataPath);
+        ActiveSaveData = JsonUtility.FromJson<UserData>(json);
 
 
     }
     public bool CheckData()
     {
-        saveData = Application.persistentDataPath + "/data.json";
+        saveDataPath = Application.persistentDataPath + "/data.json";
 
-        if (File.Exists(saveData))
+        if (File.Exists(saveDataPath))
         {
             return true;
         }
@@ -62,12 +63,59 @@ public class SaveDataManager : MonoBehaviour
             return false;
         }
     }
+
+    public void SaveInputData()
+    {
+        PlayerController[] playerControllers = InputManager.Instance.GetPlayerControllers();
+        for (int i = 0; i <= playerControllers.Length - 1; i++)
+        { 
+            string json = playerControllers[i].GetPlayerInput().actions.SaveBindingOverridesAsJson();
+            // check if theres a save for the ID
+            InputUserData inputUserData = ActiveSaveData.InputUserDatas.FirstOrDefault(c => c.ControllerID == playerControllers[i].Id);
+            if (inputUserData != null)
+            {
+                inputUserData.InputMaps = json;
+            }
+            else
+            {
+                inputUserData = new InputUserData(playerControllers[i].Id,0,json);
+                ActiveSaveData.InputUserDatas.Add(inputUserData);
+            }
+        }
+        SaveData(ActiveSaveData);
+    }
+
+    public void LoadInputData()
+    {
+        PlayerController[] playerControllers = InputManager.Instance.GetPlayerControllers();
+        for (int i = 0; i <= playerControllers.Length - 1; i++)
+        {
+            // check if theres a save for the ID
+            InputUserData inputUserData = ActiveSaveData.InputUserDatas.FirstOrDefault(c => c.ControllerID == playerControllers[i].Id);
+            if (inputUserData != null)
+            {
+                playerControllers[i].GetPlayerInput().actions.LoadBindingOverridesFromJson(inputUserData.InputMaps);
+            }
+        }
+    }
 }
+
 [System.Serializable]
 public class UserData
 {
-    public KeyCode[] inputsP1 = new KeyCode[3];
-    public KeyCode[] inputsP2 = new KeyCode[3];
-    public KeyCode[] controllerP1 = new KeyCode[3];
-    public KeyCode[] controllerP2 = new KeyCode[3];
+    public List<InputUserData> InputUserDatas = new List<InputUserData>();
+}
+
+[System.Serializable]
+public class InputUserData
+{
+    public int ControllerID;
+    public int ProfileID;
+    public string InputMaps;
+    public InputUserData(int controllerID, int profileID, string inputMaps)
+    {
+        ControllerID = controllerID;
+        ProfileID = profileID;
+        InputMaps = inputMaps;
+    }
 }

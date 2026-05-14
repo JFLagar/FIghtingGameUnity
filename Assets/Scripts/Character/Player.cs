@@ -130,8 +130,9 @@ namespace SkillIssue.CharacterSpace
         AnimationData currentAnimation = null;
         [SerializeField]
         int currentFrame = 0;
+        public Vector2 direction;
 
-        public void Initialize()
+        public void Initialize(PlayerController controller)
         {
             characterModel = Instantiate(characterData.GetCharacterModel(), model3D.transform);
             characterModel.Initialize(this);
@@ -139,7 +140,7 @@ namespace SkillIssue.CharacterSpace
             collisions = characterModel.GetCollisions();
             characterAnimation.Initialize(this, animator);
             inputHandler = new InputHandler();
-            inputHandler.Initialize(this);
+            inputHandler.Initialize(this, controller);
             InitializeStateMachine();
             attackManager.Initialize(this, characterModel.GetHitboxes());
             gravity = characterData.GetGravity();
@@ -222,6 +223,7 @@ namespace SkillIssue.CharacterSpace
                     DestroyImmediate(currentProjectile.gameObject);
                 }
             }
+            direction = GetInputDirection();
         }
 
         void CheckForFrameEvents()
@@ -441,6 +443,10 @@ namespace SkillIssue.CharacterSpace
             return animationClips;
         }
 
+        public InputHandler GetInputHandler()
+        {
+            return inputHandler;
+        }
         public bool IsHardKnockedDown()
         {
             return isHardKnockDown;
@@ -458,7 +464,7 @@ namespace SkillIssue.CharacterSpace
 
         public Vector2 GetInputDirection()
         {
-            return inputHandler.GetDirection();
+            return inputHandler.GetInputDirection();
         }
 
         public bool WasYReleased()
@@ -1129,7 +1135,7 @@ namespace SkillIssue.CharacterSpace
                         return false;
                     break;
             }
-            if (inputHandler.GetDirection().x == -FaceDir || GetCurrentState() is BlockState)
+            if (GetInputDirection().x == -FaceDir || GetCurrentState() is BlockState)
                 return true;
             return false;
         }
@@ -1164,25 +1170,6 @@ namespace SkillIssue.CharacterSpace
             }
         }
 
-        public void EnableInput()
-        {
-            inputHandler.EnableInput();
-        }
-
-        public void DisableInput()
-        {
-            inputHandler.DisableInput();
-        }
-
-        public void SwitchCurrentActionMap(string mapName)
-        {
-            inputHandler.PlayerInput.SwitchCurrentActionMap(mapName);
-        }
-
-        void OnDestroy()
-        {
-            inputHandler.UnmapActions();
-        }
     }
 }
 

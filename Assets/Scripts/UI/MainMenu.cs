@@ -2,28 +2,27 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem.Samples.RebindUI;
 
 public class MainMenu : MonoBehaviour
 {
-    public TextMeshProUGUI text;
     public RectTransform[] uiElements;
+    public Selectable[] selectables;
 
-    public InputMapping inputMapping;
-    public Button[] buttons;
-
-    public Slider[] elementSliders;
-    public Image[] elementIcon;
-    public Sprite[] elementSprites;
+    private void Start()
+    {
+        InputManager.Instance.SwitchToMap("Menu");
+        InputManager.Instance.GetMainPlayerController().SetPlayerUI(gameObject, selectables[0]);
+    }
 
     public void OpenUIElement(int id)
     {
-        AudioManager.instance.PlaySoundEffect(1);
         foreach (RectTransform transform in uiElements)
         {
             transform.gameObject.SetActive(false);
         }
         uiElements[id].gameObject.SetActive(true);
-        buttons[id].Select();
+        InputManager.Instance.GetMainPlayerController().SelectUIElement(selectables[id]);
     }
 
     public void StartButton(bool training)
@@ -40,7 +39,7 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene(2);
     }
 
     public void QuitButton()
@@ -48,23 +47,13 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
-    public void OnSliderChange(bool isP2Slider)
+    public void ResetInputMapping()
     {
-        AudioManager.instance.PlaySoundEffect(0);
-        int playerId = 0;
-        playerId = isP2Slider ? 1 : 0;
-            switch (elementSliders[playerId].value)
-            {
-                //Here add to the local persistence manager which character 
-                case 0:
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-            }
+        RebindActionUI[] rebindActionUIs = FindObjectsByType<RebindActionUI>(FindObjectsSortMode.None);
+        foreach(var action in rebindActionUIs)
+        {
+            action.ResetToDefault();
+        }
     }
 
 }

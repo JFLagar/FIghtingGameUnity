@@ -95,6 +95,7 @@ public class InputManager : MonoBehaviour
         player.gameObject.transform.parent = gameObject.transform;
         PlayerController controller = player.GetComponent<PlayerController>();
         controller.Id = id;
+        controller.SetInputDevice(device);
         if (controller.Id == 0)
             SetMainPlayerController(controller);
         playerControllers.Add(controller);

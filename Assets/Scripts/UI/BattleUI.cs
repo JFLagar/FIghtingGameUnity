@@ -5,7 +5,7 @@ using TMPro;
 using DG.Tweening;
 using NaughtyAttributes;
 
-public class UIBehaviour : MonoBehaviour
+public class BattleUI : MonoBehaviour
 {
     [SerializeField]
     Player[] players;

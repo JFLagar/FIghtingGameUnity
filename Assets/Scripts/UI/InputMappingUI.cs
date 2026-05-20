@@ -1,20 +1,32 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Samples.RebindUI;
 using UnityEngine.UI;
 
 public class InputMappingUI : MonoBehaviour
 {
     public RectTransform[] inputMappings;
     public RectTransform confirmPanel;
-    private PlayerController[] activePlayers;
+    private PlayerController mappingPlayer;
     public Selectable[] selectables;
+    [SerializeField]
+    private int id;
 
     private void OnEnable()
     {
-        activePlayers = InputManager.Instance.GetPlayerControllers();
-        foreach (PlayerController playerController in activePlayers)
+        mappingPlayer = InputManager.Instance.GetPlayerControllers()[id];
+        if (mappingPlayer != null )
         {
-            playerController._startAction += OpenInputMapping;
+            mappingPlayer._startAction += OpenInputMapping;
+        }
+    }
+
+    public void ResetInputMapping()
+    {
+        RebindActionUI[] rebindActionUIs = FindObjectsByType<RebindActionUI>(FindObjectsSortMode.None);
+        foreach (var action in rebindActionUIs)
+        {
+            action.ResetToDefault();
         }
     }
 
@@ -23,31 +35,38 @@ public class InputMappingUI : MonoBehaviour
         confirmPanel.gameObject.SetActive(toggle);
     }
 
-    public void OpenInputMapping(InputAction.CallbackContext ctx, PlayerController controller)
+    public void OpenInputMapping(PlayerController controller)
     {
+        if (!confirmPanel.gameObject.activeInHierarchy)
+        {
+            return;
+        }
+
         ToggleConfirmPanel(false);
         foreach (var rect in inputMappings)
         {
             rect.gameObject.SetActive(false);
         }
 
-        if (ctx.control.device is Keyboard)
+        if (controller.GetControllingDevice() is Keyboard)
         {
             controller.SetPlayerUI(inputMappings[0].gameObject, selectables[0]);
             inputMappings[0].gameObject.SetActive(true);
         }
-        else if (ctx.control.device is Gamepad)
+        else if (controller.GetControllingDevice() is Gamepad)
         {
             controller.SetPlayerUI(inputMappings[1].gameObject, selectables[1]);
             inputMappings[1].gameObject.SetActive(true);
         }
     }
+
     private void OnDisable()
     {
-        foreach (PlayerController playerController in activePlayers)
+        if (mappingPlayer != null)
         {
-            playerController._startAction -= OpenInputMapping;
+            mappingPlayer._startAction -= OpenInputMapping;
         }
     }
+
 }
 

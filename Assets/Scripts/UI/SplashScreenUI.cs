@@ -38,7 +38,7 @@ public class SplashScreenUI : MonoBehaviour
         });
     }
 
-    void AssignMainPlayer(InputAction.CallbackContext ctx, PlayerController controller)
+    void AssignMainPlayer(PlayerController controller)
     {
         if (!saveDataMessage.gameObject.activeSelf)
             return;

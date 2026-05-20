@@ -11,9 +11,10 @@ public class PlayerController : MonoBehaviour
     public int Id;
     [SerializeField]
     private Player assignedPlayer;
-    public Action<InputAction.CallbackContext, PlayerController> _startAction;
+    public Action<PlayerController> _startAction;
     [SerializeField]
     private MultiplayerEventSystem eventSystem;
+    private InputDevice controllingDevice; 
 
     public void Initialize(Player player, int playerId)
     {
@@ -24,6 +25,16 @@ public class PlayerController : MonoBehaviour
     public PlayerInput GetPlayerInput()
     {
         return GetComponent<PlayerInput>();
+    }
+
+    public void SetInputDevice(InputDevice device)
+    {
+        controllingDevice = device;
+    }
+
+    public InputDevice GetControllingDevice()
+    {
+        return controllingDevice;
     }
 
     public void SetMainController()
@@ -120,6 +131,6 @@ public class PlayerController : MonoBehaviour
         if (_startAction == null) 
             return;
         if (cxt.phase == InputActionPhase.Started)
-            _startAction.Invoke(cxt, this);
+            _startAction.Invoke(this);
     }
 }

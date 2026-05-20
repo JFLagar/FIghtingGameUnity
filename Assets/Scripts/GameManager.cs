@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     int p1rounds;
     int p2rounds;
     [SerializeField]
-    UIBehaviour uIBehaviour;
+    BattleUI uIBehaviour;
     bool isGamePaused = false;
     [SerializeField]
     float gameSpeed = 1.0f;

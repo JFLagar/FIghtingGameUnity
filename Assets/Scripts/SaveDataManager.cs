@@ -111,6 +111,11 @@ public class SaveDataManager : MonoBehaviour
 public class UserData
 {
     public List<InputUserData> InputUserDatas = new List<InputUserData>();
+    public UserData()
+    {
+        //Default Settings
+        Debug.Log("DefaultSave Created");
+    }
 }
 
 [System.Serializable]

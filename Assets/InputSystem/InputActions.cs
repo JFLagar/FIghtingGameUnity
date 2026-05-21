@@ -676,7 +676,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""8c6780e8-6d7b-43a5-a3cd-ec2b43997587"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""NormalizeVector2"",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
@@ -687,6 +687,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UIDeleteBinding"",
+                    ""type"": ""Button"",
+                    ""id"": ""c3a14b0f-db55-45ee-924c-77ed68610f79"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=0.9)"",
                     ""initialStateCheck"": false
                 }
             ],
@@ -785,7 +794,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard"",
                     ""action"": ""UINavigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -796,7 +805,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard"",
                     ""action"": ""UINavigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -807,7 +816,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard"",
                     ""action"": ""UINavigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -818,7 +827,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard"",
                     ""action"": ""UINavigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -842,6 +851,39 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard"",
                     ""action"": ""MenuStart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aad14e01-d70e-4c05-9226-2b3573d4b095"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""UIDeleteBinding"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fd70d3a1-b315-4496-9aa5-20a8271c9c01"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad;Joystick"",
+                    ""action"": ""UIDeleteBinding"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""38bf474f-ad2a-4ea0-97fa-951e59add9f6"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UIDeleteBinding"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -912,6 +954,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Menu_UICancel = m_Menu.FindAction("UICancel", throwIfNotFound: true);
         m_Menu_UINavigate = m_Menu.FindAction("UINavigate", throwIfNotFound: true);
         m_Menu_MenuStart = m_Menu.FindAction("MenuStart", throwIfNotFound: true);
+        m_Menu_UIDeleteBinding = m_Menu.FindAction("UIDeleteBinding", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -1247,6 +1290,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Menu_UICancel;
     private readonly InputAction m_Menu_UINavigate;
     private readonly InputAction m_Menu_MenuStart;
+    private readonly InputAction m_Menu_UIDeleteBinding;
     /// <summary>
     /// Provides access to input actions defined in input action map "Menu".
     /// </summary>
@@ -1274,6 +1318,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Menu/MenuStart".
         /// </summary>
         public InputAction @MenuStart => m_Wrapper.m_Menu_MenuStart;
+        /// <summary>
+        /// Provides access to the underlying input action "Menu/UIDeleteBinding".
+        /// </summary>
+        public InputAction @UIDeleteBinding => m_Wrapper.m_Menu_UIDeleteBinding;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1312,6 +1360,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @MenuStart.started += instance.OnMenuStart;
             @MenuStart.performed += instance.OnMenuStart;
             @MenuStart.canceled += instance.OnMenuStart;
+            @UIDeleteBinding.started += instance.OnUIDeleteBinding;
+            @UIDeleteBinding.performed += instance.OnUIDeleteBinding;
+            @UIDeleteBinding.canceled += instance.OnUIDeleteBinding;
         }
 
         /// <summary>
@@ -1335,6 +1386,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @MenuStart.started -= instance.OnMenuStart;
             @MenuStart.performed -= instance.OnMenuStart;
             @MenuStart.canceled -= instance.OnMenuStart;
+            @UIDeleteBinding.started -= instance.OnUIDeleteBinding;
+            @UIDeleteBinding.performed -= instance.OnUIDeleteBinding;
+            @UIDeleteBinding.canceled -= instance.OnUIDeleteBinding;
         }
 
         /// <summary>
@@ -1568,5 +1622,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMenuStart(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "UIDeleteBinding" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnUIDeleteBinding(InputAction.CallbackContext context);
     }
 }

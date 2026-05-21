@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Player assignedPlayer;
     public Action<PlayerController> _startAction;
+    public Action<int> _UINavigation;
     [SerializeField]
     private MultiplayerEventSystem eventSystem;
     private InputDevice controllingDevice; 
@@ -132,5 +133,14 @@ public class PlayerController : MonoBehaviour
             return;
         if (cxt.phase == InputActionPhase.Started)
             _startAction.Invoke(this);
+    }
+
+    public void UINavigation(InputAction.CallbackContext cxt)
+    {
+        if (_UINavigation == null)
+            return;
+        if (cxt.ReadValue<Vector2>().y != 0)
+            return;
+        _UINavigation.Invoke((int)cxt.ReadValue<Vector2>().x);
     }
 }

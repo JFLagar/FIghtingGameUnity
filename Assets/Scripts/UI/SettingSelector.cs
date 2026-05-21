@@ -8,7 +8,7 @@ public class SettingSelector : Selectable , IValueSelector
 {
     [SerializeField]
     private TextMeshProUGUI selectionText;
-    private MenuUI parentMenu;
+    private SettingsPanelUI parentMenu;
     public int Value { get; private set; }
     private int min = 0;
     private int max = 4;
@@ -47,7 +47,7 @@ public class SettingSelector : Selectable , IValueSelector
         selectionText.text = text;
     }
 
-    public void InitializeValues(int initialValue, int minValue, int maxValue, MenuUI menuUI)
+    public void InitializeValues(int initialValue, int minValue, int maxValue, SettingsPanelUI menuUI)
     {
         Value = initialValue;
         min = minValue;

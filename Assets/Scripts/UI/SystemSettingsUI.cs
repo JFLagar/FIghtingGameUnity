@@ -1,4 +1,4 @@
-﻿public class SystemSettingsUI : MenuUI
+﻿public class SystemSettingsUI : SettingsPanelUI
 { 
     private void OnEnable()
     {

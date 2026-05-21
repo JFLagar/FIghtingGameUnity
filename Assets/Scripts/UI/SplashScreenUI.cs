@@ -60,7 +60,6 @@ public class SplashScreenUI : MonoBehaviour
 
     private void OnDisable()
     {
-        Debug.Log("Disable");
         foreach (var controller in controllers)
         {
             controller._startAction -= AssignMainPlayer;

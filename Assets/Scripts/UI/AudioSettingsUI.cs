@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-public class AudioSettingsUI : MenuUI
+public class AudioSettingsUI : SettingsPanelUI
 {
     ////Implement Later
     //[SerializeField]

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-public class DisplaySettingsUI : MenuUI
+public class DisplaySettingsUI : SettingsPanelUI
 {
     [SerializeField]
     private SettingSelector windowModeSelector;
@@ -19,6 +19,8 @@ public class DisplaySettingsUI : MenuUI
         //Initialize Selectors
         windowModeSelector.InitializeValues(defaultWindowId, 0, windowModes.Length - 1, this);
         resolutionSelector.InitializeValues(defaultResolutionId, 0 , resolutions.Length - 1, this);
+        OnWindowValueChanged(defaultResolutionId);
+        OnResolutionValueChanged(defaultResolutionId);
         //Subscribe to events
         InputManager.Instance.GetMainPlayerController()._UINavigation += MoveSelector;
         windowModeSelector._selectorAction += OnWindowValueChanged;

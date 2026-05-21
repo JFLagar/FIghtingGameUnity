@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using SkillIssue;
 
-public class BattleSettingsUI : MenuUI
+public class BattleSettingsUI : SettingsPanelUI
 {
     [SerializeField]
     private SettingSelector roundsSelector;
@@ -20,6 +20,8 @@ public class BattleSettingsUI : MenuUI
         //Initialize Selectors
         roundsSelector.InitializeValues(defaultTimersId, 0, rounds.Length - 1, this);
         timerSelector.InitializeValues(defaultRoundsId,0, timers.Length - 1, this);
+        OnRoundsValueChanged(defaultTimersId);
+        OnTimerValueChanged(defaultTimersId);
         //Subscribe to events
         InputManager.Instance.GetMainPlayerController()._UINavigation += MoveSelector;
         roundsSelector._selectorAction += OnRoundsValueChanged;

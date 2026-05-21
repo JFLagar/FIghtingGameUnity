@@ -141,6 +141,9 @@ public class PlayerController : MonoBehaviour
             return;
         if (cxt.ReadValue<Vector2>().y != 0)
             return;
-        _UINavigation.Invoke((int)cxt.ReadValue<Vector2>().x);
+        if (cxt.ReadValue<Vector2>().x != 0)
+        {
+            _UINavigation.Invoke((int)cxt.ReadValue<Vector2>().x);
+        }
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.InputSystem;
 using System.Linq;
+using UnityEditor;
 
 public class SaveDataManager : MonoBehaviour
 {
@@ -40,9 +41,8 @@ public class SaveDataManager : MonoBehaviour
         File.WriteAllText(saveDataPath, json);
         json = File.ReadAllText(saveDataPath);
         ActiveSaveData = JsonUtility.FromJson<UserData>(json);
-
-
     }
+
     public bool CheckData()
     {
         saveDataPath = Application.persistentDataPath + "/data.json";
@@ -87,9 +87,17 @@ public class SaveDataManager : MonoBehaviour
         }
         else
         {
-            SaveData(new UserData());
+            CreateNewSave();
+            Debug.Log("Creating data");
         }
         LoadInputData();
+    }
+
+    public void CreateNewSave()
+    {
+        GameSettingsData defaultSettings = new GameSettingsData();
+        defaultSettings = Resources.Load<GameSettings>("DefaultGameSettings").Data;
+        SaveData(new UserData(defaultSettings));
     }
 
     public void LoadInputData()
@@ -111,8 +119,11 @@ public class SaveDataManager : MonoBehaviour
 public class UserData
 {
     public List<InputUserData> InputUserDatas = new List<InputUserData>();
-    public UserData()
+    
+    public GameSettingsData GameSettings;
+    public UserData(GameSettingsData gameSettings)
     {
+        GameSettings = gameSettings;
     }
 }
 

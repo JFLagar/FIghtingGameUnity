@@ -1,27 +1,23 @@
 ﻿using UnityEngine;
 using SkillIssue;
+using System.Linq;
 
 public class BattleSettingsUI : SettingsPanelUI
 {
     [SerializeField]
     private SettingSelector roundsSelector;
     [SerializeField]
-    private int[] rounds;
-    [SerializeField]
-    private int defaultRoundsId;
-    [SerializeField]
     private SettingSelector timerSelector;
-    [SerializeField]
-    private int[] timers;
-    [SerializeField]
-    private int defaultTimersId;
+    private BattleSettings battleSettings;
+
     private void OnEnable()
     {
+        battleSettings = SaveDataManager.Instance.ActiveSaveData.GameSettings.m_BattleSettings;
         //Initialize Selectors
-        roundsSelector.InitializeValues(defaultTimersId, 0, rounds.Length - 1, this);
-        timerSelector.InitializeValues(defaultRoundsId,0, timers.Length - 1, this);
-        OnRoundsValueChanged(defaultTimersId);
-        OnTimerValueChanged(defaultTimersId);
+        roundsSelector.InitializeValues(battleSettings.RoundsId, 0, battleSettings.Rounds.Length - 1, this);
+        timerSelector.InitializeValues(battleSettings.TimerId,0, battleSettings.Timers.Length - 1, this);
+        OnRoundsValueChanged(battleSettings.RoundsId);
+        OnTimerValueChanged(battleSettings.TimerId);
         //Subscribe to events
         InputManager.Instance.GetMainPlayerController()._UINavigation += MoveSelector;
         roundsSelector._selectorAction += OnRoundsValueChanged;
@@ -30,12 +26,21 @@ public class BattleSettingsUI : SettingsPanelUI
    
     private void OnRoundsValueChanged(int value)
     {
-        roundsSelector.SetSelectionText(rounds[value].ToString());
+        roundsSelector.SetSelectionText(battleSettings.Rounds[value].ToString());
+        SaveDataManager.Instance.ActiveSaveData.GameSettings.m_BattleSettings.RoundsId = value;
+        SaveDataManager.Instance.SaveData();
     }
 
     private void OnTimerValueChanged(int value)
     {
-        timerSelector.SetSelectionText(timers[value].ToString());
+        timerSelector.SetSelectionText(battleSettings.Timers[value].ToString());
+        if (battleSettings.Timers[value] == 0)
+        {
+            //PLACEHOLDER FOR INFINITE CHAR
+            timerSelector.SetSelectionText("%");
+        }
+        SaveDataManager.Instance.ActiveSaveData.GameSettings.m_BattleSettings.TimerId = value;
+        SaveDataManager.Instance.SaveData();
     }
 
     private void OnDisable()

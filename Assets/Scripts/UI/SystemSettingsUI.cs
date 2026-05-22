@@ -7,6 +7,6 @@
 
     public void DeleteSaveData()
     {
-        SaveDataManager.Instance.SaveData(new UserData());
+        SaveDataManager.Instance.CreateNewSave();
     }
 }

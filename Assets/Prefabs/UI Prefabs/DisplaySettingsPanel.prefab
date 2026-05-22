@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 50}
+  m_SizeDelta: {x: 800, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5522786641872012604
 CanvasRenderer:
@@ -216,7 +216,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 300, y: 50}
+  m_SizeDelta: {x: 800, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4517968533651326325
 CanvasRenderer:
@@ -765,15 +765,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DisplaySettingsUI
   windowModeSelector: {fileID: 5828952219499556535}
-  windowModes: 030000000200000001000000
-  defaultWindowId: 0
   resolutionSelector: {fileID: 7368722485284682624}
-  resolutions:
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
-  defaultResolutionId: 0
 --- !u!224 &9163709037138187891 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3546723923708663922, guid: bc240fb01293e944b941f6569f487a94, type: 3}

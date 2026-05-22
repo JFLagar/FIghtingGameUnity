@@ -9,16 +9,20 @@ public class AudioSettingsUI : SettingsPanelUI
     private Slider musicSlider;
     [SerializeField]
     private Slider sfxSlider;
+    private AudioSettings audioSettings;
     private void OnEnable()
     {
+        audioSettings = SaveDataManager.Instance.ActiveSaveData.GameSettings.m_AudioSettings;
         //Initialize Selectors
-        musicSlider.value = AudioManager.instance.musicSource.volume;
-        sfxSlider.value = AudioManager.instance.soundsSources[0].volume;
+        musicSlider.value = audioSettings.MusicVolume;
+        sfxSlider.value = audioSettings.SFXVolume;
     }
 
     public void OnMusicSliderChange(float sliderValue)
     {
         AudioManager.instance.musicSource.volume = sliderValue;
+        audioSettings.MusicVolume = sliderValue;     
+        SaveValues();
     }
 
     public void OnSFXSliderChange(float sliderValue)
@@ -27,6 +31,14 @@ public class AudioSettingsUI : SettingsPanelUI
         {
             source.volume = sliderValue;
         }
+        audioSettings.SFXVolume = sliderValue;
+        SaveValues();
+    }
+
+    public override void SaveValues()
+    {
+        SaveDataManager.Instance.ActiveSaveData.GameSettings.m_AudioSettings = audioSettings;
+        base.SaveValues();
     }
 }
 

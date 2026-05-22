@@ -97,7 +97,23 @@ public class SaveDataManager : MonoBehaviour
     {
         GameSettingsData defaultSettings = new GameSettingsData();
         defaultSettings = Resources.Load<GameSettings>("DefaultGameSettings").Data;
+        defaultSettings.m_DisplaySettings.Resolutions = GetScreenResolutions();
+        defaultSettings.m_DisplaySettings.ResolutionId = defaultSettings.m_DisplaySettings.Resolutions.Length - 1;
         SaveData(new UserData(defaultSettings));
+    }
+
+    private Vector2[] GetScreenResolutions()
+    {
+        List<Vector2> resolutionsList = new List<Vector2>();
+        // getting only the 16:9 resolutions
+        foreach (var resolution in Screen.resolutions)
+        {
+            Vector2 resolutionVector = new Vector2(resolution.width, resolution.height);
+            resolutionsList.Add(resolutionVector);
+        }
+
+        Vector2[] resolutions = resolutionsList.ToArray();
+        return resolutions;
     }
 
     public void LoadInputData()

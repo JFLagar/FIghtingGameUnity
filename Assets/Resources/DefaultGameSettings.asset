@@ -17,8 +17,11 @@ MonoBehaviour:
       MusicVolume: 0.5
       SFXVolume: 0.5
     m_DisplaySettings:
-      WindowMode: 0
-      Resolution: {x: 1920, y: 1080}
+      WindowModeId: 1
+      WindowModes: 010000000200000003000000
+      ResolutionId: 0
+      Resolutions:
+      - {x: 1920, y: 1080}
     m_BattleSettings:
       RoundsId: 1
       Rounds: 0100000002000000030000000400000005000000

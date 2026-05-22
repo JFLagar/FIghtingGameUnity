@@ -21,4 +21,9 @@ public class SettingsPanelUI : MonoBehaviour
         else
             activeSelector.MoveLeft();
     }
+
+    public virtual void SaveValues()
+    {
+        SaveDataManager.Instance.SaveData();
+    }
 }

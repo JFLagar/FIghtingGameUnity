@@ -32,8 +32,11 @@ public struct SystemSettings
 [Serializable]
 public struct DisplaySettings
 {
-    public FullScreenMode WindowMode;
-    public Vector2 Resolution;
+    public int WindowModeId;
+    public FullScreenMode[] WindowModes;
+    public int ResolutionId;
+    [SerializeField]
+    public Vector2[] Resolutions;
 }
 
 [Serializable]

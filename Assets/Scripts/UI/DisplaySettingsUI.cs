@@ -4,23 +4,17 @@ public class DisplaySettingsUI : SettingsPanelUI
     [SerializeField]
     private SettingSelector windowModeSelector;
     [SerializeField]
-    private FullScreenMode[] windowModes;
-    [SerializeField]
-    private int defaultWindowId;
-    [SerializeField]
     private SettingSelector resolutionSelector;
-    [SerializeField]
-    private Vector2[] resolutions;
-    [SerializeField]
-    private int defaultResolutionId;
+    private DisplaySettings displaySettings;
 
     private void OnEnable()
     {
+        displaySettings = SaveDataManager.Instance.ActiveSaveData.GameSettings.m_DisplaySettings;
         //Initialize Selectors
-        windowModeSelector.InitializeValues(defaultWindowId, 0, windowModes.Length - 1, this);
-        resolutionSelector.InitializeValues(defaultResolutionId, 0 , resolutions.Length - 1, this);
-        OnWindowValueChanged(defaultResolutionId);
-        OnResolutionValueChanged(defaultResolutionId);
+        windowModeSelector.InitializeValues(displaySettings.WindowModeId, 0, displaySettings.WindowModes.Length - 1, this);
+        resolutionSelector.InitializeValues(displaySettings.ResolutionId, 0 , displaySettings.Resolutions.Length - 1, this);
+        OnWindowValueChanged(displaySettings.WindowModeId);
+        OnResolutionValueChanged(displaySettings.ResolutionId);
         //Subscribe to events
         InputManager.Instance.GetMainPlayerController()._UINavigation += MoveSelector;
         windowModeSelector._selectorAction += OnWindowValueChanged;
@@ -29,12 +23,28 @@ public class DisplaySettingsUI : SettingsPanelUI
 
     private void OnWindowValueChanged(int value)
     {
-        windowModeSelector.SetSelectionText(windowModes[value].ToString());
+        windowModeSelector.SetSelectionText(displaySettings.WindowModes[value].ToString());
+        displaySettings.WindowModeId = value;
+        Screen.fullScreenMode = displaySettings.WindowModes[value];
+        SaveValues();
     }
 
     private void OnResolutionValueChanged(int value)
     {
-        resolutionSelector.SetSelectionText(resolutions[value].ToString());
+        resolutionSelector.SetSelectionText(displaySettings.Resolutions[value].ToString());
+        displaySettings.ResolutionId = value;
+        if (displaySettings.WindowModes[displaySettings.WindowModeId] != FullScreenMode.FullScreenWindow)
+        {
+            Vector2 resolution = displaySettings.Resolutions[value];
+            Screen.SetResolution((int)resolution.x, (int)resolution.y, Screen.fullScreenMode);
+        }
+        SaveValues();
+    }
+
+    public override void SaveValues()
+    {
+        SaveDataManager.Instance.ActiveSaveData.GameSettings.m_DisplaySettings = displaySettings;
+        base.SaveValues();
     }
 
     private void OnDisable()

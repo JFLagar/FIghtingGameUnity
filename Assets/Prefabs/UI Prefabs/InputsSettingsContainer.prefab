@@ -77,8 +77,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f59614cb8dc9de4d985614deabeb40b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputSettingsUI
-  uiElements: []
+  uiElements:
+  - {fileID: 4013021547931259893}
   selectables: []
+  canvasUI: {fileID: 0}
+  inputMappingUIs:
+  - {fileID: 579877896147258434}
+  - {fileID: 8176744635792211528}
 --- !u!1001 &1122360369665887185
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -135,6 +140,34 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1065415212453514559, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065415212453514559, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065415212453514559, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1878869201889149373}
+    - target: {fileID: 1065415212453514559, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065415212453514559, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: CloseUIElements
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065415212453514559, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: InputSettingsUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065415212453514559, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.UI.Selectable, UnityEngine.UI
+      objectReference: {fileID: 0}
     - target: {fileID: 1083868053831925502, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -230,6 +263,34 @@ PrefabInstance:
     - target: {fileID: 1558174763903871717, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956958792528125019, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956958792528125019, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956958792528125019, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1878869201889149373}
+    - target: {fileID: 1956958792528125019, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956958792528125019, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: CloseUIElements
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956958792528125019, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: InputSettingsUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956958792528125019, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.UI.Selectable, UnityEngine.UI
       objectReference: {fileID: 0}
     - target: {fileID: 2230117133209159771, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
       propertyPath: m_AnchorMax.y
@@ -505,7 +566,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4516146392517870791, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
       propertyPath: m_Text
-      value: W
+      value: Q
       objectReference: {fileID: 0}
     - target: {fileID: 4625420979694826133, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
       propertyPath: m_Text
@@ -1008,6 +1069,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+--- !u!114 &579877896147258434 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 549244612034430867, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+  m_PrefabInstance: {fileID: 1122360369665887185}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9319410b7306fa049940390411ee2105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputMappingUI
 --- !u!224 &3538547767952084478 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4505885225059894831, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
@@ -1073,6 +1145,34 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1065415212453514559, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065415212453514559, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065415212453514559, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1878869201889149373}
+    - target: {fileID: 1065415212453514559, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065415212453514559, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: CloseUIElements
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065415212453514559, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: InputSettingsUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1065415212453514559, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.UI.Selectable, UnityEngine.UI
+      objectReference: {fileID: 0}
     - target: {fileID: 1083868053831925502, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1168,6 +1268,34 @@ PrefabInstance:
     - target: {fileID: 1558174763903871717, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956958792528125019, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956958792528125019, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956958792528125019, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1878869201889149373}
+    - target: {fileID: 1956958792528125019, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956958792528125019, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: CloseUIElements
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956958792528125019, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: InputSettingsUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1956958792528125019, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.UI.Selectable, UnityEngine.UI
       objectReference: {fileID: 0}
     - target: {fileID: 2230117133209159771, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1443,7 +1571,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4516146392517870791, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
       propertyPath: m_Text
-      value: W
+      value: Q
       objectReference: {fileID: 0}
     - target: {fileID: 4625420979694826133, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
       propertyPath: m_Text
@@ -1947,3 +2075,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4505885225059894831, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
   m_PrefabInstance: {fileID: 8567798107224783323}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8176744635792211528 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 549244612034430867, guid: b0b771328bd1bab4e8d80fa56ad99a87, type: 3}
+  m_PrefabInstance: {fileID: 8567798107224783323}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9319410b7306fa049940390411ee2105, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputMappingUI

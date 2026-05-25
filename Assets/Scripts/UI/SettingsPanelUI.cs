@@ -15,7 +15,6 @@ public class SettingsPanelUI : MonoBehaviour
 
     public virtual void MoveSelector(int direction)
     {
-        Debug.Log(direction);
         if (direction > 0)
             activeSelector.MoveRight();
         else

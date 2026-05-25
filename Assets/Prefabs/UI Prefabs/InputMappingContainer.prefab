@@ -361,7 +361,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: O
+  m_Text: 
 --- !u!1 &340888754359232835
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,7 +515,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: U
+  m_Text: A
 --- !u!1 &398508340320799608
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,7 +682,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Action: {fileID: -5810460581202922991, guid: 9d50d0cc57b72104fa184b1b07e4c256, type: 3}
-  m_BindingId: 02e91fb4-c8ef-4ad9-bb12-2deb5064d9c5
+  m_BindingId: dc41f8e8-61a9-4965-be82-bed8259e3ed0
   m_DisplayStringOptions: 0
   m_BindingText: {fileID: 608837340723387255}
   m_RebindTimeout: 0
@@ -1351,7 +1351,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: J
+  m_Text: X
 --- !u!1 &923281350629021793
 GameObject:
   m_ObjectHideFlags: 0
@@ -2050,7 +2050,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Action: {fileID: 2905382800477378478, guid: 9d50d0cc57b72104fa184b1b07e4c256, type: 3}
-  m_BindingId: fe822e11-8135-4658-983d-2297752741d1
+  m_BindingId: 70d5d944-4904-4e61-99ea-bd82bd07e117
   m_DisplayStringOptions: 0
   m_BindingText: {fileID: 8939888171336297653}
   m_RebindTimeout: 0
@@ -2154,7 +2154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Action: {fileID: -5371465441639927913, guid: 9d50d0cc57b72104fa184b1b07e4c256, type: 3}
-  m_BindingId: 4a3124b4-2c57-45ab-9fcd-792b38893401
+  m_BindingId: 3c983450-c91d-4714-a2bb-ea0046f2ecf3
   m_DisplayStringOptions: 0
   m_BindingText: {fileID: 1669183280965523554}
   m_RebindTimeout: 0
@@ -2258,7 +2258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Action: {fileID: -3149330913141717043, guid: 9d50d0cc57b72104fa184b1b07e4c256, type: 3}
-  m_BindingId: d5c3c02f-d920-48b7-b570-4f73ba3a3958
+  m_BindingId: 990ed94d-2653-4e58-a798-f8323fe824b4
   m_DisplayStringOptions: 0
   m_BindingText: {fileID: 4727093917909264964}
   m_RebindTimeout: 0
@@ -2362,7 +2362,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Action: {fileID: -7132332698011281894, guid: 9d50d0cc57b72104fa184b1b07e4c256, type: 3}
-  m_BindingId: 78a095d9-b68b-4378-8a4e-a83c6910cdac
+  m_BindingId: d0680230-35bf-4aeb-890c-59511938dbd7
   m_DisplayStringOptions: 0
   m_BindingText: {fileID: 1230179926931036217}
   m_RebindTimeout: 0
@@ -2711,7 +2711,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: N
+  m_Text: RT
 --- !u!1 &1550642267875934872
 GameObject:
   m_ObjectHideFlags: 0
@@ -4889,7 +4889,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: D-Pad/Right
+  m_Text: D-Pad Right
 --- !u!1 &2437201736100810910
 GameObject:
   m_ObjectHideFlags: 0
@@ -4968,7 +4968,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: P
+  m_Text: RB
 --- !u!1 &2497087981491328548
 GameObject:
   m_ObjectHideFlags: 0
@@ -6639,7 +6639,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Action: {fileID: 1884363854575528569, guid: 9d50d0cc57b72104fa184b1b07e4c256, type: 3}
-  m_BindingId: f26f8c85-33af-42d5-bf62-8896af9e5885
+  m_BindingId: 9ad4e7fe-909f-4169-9d56-ce6c11df82fb
   m_DisplayStringOptions: 0
   m_BindingText: {fileID: 4060857325782145466}
   m_RebindTimeout: 0
@@ -8327,7 +8327,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: M
+  m_Text: LT
 --- !u!1 &4096885645173030960
 GameObject:
   m_ObjectHideFlags: 0
@@ -8781,7 +8781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Action: {fileID: 5430172329632178317, guid: 9d50d0cc57b72104fa184b1b07e4c256, type: 3}
-  m_BindingId: bc5f2a8b-c0ae-4d0c-8e83-c6efb1c31e83
+  m_BindingId: d61b59ef-d144-49ed-8962-9b891d214bd5
   m_DisplayStringOptions: 0
   m_BindingText: {fileID: 5212311877811273631}
   m_RebindTimeout: 0
@@ -9084,7 +9084,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: D-Pad/Left
+  m_Text: D-Pad Left
 --- !u!1 &4394535601705349626
 GameObject:
   m_ObjectHideFlags: 0
@@ -9229,7 +9229,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: I
+  m_Text: LB
 --- !u!1 &4455351484201744550
 GameObject:
   m_ObjectHideFlags: 0
@@ -9984,7 +9984,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Action: {fileID: -8351306485001147716, guid: 9d50d0cc57b72104fa184b1b07e4c256, type: 3}
-  m_BindingId: 1bbae1bd-a492-4d97-97cb-e7f4409ee66f
+  m_BindingId: c68d4966-1e75-46b6-9531-28e85fe5bbc3
   m_DisplayStringOptions: 0
   m_BindingText: {fileID: 2385315161936942234}
   m_RebindTimeout: 0
@@ -11784,7 +11784,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: L
+  m_Text: B
 --- !u!1 &5762427516784547046
 GameObject:
   m_ObjectHideFlags: 0
@@ -12300,7 +12300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Action: {fileID: 6547582166119964611, guid: 9d50d0cc57b72104fa184b1b07e4c256, type: 3}
-  m_BindingId: 71164b15-00b7-4772-b9f2-1a9a0587d244
+  m_BindingId: 587e8153-44b5-483f-9640-1d14b14df0ef
   m_DisplayStringOptions: 0
   m_BindingText: {fileID: 613086529394852552}
   m_RebindTimeout: 0
@@ -13206,7 +13206,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: D-Pad/Up
+  m_Text: D-Pad Up
 --- !u!1 &6554252618636281507
 GameObject:
   m_ObjectHideFlags: 0
@@ -13847,7 +13847,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: K
+  m_Text: Y
 --- !u!1 &6755970880191711562
 GameObject:
   m_ObjectHideFlags: 0
@@ -15288,7 +15288,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: D-Pad/Down
+  m_Text: D-Pad Down
 --- !u!1 &7250864063272212666
 GameObject:
   m_ObjectHideFlags: 0

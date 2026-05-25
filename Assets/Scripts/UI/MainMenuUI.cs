@@ -12,6 +12,7 @@ public class MainMenuUI : MenuUI
 
     public void StartGame()
     {
+        if (InputManager.Instance.AnyActivePlayers())
         SceneManager.LoadScene(2);
     }
 

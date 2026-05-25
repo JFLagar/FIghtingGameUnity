@@ -19,10 +19,18 @@ public class InputMappingUI : MonoBehaviour
         {
             mappingPlayer._startAction += OpenInputMapping;
         }
+        if (id == InputManager.Instance.GetMainPlayerController().Id)
+            OpenInputMapping(mappingPlayer);
+    }
+
+    public bool IsActive()
+    {
+        return confirmPanel.gameObject.activeSelf;
     }
 
     public void ResetInputMapping()
     {
+        Debug.Log("Reseting");
         RebindActionUI[] rebindActionUIs = FindObjectsByType<RebindActionUI>(FindObjectsSortMode.None);
         foreach (var action in rebindActionUIs)
         {
@@ -33,6 +41,13 @@ public class InputMappingUI : MonoBehaviour
     public void ToggleConfirmPanel(bool toggle)
     {
         confirmPanel.gameObject.SetActive(toggle);
+        if (toggle)
+        {
+            foreach (var rect in inputMappings)
+            {
+                rect.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void OpenInputMapping(PlayerController controller)

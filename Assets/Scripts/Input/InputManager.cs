@@ -11,11 +11,18 @@ public class InputManager : MonoBehaviour
     PlayerInputManager playerInputManager;
     [SerializeField]
     PlayerController playerControllerPrefab;
+    [ReadOnly]
+    [SerializeField]
     List<PlayerController> playerControllers = new List<PlayerController>();
     [ReadOnly]
     [SerializeField]
     PlayerController mainPlayerController;
-
+    [ReadOnly]
+    [SerializeField]
+    PlayerController player1Controller;
+    [ReadOnly]
+    [SerializeField]
+    PlayerController player2Controller;
     private void Awake()
     {
         if (Instance == null)
@@ -32,6 +39,14 @@ public class InputManager : MonoBehaviour
         playerInputManager = GetComponent<PlayerInputManager>();
         playerInputManager.playerPrefab = playerControllerPrefab.gameObject;
         InitializeDevices();
+    }
+
+    public void SetPlayerController(PlayerController playerController, bool isP1)
+    {
+        if (isP1)
+            player1Controller = playerController;
+        else
+            player2Controller = playerController;
     }
 
     public PlayerController GetMainPlayerController()
@@ -55,6 +70,7 @@ public class InputManager : MonoBehaviour
             playerController.Id = 0;
         }
         mainPlayerController = playerController;
+        playerControllers = playerControllers.OrderBy(c => c.Id).ToList();
         playerController.SetMainController();
     }
 
@@ -106,7 +122,15 @@ public class InputManager : MonoBehaviour
         Player[] activePlayers = Managers.Instance.GameManager.GetPlayers();
         if (activePlayers.Length < id - 1)
             return;
-        playerControllers[id].Initialize(activePlayers[id], id);
+        switch (id)
+        {
+            case 0:
+                player1Controller.Initialize(activePlayers[id], id);
+                break;
+            case 1:
+                player2Controller.Initialize(activePlayers[id], id);
+                break;
+        }
     }
 
     public void DisableInput()
@@ -131,5 +155,10 @@ public class InputManager : MonoBehaviour
         {
             controller.GetPlayerInput().SwitchCurrentActionMap(map);
         }
+    }
+
+    public bool AnyActivePlayers()
+    {
+        return (player1Controller != null || player2Controller != null);
     }
 }

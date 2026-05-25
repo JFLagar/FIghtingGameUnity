@@ -1235,5 +1235,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318552c429f94d948bd2ef104bcf1ffd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioSettingsUI
-  musicSlider: {fileID: 0}
-  sfxSlider: {fileID: 0}
+  musicSlider: {fileID: 8772350798823932315}
+  sfxSlider: {fileID: 7980371234985820532}

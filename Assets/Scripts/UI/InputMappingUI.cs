@@ -11,6 +11,8 @@ public class InputMappingUI : MonoBehaviour
     public Selectable[] selectables;
     [SerializeField]
     private int id;
+    [SerializeField]
+    private RebindButton[] rebindButtons;
 
     private void OnEnable()
     {
@@ -21,6 +23,15 @@ public class InputMappingUI : MonoBehaviour
         }
         if (id == InputManager.Instance.GetMainPlayerController().Id)
             OpenInputMapping(mappingPlayer);
+        foreach (RebindButton button in rebindButtons)
+        {
+            button.Initialize(mappingPlayer);
+        }
+    }
+
+    public PlayerController GetPlayerController()
+    {
+        return mappingPlayer;
     }
 
     public bool IsActive()
@@ -30,7 +41,6 @@ public class InputMappingUI : MonoBehaviour
 
     public void ResetInputMapping()
     {
-        Debug.Log("Reseting");
         RebindActionUI[] rebindActionUIs = FindObjectsByType<RebindActionUI>(FindObjectsSortMode.None);
         foreach (var action in rebindActionUIs)
         {

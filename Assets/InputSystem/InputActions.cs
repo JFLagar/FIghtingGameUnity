@@ -926,7 +926,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/leftStick/right"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Gamepad;Joystick"",
                     ""action"": ""UIDeleteBinding"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

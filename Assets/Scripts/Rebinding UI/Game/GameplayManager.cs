@@ -222,7 +222,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             playerComponent.manager = this;
 
             // Setup feedback controller
-            var playerController = m_Player.GetComponent<PlayerController>();
+            var playerController = m_Player.GetComponent<PlayerControllerMappingUI>();
             playerController.feedbackController = m_FeedbackController;
 
             // Delay first spawn so player has a chance to get ready

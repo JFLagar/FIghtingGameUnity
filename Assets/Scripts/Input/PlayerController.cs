@@ -1,7 +1,6 @@
 ﻿using SkillIssue.CharacterSpace;
 using System;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
@@ -16,7 +15,7 @@ public class PlayerController : MonoBehaviour
     public Action _clearInput;
     [SerializeField]
     private MultiplayerEventSystem eventSystem;
-    private InputDevice controllingDevice; 
+    private InputDevice controllingDevice;
 
     public void Initialize(Player player, int playerId)
     {
@@ -143,7 +142,7 @@ public class PlayerController : MonoBehaviour
 
     public void StatButton(InputAction.CallbackContext cxt)
     {
-        if (_startAction == null) 
+        if (_startAction == null)
             return;
         if (cxt.phase == InputActionPhase.Started)
             _startAction.Invoke(this);
@@ -165,6 +164,7 @@ public class PlayerController : MonoBehaviour
     {
         if (_clearInput == null)
             return;
-        _clearInput.Invoke();
+        if (cxt.phase == InputActionPhase.Started)
+            _clearInput.Invoke();
     }
 }

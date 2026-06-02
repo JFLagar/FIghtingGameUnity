@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using static UnityEngine.LowLevelPhysics2D.PhysicsComposer;
 
 ////TODO: localization support
 
@@ -198,7 +197,11 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
         public bool CheckForSharedBindings(InputControl control, out RebindActionUI otherAction)
         {
-            otherAction = s_RebindActionUIs.FirstOrDefault(c => (c.PlayerController == PlayerController && c.actionReference.action.bindings.FirstOrDefault(c => c.effectivePath == control.path) != null && c != this));
+            List<RebindActionUI> rebindActions = s_RebindActionUIs.Where(c => c.PlayerController == PlayerController).ToList();
+            string controlString = control.path.Split('/').Last();
+
+            otherAction = rebindActions.FirstOrDefault(c => c.m_Action.action.bindings.Any(b => b.effectivePath.Split('/').Last() == controlString));
+
             return otherAction != null;
         }
         /// <summary>
@@ -301,18 +304,15 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                     (op) =>
                     {
                         //Check if the new bind has another action
-                        if (CheckForSharedBindings(op.candidates.First(),out var otherAction))
+                        if (CheckForSharedBindings(op.candidates.First(), out var otherAction))
                         {
-                            Debug.Log("Found a match");
                             SwapBinding(otherAction);
                         }
-                        Debug.Log(op.candidates.First());
-                        Debug.Log(s_RebindActionUIs.Count);
                     }
                 )
                 .OnComplete(
                     operation =>
-                    {  
+                    {
                         m_RebindStopEvent?.Invoke(this, operation);
                         UpdateBindingDisplay();
                         CleanUp();

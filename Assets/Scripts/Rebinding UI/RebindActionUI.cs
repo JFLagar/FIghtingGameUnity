@@ -31,7 +31,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
         public void ClearBinding()
         {
-            actionReference.action.ApplyBindingOverride(bindingId, "");
+            actionReference.action.ApplyBindingOverride(actionReference.action.FindBindingById(m_BindingId), "");
             SaveDataManager.Instance.SaveInputData();
             UpdateBindingDisplay();
         }
@@ -317,6 +317,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                         UpdateBindingDisplay();
                         CleanUp();
                         SaveDataManager.Instance.SaveInputData();
+                        Debug.Log(m_controllingPlayer.GetPlayerInput().actions.SaveBindingOverridesAsJson());
                         // If there's more composite parts we should bind, initiate a rebind
                         // for the next part.
                         if (allCompositeParts)

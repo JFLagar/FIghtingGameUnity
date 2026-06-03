@@ -8,7 +8,7 @@ public class InputMappingUI : MonoBehaviour
     public RectTransform[] inputMappings;
     public RectTransform confirmPanel;
     private PlayerController mappingPlayer;
-    public Selectable[] selectables;
+    public RebindButton[] selectables;
     [SerializeField]
     private int id;
     [SerializeField]
@@ -46,6 +46,7 @@ public class InputMappingUI : MonoBehaviour
         {
             action.ResetToDefault();
         }
+        SaveDataManager.Instance.SaveInputData();
     }
 
     public void ToggleConfirmPanel(bool toggle)
@@ -77,11 +78,13 @@ public class InputMappingUI : MonoBehaviour
         {
             controller.SetPlayerUI(inputMappings[0].gameObject, selectables[0]);
             inputMappings[0].gameObject.SetActive(true);
+            selectables[0].SubscribeToEvent(controller);
         }
         else if (controller.GetControllingDevice() is Gamepad)
         {
             controller.SetPlayerUI(inputMappings[1].gameObject, selectables[1]);
             inputMappings[1].gameObject.SetActive(true);
+            selectables[1].SubscribeToEvent(controller);
         }
     }
 

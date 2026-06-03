@@ -42,14 +42,24 @@ public class RebindButton : Selectable, IPointerClickHandler, ISubmitHandler
     }
     public override void OnSelect(BaseEventData eventData)
     {
-        controller._clearInput += ClearInput;
+        SubscribeToEvent(controller);
         base.OnSelect(eventData);
     }
 
     public override void OnDeselect(BaseEventData eventData)
     {
-        controller._clearInput -= ClearInput;
+        UnsubscribeToEvent(controller);
         base.OnDeselect(eventData);
+    }
+
+    public void SubscribeToEvent(PlayerController playerController)
+    {
+        playerController._clearInput += ClearInput;
+    }
+
+    public void UnsubscribeToEvent(PlayerController playerController)
+    {
+        playerController._clearInput -= ClearInput;
     }
 
     private void ClearInput()

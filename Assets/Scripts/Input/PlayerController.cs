@@ -162,9 +162,11 @@ public class PlayerController : MonoBehaviour
 
     public void ClearInput(InputAction.CallbackContext cxt)
     {
-        if (_clearInput == null)
-            return;
-        if (cxt.phase == InputActionPhase.Started)
+        if (cxt.phase == InputActionPhase.Performed)
+        {
+            if (_clearInput == null)
+                return;
             _clearInput.Invoke();
+        }
     }
 }

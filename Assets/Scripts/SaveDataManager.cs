@@ -71,7 +71,7 @@ public class SaveDataManager : MonoBehaviour
             }
             else
             {
-                inputUserData = new InputUserData(playerControllers[i].Id,0,json);
+                inputUserData = new InputUserData(playerControllers[i].Id,json);
                 ActiveSaveData.InputUserDatas.Add(inputUserData);
             }
         }
@@ -147,12 +147,10 @@ public class UserData
 public class InputUserData
 {
     public int ControllerID;
-    public int ProfileID;
     public string InputMaps;
-    public InputUserData(int controllerID, int profileID, string inputMaps)
+    public InputUserData(int controllerID, string inputMaps)
     {
         ControllerID = controllerID;
-        ProfileID = profileID;
         InputMaps = inputMaps;
     }
 }

@@ -32,7 +32,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         public void ClearBinding()
         {
             actionReference.action.ApplyBindingOverride(actionReference.action.FindBindingById(m_BindingId), "");
-            SaveDataManager.Instance.SaveInputData();
+            SaveInputData();
             UpdateBindingDisplay();
         }
 
@@ -192,7 +192,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 action.RemoveBindingOverride(bindingIndex);
             }
             UpdateBindingDisplay();
-            SaveDataManager.Instance.SaveInputData();
+            SaveInputData();
         }
 
         public bool CheckForSharedBindings(InputControl control, out RebindActionUI otherAction)
@@ -316,8 +316,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                         m_RebindStopEvent?.Invoke(this, operation);
                         UpdateBindingDisplay();
                         CleanUp();
-                        SaveDataManager.Instance.SaveInputData();
-                        Debug.Log(m_controllingPlayer.GetPlayerInput().actions.SaveBindingOverridesAsJson());
+                        SaveInputData();
                         // If there's more composite parts we should bind, initiate a rebind
                         // for the next part.
                         if (allCompositeParts)
@@ -358,6 +357,12 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         private void CancelRebind()
         {
             m_RebindOperation?.Cancel();
+        }
+
+        private void SaveInputData()
+        {
+            Debug.Log("UIRebind: " + m_controllingPlayer.GetPlayerInput().actions.SaveBindingOverridesAsJson());
+            SaveDataManager.Instance.SaveInputData(m_controllingPlayer.Id);
         }
 
         protected void OnEnable()

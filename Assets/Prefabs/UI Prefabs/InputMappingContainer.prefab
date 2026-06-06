@@ -1523,7 +1523,7 @@ MonoBehaviour:
   - {fileID: 9014492916183066176}
   - {fileID: 1149266059744867722}
   id: 0
-  rebindButtons:
+  rebindButtonsKeyboard:
   - {fileID: 9014492916183066176}
   - {fileID: 7509747710633224905}
   - {fileID: 7201248401458737056}
@@ -1537,6 +1537,7 @@ MonoBehaviour:
   - {fileID: 4266438232610070}
   - {fileID: 8733125129617720611}
   - {fileID: 4086306540344503170}
+  rebindButtonsGamepad:
   - {fileID: 1149266059744867722}
   - {fileID: 9002066931101146464}
   - {fileID: 836801166242471825}

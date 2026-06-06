@@ -12,7 +12,9 @@ public class InputMappingUI : MonoBehaviour
     [SerializeField]
     private int id;
     [SerializeField]
-    private RebindButton[] rebindButtons;
+    private RebindButton[] rebindButtonsKeyboard;
+    [SerializeField]
+    private RebindButton[] rebindButtonsGamepad;
 
     private void OnEnable()
     {
@@ -23,9 +25,13 @@ public class InputMappingUI : MonoBehaviour
         }
         if (id == InputManager.Instance.GetMainPlayerController().Id)
             OpenInputMapping(mappingPlayer);
-        foreach (RebindButton button in rebindButtons)
+        for (int i = 0; i <= rebindButtonsKeyboard.Length -1; i++)
         {
-            button.Initialize(mappingPlayer);
+            rebindButtonsKeyboard[i].Initialize(mappingPlayer, i, 0);
+        }
+        for (int i = 0; i <= rebindButtonsGamepad.Length - 1; i++)
+        {
+            rebindButtonsGamepad[i].Initialize(mappingPlayer, i, 1);
         }
     }
 
@@ -46,7 +52,6 @@ public class InputMappingUI : MonoBehaviour
         {
             action.ResetToDefault();
         }
-        SaveDataManager.Instance.SaveInputData();
     }
 
     public void ToggleConfirmPanel(bool toggle)

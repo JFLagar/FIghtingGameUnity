@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Samples.RebindUI;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -36,9 +37,14 @@ public class RebindButton : Selectable, IPointerClickHandler, ISubmitHandler
     [SerializeField]
     private RebindActionUI actionUI;
     PlayerController controller;
-    public void Initialize(PlayerController playerController)
+    public void Initialize(PlayerController playerController, int id, int deviceId)
     {
         controller = playerController;
+        InputActionReference actionRef = InputActionReference.Create(playerController.GetPlayerInput().actions.FindActionMap("Controls").actions[id]);
+        // Find here the action reference
+        actionUI.actionReference = actionRef;
+        
+        actionUI.bindingId = actionRef.action.bindings[deviceId].id.ToString();
     }
     public override void OnSelect(BaseEventData eventData)
     {

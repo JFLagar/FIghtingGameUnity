@@ -7,16 +7,9 @@ using NaughtyAttributes;
 
 public class BattleUI : MonoBehaviour
 {
-    [SerializeField]
     Player[] players;
     [SerializeField]
-    Slider[] sliders;
-    [SerializeField]
-    Slider[] elementSliders;
-    [SerializeField]
-    Image[] elementIcon;
-    [SerializeField]
-    Sprite[] elementSprites;
+    Slider[] HpSliders;
     [SerializeField]
     TextMeshProUGUI[] comboDisplays;
     [SerializeField]
@@ -24,15 +17,11 @@ public class BattleUI : MonoBehaviour
     [SerializeField]
     float timer = 99;
     [SerializeField]
-    TextMeshProUGUI debug;
+    TextMeshProUGUI recoveryDebugText;
     [SerializeField]
     Image[] p1RoundsIcons, p2RoundsIcons;
     [SerializeField]
     RectTransform pauseUI;
-    [SerializeField]
-    Button characterSelect;
-    [SerializeField]
-    RectTransform characterSelectUI;
 
     [SerializeField]
     Image fadePanel;
@@ -42,27 +31,19 @@ public class BattleUI : MonoBehaviour
 
     bool roundActive = false;
 
+    bool isInitialized = false;
+
 
     // Start is called before the first frame update
     public void Initialize()
     {
         players = Managers.Instance.GameManager.GetPlayers();
-        for (int i = 0; i < sliders.Length; i++)
+        for (int i = 0; i < HpSliders.Length; i++)
         {
-            sliders[i].maxValue = players[i].GetMaxHealth();
-            sliders[i].value = players[i].CurrentHealth;
+            HpSliders[i].maxValue = players[i].GetMaxHealth();
+            HpSliders[i].value = players[i].CurrentHealth;
         }
-
-        // TO implement
-        //if (Managers.Instance.GameManager.IsTrainingModeOn)
-        //{
-        //    characterSelect.gameObject.SetActive(true);
-        //}
-        //else
-        //{
-        //    characterSelect.gameObject.SetActive(false);
-        //}
-
+        isInitialized = true;
     }
 
     // Update is called once per frame
@@ -70,11 +51,13 @@ public class BattleUI : MonoBehaviour
     {
         if (!roundActive || Managers.Instance.GameManager.IsTrainingModeOn)
             return;
+        if (!isInitialized)
+            Managers.Instance.GameManager.SetBattleUI(this);
         timer -= Time.deltaTime;
         timerText.text = Mathf.FloorToInt(timer).ToString();
         if (timer <= 0)
         {
-            if(sliders[0].value > sliders[1].value)
+            if(HpSliders[0].value > HpSliders[1].value)
             {
                 AddScore(0);
             }
@@ -90,7 +73,7 @@ public class BattleUI : MonoBehaviour
     {
         timer = 99;
         timerText.text = Mathf.FloorToInt(timer).ToString();
-        foreach (Slider slider in sliders)
+        foreach (Slider slider in HpSliders)
         {
             slider.value = slider.maxValue;
         }
@@ -132,45 +115,10 @@ public class BattleUI : MonoBehaviour
         Managers.Instance.GameManager.EndGame();
     }
 
-    public void OpenCharacterSelect()
-    {
-        AudioManager.instance.PlaySoundEffect(0);
-        pauseUI.gameObject.SetActive(false);
-        characterSelectUI.gameObject.SetActive(true);
-        elementSliders[0].Select();
-
-    }
-
-    public void CloseCharacterSelect()
-    {
-        AudioManager.instance.PlaySoundEffect(0);
-        pauseUI.gameObject.SetActive(true);
-        characterSelectUI.gameObject.SetActive(false);
-        characterSelect.Select();
-    }
-
-    public void OnElementSliderChange(bool isP2Slider)
-    {
-        AudioManager.instance.PlaySoundEffect(0);
-        int playerId = isP2Slider ? 1 : 0;
-        switch (elementSliders[playerId].value)
-        {
-            //Here add to the local persistence manager which character 
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-        }
-    }
-
     public void UpdateHealth(int playerId, float value)
     {
-        sliders[playerId].value = value;
-        if (sliders[playerId].value <= 0)
+        HpSliders[playerId].value = value;
+        if (HpSliders[playerId].value <= 0)
         {
             if (playerId == 0)
             {

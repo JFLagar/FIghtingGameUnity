@@ -140,12 +140,29 @@ public class PlayerController : MonoBehaviour
             assignedPlayer.GetInputHandler().MHButton(cxt);
     }
 
-    public void StatButton(InputAction.CallbackContext cxt)
+    public void StartUIButton(InputAction.CallbackContext cxt)
     {
+
         if (_startAction == null)
             return;
         if (cxt.phase == InputActionPhase.Started)
             _startAction.Invoke(this);
+    }
+
+    public void StartButton(InputAction.CallbackContext cxt)
+    {
+        if (assignedPlayer != null)
+        {
+            assignedPlayer.GetInputHandler().StartButton(cxt);
+        }
+    }
+
+    public void SelectButton(InputAction.CallbackContext cxt)
+    {
+        if (assignedPlayer != null)
+        {
+            assignedPlayer.GetInputHandler().SelectButton(cxt);
+        }
     }
 
     public void UINavigation(InputAction.CallbackContext cxt)

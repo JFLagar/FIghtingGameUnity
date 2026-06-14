@@ -18,10 +18,8 @@ public class GameManager : MonoBehaviour
     public Player CornerPlayer { get; private set; }
     [SerializeField]
     Player[] players;
-    int p1rounds;
-    int p2rounds;
     [SerializeField]
-    BattleUI uIBehaviour;
+    BattleUI battleUI;
     bool isGamePaused = false;
     [SerializeField]
     float gameSpeed = 1.0f;
@@ -47,11 +45,6 @@ public class GameManager : MonoBehaviour
         }
         IsTrainingModeOn = toggleTraining;
         Time.timeScale = gameSpeed;
-        if (uIBehaviour != null)
-        {
-            uIBehaviour.Initialize();
-            uIBehaviour.FadeIn();
-        }
 
     }
     private void FixedUpdate()
@@ -104,14 +97,14 @@ public class GameManager : MonoBehaviour
         {
             player.GetCharacterAnimation().SetPlayspeed(Time.timeScale);
         }
-        if (uIBehaviour != null)
-            uIBehaviour.ShowPauseUI(isGamePaused);
+        if (battleUI != null)
+            battleUI.ShowPauseUI(isGamePaused);
     }
 
     public void ResetPosition()
     {
         // Don't reload screen
-        uIBehaviour.ResetAll();
+        battleUI.ResetAll();
     }
 
     public void EnableTrainingMode()
@@ -123,17 +116,24 @@ public class GameManager : MonoBehaviour
     //Maybe Event(?)
     public void UpdateHealth(int playerId, float value)
     {
-        if (uIBehaviour == null || IsTrainingModeOn)
+        if (battleUI == null || IsTrainingModeOn)
             return;
-        uIBehaviour.UpdateHealth(playerId, value);
+        battleUI.UpdateHealth(playerId, value);
     }
 
     //Maybe Event(?)
     public void UpdateComboCounter(int playerId)
     {
-        if (uIBehaviour == null)
+        if (battleUI == null)
             return;
-        uIBehaviour.UpdateComboCounter(playerId);
+        battleUI.UpdateComboCounter(playerId);
+    }
+
+    public void SetBattleUI(BattleUI uI)
+    {
+        battleUI = uI;
+        battleUI.Initialize();
+        battleUI.FadeIn();
     }
 
     public void EndGame()

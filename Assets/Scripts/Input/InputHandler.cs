@@ -626,13 +626,17 @@ namespace SkillIssue.Inputs
 
         public void StartButton(InputAction.CallbackContext context)
         {
-            Managers.Instance.GameManager.PauseGame();
+            if (context.action.WasPressedThisFrame())
+                Managers.Instance.GameManager.PauseGame();
         }
 
         public void SelectButton(InputAction.CallbackContext context)
         {
-            if (Managers.Instance.GameManager.IsTrainingModeOn)
-                Managers.Instance.GameManager.ResetPosition();
+            if (context.action.WasPressedThisFrame())
+            {
+                if (Managers.Instance.GameManager.IsTrainingModeOn)
+                    Managers.Instance.GameManager.ResetPosition();
+            }
         }
 
         public void AddInput(InputType input, bool isPressed)

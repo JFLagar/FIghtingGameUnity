@@ -73,7 +73,6 @@ public class BattleUI : MonoBehaviour
                 AddScore(1);
             }
         }
-    
     }
 
     public void ResetAll()

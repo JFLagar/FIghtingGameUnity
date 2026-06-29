@@ -142,7 +142,6 @@ public class PlayerController : MonoBehaviour
 
     public void StartUIButton(InputAction.CallbackContext cxt)
     {
-
         if (_startAction == null)
             return;
         if (cxt.phase == InputActionPhase.Started)
@@ -151,14 +150,18 @@ public class PlayerController : MonoBehaviour
 
     public void StartButton(InputAction.CallbackContext cxt)
     {
+        if (cxt.phase != InputActionPhase.Started)
+            return;
         if (assignedPlayer != null)
         {
-            assignedPlayer.GetInputHandler().StartButton(cxt);
+            assignedPlayer.GetInputHandler().StartButton(cxt, this);
         }
     }
 
     public void SelectButton(InputAction.CallbackContext cxt)
     {
+        if (cxt.phase != InputActionPhase.Started)
+            return;
         if (assignedPlayer != null)
         {
             assignedPlayer.GetInputHandler().SelectButton(cxt);

@@ -3421,6 +3421,7 @@ MonoBehaviour:
   frameDisplay: {fileID: 8062074396662264429}
   frameScriptDisplay: {fileID: 0}
   generalCombatValues: {fileID: 11400000, guid: 7a3ee158dd976fc43aeaaac477c15efd, type: 2}
+  pauseSelectable: {fileID: 8062074396260018768}
   toggleTraining: 0
   players:
   - {fileID: 8062074396790736155}
@@ -3836,7 +3837,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: -100, y: -100}
-  m_SizeDelta: {x: 20, y: 50}
+  m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8062074395014772337
 MonoBehaviour:
@@ -4090,7 +4091,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 100, y: -100}
-  m_SizeDelta: {x: 20, y: 50}
+  m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8062074395067110320
 MonoBehaviour:
@@ -4817,7 +4818,7 @@ MonoBehaviour:
   roundsContainers:
   - {fileID: 5945435822946493845}
   - {fileID: 7274771039839199720}
-  pauseUI: {fileID: 8062074395917546632}
+  pauseUI: {fileID: 8062074394793418166}
   fadePanel: {fileID: 4434119877790382313}
 --- !u!1 &8062074395437118933
 GameObject:
@@ -6713,9 +6714,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UIBehaviour, Assembly-CSharp
-        m_MethodName: CloseUI
+      - m_Target: {fileID: 8062074394908746625}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: PauseGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

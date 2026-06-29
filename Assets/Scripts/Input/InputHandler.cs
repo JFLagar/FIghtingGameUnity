@@ -624,10 +624,12 @@ namespace SkillIssue.Inputs
         }
 
 
-        public void StartButton(InputAction.CallbackContext context)
+        public void StartButton(InputAction.CallbackContext context, PlayerController controller)
         {
             if (context.action.WasPressedThisFrame())
-                Managers.Instance.GameManager.PauseGame();
+            {
+                Managers.Instance.GameManager.PauseGame(controller);
+            }
         }
 
         public void SelectButton(InputAction.CallbackContext context)

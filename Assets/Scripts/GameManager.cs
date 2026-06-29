@@ -3,6 +3,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class GameManager : MonoBehaviour
     TextMeshProUGUI frameScriptDisplay;
     [SerializeField]
     GeneralCombatValues generalCombatValues;
+    [SerializeField]
+    Selectable pauseSelectable;
     public bool IsTrainingModeOn { get; private set; }
     [SerializeField]
     bool toggleTraining = false;
@@ -28,6 +31,8 @@ public class GameManager : MonoBehaviour
 
     public int frame = 0;
     public bool countframes = false;
+
+    private PlayerController pauseController;
     private void Awake()
     {
         QualitySettings.vSyncCount = 0;
@@ -89,16 +94,46 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Menu");
     }
 
-    public void PauseGame()
+    public void PauseGame(PlayerController controller)
     {
+        if (!isGamePaused)
+            pauseController = controller;
+        else if (controller != pauseController)
+            return;
         isGamePaused = !isGamePaused;
         Time.timeScale = isGamePaused ? 0f : 1f;
-        foreach (Player player in players) 
+        foreach (Player player in players)
         {
             player.GetCharacterAnimation().SetPlayspeed(Time.timeScale);
         }
         if (battleUI != null)
+        {
             battleUI.ShowPauseUI(isGamePaused);
+            pauseController.SelectUIElement(pauseSelectable);
+        }
+        if (isGamePaused)
+            pauseController._startAction += PauseGame;
+        else
+            pauseController._startAction -= PauseGame;
+    }
+
+    public void PauseGame()
+    {
+        isGamePaused = !isGamePaused;
+        Time.timeScale = isGamePaused ? 0f : 1f;
+        foreach (Player player in players)
+        {
+            player.GetCharacterAnimation().SetPlayspeed(Time.timeScale);
+        }
+        if (battleUI != null)
+        {
+            battleUI.ShowPauseUI(isGamePaused);
+            pauseController.SelectUIElement(pauseSelectable);
+        }
+        if (isGamePaused)
+            pauseController._startAction += PauseGame;
+        else
+            pauseController._startAction -= PauseGame;
     }
 
     public void ResetPosition()

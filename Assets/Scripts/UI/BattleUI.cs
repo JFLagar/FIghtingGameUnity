@@ -4,6 +4,7 @@ using SkillIssue.CharacterSpace;
 using TMPro;
 using DG.Tweening;
 using NaughtyAttributes;
+using System.ComponentModel;
 
 public class BattleUI : MonoBehaviour
 {
@@ -19,7 +20,7 @@ public class BattleUI : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI recoveryDebugText;
     [SerializeField]
-    Image[] p1RoundsIcons, p2RoundsIcons;
+    RoundsContainer[] roundsContainers;
     [SerializeField]
     RectTransform pauseUI;
 
@@ -38,10 +39,16 @@ public class BattleUI : MonoBehaviour
     public void Initialize()
     {
         players = Managers.Instance.GameManager.GetPlayers();
+        UserData saveData = SaveDataManager.Instance.ActiveSaveData;
+        int rounds = saveData.GameSettings.m_BattleSettings.ActiveRoundsNo;
         for (int i = 0; i < HpSliders.Length; i++)
         {
             HpSliders[i].maxValue = players[i].GetMaxHealth();
             HpSliders[i].value = players[i].CurrentHealth;
+        }
+        foreach (RoundsContainer container in roundsContainers)
+        {
+            container.CreateRounds(rounds);
         }
         isInitialized = true;
     }
@@ -49,10 +56,10 @@ public class BattleUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!roundActive || Managers.Instance.GameManager.IsTrainingModeOn)
-            return;
         if (!isInitialized)
             Managers.Instance.GameManager.SetBattleUI(this);
+        if (!roundActive || Managers.Instance.GameManager.IsTrainingModeOn)
+            return;
         timer -= Time.deltaTime;
         timerText.text = Mathf.FloorToInt(timer).ToString();
         if (timer <= 0)
@@ -81,7 +88,6 @@ public class BattleUI : MonoBehaviour
         {
             player.ResetPlayer();
         }
-        if (player1WonRounds == p1RoundsIcons.Length || player2WonRounds == p2RoundsIcons.Length)
             ResetScores();
     }
 
@@ -158,35 +164,17 @@ public class BattleUI : MonoBehaviour
 
     private void UpdateScores()
     {
-        for (int rounds = 0; rounds < player1WonRounds; rounds++)
-        {
-            if (player1WonRounds > p1RoundsIcons.Length)
-            {
-                return;
-            }
-            p1RoundsIcons[rounds].enabled = true;
-        }
-        for (int rounds = 0; rounds < player2WonRounds; rounds++)
-        {
-            if (player2WonRounds > p2RoundsIcons.Length)
-            {
-                return;
-            }
-            p2RoundsIcons[rounds].enabled = true;
-        }
+        roundsContainers[0].UpdateRounds(player1WonRounds);
+        roundsContainers[1].UpdateRounds(player2WonRounds);
     }
 
     private void ResetScores()
     {
         player1WonRounds = 0;
         player2WonRounds = 0;
-        foreach (var icon in p1RoundsIcons)
+        foreach(RoundsContainer container in roundsContainers)
         {
-            icon.enabled = false;
-        }
-        foreach (var icon in p2RoundsIcons)
-        {
-            icon.enabled = false;
+            container.ResetRounds();
         }
     }
 

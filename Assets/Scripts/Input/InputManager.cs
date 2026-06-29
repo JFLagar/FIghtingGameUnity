@@ -128,6 +128,7 @@ public class InputManager : MonoBehaviour
                 player1Controller.Initialize(activePlayers[id], id);
                 break;
             case 1:
+
                 player2Controller.Initialize(activePlayers[id], id);
                 break;
         }

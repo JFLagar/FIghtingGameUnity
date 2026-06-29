@@ -34,9 +34,11 @@ public struct DisplaySettings
 {
     public int WindowModeId;
     public FullScreenMode[] WindowModes;
+    public FullScreenMode ActiveWindowMode;
     public int ResolutionId;
     [SerializeField]
     public Vector2[] Resolutions;
+    public Vector2 ActiveResolution;
 }
 
 [Serializable]
@@ -44,6 +46,8 @@ public struct BattleSettings
 {
     public int RoundsId;
     public int[] Rounds;
+    public int ActiveRoundsNo;
     public int TimerId;
     public int[] Timers;
+    public int ActiveTimers;
 }

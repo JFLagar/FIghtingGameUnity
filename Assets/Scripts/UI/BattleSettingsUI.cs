@@ -28,6 +28,7 @@ public class BattleSettingsUI : SettingsPanelUI
     {
         roundsSelector.SetSelectionText(battleSettings.Rounds[value].ToString());
         battleSettings.RoundsId = value;
+        battleSettings.ActiveRoundsNo = battleSettings.Rounds[value];
         SaveValues();
     }
 
@@ -40,6 +41,7 @@ public class BattleSettingsUI : SettingsPanelUI
             timerSelector.SetSelectionText("%");
         }
         battleSettings.TimerId = value;
+        battleSettings.ActiveTimers = battleSettings.Timers[value];
         SaveValues();
     }
 

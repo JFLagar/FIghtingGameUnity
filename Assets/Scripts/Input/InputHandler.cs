@@ -2,10 +2,8 @@ using SkillIssue.CharacterSpace;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 namespace SkillIssue.Inputs
 {
@@ -132,7 +130,8 @@ namespace SkillIssue.Inputs
             leftButton.SetInputHandler(this);
             rightButton.SetInputHandler(this);
 
-            PlayerInput = controller.GetPlayerInput();
+            if (controller != null)
+                PlayerInput = controller.GetPlayerInput();
             motionInputs = gameManager.GetCombatValues().GetMotionInputs();
         }
 
@@ -626,15 +625,21 @@ namespace SkillIssue.Inputs
         }
 
 
-        public void StartButton(InputAction.CallbackContext context)
+        public void StartButton(InputAction.CallbackContext context, PlayerController controller)
         {
-            Managers.Instance.GameManager.PauseGame();
+            if (context.action.WasPressedThisFrame())
+            {
+                Managers.Instance.GameManager.PauseGame(controller);
+            }
         }
 
         public void SelectButton(InputAction.CallbackContext context)
         {
-            if (Managers.Instance.GameManager.IsTrainingModeOn)
-                Managers.Instance.GameManager.ResetPosition();
+            if (context.action.WasPressedThisFrame())
+            {
+                if (Managers.Instance.GameManager.IsTrainingModeOn)
+                    Managers.Instance.GameManager.ResetPosition();
+            }
         }
 
         public void AddInput(InputType input, bool isPressed)

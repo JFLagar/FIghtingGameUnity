@@ -93,6 +93,42 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             ""id"": ""8dd4a956-e767-41fe-8ecd-d5a71f139d98"",
             ""actions"": [
                 {
+                    ""name"": ""UpButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""d1111da6-f03c-4fea-879b-d274bf8b8ff4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DownButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""9e5a0940-5f31-4804-b1d7-c6c291b96871"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LeftButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""ff4fb8de-b939-4f8a-8ad7-f161087fef64"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RightButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""9c45ac24-7988-487d-a045-ef2c8af5f53d"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""LightButton"",
                     ""type"": ""Button"",
                     ""id"": ""320f572c-7f54-4a2d-9df6-610375e7e7e0"",
@@ -123,24 +159,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": ""UniqueButton"",
                     ""type"": ""Button"",
                     ""id"": ""a563a2f3-1627-45f6-8fa0-0e867136d438"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Start"",
-                    ""type"": ""Button"",
-                    ""id"": ""acf6b45b-e620-455e-a9d9-cd75e620d869"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Select"",
-                    ""type"": ""Button"",
-                    ""id"": ""e1482dc6-e27d-456d-91d4-085f1274f1af"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -192,36 +210,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""UpButton"",
+                    ""name"": ""Start"",
                     ""type"": ""Button"",
-                    ""id"": ""d1111da6-f03c-4fea-879b-d274bf8b8ff4"",
+                    ""id"": ""acf6b45b-e620-455e-a9d9-cd75e620d869"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""DownButton"",
+                    ""name"": ""Select"",
                     ""type"": ""Button"",
-                    ""id"": ""9e5a0940-5f31-4804-b1d7-c6c291b96871"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""LeftButton"",
-                    ""type"": ""Button"",
-                    ""id"": ""ff4fb8de-b939-4f8a-8ad7-f161087fef64"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""RightButton"",
-                    ""type"": ""Button"",
-                    ""id"": ""9c45ac24-7988-487d-a045-ef2c8af5f53d"",
+                    ""id"": ""e1482dc6-e27d-456d-91d4-085f1274f1af"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -236,17 +236,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""LightButton"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""c843a881-c3d9-4286-a01d-e70a90ccfa2c"",
-                    ""path"": ""<Keyboard>/numpad7"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Player2"",
                     ""action"": ""LightButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -275,17 +264,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e0c23119-042d-4dca-a1ff-137a413a949d"",
-                    ""path"": ""<Keyboard>/numpad8"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Player2"",
-                    ""action"": ""MediumButton"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""3c983450-c91d-4714-a2bb-ea0046f2ecf3"",
                     ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
@@ -308,17 +286,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""7255e367-11db-43b0-8037-27b457047759"",
-                    ""path"": ""<Keyboard>/numpad9"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Player2"",
-                    ""action"": ""HeavyButton"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""dc41f8e8-61a9-4965-be82-bed8259e3ed0"",
                     ""path"": ""<Gamepad>/buttonEast"",
                     ""interactions"": """",
@@ -335,17 +302,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""UniqueButton"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""19bc12b7-6a52-417b-9c4e-a36c25ada406"",
-                    ""path"": ""<Keyboard>/numpad4"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Player2"",
                     ""action"": ""UniqueButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -510,7 +466,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad"",
+                    ""groups"": "";Gamepad;Joystick"",
                     ""action"": ""LM"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -616,22 +572,22 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""e698ebf5-870d-461b-87a2-f13be6d3cdb8"",
-                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""id"": ""57e28603-2c55-4ef3-94b2-8f7288884f6f"",
+                    ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Gamepad;Joystick"",
+                    ""groups"": "";Keyboard"",
                     ""action"": ""RightButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""57e28603-2c55-4ef3-94b2-8f7288884f6f"",
-                    ""path"": ""<Keyboard>/d"",
+                    ""id"": ""e698ebf5-870d-461b-87a2-f13be6d3cdb8"",
+                    ""path"": ""<Gamepad>/dpad/right"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Keyboard"",
+                    ""groups"": "";Gamepad;Joystick"",
                     ""action"": ""RightButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -676,7 +632,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""8c6780e8-6d7b-43a5-a3cd-ec2b43997587"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""NormalizeVector2"",
                     ""interactions"": """",
                     ""initialStateCheck"": false
                 },
@@ -687,6 +643,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""UIDeleteBinding"",
+                    ""type"": ""Button"",
+                    ""id"": ""c3a14b0f-db55-45ee-924c-77ed68610f79"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(duration=0.4)"",
                     ""initialStateCheck"": false
                 }
             ],
@@ -758,17 +723,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""eb9c8159-b5e8-4f24-9858-e5bf4b1cbd0d"",
-                    ""path"": ""<Gamepad>/leftStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Gamepad;Joystick"",
-                    ""action"": ""UINavigate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""2D Vector"",
                     ""id"": ""78395617-f4ec-488c-85fe-d9ebb9551004"",
                     ""path"": ""2DVector"",
@@ -785,7 +739,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard"",
                     ""action"": ""UINavigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -796,7 +750,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard"",
                     ""action"": ""UINavigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -807,7 +761,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": "";Keyboard"",
                     ""action"": ""UINavigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -818,7 +772,62 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""UINavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""4a15c421-65da-4090-b917-2dc86d0fa6c3"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
                     ""groups"": """",
+                    ""action"": ""UINavigate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""9f0e79e1-fb69-43f6-9d7e-c2d9e0f15d86"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad;Joystick"",
+                    ""action"": ""UINavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""731983c7-b008-462d-99b1-911e0df64c0e"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad;Joystick"",
+                    ""action"": ""UINavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""41d5fcf1-aa40-403d-a178-018baba6e1df"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad;Joystick"",
+                    ""action"": ""UINavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""a1a496de-5f8f-47c3-9a9f-0a7b55a1e108"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad;Joystick"",
                     ""action"": ""UINavigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -842,6 +851,39 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard"",
                     ""action"": ""MenuStart"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aad14e01-d70e-4c05-9226-2b3573d4b095"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""UIDeleteBinding"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fd70d3a1-b315-4496-9aa5-20a8271c9c01"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad;Joystick"",
+                    ""action"": ""UIDeleteBinding"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""38bf474f-ad2a-4ea0-97fa-951e59add9f6"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad;Joystick"",
+                    ""action"": ""UIDeleteBinding"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -891,27 +933,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
 }");
         // Controls
         m_Controls = asset.FindActionMap("Controls", throwIfNotFound: true);
+        m_Controls_UpButton = m_Controls.FindAction("UpButton", throwIfNotFound: true);
+        m_Controls_DownButton = m_Controls.FindAction("DownButton", throwIfNotFound: true);
+        m_Controls_LeftButton = m_Controls.FindAction("LeftButton", throwIfNotFound: true);
+        m_Controls_RightButton = m_Controls.FindAction("RightButton", throwIfNotFound: true);
         m_Controls_LightButton = m_Controls.FindAction("LightButton", throwIfNotFound: true);
         m_Controls_MediumButton = m_Controls.FindAction("MediumButton", throwIfNotFound: true);
         m_Controls_HeavyButton = m_Controls.FindAction("HeavyButton", throwIfNotFound: true);
         m_Controls_UniqueButton = m_Controls.FindAction("UniqueButton", throwIfNotFound: true);
-        m_Controls_Start = m_Controls.FindAction("Start", throwIfNotFound: true);
-        m_Controls_Select = m_Controls.FindAction("Select", throwIfNotFound: true);
         m_Controls_LU = m_Controls.FindAction("LU", throwIfNotFound: true);
         m_Controls_LM = m_Controls.FindAction("LM", throwIfNotFound: true);
         m_Controls_MH = m_Controls.FindAction("MH", throwIfNotFound: true);
         m_Controls_LMH = m_Controls.FindAction("LMH", throwIfNotFound: true);
         m_Controls_LMHU = m_Controls.FindAction("LMHU", throwIfNotFound: true);
-        m_Controls_UpButton = m_Controls.FindAction("UpButton", throwIfNotFound: true);
-        m_Controls_DownButton = m_Controls.FindAction("DownButton", throwIfNotFound: true);
-        m_Controls_LeftButton = m_Controls.FindAction("LeftButton", throwIfNotFound: true);
-        m_Controls_RightButton = m_Controls.FindAction("RightButton", throwIfNotFound: true);
+        m_Controls_Start = m_Controls.FindAction("Start", throwIfNotFound: true);
+        m_Controls_Select = m_Controls.FindAction("Select", throwIfNotFound: true);
         // Menu
         m_Menu = asset.FindActionMap("Menu", throwIfNotFound: true);
         m_Menu_UIConfirm = m_Menu.FindAction("UIConfirm", throwIfNotFound: true);
         m_Menu_UICancel = m_Menu.FindAction("UICancel", throwIfNotFound: true);
         m_Menu_UINavigate = m_Menu.FindAction("UINavigate", throwIfNotFound: true);
         m_Menu_MenuStart = m_Menu.FindAction("MenuStart", throwIfNotFound: true);
+        m_Menu_UIDeleteBinding = m_Menu.FindAction("UIDeleteBinding", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -993,21 +1036,21 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     // Controls
     private readonly InputActionMap m_Controls;
     private List<IControlsActions> m_ControlsActionsCallbackInterfaces = new List<IControlsActions>();
+    private readonly InputAction m_Controls_UpButton;
+    private readonly InputAction m_Controls_DownButton;
+    private readonly InputAction m_Controls_LeftButton;
+    private readonly InputAction m_Controls_RightButton;
     private readonly InputAction m_Controls_LightButton;
     private readonly InputAction m_Controls_MediumButton;
     private readonly InputAction m_Controls_HeavyButton;
     private readonly InputAction m_Controls_UniqueButton;
-    private readonly InputAction m_Controls_Start;
-    private readonly InputAction m_Controls_Select;
     private readonly InputAction m_Controls_LU;
     private readonly InputAction m_Controls_LM;
     private readonly InputAction m_Controls_MH;
     private readonly InputAction m_Controls_LMH;
     private readonly InputAction m_Controls_LMHU;
-    private readonly InputAction m_Controls_UpButton;
-    private readonly InputAction m_Controls_DownButton;
-    private readonly InputAction m_Controls_LeftButton;
-    private readonly InputAction m_Controls_RightButton;
+    private readonly InputAction m_Controls_Start;
+    private readonly InputAction m_Controls_Select;
     /// <summary>
     /// Provides access to input actions defined in input action map "Controls".
     /// </summary>
@@ -1019,6 +1062,22 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
         public ControlsActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Controls/UpButton".
+        /// </summary>
+        public InputAction @UpButton => m_Wrapper.m_Controls_UpButton;
+        /// <summary>
+        /// Provides access to the underlying input action "Controls/DownButton".
+        /// </summary>
+        public InputAction @DownButton => m_Wrapper.m_Controls_DownButton;
+        /// <summary>
+        /// Provides access to the underlying input action "Controls/LeftButton".
+        /// </summary>
+        public InputAction @LeftButton => m_Wrapper.m_Controls_LeftButton;
+        /// <summary>
+        /// Provides access to the underlying input action "Controls/RightButton".
+        /// </summary>
+        public InputAction @RightButton => m_Wrapper.m_Controls_RightButton;
         /// <summary>
         /// Provides access to the underlying input action "Controls/LightButton".
         /// </summary>
@@ -1035,14 +1094,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Controls/UniqueButton".
         /// </summary>
         public InputAction @UniqueButton => m_Wrapper.m_Controls_UniqueButton;
-        /// <summary>
-        /// Provides access to the underlying input action "Controls/Start".
-        /// </summary>
-        public InputAction @Start => m_Wrapper.m_Controls_Start;
-        /// <summary>
-        /// Provides access to the underlying input action "Controls/Select".
-        /// </summary>
-        public InputAction @Select => m_Wrapper.m_Controls_Select;
         /// <summary>
         /// Provides access to the underlying input action "Controls/LU".
         /// </summary>
@@ -1064,21 +1115,13 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @LMHU => m_Wrapper.m_Controls_LMHU;
         /// <summary>
-        /// Provides access to the underlying input action "Controls/UpButton".
+        /// Provides access to the underlying input action "Controls/Start".
         /// </summary>
-        public InputAction @UpButton => m_Wrapper.m_Controls_UpButton;
+        public InputAction @Start => m_Wrapper.m_Controls_Start;
         /// <summary>
-        /// Provides access to the underlying input action "Controls/DownButton".
+        /// Provides access to the underlying input action "Controls/Select".
         /// </summary>
-        public InputAction @DownButton => m_Wrapper.m_Controls_DownButton;
-        /// <summary>
-        /// Provides access to the underlying input action "Controls/LeftButton".
-        /// </summary>
-        public InputAction @LeftButton => m_Wrapper.m_Controls_LeftButton;
-        /// <summary>
-        /// Provides access to the underlying input action "Controls/RightButton".
-        /// </summary>
-        public InputAction @RightButton => m_Wrapper.m_Controls_RightButton;
+        public InputAction @Select => m_Wrapper.m_Controls_Select;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1105,6 +1148,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_ControlsActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_ControlsActionsCallbackInterfaces.Add(instance);
+            @UpButton.started += instance.OnUpButton;
+            @UpButton.performed += instance.OnUpButton;
+            @UpButton.canceled += instance.OnUpButton;
+            @DownButton.started += instance.OnDownButton;
+            @DownButton.performed += instance.OnDownButton;
+            @DownButton.canceled += instance.OnDownButton;
+            @LeftButton.started += instance.OnLeftButton;
+            @LeftButton.performed += instance.OnLeftButton;
+            @LeftButton.canceled += instance.OnLeftButton;
+            @RightButton.started += instance.OnRightButton;
+            @RightButton.performed += instance.OnRightButton;
+            @RightButton.canceled += instance.OnRightButton;
             @LightButton.started += instance.OnLightButton;
             @LightButton.performed += instance.OnLightButton;
             @LightButton.canceled += instance.OnLightButton;
@@ -1117,12 +1172,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @UniqueButton.started += instance.OnUniqueButton;
             @UniqueButton.performed += instance.OnUniqueButton;
             @UniqueButton.canceled += instance.OnUniqueButton;
-            @Start.started += instance.OnStart;
-            @Start.performed += instance.OnStart;
-            @Start.canceled += instance.OnStart;
-            @Select.started += instance.OnSelect;
-            @Select.performed += instance.OnSelect;
-            @Select.canceled += instance.OnSelect;
             @LU.started += instance.OnLU;
             @LU.performed += instance.OnLU;
             @LU.canceled += instance.OnLU;
@@ -1138,18 +1187,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @LMHU.started += instance.OnLMHU;
             @LMHU.performed += instance.OnLMHU;
             @LMHU.canceled += instance.OnLMHU;
-            @UpButton.started += instance.OnUpButton;
-            @UpButton.performed += instance.OnUpButton;
-            @UpButton.canceled += instance.OnUpButton;
-            @DownButton.started += instance.OnDownButton;
-            @DownButton.performed += instance.OnDownButton;
-            @DownButton.canceled += instance.OnDownButton;
-            @LeftButton.started += instance.OnLeftButton;
-            @LeftButton.performed += instance.OnLeftButton;
-            @LeftButton.canceled += instance.OnLeftButton;
-            @RightButton.started += instance.OnRightButton;
-            @RightButton.performed += instance.OnRightButton;
-            @RightButton.canceled += instance.OnRightButton;
+            @Start.started += instance.OnStart;
+            @Start.performed += instance.OnStart;
+            @Start.canceled += instance.OnStart;
+            @Select.started += instance.OnSelect;
+            @Select.performed += instance.OnSelect;
+            @Select.canceled += instance.OnSelect;
         }
 
         /// <summary>
@@ -1161,6 +1204,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="ControlsActions" />
         private void UnregisterCallbacks(IControlsActions instance)
         {
+            @UpButton.started -= instance.OnUpButton;
+            @UpButton.performed -= instance.OnUpButton;
+            @UpButton.canceled -= instance.OnUpButton;
+            @DownButton.started -= instance.OnDownButton;
+            @DownButton.performed -= instance.OnDownButton;
+            @DownButton.canceled -= instance.OnDownButton;
+            @LeftButton.started -= instance.OnLeftButton;
+            @LeftButton.performed -= instance.OnLeftButton;
+            @LeftButton.canceled -= instance.OnLeftButton;
+            @RightButton.started -= instance.OnRightButton;
+            @RightButton.performed -= instance.OnRightButton;
+            @RightButton.canceled -= instance.OnRightButton;
             @LightButton.started -= instance.OnLightButton;
             @LightButton.performed -= instance.OnLightButton;
             @LightButton.canceled -= instance.OnLightButton;
@@ -1173,12 +1228,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @UniqueButton.started -= instance.OnUniqueButton;
             @UniqueButton.performed -= instance.OnUniqueButton;
             @UniqueButton.canceled -= instance.OnUniqueButton;
-            @Start.started -= instance.OnStart;
-            @Start.performed -= instance.OnStart;
-            @Start.canceled -= instance.OnStart;
-            @Select.started -= instance.OnSelect;
-            @Select.performed -= instance.OnSelect;
-            @Select.canceled -= instance.OnSelect;
             @LU.started -= instance.OnLU;
             @LU.performed -= instance.OnLU;
             @LU.canceled -= instance.OnLU;
@@ -1194,18 +1243,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @LMHU.started -= instance.OnLMHU;
             @LMHU.performed -= instance.OnLMHU;
             @LMHU.canceled -= instance.OnLMHU;
-            @UpButton.started -= instance.OnUpButton;
-            @UpButton.performed -= instance.OnUpButton;
-            @UpButton.canceled -= instance.OnUpButton;
-            @DownButton.started -= instance.OnDownButton;
-            @DownButton.performed -= instance.OnDownButton;
-            @DownButton.canceled -= instance.OnDownButton;
-            @LeftButton.started -= instance.OnLeftButton;
-            @LeftButton.performed -= instance.OnLeftButton;
-            @LeftButton.canceled -= instance.OnLeftButton;
-            @RightButton.started -= instance.OnRightButton;
-            @RightButton.performed -= instance.OnRightButton;
-            @RightButton.canceled -= instance.OnRightButton;
+            @Start.started -= instance.OnStart;
+            @Start.performed -= instance.OnStart;
+            @Start.canceled -= instance.OnStart;
+            @Select.started -= instance.OnSelect;
+            @Select.performed -= instance.OnSelect;
+            @Select.canceled -= instance.OnSelect;
         }
 
         /// <summary>
@@ -1247,6 +1290,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Menu_UICancel;
     private readonly InputAction m_Menu_UINavigate;
     private readonly InputAction m_Menu_MenuStart;
+    private readonly InputAction m_Menu_UIDeleteBinding;
     /// <summary>
     /// Provides access to input actions defined in input action map "Menu".
     /// </summary>
@@ -1274,6 +1318,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Menu/MenuStart".
         /// </summary>
         public InputAction @MenuStart => m_Wrapper.m_Menu_MenuStart;
+        /// <summary>
+        /// Provides access to the underlying input action "Menu/UIDeleteBinding".
+        /// </summary>
+        public InputAction @UIDeleteBinding => m_Wrapper.m_Menu_UIDeleteBinding;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1312,6 +1360,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @MenuStart.started += instance.OnMenuStart;
             @MenuStart.performed += instance.OnMenuStart;
             @MenuStart.canceled += instance.OnMenuStart;
+            @UIDeleteBinding.started += instance.OnUIDeleteBinding;
+            @UIDeleteBinding.performed += instance.OnUIDeleteBinding;
+            @UIDeleteBinding.canceled += instance.OnUIDeleteBinding;
         }
 
         /// <summary>
@@ -1335,6 +1386,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @MenuStart.started -= instance.OnMenuStart;
             @MenuStart.performed -= instance.OnMenuStart;
             @MenuStart.canceled -= instance.OnMenuStart;
+            @UIDeleteBinding.started -= instance.OnUIDeleteBinding;
+            @UIDeleteBinding.performed -= instance.OnUIDeleteBinding;
+            @UIDeleteBinding.canceled -= instance.OnUIDeleteBinding;
         }
 
         /// <summary>
@@ -1428,6 +1482,34 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     public interface IControlsActions
     {
         /// <summary>
+        /// Method invoked when associated input action "UpButton" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnUpButton(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "DownButton" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDownButton(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "LeftButton" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLeftButton(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RightButton" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRightButton(InputAction.CallbackContext context);
+        /// <summary>
         /// Method invoked when associated input action "LightButton" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -1455,20 +1537,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnUniqueButton(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Start" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnStart(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Select" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnSelect(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "LU" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -1505,33 +1573,19 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLMHU(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "UpButton" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Start" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnUpButton(InputAction.CallbackContext context);
+        void OnStart(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "DownButton" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Select" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnDownButton(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "LeftButton" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnLeftButton(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "RightButton" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnRightButton(InputAction.CallbackContext context);
+        void OnSelect(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Menu" which allows adding and removing callbacks.
@@ -1568,5 +1622,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMenuStart(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "UIDeleteBinding" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnUIDeleteBinding(InputAction.CallbackContext context);
     }
 }

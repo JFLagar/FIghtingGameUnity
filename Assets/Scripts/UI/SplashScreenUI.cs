@@ -38,7 +38,7 @@ public class SplashScreenUI : MonoBehaviour
         });
     }
 
-    void AssignMainPlayer(InputAction.CallbackContext ctx, PlayerController controller)
+    void AssignMainPlayer(PlayerController controller)
     {
         if (!saveDataMessage.gameObject.activeSelf)
             return;
@@ -60,7 +60,6 @@ public class SplashScreenUI : MonoBehaviour
 
     private void OnDisable()
     {
-        Debug.Log("Disable");
         foreach (var controller in controllers)
         {
             controller._startAction -= AssignMainPlayer;

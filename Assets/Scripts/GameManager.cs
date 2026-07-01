@@ -3,6 +3,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,16 +13,16 @@ public class GameManager : MonoBehaviour
     TextMeshProUGUI frameScriptDisplay;
     [SerializeField]
     GeneralCombatValues generalCombatValues;
+    [SerializeField]
+    Selectable pauseSelectable;
     public bool IsTrainingModeOn { get; private set; }
     [SerializeField]
     bool toggleTraining = false;
     public Player CornerPlayer { get; private set; }
     [SerializeField]
     Player[] players;
-    int p1rounds;
-    int p2rounds;
     [SerializeField]
-    UIBehaviour uIBehaviour;
+    BattleUI battleUI;
     bool isGamePaused = false;
     [SerializeField]
     float gameSpeed = 1.0f;
@@ -30,6 +31,8 @@ public class GameManager : MonoBehaviour
 
     public int frame = 0;
     public bool countframes = false;
+
+    private PlayerController pauseController;
     private void Awake()
     {
         QualitySettings.vSyncCount = 0;
@@ -47,11 +50,6 @@ public class GameManager : MonoBehaviour
         }
         IsTrainingModeOn = toggleTraining;
         Time.timeScale = gameSpeed;
-        if (uIBehaviour != null)
-        {
-            uIBehaviour.Initialize();
-            uIBehaviour.FadeIn();
-        }
 
     }
     private void FixedUpdate()
@@ -93,25 +91,55 @@ public class GameManager : MonoBehaviour
 
     public void BackToMenu()
     {
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene(1);
+    }
+
+    public void PauseGame(PlayerController controller)
+    {
+        if (!isGamePaused)
+            pauseController = controller;
+        else if (controller != pauseController)
+            return;
+        isGamePaused = !isGamePaused;
+        Time.timeScale = isGamePaused ? 0f : 1f;
+        foreach (Player player in players)
+        {
+            player.GetCharacterAnimation().SetPlayspeed(Time.timeScale);
+        }
+        if (battleUI != null)
+        {
+            battleUI.ShowPauseUI(isGamePaused);
+            pauseController.SelectUIElement(pauseSelectable);
+        }
+        if (isGamePaused)
+            pauseController._startAction += PauseGame;
+        else
+            pauseController._startAction -= PauseGame;
     }
 
     public void PauseGame()
     {
         isGamePaused = !isGamePaused;
         Time.timeScale = isGamePaused ? 0f : 1f;
-        foreach (Player player in players) 
+        foreach (Player player in players)
         {
             player.GetCharacterAnimation().SetPlayspeed(Time.timeScale);
         }
-        if (uIBehaviour != null)
-            uIBehaviour.ShowPauseUI(isGamePaused);
+        if (battleUI != null)
+        {
+            battleUI.ShowPauseUI(isGamePaused);
+            pauseController.SelectUIElement(pauseSelectable);
+        }
+        if (isGamePaused)
+            pauseController._startAction += PauseGame;
+        else
+            pauseController._startAction -= PauseGame;
     }
 
     public void ResetPosition()
     {
         // Don't reload screen
-        uIBehaviour.ResetAll();
+        battleUI.ResetAll();
     }
 
     public void EnableTrainingMode()
@@ -123,17 +151,24 @@ public class GameManager : MonoBehaviour
     //Maybe Event(?)
     public void UpdateHealth(int playerId, float value)
     {
-        if (uIBehaviour == null || IsTrainingModeOn)
+        if (battleUI == null || IsTrainingModeOn)
             return;
-        uIBehaviour.UpdateHealth(playerId, value);
+        battleUI.UpdateHealth(playerId, value);
     }
 
     //Maybe Event(?)
     public void UpdateComboCounter(int playerId)
     {
-        if (uIBehaviour == null)
+        if (battleUI == null)
             return;
-        uIBehaviour.UpdateComboCounter(playerId);
+        battleUI.UpdateComboCounter(playerId);
+    }
+
+    public void SetBattleUI(BattleUI uI)
+    {
+        battleUI = uI;
+        battleUI.Initialize();
+        battleUI.FadeIn();
     }
 
     public void EndGame()

@@ -20,11 +20,13 @@ public class AudioManager : MonoBehaviour
     public void PlayAnimationEffect(AudioClip clip, int playerSoundSourceId = 0)
     {
         soundsSources[playerSoundSourceId].clip = clip;
-        soundsSources[playerSoundSourceId].Play();
+        if (soundsSources[playerSoundSourceId].clip != null)
+            soundsSources[playerSoundSourceId].Play();
     }
     public void PlaySoundEffect(int id)
     {
         soundsSources[0].clip = sounds[id];
-        soundsSources[0].Play();
+        if (soundsSources[0] != null)
+            soundsSources[0].Play();
     }
 }

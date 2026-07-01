@@ -139,11 +139,35 @@ MonoBehaviour:
     m_ActionId: a563a2f3-1627-45f6-8fa0-0e867136d438
     m_ActionName: 'Controls/UniqueButton[/Keyboard/u,/Keyboard/numpad4,/XInputControllerWindows/buttonSouth,/XInputControllerWindows1/buttonSouth]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6086242405267076488}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: StartButton
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: acf6b45b-e620-455e-a9d9-cd75e620d869
     m_ActionName: 'Controls/Start[/Keyboard/enter,/XInputControllerWindows/start,/XInputControllerWindows1/start]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6086242405267076488}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: SelectButton
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: e1482dc6-e27d-456d-91d4-085f1274f1af
     m_ActionName: 'Controls/Select[/Keyboard/backspace,/XInputControllerWindows/select,/XInputControllerWindows1/select]'
   - m_PersistentCalls:
@@ -311,14 +335,26 @@ MonoBehaviour:
     m_ActionId: 5ae42e26-d252-4aa8-8dfb-98587edd2491
     m_ActionName: 'Menu/UICancel[/Keyboard/u]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 6086242405267076488}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: UINavigation
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 8c6780e8-6d7b-43a5-a3cd-ec2b43997587
     m_ActionName: 'Menu/UINavigate[/XInputControllerWindows/dpad,/XInputControllerWindows/leftStick,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6086242405267076488}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: StatButton
+        m_MethodName: StartUIButton
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -330,6 +366,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 2797dd24-0eeb-42b8-88e0-0ad34a3d9693
     m_ActionName: 'Menu/MenuStart[/XInputControllerWindows/start,/Keyboard/enter]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6086242405267076488}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: ClearInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c3a14b0f-db55-45ee-924c-77ed68610f79
+    m_ActionName: 'Menu/UIDeleteBinding[/Keyboard/d,/XInputControllerWindows/dpad/right,/XInputControllerWindows/leftStick/right]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Controls

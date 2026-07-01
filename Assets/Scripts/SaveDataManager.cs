@@ -4,9 +4,20 @@ using UnityEngine;
 using System.IO;
 using UnityEngine.InputSystem;
 using System.Linq;
+using UnityEditor;
 
 public class SaveDataManager : MonoBehaviour
 {
+    [System.Serializable]
+    public class ActionMap
+    {
+        public string action;
+        public string id;
+        public string path;
+        public string interactions;
+        public string processors;
+    }
+
     public static SaveDataManager Instance;
     private string saveDataPath;
     public UserData ActiveSaveData { get; private set; }
@@ -40,9 +51,8 @@ public class SaveDataManager : MonoBehaviour
         File.WriteAllText(saveDataPath, json);
         json = File.ReadAllText(saveDataPath);
         ActiveSaveData = JsonUtility.FromJson<UserData>(json);
-
-
     }
+
     public bool CheckData()
     {
         saveDataPath = Application.persistentDataPath + "/data.json";
@@ -57,11 +67,11 @@ public class SaveDataManager : MonoBehaviour
         }
     }
 
-    public void SaveInputData()
+    public void SaveInputData(int controllerID)
     {
         PlayerController[] playerControllers = InputManager.Instance.GetPlayerControllers();
         for (int i = 0; i <= playerControllers.Length - 1; i++)
-        { 
+        {
             string json = playerControllers[i].GetPlayerInput().actions.SaveBindingOverridesAsJson();
             // check if theres a save for the ID
             InputUserData inputUserData = ActiveSaveData.InputUserDatas.FirstOrDefault(c => c.ControllerID == playerControllers[i].Id);
@@ -71,7 +81,7 @@ public class SaveDataManager : MonoBehaviour
             }
             else
             {
-                inputUserData = new InputUserData(playerControllers[i].Id,0,json);
+                inputUserData = new InputUserData(playerControllers[i].Id, json);
                 ActiveSaveData.InputUserDatas.Add(inputUserData);
             }
         }
@@ -87,9 +97,33 @@ public class SaveDataManager : MonoBehaviour
         }
         else
         {
-            SaveData(new UserData());
+            CreateNewSave();
+            Debug.Log("Creating data");
         }
         LoadInputData();
+    }
+
+    public void CreateNewSave()
+    {
+        GameSettingsData defaultSettings = new GameSettingsData();
+        defaultSettings = Resources.Load<GameSettings>("DefaultGameSettings").Data;
+        defaultSettings.m_DisplaySettings.Resolutions = GetScreenResolutions();
+        defaultSettings.m_DisplaySettings.ResolutionId = defaultSettings.m_DisplaySettings.Resolutions.Length - 1;
+        SaveData(new UserData(defaultSettings));
+    }
+
+    private Vector2[] GetScreenResolutions()
+    {
+        List<Vector2> resolutionsList = new List<Vector2>();
+        // getting only the 16:9 resolutions
+        foreach (var resolution in Screen.resolutions)
+        {
+            Vector2 resolutionVector = new Vector2(resolution.width, resolution.height);
+            resolutionsList.Add(resolutionVector);
+        }
+
+        Vector2[] resolutions = resolutionsList.ToArray();
+        return resolutions;
     }
 
     public void LoadInputData()
@@ -102,6 +136,7 @@ public class SaveDataManager : MonoBehaviour
             if (inputUserData != null)
             {
                 playerControllers[i].GetPlayerInput().actions.LoadBindingOverridesFromJson(inputUserData.InputMaps);
+                InputAction action = new InputAction();
             }
         }
     }
@@ -111,18 +146,22 @@ public class SaveDataManager : MonoBehaviour
 public class UserData
 {
     public List<InputUserData> InputUserDatas = new List<InputUserData>();
+    
+    public GameSettingsData GameSettings;
+    public UserData(GameSettingsData gameSettings)
+    {
+        GameSettings = gameSettings;
+    }
 }
 
 [System.Serializable]
 public class InputUserData
 {
     public int ControllerID;
-    public int ProfileID;
     public string InputMaps;
-    public InputUserData(int controllerID, int profileID, string inputMaps)
+    public InputUserData(int controllerID, string inputMaps)
     {
         ControllerID = controllerID;
-        ProfileID = profileID;
         InputMaps = inputMaps;
     }
 }

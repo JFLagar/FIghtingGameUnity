@@ -11,7 +11,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
     /// </summary>
     [RequireComponent(typeof(Player))]
     [DefaultExecutionOrder(-1)] // We need this to run before Player to avoid potential additional latency
-    public class PlayerController : MonoBehaviour
+    public class PlayerControllerMappingUI : MonoBehaviour
     {
         [Tooltip("The move action, must generate Vector2")]
         public InputActionReference move;

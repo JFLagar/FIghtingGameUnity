@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -12,6 +13,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
     /// <summary>
     /// A reusable component with a self-contained UI for rebinding a single action.
     /// </summary>
+    [Serializable]
     public class RebindActionUI : MonoBehaviour
     {
         /// <summary>
@@ -25,6 +27,13 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 m_Action = value;
                 UpdateBindingDisplay();
             }
+        }
+
+        public void ClearBinding()
+        {
+            actionReference.action.ApplyBindingOverride(actionReference.action.FindBindingById(m_BindingId), "");
+            SaveInputData();
+            UpdateBindingDisplay();
         }
 
         /// <summary>
@@ -132,6 +141,12 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             return false;
         }
 
+        public bool CheckActionAndBinding(out InputAction action)
+        {
+            action = m_Action?.action;
+            return false;
+        }
+
         /// <summary>
         /// Trigger a refresh of the currently displayed binding.
         /// </summary>
@@ -177,9 +192,18 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 action.RemoveBindingOverride(bindingIndex);
             }
             UpdateBindingDisplay();
-            SaveDataManager.Instance.SaveInputData();
+            SaveInputData();
         }
 
+        public bool CheckForSharedBindings(InputControl control, out RebindActionUI otherAction)
+        {
+            List<RebindActionUI> rebindActions = s_RebindActionUIs.Where(c => c.PlayerController == PlayerController).ToList();
+            string controlString = control.path.Split('/').Last();
+
+            otherAction = rebindActions.FirstOrDefault(c => c.m_Action.action.bindings.Any(b => b.effectivePath.Split('/').Last() == controlString));
+
+            return otherAction != null;
+        }
         /// <summary>
         /// Attempts to swap associated binding of this instance with another instance.
         /// </summary>
@@ -188,10 +212,10 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         /// <returns>true if successfully swapped, else false.</returns>
         public void SwapBinding(RebindActionUI other)
         {
+            if (other == null)
+                return;
             if (this == other)
                 return; // Silently ignore any request to swap binding with itself
-            if (ongoingRebind != null || other.ongoingRebind != null)
-                throw new Exception("Cannot swap bindings when interactive rebinding is ongoing");
             if (!ResolveActionAndBinding(out var action, out var bindingIndex))
                 throw new Exception("Failed to resolve action and binding index");
             if (!other.ResolveActionAndBinding(out var otherAction, out var otherBindingIndex))
@@ -210,6 +234,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         /// </summary>
         public void StartInteractiveRebind()
         {
+
             if (!ResolveActionAndBinding(out var action, out var bindingIndex))
                 return;
 
@@ -228,9 +253,10 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
         private void PerformInteractiveRebind(InputAction action, int bindingIndex, bool allCompositeParts = false)
         {
+            m_controllingPlayer.GetPlayerInput().SwitchCurrentActionMap("Controls");
             m_RebindOperation?.Cancel(); // Will null out m_RebindOperation.
 
-            // Extract enabled state to allow restoring enabled state after rebind completes
+            // Extract enabled state to allow resto+ring enabled state after rebind completes
             var actionWasEnabledPriorToRebind = action.enabled;
 
             void CleanUp()
@@ -241,6 +267,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 // Restore action enabled state based on state prior to rebind
                 if (actionWasEnabledPriorToRebind)
                     action.actionMap.Enable();
+                m_controllingPlayer.GetPlayerInput().SwitchCurrentActionMap("Menu");
             }
 
             // An "InvalidOperationException: Cannot rebind action x while it is enabled" will
@@ -273,13 +300,23 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 .WithActionEventNotificationsBeingSuppressed()
                 // We use a timeout to illustrate that its possible to skip cancel buttons and let rebind timeout.
                 .WithTimeout(m_RebindTimeout)
+                .OnPotentialMatch(
+                    (op) =>
+                    {
+                        //Check if the new bind has another action
+                        if (CheckForSharedBindings(op.candidates.First(), out var otherAction))
+                        {
+                            SwapBinding(otherAction);
+                        }
+                    }
+                )
                 .OnComplete(
                     operation =>
                     {
                         m_RebindStopEvent?.Invoke(this, operation);
                         UpdateBindingDisplay();
                         CleanUp();
-                        SaveDataManager.Instance.SaveInputData();
+                        SaveInputData();
                         // If there's more composite parts we should bind, initiate a rebind
                         // for the next part.
                         if (allCompositeParts)
@@ -322,6 +359,12 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             m_RebindOperation?.Cancel();
         }
 
+        private void SaveInputData()
+        {
+            Debug.Log("UIRebind: " + m_controllingPlayer.GetPlayerInput().actions.SaveBindingOverridesAsJson());
+            SaveDataManager.Instance.SaveInputData(m_controllingPlayer.Id);
+        }
+
         protected void OnEnable()
         {
             if (s_RebindActionUIs == null)
@@ -329,6 +372,8 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             s_RebindActionUIs.Add(this);
             if (s_RebindActionUIs.Count == 1)
                 InputSystem.onActionChange += OnActionChange;
+            m_parentUI = GetComponentInParent<InputMappingUI>();
+            m_controllingPlayer = m_parentUI.GetPlayerController();
             UpdateBindingDisplay();
         }
 
@@ -413,15 +458,20 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         private double m_RebindStartTime = -1;
         private int m_LastRemainingTimeoutSeconds;
 
+        private PlayerController m_controllingPlayer;
+        private InputMappingUI m_parentUI;
+
+        public PlayerController PlayerController { get => m_controllingPlayer; }
+
         // We want the label for the action name to update in edit mode, too, so
         // we kick that off from here.
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         protected void OnValidate()
         {
             UpdateBindingDisplay();
         }
 
-        #endif
+#endif
 
 
         [Serializable]

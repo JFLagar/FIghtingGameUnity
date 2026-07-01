@@ -4,19 +4,13 @@ using SkillIssue.CharacterSpace;
 using TMPro;
 using DG.Tweening;
 using NaughtyAttributes;
+using System.ComponentModel;
 
-public class UIBehaviour : MonoBehaviour
+public class BattleUI : MonoBehaviour
 {
-    [SerializeField]
     Player[] players;
     [SerializeField]
-    Slider[] sliders;
-    [SerializeField]
-    Slider[] elementSliders;
-    [SerializeField]
-    Image[] elementIcon;
-    [SerializeField]
-    Sprite[] elementSprites;
+    Slider[] HpSliders;
     [SerializeField]
     TextMeshProUGUI[] comboDisplays;
     [SerializeField]
@@ -24,15 +18,11 @@ public class UIBehaviour : MonoBehaviour
     [SerializeField]
     float timer = 99;
     [SerializeField]
-    TextMeshProUGUI debug;
+    TextMeshProUGUI recoveryDebugText;
     [SerializeField]
-    Image[] p1RoundsIcons, p2RoundsIcons;
+    RoundsContainer[] roundsContainers;
     [SerializeField]
-    RectTransform pauseUI;
-    [SerializeField]
-    Button characterSelect;
-    [SerializeField]
-    RectTransform characterSelectUI;
+    MenuUI pauseUI;
 
     [SerializeField]
     Image fadePanel;
@@ -42,39 +32,39 @@ public class UIBehaviour : MonoBehaviour
 
     bool roundActive = false;
 
+    bool isInitialized = false;
+
 
     // Start is called before the first frame update
     public void Initialize()
     {
         players = Managers.Instance.GameManager.GetPlayers();
-        for (int i = 0; i < sliders.Length; i++)
+        UserData saveData = SaveDataManager.Instance.ActiveSaveData;
+        int rounds = saveData.GameSettings.m_BattleSettings.ActiveRoundsNo;
+        for (int i = 0; i < HpSliders.Length; i++)
         {
-            sliders[i].maxValue = players[i].GetMaxHealth();
-            sliders[i].value = players[i].CurrentHealth;
+            HpSliders[i].maxValue = players[i].GetMaxHealth();
+            HpSliders[i].value = players[i].CurrentHealth;
         }
-
-        // TO implement
-        //if (Managers.Instance.GameManager.IsTrainingModeOn)
-        //{
-        //    characterSelect.gameObject.SetActive(true);
-        //}
-        //else
-        //{
-        //    characterSelect.gameObject.SetActive(false);
-        //}
-
+        foreach (RoundsContainer container in roundsContainers)
+        {
+            container.CreateRounds(rounds);
+        }
+        isInitialized = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!isInitialized)
+            Managers.Instance.GameManager.SetBattleUI(this);
         if (!roundActive || Managers.Instance.GameManager.IsTrainingModeOn)
             return;
         timer -= Time.deltaTime;
         timerText.text = Mathf.FloorToInt(timer).ToString();
         if (timer <= 0)
         {
-            if(sliders[0].value > sliders[1].value)
+            if(HpSliders[0].value > HpSliders[1].value)
             {
                 AddScore(0);
             }
@@ -83,14 +73,13 @@ public class UIBehaviour : MonoBehaviour
                 AddScore(1);
             }
         }
-    
     }
 
     public void ResetAll()
     {
         timer = 99;
         timerText.text = Mathf.FloorToInt(timer).ToString();
-        foreach (Slider slider in sliders)
+        foreach (Slider slider in HpSliders)
         {
             slider.value = slider.maxValue;
         }
@@ -98,7 +87,6 @@ public class UIBehaviour : MonoBehaviour
         {
             player.ResetPlayer();
         }
-        if (player1WonRounds == p1RoundsIcons.Length || player2WonRounds == p2RoundsIcons.Length)
             ResetScores();
     }
 
@@ -119,6 +107,7 @@ public class UIBehaviour : MonoBehaviour
     {
         Managers.Instance.InputManager.SwitchToMap("Controls");
         pauseUI.gameObject.SetActive(false);
+        pauseUI.CloseUIElements();
     }
 
     public void MainMenu()
@@ -132,45 +121,10 @@ public class UIBehaviour : MonoBehaviour
         Managers.Instance.GameManager.EndGame();
     }
 
-    public void OpenCharacterSelect()
-    {
-        AudioManager.instance.PlaySoundEffect(0);
-        pauseUI.gameObject.SetActive(false);
-        characterSelectUI.gameObject.SetActive(true);
-        elementSliders[0].Select();
-
-    }
-
-    public void CloseCharacterSelect()
-    {
-        AudioManager.instance.PlaySoundEffect(0);
-        pauseUI.gameObject.SetActive(true);
-        characterSelectUI.gameObject.SetActive(false);
-        characterSelect.Select();
-    }
-
-    public void OnElementSliderChange(bool isP2Slider)
-    {
-        AudioManager.instance.PlaySoundEffect(0);
-        int playerId = isP2Slider ? 1 : 0;
-        switch (elementSliders[playerId].value)
-        {
-            //Here add to the local persistence manager which character 
-            case 0:
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-        }
-    }
-
     public void UpdateHealth(int playerId, float value)
     {
-        sliders[playerId].value = value;
-        if (sliders[playerId].value <= 0)
+        HpSliders[playerId].value = value;
+        if (HpSliders[playerId].value <= 0)
         {
             if (playerId == 0)
             {
@@ -210,35 +164,17 @@ public class UIBehaviour : MonoBehaviour
 
     private void UpdateScores()
     {
-        for (int rounds = 0; rounds < player1WonRounds; rounds++)
-        {
-            if (player1WonRounds > p1RoundsIcons.Length)
-            {
-                return;
-            }
-            p1RoundsIcons[rounds].enabled = true;
-        }
-        for (int rounds = 0; rounds < player2WonRounds; rounds++)
-        {
-            if (player2WonRounds > p2RoundsIcons.Length)
-            {
-                return;
-            }
-            p2RoundsIcons[rounds].enabled = true;
-        }
+        roundsContainers[0].UpdateRounds(player1WonRounds);
+        roundsContainers[1].UpdateRounds(player2WonRounds);
     }
 
     private void ResetScores()
     {
         player1WonRounds = 0;
         player2WonRounds = 0;
-        foreach (var icon in p1RoundsIcons)
+        foreach(RoundsContainer container in roundsContainers)
         {
-            icon.enabled = false;
-        }
-        foreach (var icon in p2RoundsIcons)
-        {
-            icon.enabled = false;
+            container.ResetRounds();
         }
     }
 

@@ -1,7 +1,6 @@
 ﻿using SkillIssue.CharacterSpace;
 using System;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
@@ -11,9 +10,12 @@ public class PlayerController : MonoBehaviour
     public int Id;
     [SerializeField]
     private Player assignedPlayer;
-    public Action<InputAction.CallbackContext, PlayerController> _startAction;
+    public Action<PlayerController> _startAction;
+    public Action<int> _UINavigation;
+    public Action _clearInput;
     [SerializeField]
     private MultiplayerEventSystem eventSystem;
+    private InputDevice controllingDevice;
 
     public void Initialize(Player player, int playerId)
     {
@@ -24,6 +26,16 @@ public class PlayerController : MonoBehaviour
     public PlayerInput GetPlayerInput()
     {
         return GetComponent<PlayerInput>();
+    }
+
+    public void SetInputDevice(InputDevice device)
+    {
+        controllingDevice = device;
+    }
+
+    public InputDevice GetControllingDevice()
+    {
+        return controllingDevice;
     }
 
     public void SetMainController()
@@ -47,79 +59,134 @@ public class PlayerController : MonoBehaviour
     {
         if (cxt.phase == InputActionPhase.Started)
             return;
-        assignedPlayer.GetInputHandler().UpButton(cxt);
+        if (assignedPlayer != null)
+            assignedPlayer.GetInputHandler().UpButton(cxt);
     }
 
     public void DownButton(InputAction.CallbackContext cxt)
     {
         if (cxt.phase == InputActionPhase.Started)
             return;
-        assignedPlayer.GetInputHandler().DownButton(cxt);
+        if (assignedPlayer != null)
+            assignedPlayer.GetInputHandler().DownButton(cxt);
     }
 
     public void LeftButton(InputAction.CallbackContext cxt)
     {
         if (cxt.phase == InputActionPhase.Started)
             return;
-        assignedPlayer.GetInputHandler().LeftButton(cxt);
+        if (assignedPlayer != null)
+            assignedPlayer.GetInputHandler().LeftButton(cxt);
     }
 
     public void RightButton(InputAction.CallbackContext cxt)
     {
         if (cxt.phase == InputActionPhase.Started)
             return;
-        assignedPlayer.GetInputHandler().RightButton(cxt);
+        if (assignedPlayer != null)
+            assignedPlayer.GetInputHandler().RightButton(cxt);
     }
 
     public void LightButton(InputAction.CallbackContext cxt)
     {
-        assignedPlayer.GetInputHandler().LightButton(cxt);
+        if (assignedPlayer != null)
+            assignedPlayer.GetInputHandler().LightButton(cxt);
     }
 
     public void MediumButton(InputAction.CallbackContext cxt)
     {
-        assignedPlayer.GetInputHandler().MediumButton(cxt);
+        if (assignedPlayer != null)
+            assignedPlayer.GetInputHandler().MediumButton(cxt);
     }
 
     public void HeavyButton(InputAction.CallbackContext cxt)
     {
-        assignedPlayer.GetInputHandler().HeavyButton(cxt);
+        if (assignedPlayer != null)
+            assignedPlayer.GetInputHandler().HeavyButton(cxt);
     }
 
     public void UniqueButton(InputAction.CallbackContext cxt)
     {
-        assignedPlayer.GetInputHandler().UniqueButton(cxt);
+        if (assignedPlayer != null)
+            assignedPlayer.GetInputHandler().UniqueButton(cxt);
     }
     public void LMButton(InputAction.CallbackContext cxt)
     {
-        assignedPlayer.GetInputHandler().LMButton(cxt);
+        if (assignedPlayer != null)
+            assignedPlayer.GetInputHandler().LMButton(cxt);
     }
 
     public void LMHButton(InputAction.CallbackContext cxt)
     {
-        assignedPlayer.GetInputHandler().LMHButton(cxt);
+        if (assignedPlayer != null)
+            assignedPlayer.GetInputHandler().LMHButton(cxt);
     }
 
     public void LMHUButton(InputAction.CallbackContext cxt)
     {
-        assignedPlayer.GetInputHandler().LMHUButton(cxt);
+        if (assignedPlayer != null)
+            assignedPlayer.GetInputHandler().LMHUButton(cxt);
     }
 
     public void LUButton(InputAction.CallbackContext cxt)
     {
-        assignedPlayer.GetInputHandler().LUButton(cxt);
+        if (assignedPlayer != null)
+            assignedPlayer.GetInputHandler().LUButton(cxt);
     }
 
     public void MHButton(InputAction.CallbackContext cxt)
     {
-        assignedPlayer.GetInputHandler().MHButton(cxt);
+        if (assignedPlayer != null)
+            assignedPlayer.GetInputHandler().MHButton(cxt);
     }
 
-    public void StatButton(InputAction.CallbackContext cxt)
+    public void StartUIButton(InputAction.CallbackContext cxt)
     {
-        if (_startAction == null) 
+        if (_startAction == null)
             return;
         if (cxt.phase == InputActionPhase.Started)
-            _startAction.Invoke(cxt, this);
+            _startAction.Invoke(this);
+    }
+
+    public void StartButton(InputAction.CallbackContext cxt)
+    {
+        if (cxt.phase != InputActionPhase.Started)
+            return;
+        if (assignedPlayer != null)
+        {
+            assignedPlayer.GetInputHandler().StartButton(cxt, this);
+        }
+    }
+
+    public void SelectButton(InputAction.CallbackContext cxt)
+    {
+        if (cxt.phase != InputActionPhase.Started)
+            return;
+        if (assignedPlayer != null)
+        {
+            assignedPlayer.GetInputHandler().SelectButton(cxt);
+        }
+    }
+
+    public void UINavigation(InputAction.CallbackContext cxt)
+    {
+        if (_UINavigation == null)
+            return;
+        if (cxt.ReadValue<Vector2>().y != 0)
+            return;
+        if (cxt.ReadValue<Vector2>().x != 0)
+        {
+            _UINavigation.Invoke((int)cxt.ReadValue<Vector2>().x);
+        }
+    }
+
+    public void ClearInput(InputAction.CallbackContext cxt)
+    {
+        if (cxt.phase == InputActionPhase.Performed)
+        {
+            if (_clearInput == null)
+                return;
+            _clearInput.Invoke();
+        }
     }
 }

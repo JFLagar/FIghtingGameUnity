@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
 
     public void BackToMenu()
     {
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene(1);
     }
 
     public void PauseGame(PlayerController controller)

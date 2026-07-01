@@ -22,7 +22,7 @@ public class BattleUI : MonoBehaviour
     [SerializeField]
     RoundsContainer[] roundsContainers;
     [SerializeField]
-    RectTransform pauseUI;
+    MenuUI pauseUI;
 
     [SerializeField]
     Image fadePanel;
@@ -107,6 +107,7 @@ public class BattleUI : MonoBehaviour
     {
         Managers.Instance.InputManager.SwitchToMap("Controls");
         pauseUI.gameObject.SetActive(false);
+        pauseUI.CloseUIElements();
     }
 
     public void MainMenu()

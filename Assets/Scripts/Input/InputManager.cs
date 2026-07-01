@@ -125,11 +125,16 @@ public class InputManager : MonoBehaviour
         switch (id)
         {
             case 0:
-                player1Controller.Initialize(activePlayers[id], id);
+                if (player1Controller != null)
+                    player1Controller.Initialize(activePlayers[id], id);
+                else
+                    activePlayers[id].Initialize(null);
                 break;
             case 1:
-
-                player2Controller.Initialize(activePlayers[id], id);
+                if (player2Controller != null)
+                    player2Controller.Initialize(activePlayers[id], id);
+                else
+                    activePlayers[id].Initialize(null);
                 break;
         }
     }

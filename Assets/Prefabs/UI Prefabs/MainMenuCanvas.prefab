@@ -644,6 +644,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControllerContainerUI
   controllerImage: {fileID: 1541494672007818100}
+  position: 0
 --- !u!1 &1663291336504190672
 GameObject:
   m_ObjectHideFlags: 0
@@ -1446,6 +1447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControllerContainerUI
   controllerImage: {fileID: 6705562809531014730}
+  position: 0
 --- !u!1 &3338726333632646747
 GameObject:
   m_ObjectHideFlags: 0
@@ -1563,6 +1565,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControllerContainerUI
   controllerImage: {fileID: 2164160014761949031}
+  position: 0
 --- !u!1 &4344806144306214996
 GameObject:
   m_ObjectHideFlags: 0
@@ -1613,6 +1616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControllerContainerUI
   controllerImage: {fileID: 8590090616894355777}
+  position: 0
 --- !u!1 &5483301578579295105
 GameObject:
   m_ObjectHideFlags: 0
@@ -1663,6 +1667,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControllerContainerUI
   controllerImage: {fileID: 9030116529853114968}
+  position: 0
 --- !u!1 &6395981766928218420
 GameObject:
   m_ObjectHideFlags: 0
@@ -1964,8 +1969,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6888957329012902511}
-        m_TargetAssemblyTypeName: MainMenuUI, Assembly-CSharp
+      - m_Target: {fileID: 8889157959516923660}
+        m_TargetAssemblyTypeName: ControllerDisplayUI, Assembly-CSharp
         m_MethodName: StartGame
         m_Mode: 1
         m_Arguments:
@@ -2309,6 +2314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControllerContainerUI
   controllerImage: {fileID: 8687278191460104534}
+  position: 0
 --- !u!1 &7657978392316758090
 GameObject:
   m_ObjectHideFlags: 0

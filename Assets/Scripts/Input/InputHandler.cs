@@ -130,7 +130,8 @@ namespace SkillIssue.Inputs
             leftButton.SetInputHandler(this);
             rightButton.SetInputHandler(this);
 
-            PlayerInput = controller.GetPlayerInput();
+            if (controller != null)
+                PlayerInput = controller.GetPlayerInput();
             motionInputs = gameManager.GetCombatValues().GetMotionInputs();
         }
 

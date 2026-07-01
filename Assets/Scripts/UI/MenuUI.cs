@@ -26,13 +26,14 @@ public class MenuUI : MonoBehaviour , IMenuUI
         InputManager.Instance.GetMainPlayerController().SelectUIElement(selectables[id]);
     }
 
-    public virtual void CloseUIElements(Selectable selectable)
+    public virtual void CloseUIElements(Selectable selectable = null)
     {
         foreach (RectTransform transform in uiElements)
         {
             transform.gameObject.SetActive(false);
         }
-        selectable.Select();
+        if (selectable != null)
+            selectable.Select();
     }
 }
 

@@ -1,18 +1,23 @@
 using DG.Tweening;
+using NaughtyAttributes;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ControllerContainerUI : MonoBehaviour
 {
     [SerializeField]
     Image controllerImage;
+    [ReadOnly]
+    [SerializeField]
     int position = 0;
     ControllerDisplayUI controllerDisplayUI;
     PlayerController playerController;
 
     public void SubscribeToEvent(PlayerController controller, ControllerDisplayUI parent)
     {
+        position = 0;
         playerController = controller;
         controllerImage.gameObject.SetActive(true);
         controller._UINavigation += SetController;
@@ -24,6 +29,11 @@ public class ControllerContainerUI : MonoBehaviour
         return playerController;
     }
 
+    public int GetPosition()
+    {
+        return position;
+    }
+
     public void UnsubscribeToEvent(PlayerController controller)
     {
         controller._UINavigation -= SetController;
@@ -31,37 +41,27 @@ public class ControllerContainerUI : MonoBehaviour
 
     public void SetController(int direction)
     {
-        position = CalculatePosition(direction);
-        switch (position)
+         int calcPosition = CalculatePosition(direction);
+        switch (calcPosition)
         { case -1:
                 if (controllerDisplayUI.GetP1Controller() != null)
                 {
-                    position = 0;
-                    return;
+                    calcPosition = 0;
                 }
-                controllerDisplayUI.SetController(this,true);
                 break;
             case 1:
                 if (controllerDisplayUI.GetP2Controller() != null)
                 {
-                    position = 0;
-                    return;
+                    calcPosition = 0;
+
                 }
-                controllerDisplayUI.SetController(this, false);
                 break;
             case 0:
-                if (controllerDisplayUI.GetP1Controller() == this)
-                {
-                    controllerDisplayUI.SetController(null, true);
-                }
-                if (controllerDisplayUI.GetP2Controller() == this)
-                {
-                    controllerDisplayUI.SetController(null, false);
-                }
                 break;
         }
         
-        controllerImage.transform.DOLocalMove(new Vector3(position * 100, 0,0), 0.2f);
+        controllerImage.transform.localPosition = new Vector3(calcPosition * 100, 0,0);
+        position = calcPosition;
     }
 
     private int CalculatePosition(int direction)

@@ -10,12 +10,6 @@ public class MainMenuUI : MenuUI
         OpenUIElement(0);
     }
 
-    public void StartGame()
-    {
-        if (InputManager.Instance.AnyActivePlayers())
-        SceneManager.LoadScene(2);
-    }
-
     public void QuitButton()
     {
         Application.Quit();

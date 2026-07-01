@@ -1,4 +1,7 @@
+using DG.Tweening;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ControllerDisplayUI : MonoBehaviour
 {
@@ -17,21 +20,27 @@ public class ControllerDisplayUI : MonoBehaviour
 
     public ControllerContainerUI GetP1Controller()
     {
+        p1Controller = controllers.FirstOrDefault(c => c.GetPosition() == -1);
         return p1Controller;
     }
 
     public ControllerContainerUI GetP2Controller()
     {
+        p2Controller = controllers.FirstOrDefault(c => c.GetPosition() == 1);
         return p2Controller;
     }
 
-    public void SetController(ControllerContainerUI controller, bool isP1)
+    public void StartGame()
     {
-        if (isP1)
-            p1Controller = controller;
-        else
-            p2Controller = controller;
-        InputManager.Instance.SetPlayerController(controller.GetPlayerController(), isP1);
+        GetP1Controller();
+        if (p1Controller != null)
+            InputManager.Instance.SetPlayerController(p1Controller.GetPlayerController(), true);
+        GetP2Controller();
+        if (p2Controller != null)
+            InputManager.Instance.SetPlayerController(p2Controller.GetPlayerController(), false);
+
+        if (InputManager.Instance.AnyActivePlayers())
+            SceneManager.LoadScene(2);
     }
 
     private void OnDisable()

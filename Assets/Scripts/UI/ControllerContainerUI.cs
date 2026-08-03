@@ -21,6 +21,7 @@ public class ControllerContainerUI : MonoBehaviour
         playerController = controller;
         controllerImage.gameObject.SetActive(true);
         controller._UINavigation += SetController;
+        controller._UICancel += CancelScreen;
         controllerDisplayUI = parent;
     }
 
@@ -37,6 +38,12 @@ public class ControllerContainerUI : MonoBehaviour
     public void UnsubscribeToEvent(PlayerController controller)
     {
         controller._UINavigation -= SetController;
+        controller._UICancel -= CancelScreen;
+    }
+
+    public void CancelScreen()
+    {
+        controllerDisplayUI.CancelControllerDisplay();
     }
 
     public void SetController(int direction)
@@ -44,13 +51,13 @@ public class ControllerContainerUI : MonoBehaviour
          int calcPosition = CalculatePosition(direction);
         switch (calcPosition)
         { case -1:
-                if (controllerDisplayUI.GetP1Controller() != null)
+                if (controllerDisplayUI.GetP1Controller() != null && position != calcPosition)
                 {
                     calcPosition = 0;
                 }
                 break;
             case 1:
-                if (controllerDisplayUI.GetP2Controller() != null)
+                if (controllerDisplayUI.GetP2Controller() != null && position != calcPosition)
                 {
                     calcPosition = 0;
 

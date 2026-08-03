@@ -9,6 +9,8 @@ public class ControllerDisplayUI : MonoBehaviour
     ControllerContainerUI[] controllers;
     ControllerContainerUI p1Controller;
     ControllerContainerUI p2Controller;
+    [SerializeField]
+    MainMenuUI mainMenuUI;
 
     private void OnEnable()
     {
@@ -41,6 +43,11 @@ public class ControllerDisplayUI : MonoBehaviour
 
         if (InputManager.Instance.AnyActivePlayers())
             SceneManager.LoadScene(2);
+    }
+
+    public void CancelControllerDisplay()
+    {
+        mainMenuUI.OpenUIElement(0);
     }
 
     private void OnDisable()

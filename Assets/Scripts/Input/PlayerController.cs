@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     private Player assignedPlayer;
     public Action<PlayerController> _startAction;
     public Action<int> _UINavigation;
-    public Action _clearInput;
+    public Action _clearInput, _UICancel;
     [SerializeField]
     private MultiplayerEventSystem eventSystem;
     private InputDevice controllingDevice;
@@ -172,12 +172,20 @@ public class PlayerController : MonoBehaviour
     {
         if (_UINavigation == null)
             return;
-        if (cxt.ReadValue<Vector2>().y != 0)
-            return;
         if (cxt.ReadValue<Vector2>().x != 0)
         {
+            Debug.Log(cxt.ReadValue<Vector2>().x);
             _UINavigation.Invoke((int)cxt.ReadValue<Vector2>().x);
         }
+    }
+
+    public void UICancel(InputAction.CallbackContext cxt)
+    {
+        if (_UICancel == null)
+            return;
+        if (cxt.phase != InputActionPhase.Started)
+            return;
+        _UICancel.Invoke();
     }
 
     public void ClearInput(InputAction.CallbackContext cxt)

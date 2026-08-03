@@ -1925,6 +1925,7 @@ MonoBehaviour:
   - {fileID: 5583246035405603103}
   - {fileID: 5440173314769698451}
   - {fileID: 7450645806743194216}
+  mainMenuUI: {fileID: 6888957329012902511}
 --- !u!114 &8094173897979494935
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -315,10 +315,14 @@ MonoBehaviour:
     m_ActionId: 9c45ac24-7988-487d-a045-ef2c8af5f53d
     m_ActionName: 'Controls/Right[/XInputControllerWindows/dpad/right,/XInputControllerWindows1/dpad/right,/Keyboard/d,/XInputControllerWindows/leftStick/right,/XInputControllerWindows1/leftStick/right]'
   - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 40e9f42c-c80f-4e0f-bc3d-52f8b3007663
+    m_ActionName: 'Menu/UIConfirm[/Keyboard/j]'
+  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6086242405267076488}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: ConfirmButton
+        m_MethodName: UICancel
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -328,10 +332,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 40e9f42c-c80f-4e0f-bc3d-52f8b3007663
-    m_ActionName: 'Menu/UIConfirm[/Keyboard/j]'
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: 5ae42e26-d252-4aa8-8dfb-98587edd2491
     m_ActionName: 'Menu/UICancel[/Keyboard/u]'
   - m_PersistentCalls:

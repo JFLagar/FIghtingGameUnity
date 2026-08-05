@@ -1,7 +1,10 @@
+using NaughtyAttributes;
+using System.Collections.Generic;
 using SkillIssue;
-using UnityEngine;
-using SkillIssue.Inputs;
 using SkillIssue.Animations;
+using SkillIssue.Inputs;
+using UnityEditor;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "CharacterData", menuName = "Scriptable Objects/CharacterData")]
 public class CharacterData : ScriptableObject
@@ -22,6 +25,8 @@ public class CharacterData : ScriptableObject
     float jumpForce = 1;
     [SerializeField]
     float gravity = 1;
+    [SerializeField]
+    private GameObject fbxAsset;
 
     [Space]
 
@@ -29,17 +34,18 @@ public class CharacterData : ScriptableObject
     CharacterAttackData attackData;
 
     [SerializeField]
+    [ReadOnly]
     CharacterAnimationsData characterAnimationsData;
 
     public CharacterModel GetCharacterModel() { return characterModel; }
-    public string GetCharacterName() {  return characterName; }
+    public string GetCharacterName() { return characterName; }
     public int GetMaxHP() { return maxHP; }
     public float GetMovementSpeed() { return speed; }
-    public float GetRunSpeed() {  return runSpeed; }
+    public float GetRunSpeed() { return runSpeed; }
     public int GetAirActions() { return airActions; }
     public AttackData[] GetGrabData() { return attackData.grabs; }
     public AttackData[] GetStandingAttacks() { return attackData.standingAttacks; }
-    public AttackData[] GetCrouchingAttacks() {  return attackData.crouchingAttacks; }
+    public AttackData[] GetCrouchingAttacks() { return attackData.crouchingAttacks; }
     public AttackData[] GetJumpAttacks() { return attackData.jumpingAttacks; }
     public AttackData[] GetForwardAttacks() { return attackData.forwardAttacks; }
     public AttackData[] GetSpecialAttacks() { return attackData.specialAttacks; }
@@ -74,8 +80,33 @@ public class CharacterData : ScriptableObject
         foreach (AttackData special in GetSpecialAttacks())
         {
             if (special.GetMotionInput() == motion && special.GetInputType() == inputType)
-               return special;
+                return special;
         }
         return null;
+    }
+
+    [Button]
+    void GenerateAnimationData()
+    {
+        CharacterAnimationsData animations = new CharacterAnimationsData();
+        AssetDatabase.CreateAsset(animations, $"Assets/ScripteableObjects/{characterName}/{characterName}AnimationsData.asset");
+        // Load Animations from FBX
+        string assetPath = AssetDatabase.GetAssetPath(fbxAsset);
+        Object[] assets = AssetDatabase.LoadAllAssetsAtPath(assetPath);
+        List<AnimationClip> clips = new List<AnimationClip>();
+        foreach (Object asset in assets)
+        {
+            if (asset is AnimationClip)
+            {
+                clips.Add(asset as AnimationClip);
+            }
+        }
+        foreach (AnimationClip clip in clips)
+        {
+            AnimationData animationData = new AnimationData();
+            animationData.name = clip.name.Split("|")[1];
+            AssetDatabase.CreateAsset(animationData, $"Assets/ScripteableObjects/{characterName}/{characterName}Animations/{animationData.name}.asset");
+        }
+        characterAnimationsData = animations;
     }
 }

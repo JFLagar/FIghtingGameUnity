@@ -12,13 +12,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ab23fea85b9ef47afd35d01e3ca97f, type: 3}
   m_Name: ProtoAnimationsData
   m_EditorClassIdentifier: Assembly-CSharp::SkillIssue.Animations.CharacterAnimationsData
-  standingClips: []
-  jumpingClips: []
-  crouchingClip: {fileID: 0}
-  hitClips: []
-  stateTransitionClips: []
-  wakeupClips: []
-  recoveryClips: []
-  cancelClips: []
-  blockingClips: []
-  blockBreakClips: []
+  standingClips:
+  - {fileID: 11400000, guid: 0319395d548eb3147b661b591c1d7bab, type: 2}
+  - {fileID: 11400000, guid: 58fd3c6953faa3c42b5ae33b20e82bfd, type: 2}
+  - {fileID: 11400000, guid: b4d2b685064771f4da25ff744445d373, type: 2}
+  - {fileID: 11400000, guid: 1c4534a45731a6c4280a8ae76672fedd, type: 2}
+  - {fileID: 11400000, guid: 3cdeaa1cf5450984588c3c674fe9bfb0, type: 2}
+  jumpingClips:
+  - {fileID: 11400000, guid: 3003b95dcf4fa1949b47e3cbe528447e, type: 2}
+  - {fileID: 11400000, guid: 52d8369a512ea394a9fdee528305ca7a, type: 2}
+  - {fileID: 11400000, guid: bc32667aa49b85c489ff31f8fc43209b, type: 2}
+  - {fileID: 11400000, guid: a09c61370260ece48aa216cce251e483, type: 2}
+  crouchingClip: {fileID: 11400000, guid: bfa758eb1d41e7d4fb27e3884477dbb8, type: 2}
+  hitClips:
+  - {fileID: 11400000, guid: ffdc81e9dc444074590e39b661038796, type: 2}
+  - {fileID: 11400000, guid: 74452eff8e135194d9074c97feed1c55, type: 2}
+  - {fileID: 11400000, guid: 0b2d3bec822758342bc2dfb32a153d77, type: 2}
+  - {fileID: 11400000, guid: 8692ec147b3b02d46ade48c60b17d878, type: 2}
+  - {fileID: 11400000, guid: 3a7b79a220098de4188455718714f8be, type: 2}
+  - {fileID: 11400000, guid: 0343e216e84e56745b479da5668fe288, type: 2}
+  - {fileID: 11400000, guid: 7674f6293d22f4947a3598bd0082a4ef, type: 2}
+  - {fileID: 11400000, guid: f8807858b6ddf7c4badac8b0147701d9, type: 2}
+  stateTransitionClips:
+  - {fileID: 11400000, guid: 574a60cad9ec0bf4a89be1d299f258f6, type: 2}
+  - {fileID: 11400000, guid: 394da4974d2dccd41bf7876bc174ed7c, type: 2}
+  wakeupClips:
+  - {fileID: 11400000, guid: eb4764f418fc70341bc312473e89f08f, type: 2}
+  - {fileID: 11400000, guid: 64ffa82aa6198f94fb2290f0af58235a, type: 2}
+  recoveryClips:
+  - {fileID: 11400000, guid: 7a390e38d9836094f8f2cc71aa68adf8, type: 2}
+  - {fileID: 11400000, guid: 687ed25a41149004fbbde5d0881e20f1, type: 2}
+  cancelClips:
+  - {fileID: 11400000, guid: abb243324c32ed149bb6704a413629a7, type: 2}
+  - {fileID: 11400000, guid: ce226506259238847b6aee5c029408b9, type: 2}
+  blockingClips:
+  - {fileID: 11400000, guid: 119627b0f8684dc42aceca623c7870e3, type: 2}
+  - {fileID: 11400000, guid: 94273791d44d2624893c650e253ab7c8, type: 2}
+  - {fileID: 11400000, guid: e4dcc254fd9586b4aa5123efea51b906, type: 2}
+  blockBreakClips:
+  - {fileID: 11400000, guid: 98f7968c08a9af242acc71b3e96bf644, type: 2}
+  - {fileID: 11400000, guid: d40dc22edc2c61047b9e7600d7eaa767, type: 2}
+  - {fileID: 11400000, guid: d454b24d57799f447b549e6de343fbca, type: 2}

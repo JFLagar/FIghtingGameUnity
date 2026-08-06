@@ -1,8 +1,9 @@
 using NaughtyAttributes;
-using System.Collections.Generic;
 using SkillIssue;
 using SkillIssue.Animations;
 using SkillIssue.Inputs;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -34,7 +35,6 @@ public class CharacterData : ScriptableObject
     CharacterAttackData attackData;
 
     [SerializeField]
-    [ReadOnly]
     CharacterAnimationsData characterAnimationsData;
 
     public CharacterModel GetCharacterModel() { return characterModel; }
@@ -89,24 +89,51 @@ public class CharacterData : ScriptableObject
     void GenerateAnimationData()
     {
         CharacterAnimationsData animations = new CharacterAnimationsData();
-        AssetDatabase.CreateAsset(animations, $"Assets/ScripteableObjects/{characterName}/{characterName}AnimationsData.asset");
+
         // Load Animations from FBX
         string assetPath = AssetDatabase.GetAssetPath(fbxAsset);
         Object[] assets = AssetDatabase.LoadAllAssetsAtPath(assetPath);
         List<AnimationClip> clips = new List<AnimationClip>();
+        List<AnimationData> animationDatas = new List<AnimationData>();
         foreach (Object asset in assets)
         {
-            if (asset is AnimationClip)
+            if (asset is AnimationClip && !asset.name.Contains("preview"))
             {
                 clips.Add(asset as AnimationClip);
             }
         }
+
         foreach (AnimationClip clip in clips)
         {
+            int actionID = 0;
+            int animationID = 0;
             AnimationData animationData = new AnimationData();
             animationData.name = clip.name.Split("|")[1];
+            System.Int32.TryParse(animationData.name.Split(".")[0], out actionID);
+            System.Int32.TryParse(animationData.name.Split(".")[1], out animationID);
+            animationData.actionID = actionID;
+            animationData.animationID = animationID;
+            animationData.SetAnimationClip(clip);
             AssetDatabase.CreateAsset(animationData, $"Assets/ScripteableObjects/{characterName}/{characterName}Animations/{animationData.name}.asset");
+            animationDatas.Add(animationData);
         }
-        characterAnimationsData = animations;
+        characterAnimationsData = SortAnimationData(animations, animationDatas);
+        AssetDatabase.CreateAsset(animations, $"Assets/ScripteableObjects/{characterName}/{characterName}AnimationsData.asset");
+    }
+
+    CharacterAnimationsData SortAnimationData(CharacterAnimationsData reference, List<AnimationData> animationDatas)
+    {
+        reference.standingClips = animationDatas.Where(c => c.actionID == 0).ToList().OrderBy(c => c.animationID).ToArray();
+        reference.crouchingClip = animationDatas.FirstOrDefault(c => c.actionID == 1);
+        reference.jumpingClips = animationDatas.Where(c => c.actionID == 2).ToList().OrderBy(c => c.animationID).ToArray();
+        reference.stateTransitionClips = animationDatas.Where(c => c.actionID == 3).ToList().OrderBy(c => c.animationID).ToArray();
+        reference.hitClips = animationDatas.Where(c => c.actionID == 4).ToList().OrderBy(c => c.animationID).ToArray();
+        reference.wakeupClips = animationDatas.Where(c => c.actionID == 5).ToList().OrderBy(c => c.animationID).ToArray();
+        reference.recoveryClips = animationDatas.Where(c => c.actionID == 6).ToList().OrderBy(c => c.animationID).ToArray();
+        reference.cancelClips = animationDatas.Where(c => c.actionID == 7).ToList().OrderBy(c => c.animationID).ToArray();
+        reference.blockingClips = animationDatas.Where(c => c.actionID == 8).ToList().OrderBy(c => c.animationID).ToArray();
+        reference.blockBreakClips = animationDatas.Where(c => c.actionID == 9).ToList().OrderBy(c => c.animationID).ToArray();
+
+        return reference;
     }
 }

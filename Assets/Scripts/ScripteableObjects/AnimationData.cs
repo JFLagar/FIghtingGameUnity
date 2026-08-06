@@ -1,7 +1,6 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
-using System.Linq;
+﻿using NaughtyAttributes;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace SkillIssue.Animations
 {
@@ -20,8 +19,21 @@ namespace SkillIssue.Animations
         private AnimationClip animationClip;
         [SerializeField]
         List<FrameEvent> frameEvents = new List<FrameEvent>();
+        [SerializeField]
+        [ReadOnly]
+        public int actionID;
+        [SerializeField]
+        [ReadOnly]
+        public int animationID;
+
+
+        public void SetAnimationClip(AnimationClip clip)
+        {
+            animationClip = clip;
+        }
+
         public AnimationClip AnimationClip() { return animationClip; }
-        public List<FrameEvent> FrameEvents() { return frameEvents;}
+        public List<FrameEvent> FrameEvents() { return frameEvents; }
     }
 }
 

@@ -27,7 +27,7 @@ MonoBehaviour:
   canceableAttacks: []
   extraHitstun: 0
   extraPush: {x: 0, y: 0}
-  animation: {fileID: 11400000, guid: 83f60af544f88c44fa2ac66b2cf3d0e0, type: 2}
+  animation: {fileID: 11400000, guid: e40217d55ca6e294a82de21ad8675ce8, type: 2}
   followUpAttack: {fileID: 0}
   followUpProjectile: {fileID: 0}
   collideSound: {fileID: 0}

@@ -1120,7 +1120,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InputManager
   playerControllerPrefab: {fileID: 6086242405267076488, guid: 9dc565578de632a4d862d87f1080c85c, type: 3}
+  playerControllers: []
   mainPlayerController: {fileID: 0}
+  player1Controller: {fileID: 0}
+  player2Controller: {fileID: 0}
 --- !u!4 &778253059
 Transform:
   m_ObjectHideFlags: 0

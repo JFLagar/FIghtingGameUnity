@@ -1,13 +1,13 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1102 &-8480839147362368562
+--- !u!1102 &-8541684439884412604
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|007_2SpecialA
+  m_Name: Proto|002_2_JumpingFall
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -20,20 +20,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 464725637684791407, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 4368384894717051960, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-8478315129537972044
+--- !u!1102 &-8410644638955705660
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|003_0StandingBlock
+  m_Name: Proto|009_2_JumpBreak
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -46,20 +46,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -4286970108966473698, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 181033890164058487, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-8034448297083455042
+--- !u!1102 &-8115193217868681728
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|005_1AirTech
+  m_Name: Proto|004_4_SKnockback
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -72,20 +72,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -7213131816706212969, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: -2801728595851033315, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-7423340810240356614
+--- !u!1102 &-8079684856981993023
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|001_0Standing
+  m_Name: Proto|009_0_StandingBreak
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -98,20 +98,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -6456735551303713624, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: -6208528811443881003, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-7395319987946999559
+--- !u!1102 &-8043122339150552115
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|004_0StandingHit
+  m_Name: Proto|005_0_BWakeup
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -124,20 +124,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -8313412190692844709, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: -360926907232226770, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-7213374152507497893
+--- !u!1102 &-8003492286922509955
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|005_0BWakeup
+  m_Name: Proto|004_10_Stagger
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -150,20 +150,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -1835302214601652446, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 2592969134346607945, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-7122732433058663674
+--- !u!1102 &-7792767319740355034
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|003_0JumpBlock
+  m_Name: Proto|003_1_StandToCrouch
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -176,20 +176,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -3975787194006190474, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: -623341995292458225, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-7099319734076874451
+--- !u!1102 &-7601031731109833197
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|005_0FWakeup
+  m_Name: Proto|004_3_FKnockback
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -202,20 +202,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 5937270118919479399, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 3386083080398927044, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-7085264841736507176
+--- !u!1102 &-7590677275892603211
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|007_2SpecialB
+  m_Name: Proto|004_20_WallStick
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -228,20 +228,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 6653655674509166960, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 7800700559241388241, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-6042557708850970151
+--- !u!1102 &-6374104198940884437
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|004_2FKnockback
+  m_Name: Proto|013_3_jGrabF
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -254,20 +254,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -3163338053793220301, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: -6174650175105534653, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-5123306401952775476
+--- !u!1102 &-6348536354382933875
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|002_1BDash
+  m_Name: Proto|010_2_SB
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -280,20 +280,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -8868060218242406866, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: -2862048431788743100, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-4075785386158486688
+--- !u!1102 &-4078752413422758811
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|004_2BKnockback
+  m_Name: Proto|011_1_CB
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -306,20 +306,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -7772409392273616341, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 77232011714111390, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-3758082590771913467
+--- !u!1102 &-3957661506055061286
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|007_0S6B
+  m_Name: Proto|006_1_GroundTech
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -332,7 +332,33 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -2275050670956576826, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 6554389959095001079, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &-3499506302736395483
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Proto|008_1_CrouchingBlock
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 1852536058270490101, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -348,143 +374,146 @@ AnimatorStateMachine:
   m_Name: Base Layer
   m_ChildStates:
   - serializedVersion: 1
-    m_State: {fileID: -7423340810240356614}
-    m_Position: {x: 580, y: -100, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 8346900887207638845}
-    m_Position: {x: 710, y: -60, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 2126170611640969514}
-    m_Position: {x: 810, y: -100, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 6565088600443258414}
-    m_Position: {x: 970, y: -180, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 306225485558915355}
-    m_Position: {x: 1100, y: -130, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -444661250551600550}
-    m_Position: {x: 1040, y: -70, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -1515750784225137850}
-    m_Position: {x: 710, y: 0, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 7838347868747589461}
-    m_Position: {x: 930, y: 0, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -5123306401952775476}
-    m_Position: {x: 510, y: -10, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1147605335198873145}
-    m_Position: {x: 1000, y: 30, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -760650215578447386}
-    m_Position: {x: 1130, y: -20, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 6577546179031593150}
-    m_Position: {x: 651.5, y: 162, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -7122732433058663674}
-    m_Position: {x: 661.5, y: 172, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -8478315129537972044}
-    m_Position: {x: 671.5, y: 182, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 4472651334815479546}
-    m_Position: {x: 681.5, y: 192, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -1434389294106734251}
-    m_Position: {x: 691.5, y: 202, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -2094763376882848624}
-    m_Position: {x: 701.5, y: 212, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 7451050396963009953}
-    m_Position: {x: 711.5, y: 222, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -7395319987946999559}
-    m_Position: {x: 721.5, y: 232, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 3199714043670052604}
-    m_Position: {x: 731.5, y: 242, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 9102631614519538902}
-    m_Position: {x: 741.5, y: 252, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -4075785386158486688}
-    m_Position: {x: 751.5, y: 262, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -6042557708850970151}
-    m_Position: {x: 761.5, y: 272, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 6476093393045610457}
-    m_Position: {x: 771.5, y: 282, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 4628555394489424691}
-    m_Position: {x: 781.5, y: 292, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -7213374152507497893}
-    m_Position: {x: 791.5, y: 302, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -7099319734076874451}
-    m_Position: {x: 801.5, y: 312, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -8034448297083455042}
-    m_Position: {x: 811.5, y: 322, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 8531134823955031205}
-    m_Position: {x: 821.5, y: 332, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -1798875166085767425}
-    m_Position: {x: 831.5, y: 342, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 8035090468686481242}
-    m_Position: {x: 841.5, y: 352, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 5564959166706293781}
-    m_Position: {x: 851.5, y: 362, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 4541687325273047497}
-    m_Position: {x: 861.5, y: 372, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1446386935744319427}
-    m_Position: {x: 871.5, y: 382, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 5227607241212125967}
-    m_Position: {x: 881.5, y: 392, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 3780924427357010099}
-    m_Position: {x: 891.5, y: 402, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -3758082590771913467}
-    m_Position: {x: 901.5, y: 412, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -3126298065936339426}
-    m_Position: {x: 911.5, y: 422, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 7462150269870442143}
-    m_Position: {x: 921.5, y: 432, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -1539325781185008766}
-    m_Position: {x: 931.5, y: 442, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 4664113501252508780}
-    m_Position: {x: 941.5, y: 452, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 1952192179849902687}
-    m_Position: {x: 951.5, y: 462, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 6000047459986667105}
-    m_Position: {x: 961.5, y: 472, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -8480839147362368562}
-    m_Position: {x: 971.5, y: 482, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -7085264841736507176}
-    m_Position: {x: 981.5, y: 492, z: 0}
-  - serializedVersion: 1
     m_State: {fileID: 1008085165592435229}
-    m_Position: {x: 303.5, y: 20, z: 0}
+    m_Position: {x: 230, y: -20, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 6348777527549167475}
+    m_Position: {x: 1014.63684, y: 158.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 3621462185094782216}
+    m_Position: {x: 1024.6368, y: 168.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 7355217711736646922}
+    m_Position: {x: 1034.6368, y: 178.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -274297699736045174}
+    m_Position: {x: 1044.6368, y: 188.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -2380949173679773980}
+    m_Position: {x: 1054.6368, y: 198.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 9122863031606827547}
+    m_Position: {x: 1064.6368, y: 208.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 3027723311547319532}
+    m_Position: {x: 1074.6368, y: 218.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -1721668635456444456}
+    m_Position: {x: 1084.6368, y: 228.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -8541684439884412604}
+    m_Position: {x: 1094.6368, y: 238.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 8158215254220100220}
+    m_Position: {x: 1104.6368, y: 248.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -3050200387324020625}
+    m_Position: {x: 1114.6368, y: 258.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -7792767319740355034}
+    m_Position: {x: 1124.6368, y: 268.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 7742378295482429258}
+    m_Position: {x: 1134.6368, y: 278.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 6837398999204247177}
+    m_Position: {x: 1144.6368, y: 288.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 315158518805921380}
+    m_Position: {x: 1154.6368, y: 298.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -7601031731109833197}
+    m_Position: {x: 1164.6368, y: 308.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -8115193217868681728}
+    m_Position: {x: 1174.6368, y: 318.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -2276441269388919951}
+    m_Position: {x: 1184.6368, y: 328.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -8003492286922509955}
+    m_Position: {x: 1194.6368, y: 338.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -7590677275892603211}
+    m_Position: {x: 1204.6368, y: 348.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -8043122339150552115}
+    m_Position: {x: 1214.6368, y: 358.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 4783502424413773109}
+    m_Position: {x: 1224.6368, y: 368.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 9042769249698254180}
+    m_Position: {x: 1234.6368, y: 378.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -3957661506055061286}
+    m_Position: {x: 1244.6368, y: 388.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 5518907122801985675}
+    m_Position: {x: 1254.6368, y: 398.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 921672216624468342}
+    m_Position: {x: 1264.6368, y: 408.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1141243282627134565}
+    m_Position: {x: 1274.6368, y: 418.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -3499506302736395483}
+    m_Position: {x: 1284.6368, y: 428.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 407566147506218225}
+    m_Position: {x: 1294.6368, y: 438.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -8079684856981993023}
+    m_Position: {x: 1304.6368, y: 448.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 64683717521353601}
+    m_Position: {x: 1314.6368, y: 458.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -8410644638955705660}
+    m_Position: {x: 1324.6368, y: 468.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 7039343102750085205}
+    m_Position: {x: 1334.6368, y: 478.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 241397238633843591}
+    m_Position: {x: 1344.6368, y: 488.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -6348536354382933875}
+    m_Position: {x: 1354.6368, y: 498.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1372999811988990473}
+    m_Position: {x: 1364.6368, y: 508.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 5678732408881645868}
+    m_Position: {x: 1374.6368, y: 518.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -4078752413422758811}
+    m_Position: {x: 1384.6368, y: 528.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 2511979394737680961}
+    m_Position: {x: 1394.6368, y: 538.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -1473331424082863916}
+    m_Position: {x: 1404.6368, y: 548.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 4294156921348944388}
+    m_Position: {x: 1414.6368, y: 558.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 6970220859328330576}
+    m_Position: {x: 1424.6368, y: 568.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 3451675500034783759}
+    m_Position: {x: 1434.6368, y: 578.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -6374104198940884437}
+    m_Position: {x: 1444.6368, y: 588.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 4831535604385854294}
+    m_Position: {x: 1454.6368, y: 598.9549, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -2781342659788427683}
+    m_Position: {x: 1464.6368, y: 608.9549, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -492,17 +521,17 @@ AnimatorStateMachine:
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
-  m_ExitPosition: {x: 800, y: 120, z: 0}
+  m_ExitPosition: {x: 1610, y: -100, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 1008085165592435229}
---- !u!1102 &-3126298065936339426
+--- !u!1102 &-3050200387324020625
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|007_0SA
+  m_Name: Proto|003_0_CrouchingToStand
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -515,20 +544,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -8078538939396124366, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 9099149787578604007, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-2094763376882848624
+--- !u!1102 &-2781342659788427683
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|003_1StandingBreak
+  m_Name: Proto|014_1_SpecialB
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -541,20 +570,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -3994903974859033139, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 6687255255182966495, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-1798875166085767425
+--- !u!1102 &-2380949173679773980
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|006_0Burst
+  m_Name: Proto|000_4_BDash
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -567,20 +596,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -1198550306499316378, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: -2212885256489377287, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-1539325781185008766
+--- !u!1102 &-2276441269388919951
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|007_1jGrab
+  m_Name: Proto|004_5_VKnockback
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -593,20 +622,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 5401864813807784366, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 5982730206598294265, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-1515750784225137850
+--- !u!1102 &-1721668635456444456
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|002_0BWalk
+  m_Name: Proto|002_1_JumpingRise
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -619,20 +648,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -7232688157270164967, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 1159455890828213807, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-1434389294106734251
+--- !u!1102 &-1473331424082863916
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|003_1JumpBreak
+  m_Name: Proto|012_1_jB
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -645,20 +674,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 244173257367715892, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 4011928252635261282, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-760650215578447386
+--- !u!1102 &-274297699736045174
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|002_2Run
+  m_Name: Proto|000_3_Run
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -671,33 +700,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -8774063596537187039, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &-444661250551600550
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|001_2JumpingRise
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 4559010957602797287, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: -4330596726031790735, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -725,14 +728,14 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
---- !u!1102 &306225485558915355
+--- !u!1102 &64683717521353601
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|001_2JumpingFall
+  m_Name: Proto|009_1_CrouchingBreak
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -745,7 +748,111 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -6159909093857808765, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 3066526009293680615, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &241397238633843591
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Proto|010_1_S6A
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 5841483587844862006, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &315158518805921380
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Proto|004_2_BKnockback
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 10542087478858724, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &407566147506218225
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Proto|008_2_JumpBlock
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -7901334399527973079, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &921672216624468342
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Proto|007_1_Rapid
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 2053627903530869662, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -777,14 +884,14 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &1147605335198873145
+--- !u!1102 &1141243282627134565
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|002_1FAirDash
+  m_Name: Proto|008_0_StandingBlock
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -797,20 +904,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 1173551358558563747, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: -6259893339876829425, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &1446386935744319427
+--- !u!1102 &1372999811988990473
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|007_0jA
+  m_Name: Proto|010_3_S6B
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -823,20 +930,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -5064809040233426832, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 8205545946229294910, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &1952192179849902687
+--- !u!1102 &2511979394737680961
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|007_1SGrab
+  m_Name: Proto|012_0_jA
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -849,20 +956,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -3790374312200121904, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 3414747132792444963, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &2126170611640969514
+--- !u!1102 &3027723311547319532
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|001_2CrouchingToStand
+  m_Name: Proto|002_0_Jumping
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -875,20 +982,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -811121666600721772, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: -789064972565078351, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &3199714043670052604
+--- !u!1102 &3451675500034783759
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|004_1Stagger
+  m_Name: Proto|013_2_jGrab
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -901,20 +1008,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -7442238418769072909, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: -538718287004630878, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &3780924427357010099
+--- !u!1102 &3621462185094782216
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|007_0S6A
+  m_Name: Proto|000_1_FWalk
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -927,20 +1034,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -2688087030959946255, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 914890303447452375, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &4472651334815479546
+--- !u!1102 &4294156921348944388
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|003_1CrouchingBreak
+  m_Name: Proto|013_0_SGrab
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -953,20 +1060,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -9159826929220728534, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: -5536774746132565055, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &4541687325273047497
+--- !u!1102 &4783502424413773109
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|007_0CB
+  m_Name: Proto|005_1_FWakeup
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -979,20 +1086,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 5576967531625282623, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: -5024642185432138471, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &4628555394489424691
+--- !u!1102 &4831535604385854294
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|004_2VKnockback
+  m_Name: Proto|014_0_SpecialA
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1005,20 +1112,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -8952248952297990533, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 5731022837471337853, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &4664113501252508780
+--- !u!1102 &5518907122801985675
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|007_1jGrabF
+  m_Name: Proto|007_0_Burst
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1031,20 +1138,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -1548120646402048497, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 2688211975019368749, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &5227607241212125967
+--- !u!1102 &5678732408881645868
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|007_0jB
+  m_Name: Proto|011_0_CA
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1057,20 +1164,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -6930427396331581205, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 4321572357404618283, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &5564959166706293781
+--- !u!1102 &6348777527549167475
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|007_0CA
+  m_Name: Proto|000_0_Standing
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1083,20 +1190,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 1341184986780233008, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 1681360606910880311, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &6000047459986667105
+--- !u!1102 &6837398999204247177
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|007_1SGrabF
+  m_Name: Proto|004_1_CrouchingHit
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1109,20 +1216,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -4259609291025829874, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 2858567620531520583, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &6476093393045610457
+--- !u!1102 &6970220859328330576
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|004_2SKnockback
+  m_Name: Proto|013_1_SGrabF
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1135,20 +1242,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 8958828128931825012, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 5311751327562807451, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &6565088600443258414
+--- !u!1102 &7039343102750085205
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|001_2Jumping
+  m_Name: Proto|010_0_SA
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1161,20 +1268,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 8690002578999095312, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: -7327389722639012936, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &6577546179031593150
+--- !u!1102 &7355217711736646922
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|003_0CrouchingBlock
+  m_Name: Proto|000_2_BWalk
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1187,20 +1294,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 2964512326954011321, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 8411683118459057361, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &7451050396963009953
+--- !u!1102 &7742378295482429258
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|004_0CrouchingHit
+  m_Name: Proto|004_0_StandingHit
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1213,20 +1320,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -5018085400997168309, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: -8922562542878303968, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &7462150269870442143
+--- !u!1102 &8158215254220100220
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|007_0SB
+  m_Name: Proto|002_3_FAirDash
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1239,20 +1346,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 131749629033403159, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: 6129230702624118425, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &7838347868747589461
+--- !u!1102 &9042769249698254180
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|002_0FWalk
+  m_Name: Proto|006_0_AirTech
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1265,20 +1372,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7081070718314868740, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: -2120667840981698484, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &8035090468686481242
+--- !u!1102 &9122863031606827547
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|006_0Rapid
+  m_Name: Proto|001_0_Crouching
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -1291,85 +1398,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -286595489214546360, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &8346900887207638845
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|001_1Crouching
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 1521853308979096095, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &8531134823955031205
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|005_1GroundTech
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 5128127336888897968, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &9102631614519538902
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Proto|004_1WallStick
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 4939856364935509629, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
+  m_Motion: {fileID: -586693832156737336, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

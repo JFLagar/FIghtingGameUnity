@@ -20,5 +20,6 @@ MonoBehaviour:
   airActions: 1
   jumpForce: 20
   gravity: 3
+  fbxAsset: {fileID: 919132149155446097, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
   attackData: {fileID: 11400000, guid: 1e6be00cb00c90d4cab99e8cd0f7f861, type: 2}
   characterAnimationsData: {fileID: 11400000, guid: 4e7ac74c3b7901842b37841f0a0d4855, type: 2}

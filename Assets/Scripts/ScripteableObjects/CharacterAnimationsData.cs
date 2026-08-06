@@ -61,7 +61,7 @@ namespace SkillIssue.Animations
         List<CollisionData> hitboxes = new List<CollisionData>();
         [SerializeField]
         List<CollisionData> hurtboxes = new List<CollisionData>();
-        public int Frame{ get { return frame; } set { frame = value; } }
+        public int Frame { get { return frame; } set { frame = value; } }
         public List<CollisionData> Hitboxes() { return hitboxes; }
         public List<CollisionData> Hurtboxes() { return hurtboxes; }
         public AnimationData.EventType Type() { return type; }

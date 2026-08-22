@@ -32,8 +32,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bf59d6d857cefc84a9d24a0c8bc6fe9d, type: 2}
   extraHitstun: 0
   extraPush: {x: 0, y: 0}
-  animation: {fileID: 11400000, guid: 656e4f2e16dcbbf4eb6a1b03b56a8321, type: 2}
+  animation: {fileID: 11400000, guid: a04c1330a97c64247a116b1d340d43e9, type: 2}
   followUpAttack: {fileID: 0}
   followUpProjectile: {fileID: 0}
   collideSound: {fileID: 0}
-  movementDirection: {x: 0, y: 0}
+  movementDirection: {x: 3, y: 1}

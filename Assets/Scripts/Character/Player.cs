@@ -991,7 +991,6 @@ namespace SkillIssue.CharacterSpace
         {
             if (!IsApplyingGravity)
                 return;
-            ChangeMovementState(GetCharacterAnimationsData().jumpingClips.FirstOrDefault());
             if (!IsGrounded && currentMovementCoroutine == null)
                 SetIsJumping(false);
             if ((IsAgainstTheWall && Mathf.Sign(WallFaceDirection) == WallFaceDirection))
@@ -1000,6 +999,7 @@ namespace SkillIssue.CharacterSpace
             {
                 transform.Translate((gravity) * Time.fixedDeltaTime * new Vector2(MovementDirectionX, -1));
             }
+            ChangeMovementState(GetCharacterAnimationsData().jumpingClips[2]);
         }
 
         public IEnumerator ForceCoroutine(Vector2 direction, float duration, bool counterForce)
@@ -1059,8 +1059,6 @@ namespace SkillIssue.CharacterSpace
 
         public IEnumerator JumpCoroutine()
         {
-            PlayActionAnimation(GetCharacterAnimationsData().stateTransitionClips.LastOrDefault());
-            PlayActionAnimation(GetCharacterAnimationsData().jumpingClips.FirstOrDefault());
             float jumpPower = GetJumpPower();
 
             yield return new FrameWait(jumpStartup);
@@ -1071,6 +1069,8 @@ namespace SkillIssue.CharacterSpace
             }
             ApplyForce(new Vector2(GetInputDirection().x, 1f), jumpPower);
             StoredMotionInput = MotionInputs.NONE;
+
+            PlayActionAnimation(GetCharacterAnimationsData().jumpingClips[0]);
         }
         #endregion
 

@@ -124,9 +124,9 @@ namespace SkillIssue.StateMachineSpace
         {
             if (player.MovementDirectionX != player.FaceDir)
                 return;
-            player.PlayActionAnimation(player.GetCharacterAnimationsData().jumpingClips[2], Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
             player.ApplyForce(new Vector2(player.FaceDir * Managers.Instance.GameManager.GetCombatValues().GetDashMultiplier(), 0f),
-                Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
+    Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
+            player.PlayActionAnimation(player.GetCharacterAnimationsData().jumpingClips[2], Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
         }
 
         void Overdrive()

@@ -141,6 +141,8 @@ public class CharacterAnimationManager : MonoBehaviour
 
         graph.Disconnect(mixerPlayable, 0);
         graph.Connect(movementPlayables[movementClip], 0, mixerPlayable, 0);
+        if (mixerPlayable.GetInputWeight(1) == 1) //Cancel any actions
+            character.OnAnimationEnd() ;
 
         animName = movementClip.name;
     }
@@ -243,6 +245,7 @@ public class CharacterAnimationManager : MonoBehaviour
     // Restore movement after action animation ends
     public void OnActionAnimationEnd()
     {
+        Debug.Log("AnimEnd");
         mixerPlayable.SetInputWeight(1, 0.0f);
         mixerPlayable.SetInputWeight(0, 1.0f);
     }

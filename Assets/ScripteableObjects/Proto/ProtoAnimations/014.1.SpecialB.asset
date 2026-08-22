@@ -13,6 +13,14 @@ MonoBehaviour:
   m_Name: 014.1.SpecialB
   m_EditorClassIdentifier: Assembly-CSharp::SkillIssue.Animations.AnimationData
   animationClip: {fileID: 6687255255182966495, guid: 06ee851a6252cf84c9b22ba8ad8d10b0, type: 3}
-  frameEvents: []
+  frameEvents:
+  - frame: 1
+    type: 2
+    hitboxes: []
+    hurtboxes: []
+  - frame: 5
+    type: 3
+    hitboxes: []
+    hurtboxes: []
   actionID: 14
   animationID: 1

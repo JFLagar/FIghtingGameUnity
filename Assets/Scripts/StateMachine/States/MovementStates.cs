@@ -103,10 +103,10 @@ namespace SkillIssue.StateMachineSpace
         {
             if (player.GetInputDirection().x == player.FaceDir)
                 player.SetRunning(true);
-            else
+            else if (player.GetInputDirection().x == -player.FaceDir)
             {
-                player.PlayActionAnimation(player.GetCharacterAnimationsData().standingClips.LastOrDefault(), Managers.Instance.GameManager.GetCombatValues().GetAirDashAnimationDuration());
                 player.ApplyForce(new Vector2(-player.FaceDir * 2, 0.5f), Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
+                player.PlayActionAnimation(player.GetCharacterAnimationsData().standingClips.LastOrDefault(), Managers.Instance.GameManager.GetCombatValues().GetAirDashAnimationDuration());
             }
         }
 
@@ -302,15 +302,15 @@ namespace SkillIssue.StateMachineSpace
 
             if (player.GetInputDirection().x == player.FaceDir)
             {
-                player.PlayActionAnimation(player.GetCharacterAnimationsData().jumpingClips[2], Managers.Instance.GameManager.GetCombatValues().GetAirDashAnimationDuration());
                 player.ApplyForce(new Vector2(player.FaceDir * Managers.Instance.GameManager.GetCombatValues().GetDashMultiplier(), 0.1f),
-                    Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
+    Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
+                player.PlayActionAnimation(player.GetCharacterAnimationsData().jumpingClips[2], Managers.Instance.GameManager.GetCombatValues().GetAirDashAnimationDuration());
                 player.SetAirActions(player.AirActions - 1);
             }
-            else
+            else if (player.GetInputDirection().x == -player.FaceDir)
             {
-                player.PlayActionAnimation(player.GetCharacterAnimationsData().standingClips.LastOrDefault(), Managers.Instance.GameManager.GetCombatValues().GetAirDashAnimationDuration());
                 player.ApplyForce(new Vector2(-player.FaceDir, 0.1f), Managers.Instance.GameManager.GetCombatValues().GetDashDuration());
+                player.PlayActionAnimation(player.GetCharacterAnimationsData().standingClips.LastOrDefault(), Managers.Instance.GameManager.GetCombatValues().GetAirDashAnimationDuration());
                 player.SetAirActions(player.AirActions - 1);
             }
         }
